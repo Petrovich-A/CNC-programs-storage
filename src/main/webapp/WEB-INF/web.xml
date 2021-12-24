@@ -8,8 +8,6 @@
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
   	<servlet-name>Controller</servlet-name>
-  	<display-name>Controller</display-name>
-  	<description></description>
   	<servlet-class>by.petrovich.storage.controller.Controller</servlet-class>
   </servlet>
   <servlet-mapping>
