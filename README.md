@@ -43,3 +43,5 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 * Удаление информации (например: отмена заказа, удаление сущностии т.д.)
 Добавление и модификация информации (например: создать и отредактировать товар, создать и отредактировать заказ и т.д.)
 ```
+## Структура базы данных
+![alt text](https://github.com/Petrovich-A/CNC-programs-storage/blob/master/CNC_programs_storage.JPG?raw=true)
