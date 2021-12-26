@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <!-- Specify a JDBC datasource -->
+    <Resource name="jdbc/CncProgramPool"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password="d9amk_ICPe5"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1/cncprogramsstorage?autoReconnect=true"
+              validationQuery="select 1"
+              maxActive="10"
+              maxIdle="4"/>
+</Context>
