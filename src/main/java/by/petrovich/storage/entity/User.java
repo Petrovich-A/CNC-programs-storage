@@ -7,6 +7,7 @@ public class User {
     private int id;
     private int loginPersonnelNumber;
     private String password;
+    private String employeeName;
     private String employeeSurname;
     private String employeePatronimic;
     private String position;
@@ -14,11 +15,12 @@ public class User {
     private Date date;
     private UserRole userRole;
 
-    public User(int id, int loginPersonnelNumber, String password, String employeeSurname, String employeePatronimic,
-                String position, String email, Date date, UserRole userRole) {
+    public User(int id, int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
+                String employeePatronimic, String position, String email, Date date, UserRole userRole) {
         this.id = id;
         this.loginPersonnelNumber = loginPersonnelNumber;
         this.password = password;
+        this.employeeName = employeeName;
         this.employeeSurname = employeeSurname;
         this.employeePatronimic = employeePatronimic;
         this.position = position;
@@ -49,6 +51,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public String getEmployeeSurname() {
@@ -106,30 +116,35 @@ public class User {
 
         User user = (User) o;
 
-        if (id != user.id) return false;
-        if (loginPersonnelNumber != user.loginPersonnelNumber) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (employeeSurname != null ? !employeeSurname.equals(user.employeeSurname) : user.employeeSurname != null)
+        if (getId() != user.getId()) return false;
+        if (getLoginPersonnelNumber() != user.getLoginPersonnelNumber()) return false;
+        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
             return false;
-        if (employeePatronimic != null ? !employeePatronimic.equals(user.employeePatronimic) : user.employeePatronimic != null)
+        if (getEmployeeName() != null ? !getEmployeeName().equals(user.getEmployeeName()) : user.getEmployeeName() != null)
             return false;
-        if (position != null ? !position.equals(user.position) : user.position != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (date != null ? !date.equals(user.date) : user.date != null) return false;
-        return userRole == user.userRole;
+        if (getEmployeeSurname() != null ? !getEmployeeSurname().equals(user.getEmployeeSurname()) : user.getEmployeeSurname() != null)
+            return false;
+        if (getEmployeePatronimic() != null ? !getEmployeePatronimic().equals(user.getEmployeePatronimic()) : user.getEmployeePatronimic() != null)
+            return false;
+        if (getPosition() != null ? !getPosition().equals(user.getPosition()) : user.getPosition() != null)
+            return false;
+        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) return false;
+        if (getDate() != null ? !getDate().equals(user.getDate()) : user.getDate() != null) return false;
+        return getUserRole() == user.getUserRole();
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + loginPersonnelNumber;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (employeeSurname != null ? employeeSurname.hashCode() : 0);
-        result = 31 * result + (employeePatronimic != null ? employeePatronimic.hashCode() : 0);
-        result = 31 * result + (position != null ? position.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (userRole != null ? userRole.hashCode() : 0);
+        int result = getId();
+        result = 31 * result + getLoginPersonnelNumber();
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getEmployeeName() != null ? getEmployeeName().hashCode() : 0);
+        result = 31 * result + (getEmployeeSurname() != null ? getEmployeeSurname().hashCode() : 0);
+        result = 31 * result + (getEmployeePatronimic() != null ? getEmployeePatronimic().hashCode() : 0);
+        result = 31 * result + (getPosition() != null ? getPosition().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
+        result = 31 * result + (getUserRole() != null ? getUserRole().hashCode() : 0);
         return result;
     }
 
@@ -139,6 +154,7 @@ public class User {
                 .add("id=" + id)
                 .add("loginPersonnelNumber=" + loginPersonnelNumber)
                 .add("password='" + password + "'")
+                .add("employeeName='" + employeeName + "'")
                 .add("employeeSurname='" + employeeSurname + "'")
                 .add("employeePatronimic='" + employeePatronimic + "'")
                 .add("position='" + position + "'")

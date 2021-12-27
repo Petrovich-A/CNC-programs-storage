@@ -4,9 +4,9 @@ import by.petrovich.storage.entity.User;
 
 public interface UserDao {
 
-    void registration(User user) throws DAOException;
+    void create(User user) throws DAOException;
 
-    User authorization(User user) throws DAOException;
+    User read(User user) throws DAOException;
 
     void update(User user) throws DAOException;
 
