@@ -13,32 +13,29 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Controller extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public Controller() {
-    }
+	public Controller() {
+	}
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        Connection connection = ConnectionPool.getInstance().getConnection();
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("select * from users");
-            System.out.println("Tables from users");
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("id"));
-                System.out.println(resultSet.getString(2));
-                System.out.println(resultSet.getString(3));
-                System.out.println(resultSet.getString(4));
-                System.out.println(resultSet.getString(5));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Connection connection = ConnectionPool.getInstance().getConnection();
+		try (Statement statement = connection.createStatement()) {
+			ResultSet resultSet = statement.executeQuery("select * from users_roles");
+			System.out.println("Tables from users");
+			while (resultSet.next()) {
+				System.out.println(resultSet.getString("id"));
+				System.out.println(resultSet.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
-    }
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
 
 }

@@ -5,7 +5,7 @@
               auth="Container"
               type="javax.sql.DataSource"
               username="root"
-              password="d9amk_ICPe5"
+              password="HzaArk_XnsS"
               driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://127.0.0.1/cncprogramsstorage?autoReconnect=true"
               validationQuery="select 1"
