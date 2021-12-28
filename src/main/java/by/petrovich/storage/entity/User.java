@@ -15,6 +15,9 @@ public class User {
     private Date date;
     private UserRole userRole;
 
+    public User() {
+    }
+
     public User(int id, int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
                 String employeePatronimic, String position, String email, Date date, UserRole userRole) {
         this.id = id;
