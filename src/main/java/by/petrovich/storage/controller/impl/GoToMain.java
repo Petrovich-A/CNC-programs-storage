@@ -11,11 +11,11 @@ import by.petrovich.storage.controller.Command;
 
 public class GoToMain implements Command {
 //	private static final ServiceProvider SERVICE_PROVIDER = ServiceProvider.getInstance();
-//	private static final INewsService I_NEWS_SERVICE = SERVICE_PROVIDER.getNewsService();
-	final static String PATH = "/WEB-INF/jsp/Main.jsp";
+	final static String PATH = "/WEB-INF/jsp/main.jsp";
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PATH);
 		requestDispatcher.forward(request, response);
 	}

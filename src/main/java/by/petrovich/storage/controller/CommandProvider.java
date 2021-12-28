@@ -10,7 +10,8 @@ public class CommandProvider {
 	private Map<CommandName, Command> commands = new HashMap<>();
 
 	public CommandProvider() {
-		commands.put(CommandName.GO_TO_MAIN_PAGE, new GoToMain());
+		commands.put(CommandName.GO_TO_MAIN, new GoToMain());
+		
 		commands.put(CommandName.COMMAND_ERROR, new GoToCommandError());
 	}
 

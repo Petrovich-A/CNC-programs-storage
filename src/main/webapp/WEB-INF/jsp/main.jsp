@@ -7,9 +7,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>index --> main</title>
+<head>
+<meta charset="UTF-8">
+<title>Main page</title>
 </head>
 <body>
-	<c:redirect url="Controller?commandName=go_to_main" />
+	<h1>Main page</h1>
 </body>
 </html>
