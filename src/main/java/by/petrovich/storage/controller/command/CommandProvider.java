@@ -5,12 +5,14 @@ import java.util.Map;
 
 import by.petrovich.storage.controller.impl.GoToCommandError;
 import by.petrovich.storage.controller.impl.GoToMain;
+import by.petrovich.storage.controller.impl.GoToRegistration;
 
 public class CommandProvider {
 	private Map<CommandName, Command> commands = new HashMap<>();
 
 	public CommandProvider() {
 		commands.put(CommandName.GO_TO_MAIN, new GoToMain());
+		commands.put(CommandName.GO_TO_REGISTRATION, new GoToRegistration());
 		
 		commands.put(CommandName.COMMAND_ERROR, new GoToCommandError());
 	}
