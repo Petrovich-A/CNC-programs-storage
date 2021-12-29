@@ -4,13 +4,13 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 ># CNC PROGRAMS STORAGE
 
 ## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
-___
+
 ### Реализовано:
 :white_check_mark: custom tag
-
+:ok_hand:
 ### To do list
 
-[X] подключить локаль
+- [x] подключить локаль
 ---
 #### Требования к БД:
 - Частьданныхв базе хранятся на кириллице, рекомендуется применять кодировку utf-8
