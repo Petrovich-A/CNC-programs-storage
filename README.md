@@ -1,6 +1,6 @@
 README.md# EPAM EXTERNAL JAVA TRAINING.
 
-# FINAL TASK. WEB PROJECTF: CNC PROGRAMS STORAGE
+# WEB APPLICATION PROJECT: CNC PROGRAMS STORAGE
 
 ## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
