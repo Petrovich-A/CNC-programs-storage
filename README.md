@@ -6,9 +6,8 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 ## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
 ### Реализовано
-~~~~
+
 :white_check_mark: custom tag
-~~~~
 
 >### To do list
 ---
