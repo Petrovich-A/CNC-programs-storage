@@ -18,11 +18,13 @@ import by.petrovich.storage.entity.User;
 
 public class UserDaoImpl implements UserDao {
 	private final static Logger logger = LogManager.getLogger();
-	private final String SQL_ADD_USER = "INSERT INTO users(user_id, login_personnel_number, password, employee_name, "
-			+ "employee_surname, employee_patronymic, position, email, create_time, user_role_id) VALUES(?,?,?,?,?,?,?,?,?)";
+	private final String SQL_ADD_USER = "INSERT INTO users(user_id, login_personnel_number,"
+			+ " password, employee_name, employee_surname, employee_patronymic, position, email,"
+			+ " create_time, user_role_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private final String SQL_GET_USER_ROLE = "SELECT user_role_name FROM users_roles WHERE user_role_id=?";
-	private final String SQL_READ_USER = "SELECT login_personnel_number, password, employee_name, employee_surname,"
-			+ " employee_patronymic, position, email, create_time, user_role_id FROM users WHERE user_id= ?";
+	private final String SQL_READ_USER = "SELECT login_personnel_number, password, employee_name,"
+			+ " employee_surname, employee_patronymic, position, email, create_time, user_role_id "
+			+ "FROM users WHERE user_id= ?";
 
 	@Override
 	public void create(User user) throws DAOException {
