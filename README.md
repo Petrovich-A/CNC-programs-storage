@@ -1,13 +1,14 @@
-README.md# EPAM EXTERNAL JAVA TRAINING.
+README.md# :bowtie: EPAM EXTERNAL JAVA TRAINING.
 
-# JAVA WEB APPLICATION PROJECT:    
-># CNC PROGRAMS STORAGE
+# :one: JAVA WEB APPLICATION PROJECT:    
+># CNC PROGRAMS STORAGE :v:
 
-## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
+## :two: Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
 ### :ok_hand: Реализовано:
+:white_check_mark: custom tag
 
-### To do list
+### :clipboard: To do list 
 
 - [x] подключить локаль
 ---
@@ -47,5 +48,5 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 * Удаление информации (например: отмена заказа, удаление сущностии т.д.)
 Добавление и модификация информации (например: создать и отредактировать товар, создать и отредактировать заказ и т.д.)
 ___
->## Структура базы данных
+>## Структура базы данных :page_facing_up:
 ![alt text](https://github.com/Petrovich-A/CNC-programs-storage/blob/master/CNC_programs_storage.JPG?raw=true)
