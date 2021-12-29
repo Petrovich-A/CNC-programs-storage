@@ -28,21 +28,35 @@
 		<section id="news">
 			<h1>Please registr</h1>
 			<form action="Controller" method="POST">
-				<input type="text" name="name" placeholder="login_personnel_number"
-					required pattern="^[a-zA-Z0-9]\\w{5,30}+$" /> <br /> <input
-					type="password" name="password" class="form-control"
-					placeholder="password" required
-					pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
-				<br /> <input type="email" name="eMail" class="form-control"
-					placeholder="${user_email}" required pattern="^\S+@\S+\.\S+$" /> <br />
-				<h2>Title</h2>
-				<textarea name="title" rows="2" cols="60" required form="txtarea">${news.title}
-							</textarea>
-				<br />
-				<h2>Brief</h2>
-				<textarea name="brief" rows="3" cols="60" required form="txtarea">${news.brief}
-							</textarea>
-				<br />
+				<p>
+					Personnel number <input type="text" name="loginPersonnelNumber"
+						required pattern="^\\d{5}+$" />
+				</p>
+				<p>
+					Password <input type="password" name="password" required
+						pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
+				</p>
+				<p>
+					employeeName <input type="text" name="employeeName" required
+						pattern="^{8,40}+$" />
+				</p>
+				<p>
+					employeeSurname <input type="text" name="employeeSurname" required
+						pattern="^(?={8,40}+$" />
+				</p>
+				<p>
+					employeePatronimic <input type="text" name="employeePatronimic"
+						required pattern="^(?={8,40}+$" />
+				</p>
+				<p>
+					position <input type="text" name="position" required
+						pattern="^(?={8,40}+$" />
+				</p>
+
+				<p>
+					email <input type="email" name="email" required
+						pattern="^\S+@\S+\.\S+$" />
+				</p>
 
 				<div class="button">
 					<input type="submit" value="Submit" class="create" />
@@ -50,7 +64,12 @@
 			</form>
 		</section>
 	</main>
-	<footer>EPAM web app task | Java Web Development Training | ©
-		Petrovich A.V., 2021-2022 </footer>
+	<footer>
+		<p>
+			EPAM Java Web Development Training | WEB APP TASK | © Copyright by <a
+				href="https://www.linkedin.com/in/alexandr-petrovich-java-developer/">
+				Petrovich Alexandr</a>, 2021-2022
+		</p>
+	</footer>
 </body>
 </html>
