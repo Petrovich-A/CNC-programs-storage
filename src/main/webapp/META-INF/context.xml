@@ -7,7 +7,7 @@
               username="root"
               password="HzaArk_XnsS"
               driverClassName="com.mysql.jdbc.Driver"
-              url="jdbc:mysql://127.0.0.1/cncprogramsstorage?autoReconnect=true"
+              url="jdbc:mysql://localhost:3306/cncprogramsstorage?autoReconnect=true&useSSL=false"
               validationQuery="select 1"
               maxActive="10"
               maxIdle="4"/>

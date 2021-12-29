@@ -58,9 +58,9 @@
 					email <input type="email" name="email" required
 						pattern="^\S+@\S+\.\S+$" />
 				</p>
-
 				<div class="button">
-					<input type="submit" value="Submit" class="create" />
+					<input type="hidden" name="commandName" value="registration" />
+					<button type="submit" class="">submit</button>
 				</div>
 			</form>
 		</section>
