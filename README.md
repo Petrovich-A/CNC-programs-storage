@@ -2,15 +2,14 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 
 # JAVA WEB APPLICATION PROJECT:    
 ># CNC PROGRAMS STORAGE
-=============
-## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
-### Реализовано:
+## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 ___
+### Реализовано:
 :white_check_mark: custom tag
 
 ### To do list
----
+
 [X] подключить локаль
 ---
 #### Требования к БД:
@@ -20,7 +19,7 @@ ___
 - При проектировании БД рекомендуется использоватьнеменее 6-итаблиц
 - Работу сданнымив приложении осуществлять посредствомшаблоновDAOили Repository.
 - Реализовать защиту от sqlinjection.
-
+---
 #### Базовые требованияк приложению
 
 * Интерфейс приложения долженбыть локализован; выбор из языков: EN|BE|DEetc.
@@ -41,9 +40,8 @@ ___
 * При развертывании приложения разрешается использовать технологию Mavenили Gradle.
 * Приложение должносодержать тесты TestNG, JUnit, MockitoилиEasyMock.
 * Приложение должнобыть размещено наGitHub илиBitbucket.
-
+---
 #### Минимальные требованияк функциональности приложения
-___
 * Авторизация(signin) и выход(signout)в/из системы.
 * Регистрацияпользователя и/или добавление артефакта предметной области системы.
 * Просмотр информации (например: просмотр всех ставок тотализатора, статистики заказов, счетов и т.д.)
