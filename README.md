@@ -2,7 +2,7 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 
 # FINAL TASK. WEB PROJECTF: CNC PROGRAMS STORAGE
 
-## Cоздать приложение,применяя технологии Servlet и JSP. Архитектура  приложения  должна  соответствовать  шаблонам Layeredarchitectureи MVC. Controllerможет быть только двух видов: контроллер роли или контроллер приложения. Информация о предметной области должна хранится в БД
+## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
 ### Требования к БД:
 ```
