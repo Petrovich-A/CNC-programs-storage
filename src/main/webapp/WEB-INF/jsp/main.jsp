@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="customtags" prefix="ctg"%>
 
 <!DOCTYPE html>
 <html>
@@ -44,7 +45,6 @@
 			</section>  -->
 		</div>
 	</main>
-	<footer>EPAM web app task | Java Web Development Training | ©
-		Petrovich A.V., 2021-2022 </footer>
+	<ctg:footer />
 </body>
 </html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/JSP/TagLibraryDescriptor"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<tlib-version>1.0</tlib-version>
+	<short-name>ctg</short-name>
+	<uri>customtags</uri>
+	<tag>
+		<name>footer</name>
+		<tag-class>by.petrovich.storage.view.FooterTag</tag-class>
+		<body-content>empty</body-content>
+	</tag>
+</taglib>

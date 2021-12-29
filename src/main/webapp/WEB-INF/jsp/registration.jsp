@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="customtags" prefix="ctg"%>
 
 <!DOCTYPE html>
 <html>
@@ -64,12 +65,6 @@
 			</form>
 		</section>
 	</main>
-	<footer>
-		<p>
-			EPAM Java Web Development Training | WEB APP TASK | © Copyright by <a
-				href="https://www.linkedin.com/in/alexandr-petrovich-java-developer/">
-				Petrovich Alexandr</a>, 2021-2022
-		</p>
-	</footer>
+	<ctg:footer />
 </body>
 </html>
