@@ -4,7 +4,15 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 
 ## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
-### Требования к БД:
+### Реализовано
+~~~~
+[*] custom tag
+~~~~
+
+### To do list
+---
+
+#### Требования к БД:
 ```
 * Частьданныхв базе хранятся на кириллице, рекомендуется применять кодировку utf-8
 * Технология доступа к БД толькоJDBC
@@ -14,7 +22,7 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 * Реализовать защиту от sqlinjection.
 ```
 
-### Базовые требованияк приложению
+#### Базовые требованияк приложению
 ```
 * Интерфейс приложения долженбыть локализован; выбор из языков: EN|BE|DEetc.
 * Приложение должнокорректно обрабатывать возникающие исключительные ситуации, в том числе вести их логи. В качестве логгера использоватьLog4J2/SLF4J.
@@ -35,7 +43,7 @@ README.md# EPAM EXTERNAL JAVA TRAINING.
 * Приложение должносодержать тесты TestNG, JUnit, MockitoилиEasyMock.
 * Приложение должнобыть размещено наGitHub илиBitbucket.
 ```
-### Минимальные требованияк функциональности приложения
+#### Минимальные требованияк функциональности приложения
 ```
 * Авторизация(signin) и выход(signout)в/из системы.
 * Регистрацияпользователя и/или добавление артефакта предметной области системы.
