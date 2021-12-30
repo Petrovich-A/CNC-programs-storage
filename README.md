@@ -3,6 +3,8 @@ README.md# :bowtie: EPAM EXTERNAL JAVA TRAINING.
 # JAVA WEB APPLICATION PROJECT:    
 ># CNC PROGRAMS STORAGE :v:
 
+## The application is an archive for storing programs for CNC machines (computer numerical control). Control programs are written using G-CODE and are files with text in different formats. An employee of a certain division of the enterprise registers on the portal and gets the opportunity to submit the program to the archive. To do this, enter the program number, type of equipment, part number, etc.
+
 ## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
 ### :one: Реализовано: :ok_hand:
