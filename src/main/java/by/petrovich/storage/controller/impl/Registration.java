@@ -1,6 +1,7 @@
 package by.petrovich.storage.controller.impl;
 
 import by.petrovich.storage.controller.command.Command;
+import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
@@ -25,7 +26,7 @@ public class Registration implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = 1; // to do
-        int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
+        String loginPersonnelNumber = request.getParameter("loginPersonnelNumber");
         String password = request.getParameter("password");
         String employeeName = request.getParameter("employeeName");
         String employeeSurname = request.getParameter("employeeSurname");
@@ -34,26 +35,20 @@ public class Registration implements Command {
         String email = request.getParameter("email");
         Date date = java.sql.Date.valueOf(LocalDate.now());
         UserRole userRole = UserRole.USER;
-        User user;
+        User user = new User(id, Integer.parseInt(loginPersonnelNumber), password, employeeName, employeeSurname, employeePatronimic,
+                position, email, date, userRole);
 
-        if (password.equals(null) || employeeName.equals(null) || employeeSurname.equals(null) || employeePatronimic.equals(null)
-                || position.equals(null) || email.equals(null)) {
-            user = new User(id, loginPersonnelNumber, password, employeeName, employeeSurname, employeePatronimic,
-                    position, email, date, userRole);
-            logger.log(Level.ERROR, "no data from UI form", user.toString());
+        if (user.equals(null)) {
+            logger.log(Level.ERROR, "user from UI form is empty", user.toString());
         } else {
-            user = new User(id, loginPersonnelNumber, password, employeeName, employeeSurname, employeePatronimic,
-                    position, email, date, userRole);
+            try {
+                USER_SERVICE.registration(user);
+                logger.log(Level.DEBUG, "user from UI is get", user.toString());
+                request.getSession(true).setAttribute("user from UI", user);
+                response.sendRedirect(PathToPage.LOG_IN);
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            USER_SERVICE.registration(user);
-//            response.sendRedirect();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        } {
-
-        }
-
-
     }
 }

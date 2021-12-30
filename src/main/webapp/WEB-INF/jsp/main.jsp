@@ -11,11 +11,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Main page</title>
-<fmt:setLocale value="${sessionScope.local} }" />
+<fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="properties.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.message" var="message"/>
-<fmt:message bundle="${loc}" key="local.loc.button.en" var="en_button"/>
-<fmt:message bundle="${loc}" key="local.loc.button.ru" var="ru_button"/>
+<fmt:message bundle="${loc}" key="local.locbutton.en" var="en_button"/>
+<fmt:message bundle="${loc}" key="local.locbutton.ru" var="ru_button"/>
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home"/>
 <fmt:message bundle="${loc}" key="local.main.navigate.registration" var="registration"/>
 </head>
