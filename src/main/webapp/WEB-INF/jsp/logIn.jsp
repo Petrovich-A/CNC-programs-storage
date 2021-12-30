@@ -22,11 +22,28 @@
 			</div>
 			<ul class="navigation">
 				<li><a href="Controller?commandName=go_to_main">HOME</a></li>
+                <li><a href="Controller?commandName=go_to_registration">Registration</a></li>
 			</ul>
 		</div>
 	</div>
 	<main>
-	<h1>log in</h1>
+		<section id="news">
+			<h1>Please registr</h1>
+			<form action="Controller" method="POST">
+				<p>
+					Personnel number <input type="text" name="loginPersonnelNumber"
+						required pattern="^\\d{5}+$" />
+				</p>
+				<p>
+					Password <input type="password" name="password" required
+						pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
+				</p>
+				<div class="button">
+					<input type="hidden" name="commandName" value="logIn" />
+					<button type="submit" class="">submit</button>
+				</div>
+			</form>
+		</section>
 	</main>
 	<ctg:footer />
 </body>

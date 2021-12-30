@@ -18,6 +18,19 @@ public class User {
     public User() {
     }
 
+    public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
+                String employeePatronimic, String position, String email, Date date, UserRole userRole) {
+        this.loginPersonnelNumber = loginPersonnelNumber;
+        this.password = password;
+        this.employeeName = employeeName;
+        this.employeeSurname = employeeSurname;
+        this.employeePatronimic = employeePatronimic;
+        this.position = position;
+        this.email = email;
+        this.date = date;
+        this.userRole = userRole;
+    }
+
     public User(int id, int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
                 String employeePatronimic, String position, String email, Date date, UserRole userRole) {
         this.id = id;

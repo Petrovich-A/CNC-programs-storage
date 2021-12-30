@@ -14,8 +14,8 @@
 </head>
 <body>
 	<div class="header">
-		<div class="inner_header">
-			<div class="logo_container">
+		<div class="">
+			<div class="">
 				<h1>
 					CNC <span>programs storage</span>
 				</h1>
