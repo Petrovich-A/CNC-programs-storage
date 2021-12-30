@@ -8,18 +8,18 @@ README.md# :bowtie: EPAM EXTERNAL JAVA TRAINING.
 ## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
 ### :one: Реализовано: :ok_hand:
-:white_check_mark: the Layered architecture and MVC design patterns
-:white_check_mark: данные предметной области хранятся в базе даннх (MySQL)
-:white_check_mark: технология доступа к БД реализована посредством JDBC
-:white_check_mark: ConnectionPool (context.xml)
-:white_check_mark: пользовательский tag для footer
-:white_check_mark: интернализация приложения поддерживающая несколько языков (EN, RU)
+* :white_check_mark: the Layered architecture and MVC design patterns
+* :white_check_mark: данные предметной области хранятся в базе даннх (MySQL)
+* :white_check_mark: технология доступа к БД реализована посредством JDBC
+* :white_check_mark: ConnectionPool (context.xml)
+* :white_check_mark: пользовательский tag для footer
+* :white_check_mark: интернализация приложения поддерживающая несколько языков (EN, RU)
 ### :two: To do list :clipboard: 
-- [x] реализовать регистрацию пользователя
-- [x] сделать страницу логинации
-- [x] разобраться с генерацией Id
-- [x] кодировка пароля
-- [x] разобраться с ролью (вывести роль на мэин)
+- [] реализовать регистрацию пользователя
+- [] сделать страницу логинации
+- [] разобраться с генерацией Id
+- [] кодировка пароля
+- [] разобраться с ролью (вывести роль на мэин)
 ---
 #### Требования к БД:
 - Частьданныхв базе хранятся на кириллице, рекомендуется применять кодировку utf-8
