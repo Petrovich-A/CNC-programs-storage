@@ -1,16 +1,23 @@
 README.md# :bowtie: EPAM EXTERNAL JAVA TRAINING.
 
-# :one: JAVA WEB APPLICATION PROJECT:    
+# JAVA WEB APPLICATION PROJECT:    
 ># CNC PROGRAMS STORAGE :v:
 
-## :two: Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
+## Web application designed using Servlet and JSP technologies. The architecture of the application follows the Layered architecture and MVC design patterns. The subject area information is stored in the MySQL database.
 
-### :ok_hand: Реализовано:
-:white_check_mark: custom tag
-
-### :clipboard: To do list 
-
-- [x] подключить локаль
+### :one: Реализовано: :ok_hand:
+:white_check_mark: the Layered architecture and MVC design patterns
+:white_check_mark: данные предметной области хранятся в базе даннх (MySQL)
+:white_check_mark: технология доступа к БД реализована посредством JDBC
+:white_check_mark: ConnectionPool (context.xml)
+:white_check_mark: пользовательский tag для footer
+:white_check_mark: интернализация приложения поддерживающая несколько языков (EN, RU)
+### :two: To do list :clipboard: 
+- [x] реализовать регистрацию пользователя
+- [x] сделать страницу логинации
+- [x] разобраться с генерацией Id
+- [x] кодировка пароля
+- [x] разобраться с ролью (вывести роль на мэин)
 ---
 #### Требования к БД:
 - Частьданныхв базе хранятся на кириллице, рекомендуется применять кодировку utf-8
@@ -21,7 +28,6 @@ README.md# :bowtie: EPAM EXTERNAL JAVA TRAINING.
 - Реализовать защиту от sqlinjection.
 ---
 #### Базовые требованияк приложению
-
 * Интерфейс приложения долженбыть локализован; выбор из языков: EN|BE|DEetc.
 * Приложение должнокорректно обрабатывать возникающие исключительные ситуации, в том числе вести их логи. В качестве логгера использоватьLog4J2/SLF4J.
 * Классы и другие сущности приложения должны быть грамотно структурированы по пакетам и иметь отражающую их функциональностьназвание.
