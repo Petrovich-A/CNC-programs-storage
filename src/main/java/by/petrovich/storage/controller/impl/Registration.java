@@ -15,17 +15,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class Registration implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private static final ServiceProvider SERVICE_PROVIDER = ServiceProvider.getInstance();
-    private static final UserService USER_SERVICE = SERVICE_PROVIDER.getUserService();
+    private final ServiceProvider SERVICE_PROVIDER = ServiceProvider.getInstance();
+    private final UserService USER_SERVICE = SERVICE_PROVIDER.getUserService();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = 1; // to do
         String loginPersonnelNumber = request.getParameter("loginPersonnelNumber");
         String password = request.getParameter("password");
         String employeeName = request.getParameter("employeeName");
@@ -33,14 +31,20 @@ public class Registration implements Command {
         String employeePatronimic = request.getParameter("employeePatronimic");
         String position = request.getParameter("position");
         String email = request.getParameter("email");
-        Date date = java.sql.Date.valueOf(LocalDate.now());
-        UserRole userRole = UserRole.USER;
-        User user = new User(id, Integer.parseInt(loginPersonnelNumber), password, employeeName, employeeSurname, employeePatronimic,
-                position, email, date, userRole);
-
-        if (user.equals(null)) {
-            logger.log(Level.ERROR, "user from UI form is empty", user.toString());
+        User user = new User();
+        if (loginPersonnelNumber == null || password == null || employeeName == null
+                || employeeSurname == null || employeePatronimic == null || position == null || email == null) {
+            logger.log(Level.DEBUG, "user from UI form is empty");
         } else {
+            user.setLoginPersonnelNumber(Integer.parseInt(loginPersonnelNumber));
+            user.setPassword(password);
+            user.setEmployeeName(employeeName);
+            user.setEmployeeSurname(employeeSurname);
+            user.setEmployeePatronimic(employeePatronimic);
+            user.setPosition(position);
+            user.setEmail(email);
+            user.setDate(new Date());
+            user.setUserRole(UserRole.USER);
             try {
                 USER_SERVICE.registration(user);
                 logger.log(Level.DEBUG, "user from UI is get", user.toString());
