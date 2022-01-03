@@ -19,12 +19,12 @@ public class User {
     }
 
     public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-                String employeePatronimic, String position, String email, Date date, UserRole userRole) {
+                String employeePatronymic, String position, String email, Date date, UserRole userRole) {
         this.loginPersonnelNumber = loginPersonnelNumber;
         this.password = password;
         this.employeeName = employeeName;
         this.employeeSurname = employeeSurname;
-        this.employeePatronymic = employeePatronimic;
+        this.employeePatronymic = employeePatronymic;
         this.position = position;
         this.email = email;
         this.date = date;
@@ -32,13 +32,13 @@ public class User {
     }
 
     public User(int id, int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-                String employeePatronimic, String position, String email, Date date, UserRole userRole) {
+                String employeePatronymic, String position, String email, Date date, UserRole userRole) {
         this.id = id;
         this.loginPersonnelNumber = loginPersonnelNumber;
         this.password = password;
         this.employeeName = employeeName;
         this.employeeSurname = employeeSurname;
-        this.employeePatronymic = employeePatronimic;
+        this.employeePatronymic = employeePatronymic;
         this.position = position;
         this.email = email;
         this.date = date;
@@ -172,7 +172,7 @@ public class User {
                 .add("password='" + password + "'")
                 .add("employeeName='" + employeeName + "'")
                 .add("employeeSurname='" + employeeSurname + "'")
-                .add("employeePatronimic='" + employeePatronymic + "'")
+                .add("employeePatronymic='" + employeePatronymic + "'")
                 .add("position='" + position + "'")
                 .add("email='" + email + "'")
                 .add("date=" + date)
