@@ -2,16 +2,19 @@ package by.petrovich.storage.dao;
 
 import by.petrovich.storage.entity.User;
 
+import java.util.List;
+
 public interface UserDao {
+    List<User> findAll() throws DaoException;
 
-    void create(User user) throws DAOException;
+    void create(User user) throws DaoException;
 
-    User read(int userId) throws DAOException;
+    User read(int userId) throws DaoException;
 
-    void update(User user) throws DAOException;
+    void update(User user) throws DaoException;
 
-    void delete(User user) throws DAOException;
+    void delete(User user) throws DaoException;
 
-    String getUserRole(int userId) throws DAOException;
+    String getUserRole(int userId) throws DaoException;
 
 }

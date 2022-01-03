@@ -2,14 +2,14 @@ package by.petrovich.storage.dao;
 
 import by.petrovich.storage.dao.impl.UserDaoImpl;
 
-public class DAOProvider {
-    private static final DAOProvider INSTANCE = new DAOProvider();
+public class DaoProvider {
+    private static final DaoProvider INSTANCE = new DaoProvider();
     private final UserDao userDao = new UserDaoImpl();
 
-    public DAOProvider() {
+    public DaoProvider() {
     }
 
-    public static DAOProvider getInstance(){
+    public static DaoProvider getInstance(){
         return INSTANCE;
     }
 
