@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(3, user.getPassword());
 			preparedStatement.setString(4, user.getEmployeeName());
 			preparedStatement.setString(5, user.getEmployeeSurname());
-			preparedStatement.setString(6, user.getEmployeePatronimic());
+			preparedStatement.setString(6, user.getEmployeePatronymic());
 			preparedStatement.setString(7, user.getPosition());
 			preparedStatement.setDate(8, (Date) user.getDate());
 			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
 				user.setPassword(resultSet.getString(3));
 				user.setEmployeeName(resultSet.getString(4));
 				user.setEmployeeSurname(resultSet.getString(5));
-				user.setEmployeePatronimic(resultSet.getString(6));
+				user.setEmployeePatronymic(resultSet.getString(6));
 				user.setPosition(resultSet.getString(7));
 				user.setEmail(resultSet.getString(8));
 				user.setDate(resultSet.getDate(9));

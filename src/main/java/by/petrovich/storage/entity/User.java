@@ -9,7 +9,7 @@ public class User {
     private String password;
     private String employeeName;
     private String employeeSurname;
-    private String employeePatronimic;
+    private String employeePatronymic;
     private String position;
     private String email;
     private Date date;
@@ -24,7 +24,7 @@ public class User {
         this.password = password;
         this.employeeName = employeeName;
         this.employeeSurname = employeeSurname;
-        this.employeePatronimic = employeePatronimic;
+        this.employeePatronymic = employeePatronimic;
         this.position = position;
         this.email = email;
         this.date = date;
@@ -38,7 +38,7 @@ public class User {
         this.password = password;
         this.employeeName = employeeName;
         this.employeeSurname = employeeSurname;
-        this.employeePatronimic = employeePatronimic;
+        this.employeePatronymic = employeePatronimic;
         this.position = position;
         this.email = email;
         this.date = date;
@@ -85,12 +85,12 @@ public class User {
         this.employeeSurname = employeeSurname;
     }
 
-    public String getEmployeePatronimic() {
-        return employeePatronimic;
+    public String getEmployeePatronymic() {
+        return employeePatronymic;
     }
 
-    public void setEmployeePatronimic(String employeePatronimic) {
-        this.employeePatronimic = employeePatronimic;
+    public void setEmployeePatronymic(String employeePatronymic) {
+        this.employeePatronymic = employeePatronymic;
     }
 
     public String getPosition() {
@@ -140,7 +140,7 @@ public class User {
             return false;
         if (getEmployeeSurname() != null ? !getEmployeeSurname().equals(user.getEmployeeSurname()) : user.getEmployeeSurname() != null)
             return false;
-        if (getEmployeePatronimic() != null ? !getEmployeePatronimic().equals(user.getEmployeePatronimic()) : user.getEmployeePatronimic() != null)
+        if (getEmployeePatronymic() != null ? !getEmployeePatronymic().equals(user.getEmployeePatronymic()) : user.getEmployeePatronymic() != null)
             return false;
         if (getPosition() != null ? !getPosition().equals(user.getPosition()) : user.getPosition() != null)
             return false;
@@ -156,7 +156,7 @@ public class User {
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + (getEmployeeName() != null ? getEmployeeName().hashCode() : 0);
         result = 31 * result + (getEmployeeSurname() != null ? getEmployeeSurname().hashCode() : 0);
-        result = 31 * result + (getEmployeePatronimic() != null ? getEmployeePatronimic().hashCode() : 0);
+        result = 31 * result + (getEmployeePatronymic() != null ? getEmployeePatronymic().hashCode() : 0);
         result = 31 * result + (getPosition() != null ? getPosition().hashCode() : 0);
         result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
         result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
@@ -172,7 +172,7 @@ public class User {
                 .add("password='" + password + "'")
                 .add("employeeName='" + employeeName + "'")
                 .add("employeeSurname='" + employeeSurname + "'")
-                .add("employeePatronimic='" + employeePatronimic + "'")
+                .add("employeePatronimic='" + employeePatronymic + "'")
                 .add("position='" + position + "'")
                 .add("email='" + email + "'")
                 .add("date=" + date)
