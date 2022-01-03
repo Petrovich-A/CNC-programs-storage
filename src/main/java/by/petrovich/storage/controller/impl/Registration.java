@@ -34,7 +34,7 @@ public class Registration implements Command {
         password = request.getParameter("password");
         employeeName = request.getParameter("employeeName");
         employeeSurname = request.getParameter("employeeSurname");
-        employeePatronymic = request.getParameter("employeePatronimic");
+        employeePatronymic = request.getParameter("employeePatronymic");
         position = request.getParameter("position");
         email = request.getParameter("email");
 
@@ -55,13 +55,13 @@ public class Registration implements Command {
     }
 
     private User buildUser(String loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-                           String employeePatronimic, String position, String email) {
+                           String employeePatronymic, String position, String email) {
         User user = new User();
         user.setLoginPersonnelNumber(Integer.parseInt(loginPersonnelNumber));
         user.setPassword(password);
         user.setEmployeeName(employeeName);
         user.setEmployeeSurname(employeeSurname);
-        user.setEmployeePatronymic(employeePatronimic);
+        user.setEmployeePatronymic(employeePatronymic);
         user.setPosition(position);
         user.setEmail(email);
         user.setDate(new Date());
