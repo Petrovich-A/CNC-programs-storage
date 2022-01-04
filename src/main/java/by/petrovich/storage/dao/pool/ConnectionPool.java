@@ -25,6 +25,7 @@ public class ConnectionPool {
     private BlockingDeque<ProxyConnection> freeConnections;
     private Queue<ProxyConnection> givenAwayConnections;
     private static final int DEFAULT_POOL_SIZE = 12;
+    private static final String DRIVER_LINK = "java:comp/env/jdbc/CncProgramPool";
 
     private ConnectionPool() {
         InitialContext initialContext;
@@ -35,7 +36,7 @@ public class ConnectionPool {
         Connection connection;
         try {
             initialContext = new InitialContext();
-            dataSource = (DataSource) initialContext.lookup("java:comp/env/jdbc/CncProgramPool");
+            dataSource = (DataSource) initialContext.lookup(DRIVER_LINK);
             connection = dataSource.getConnection();
             proxyConnection = new ProxyConnection(connection);
             for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
@@ -71,7 +72,7 @@ public class ConnectionPool {
         ProxyConnection proxyConnection = null;
         try {
             proxyConnection = freeConnections.take();
-//            givenAwayConnections.offer(proxyConnection);
+            givenAwayConnections.offer(proxyConnection);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
