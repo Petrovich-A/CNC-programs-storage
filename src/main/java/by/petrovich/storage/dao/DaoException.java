@@ -1,7 +1,9 @@
 package by.petrovich.storage.dao;
 
 public class DaoException extends Exception {
-    public DaoException() {
+	private static final long serialVersionUID = 1L;
+
+	public DaoException() {
     }
 
     public DaoException(String message) {
