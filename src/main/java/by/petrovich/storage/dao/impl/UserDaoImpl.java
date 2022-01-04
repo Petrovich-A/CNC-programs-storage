@@ -1,7 +1,7 @@
 package by.petrovich.storage.dao.impl;
 
 import by.petrovich.storage.dao.ColumnNames;
-import by.petrovich.storage.dao.ConnectionPool;
+import by.petrovich.storage.dao.pool.ConnectionPool;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.UserDao;
 import by.petrovich.storage.entity.User;
