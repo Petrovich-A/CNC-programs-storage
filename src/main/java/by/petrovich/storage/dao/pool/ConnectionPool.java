@@ -14,11 +14,13 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
     private final static Logger logger = LogManager.getLogger();
-    private static final ReentrantLock reentrantLock = new ReentrantLock();
+    private static final ReentrantLock reentrantLock = new ReentrantLock(true);
+    private static final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
     private static ConnectionPool instance;
     private BlockingDeque<ProxyConnection> freeConnections;
     private Queue<ProxyConnection> givenAwayConnections;
@@ -27,33 +29,40 @@ public class ConnectionPool {
     private ConnectionPool() {
         InitialContext initialContext;
         DataSource dataSource;
-        Connection connection = new Connection();
+        freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
+        givenAwayConnections = new ArrayDeque<>();
+        ProxyConnection proxyConnection;
+        Connection connection;
         try {
             initialContext = new InitialContext();
             dataSource = (DataSource) initialContext.lookup("java:comp/env/jdbc/CncProgramPool");
             connection = dataSource.getConnection();
-            givenAwayConnections.offer(proxyConnection);
-            logger.log(Level.DEBUG, "connection have been got", proxyConnection);
+            proxyConnection = new ProxyConnection(connection);
+            for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
+                freeConnections.offer(proxyConnection);
+            }
+            freeConnections.offer(proxyConnection);
+            logger.log(Level.DEBUG, "connection have been got", connection);
         } catch (NamingException e) {
             e.printStackTrace();
             throw new RuntimeException("Naming problem", e);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Connection isn't available", e);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
-        freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
-        givenAwayConnections = new ArrayDeque<>();
     }
 
     public static ConnectionPool getInstance() {
-        if (instance == null) {
+        if (!atomicBoolean.get()) {
             reentrantLock.lock();
-            if (instance == null) {
-                instance = new ConnectionPool();
+            try {
+                if (instance == null) {
+                    instance = new ConnectionPool();
+                    atomicBoolean.set(true);
+                }
+            } finally {
+                reentrantLock.unlock();
             }
-            reentrantLock.unlock();
         }
         return instance;
     }
@@ -62,7 +71,7 @@ public class ConnectionPool {
         ProxyConnection proxyConnection = null;
         try {
             proxyConnection = freeConnections.take();
-            givenAwayConnections.offer(proxyConnection);
+//            givenAwayConnections.offer(proxyConnection);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
