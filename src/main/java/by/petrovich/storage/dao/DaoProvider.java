@@ -5,15 +5,20 @@ import by.petrovich.storage.dao.impl.UserDaoImpl;
 public class DaoProvider {
     private static final DaoProvider INSTANCE = new DaoProvider();
     private final UserDao userDao = new UserDaoImpl();
+    private final UserDaoImpl userDaoImpl = new UserDaoImpl();
 
     public DaoProvider() {
     }
 
-    public static DaoProvider getInstance(){
-        return INSTANCE;
+	public static DaoProvider getInstance() {
+		return INSTANCE;
+	}
+
+    public UserDaoImpl getUserDaoImpl() {
+        return userDaoImpl;
     }
 
-    public UserDao getUserDao(){
+    public UserDao getUserDao() {
         return userDao;
     }
 }

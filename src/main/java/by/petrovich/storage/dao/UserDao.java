@@ -15,6 +15,6 @@ public interface UserDao {
 
     void delete(User user) throws DaoException;
 
-    String getUserRole(int userId) throws DaoException;
+    String findUserRole(int userId) throws DaoException;
 
 }

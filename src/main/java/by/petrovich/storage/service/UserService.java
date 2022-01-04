@@ -1,9 +1,6 @@
 package by.petrovich.storage.service;
 
-import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.entity.User;
-
-import java.util.List;
 
 public interface UserService {
 
