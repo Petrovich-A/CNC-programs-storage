@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Registration implements Command {
@@ -37,6 +38,7 @@ public class Registration implements Command {
     }
 
     private User createUser(HttpServletRequest request) {
+    	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         User user = new User();
         user.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));
         user.setPassword(getParameterToCheck("password", request));
@@ -45,7 +47,7 @@ public class Registration implements Command {
         user.setEmployeePatronymic(getParameterToCheck("employeePatronymic", request));
         user.setPosition(getParameterToCheck("position", request));
         user.setEmail(getParameterToCheck("email", request));
-        user.setDate(new Date());
+        user.setDate(timestamp);
         user.setUserRole(UserRole.USER);
         return user;
     }
