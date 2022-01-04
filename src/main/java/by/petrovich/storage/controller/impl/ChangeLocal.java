@@ -13,7 +13,7 @@ public class ChangeLocal implements Command {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, ServletException {
+			throws IOException, ServletException {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("local", request.getParameter("local"));
 		session.setAttribute("url", PathToPage.MAIN);

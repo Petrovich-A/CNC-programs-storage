@@ -13,7 +13,7 @@ public class GoToCommandError implements Command {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, ServletException {
+			throws IOException, ServletException {
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.COMMAND_ERROR);
 		requestDispatcher.forward(request, response);
 	}
