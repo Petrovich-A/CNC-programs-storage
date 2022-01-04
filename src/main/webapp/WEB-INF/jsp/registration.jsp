@@ -46,7 +46,7 @@
 						pattern="^(?={8,40}+$" />
 				</p>
 				<p>
-					employeePatronimic <input type="text" name="employeePatronimic"
+					employeePatronimic <input type="text" name="employeePatronymic"
 						required pattern="^(?={8,40}+$" />
 				</p>
 				<p>
