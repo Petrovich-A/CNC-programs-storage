@@ -52,6 +52,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void create(User user) throws DaoException {
+        Timestamp timestamp;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_USER);) {
             preparedStatement.setInt(1, user.getLoginPersonnelNumber());
@@ -61,7 +62,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(5, user.getEmployeePatronymic());
             preparedStatement.setString(6, user.getPosition());
             preparedStatement.setString(7, user.getEmail());
-            preparedStatement.setDate(8, (Date) user.getDate());
+            preparedStatement.setTimestamp(8, (Timestamp) user.getDate());
             preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
             logger.log(Level.DEBUG, "create user have done", user.toString());
         } catch (SQLException e) {
