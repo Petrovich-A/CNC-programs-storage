@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
     <!-- Specify a JDBC datasource -->
-    <Resource name="jdbc/CncProgramPool"
-              auth="Container"
-              type="javax.sql.DataSource"
-              username="root"
-              password="HzaArk_XnsS"
-              driverClassName="org.gjt.mm.mysql.Driver"
-              url="jdbc:mysql://localhost:3306/cncprogramsstorage?useSSL=false"
-              validationQuery="select 1"
-              maxActive="10"
-              maxIdle="4"/>
+    <Resource
+            name="jdbc/CncProgramPool"
+            auth="Container"
+            type="javax.sql.DataSource"
+            username="root"
+            password="HzaArk_XnsS"
+            driverClassName="org.gjt.mm.mysql.Driver"
+            url="jdbc:mysql://localhost:3306/cncprogramsstorage?useSSL=false"
+            validationQuery="select 1"
+            maxActive="32"
+            maxIdle="8"/>
 </Context>

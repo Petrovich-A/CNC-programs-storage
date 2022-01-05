@@ -24,32 +24,25 @@ public class ConnectionPool {
     private static ConnectionPool instance;
     private BlockingDeque<ProxyConnection> freeConnections;
     private Queue<ProxyConnection> givenAwayConnections;
-    private static final int DEFAULT_POOL_SIZE = 12;
-    private static final String DRIVER_LINK = "java:comp/env/jdbc/CncProgramPool";
+    private static final int DEFAULT_POOL_SIZE = 20;
+    private static final String DRIVER_SQL = "java:comp/env/jdbc/CncProgramPool";
 
     private ConnectionPool() {
-        InitialContext initialContext;
-        DataSource dataSource;
         freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
         givenAwayConnections = new ArrayDeque<>();
-        ProxyConnection proxyConnection;
-        Connection connection;
         try {
-            initialContext = new InitialContext();
-            dataSource = (DataSource) initialContext.lookup(DRIVER_LINK);
-            connection = dataSource.getConnection();
-            proxyConnection = new ProxyConnection(connection);
+            InitialContext initialContext = new InitialContext();
+            DataSource dataSource = (DataSource) initialContext.lookup(DRIVER_SQL);
+            ProxyConnection proxyConnection = new ProxyConnection(dataSource.getConnection());
             for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
                 freeConnections.offer(proxyConnection);
+                logger.log(Level.DEBUG, "connection have been got", proxyConnection);
             }
-            freeConnections.offer(proxyConnection);
-            logger.log(Level.DEBUG, "connection have been got", connection);
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "proxyConnection isn't created", e);
+            e.printStackTrace();
         } catch (NamingException e) {
             e.printStackTrace();
-            throw new RuntimeException("Naming problem", e);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Connection isn't available", e);
         }
     }
 
@@ -80,6 +73,9 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(ProxyConnection proxyConnection) {
+//        if (proxyConnection){
+//
+//        }
         givenAwayConnections.remove(proxyConnection);
         freeConnections.offer(proxyConnection);
     }
@@ -88,6 +84,8 @@ public class ConnectionPool {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 freeConnections.take().reallyClose();
+            } catch (SQLException e) {
+                e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
