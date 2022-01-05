@@ -41,9 +41,8 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-
+                allUsers.add(buildUser(resultSet));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
