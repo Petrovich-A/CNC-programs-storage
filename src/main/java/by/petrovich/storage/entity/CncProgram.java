@@ -13,6 +13,9 @@ public class CncProgram {
     private boolean isActive;
     private Date date;
 
+    public CncProgram() {
+    }
+
     public CncProgram(int id, String programText, String name, int operationNumber, String fileExtension,
                       String comment, boolean isActive, Date date) {
         this.id = id;
@@ -96,27 +99,28 @@ public class CncProgram {
 
         CncProgram that = (CncProgram) o;
 
-        if (id != that.id) return false;
-        if (operationNumber != that.operationNumber) return false;
-        if (isActive != that.isActive) return false;
-        if (programText != null ? !programText.equals(that.programText) : that.programText != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (fileExtension != null ? !fileExtension.equals(that.fileExtension) : that.fileExtension != null)
+        if (getId() != that.getId()) return false;
+        if (getOperationNumber() != that.getOperationNumber()) return false;
+        if (isActive() != that.isActive()) return false;
+        if (getProgramText() != null ? !getProgramText().equals(that.getProgramText()) : that.getProgramText() != null)
             return false;
-        if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
-        return date != null ? date.equals(that.date) : that.date == null;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getFileExtension() != null ? !getFileExtension().equals(that.getFileExtension()) : that.getFileExtension() != null)
+            return false;
+        if (getComment() != null ? !getComment().equals(that.getComment()) : that.getComment() != null) return false;
+        return getDate() != null ? getDate().equals(that.getDate()) : that.getDate() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (programText != null ? programText.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + operationNumber;
-        result = 31 * result + (fileExtension != null ? fileExtension.hashCode() : 0);
-        result = 31 * result + (comment != null ? comment.hashCode() : 0);
-        result = 31 * result + (isActive ? 1 : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
+        int result = getId();
+        result = 31 * result + (getProgramText() != null ? getProgramText().hashCode() : 0);
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + getOperationNumber();
+        result = 31 * result + (getFileExtension() != null ? getFileExtension().hashCode() : 0);
+        result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
+        result = 31 * result + (isActive() ? 1 : 0);
+        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
         return result;
     }
 
