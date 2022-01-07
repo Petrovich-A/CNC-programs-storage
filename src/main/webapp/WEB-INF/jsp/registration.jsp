@@ -21,7 +21,7 @@
 				</h1>
 			</div>
 			<ul class="navigation">
-				<li><a href="Controller?commandName=go_to_main">HOME</a></li>
+				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
 			</ul>
 		</div>
 	</div>

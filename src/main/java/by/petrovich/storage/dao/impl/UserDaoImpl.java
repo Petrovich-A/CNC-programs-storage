@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void create(User user) throws DaoException {
-        try (Connection connection = StandardConnectionPool.getConnection();
+        try (Connection connection = StandardConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
             preparedStatement.setInt(1, user.getLoginPersonnelNumber());
             preparedStatement.setString(2, user.getPassword());

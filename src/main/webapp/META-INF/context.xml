@@ -8,7 +8,7 @@
             username="root"
             password="HzaArk_XnsS"
             driverClassName="org.gjt.mm.mysql.Driver"
-            url="jdbc:mysql://localhost:3306/cncprogramsstorage?useSSL=false"
+            url="jdbc:mysql://localhost:3306/cncprogramsstorage?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC"
             factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
             validationQuery="select 1"
             maxActive="32"

@@ -28,9 +28,9 @@
 				</h1>
 			</div>
 			<ul class="navigation">
-				<li><a href="Controller?commandName=go_to_main">${home}</a></li>
-				<li><a href="Controller?commandName=go_to_registration">${registration}</a></li>
-				<li><a href="Controller?commandName=go_to_log_in">LOG IN</a></li>
+				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
+				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
+				<li><a href="Controller?commandName=go_to_log_in_page">LOG IN</a></li>
 			</ul>
 		</div>
 	</div>

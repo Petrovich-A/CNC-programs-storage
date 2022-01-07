@@ -14,7 +14,7 @@ public class GoToErrorPage implements Command {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.COMMAND_ERROR);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.ERROR);
 		requestDispatcher.forward(request, response);
 	}
 }

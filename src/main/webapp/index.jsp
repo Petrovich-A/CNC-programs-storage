@@ -10,6 +10,6 @@
 <title>index --> main</title>
 </head>
 <body>
-	<c:redirect url="Controller?commandName=go_to_main" />
+	<c:redirect url="Controller?commandName=go_to_main_page" />
 </body>
 </html>
