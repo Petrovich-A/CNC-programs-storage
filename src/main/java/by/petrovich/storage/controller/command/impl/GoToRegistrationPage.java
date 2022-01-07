@@ -9,12 +9,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class GoToCommandError implements Command {
+public class GoToRegistrationPage implements Command {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.COMMAND_ERROR);
+	public void execute(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.REGISTRATION);
 		requestDispatcher.forward(request, response);
 	}
+
 }

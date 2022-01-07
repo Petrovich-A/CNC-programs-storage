@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToMain implements Command {
+public class GoToMainPage implements Command {
 //	private static final ServiceProvider SERVICE_PROVIDER = ServiceProvider.getInstance();
 
 	@Override

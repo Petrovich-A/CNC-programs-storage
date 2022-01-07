@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.sql.Timestamp;
 
-public class Registration implements Command {
+public class RegistrationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
     private final UserService userService = serviceProvider.getUserService();
