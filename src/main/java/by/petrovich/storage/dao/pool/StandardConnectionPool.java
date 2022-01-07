@@ -20,6 +20,15 @@ public class StandardConnectionPool {
 		return instance;
 	}
 
+	static {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Unable to load class.");
+			e.printStackTrace();
+		}
+	}
+
 	public static Connection getConnection() {
 		Context context = null;
 		DataSource dataSource = null;
@@ -30,11 +39,10 @@ public class StandardConnectionPool {
 			connection = dataSource.getConnection();
 		} catch (NamingException e) {
 			e.printStackTrace();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return connection;
 	}
-	
 
 }
