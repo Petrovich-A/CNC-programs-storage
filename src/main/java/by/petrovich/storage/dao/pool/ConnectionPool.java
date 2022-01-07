@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
@@ -18,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-    private final static Logger logger = LogManager.getLogger();
+    private static final  Logger logger = LogManager.getLogger();
     private static final ReentrantLock reentrantLock = new ReentrantLock(true);
     private static final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
     private static ConnectionPool instance;

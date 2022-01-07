@@ -1,7 +1,7 @@
 package by.petrovich.storage.dao.impl;
 
 import by.petrovich.storage.dao.CncProgramDao;
-import by.petrovich.storage.dao.ColumnNames;
+import by.petrovich.storage.dao.ColumnName;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.pool.ConnectionPool;
 import by.petrovich.storage.entity.CncProgram;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CncProgramDaoImpl implements CncProgramDao {
-    private final static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
     private final String SQL_FIND_ALL = "SELECT program_id, program_text, program_name, create_time, operation_number," +
             " program_file_extension, comment, active, detail_id FROM cnc_programs";
     private final String SQL_CREATE = "INSERT INTO cnc_programs(program_id, program_text, program_name, create_time," +
@@ -46,7 +46,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
     @Override
     public void create(CncProgram cncProgram) throws DaoException {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
             preparedStatement.setInt(1, cncProgram.getId());
             preparedStatement.setString(2, cncProgram.getProgramText());
             preparedStatement.setString(3, cncProgram.getName());
@@ -65,7 +65,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
     public CncProgram read(int id) throws DaoException {
         CncProgram cncProgram = new CncProgram();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -87,8 +87,8 @@ public class CncProgramDaoImpl implements CncProgramDao {
 
     @Override
     public void update(CncProgram cncProgram, int id) throws DaoException {
-        Connection connection = ConnectionPool.getInstance().getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);) {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
             preparedStatement.setInt(1, cncProgram.getId());
             preparedStatement.setString(2, cncProgram.getProgramText());
             preparedStatement.setString(3, cncProgram.getName());
@@ -105,8 +105,8 @@ public class CncProgramDaoImpl implements CncProgramDao {
 
     @Override
     public void delete(CncProgram cncProgram) throws DaoException {
-        Connection connection = ConnectionPool.getInstance().getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);) {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
             preparedStatement.setInt(1, cncProgram.getId());
             logger.log(Level.DEBUG, "cnc program with id {} is deleted", cncProgram.getId());
         } catch (SQLException e) {
@@ -123,13 +123,13 @@ public class CncProgramDaoImpl implements CncProgramDao {
 
     private CncProgram buildCncProgram(ResultSet resultSet) throws SQLException {
         CncProgram cncProgram = new CncProgram();
-        cncProgram.setId(resultSet.getInt(ColumnNames.PROGRAM_ID));
-        cncProgram.setProgramText(resultSet.getString(ColumnNames.PROGRAM_TEXT));
-        cncProgram.setName(resultSet.getString(ColumnNames.PROGRAM_NAME));
-        cncProgram.setOperationNumber(resultSet.getInt(ColumnNames.OPERATION_NUMBER));
-        cncProgram.setFileExtension(resultSet.getString(ColumnNames.PROGRAM_FILE_EXTENSION));
-        cncProgram.setComment(resultSet.getString(ColumnNames.COMMENT));
-        cncProgram.setActive(resultSet.getBoolean(ColumnNames.ACTIVE));
+        cncProgram.setId(resultSet.getInt(ColumnName.PROGRAM_ID));
+        cncProgram.setProgramText(resultSet.getString(ColumnName.PROGRAM_TEXT));
+        cncProgram.setName(resultSet.getString(ColumnName.PROGRAM_NAME));
+        cncProgram.setOperationNumber(resultSet.getInt(ColumnName.OPERATION_NUMBER));
+        cncProgram.setFileExtension(resultSet.getString(ColumnName.PROGRAM_FILE_EXTENSION));
+        cncProgram.setComment(resultSet.getString(ColumnName.COMMENT));
+        cncProgram.setActive(resultSet.getBoolean(ColumnName.ACTIVE));
         cncProgram.setDate(new java.util.Date());
         logger.log(Level.DEBUG, "cnc program build successfully", cncProgram.toString());
         return cncProgram;

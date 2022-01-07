@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.impl;
+package by.petrovich.storage.controller.command.impl;
 
 import java.io.IOException;
 

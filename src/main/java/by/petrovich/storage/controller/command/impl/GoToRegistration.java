@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.impl;
+package by.petrovich.storage.controller.command.impl;
 
 import java.io.IOException;
 
@@ -8,17 +8,13 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-public class GoToMain implements Command {
-//	private static final ServiceProvider SERVICE_PROVIDER = ServiceProvider.getInstance();
+public class GoToRegistration implements Command {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		HttpSession session = request.getSession(true);
-		session.setAttribute("local", request.getParameter("local"));
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.MAIN);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.REGISTRATION);
 		requestDispatcher.forward(request, response);
 	}
 

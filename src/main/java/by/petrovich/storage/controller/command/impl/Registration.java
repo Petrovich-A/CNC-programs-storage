@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.impl;
+package by.petrovich.storage.controller.command.impl;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Registration implements Command {
     private static final Logger logger = LogManager.getLogger();
@@ -23,13 +22,17 @@ public class Registration implements Command {
     private final UserService userService = serviceProvider.getUserService();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         User user = createUser(request);
         try {
             userService.registration(user);
             logger.log(Level.DEBUG, "user from UI is get", user.toString());
             request.getSession(true).setAttribute("user from UI", user);
-            response.sendRedirect(PathToPage.LOG_IN);
+            try {
+                response.sendRedirect(PathToPage.LOG_IN);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
         } catch (ServiceException e) {
             e.printStackTrace();
         } catch (IllegalArgumentException e) {

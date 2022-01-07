@@ -3,7 +3,7 @@ package by.petrovich.storage.controller.command;
 import java.util.HashMap;
 import java.util.Map;
 
-import by.petrovich.storage.controller.impl.*;
+import by.petrovich.storage.controller.command.impl.*;
 
 public class CommandProvider {
 	private Map<CommandName, Command> commands = new HashMap<>();

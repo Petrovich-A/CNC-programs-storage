@@ -1,6 +1,6 @@
 package by.petrovich.storage.dao;
 
-public class ColumnNames {
+public final class ColumnName {
     //users
     public static final String USER_ID = "user_id";
     public static final String LOGIN_PERSONNEL_NUMBER = "login_personnel_number";
@@ -19,7 +19,7 @@ public class ColumnNames {
     public static final String PROGRAM_ID = "program_id";
     public static final String PROGRAM_TEXT = "program_text";
     public static final String PROGRAM_NAME = "program_name";
-//    public static final String CREATE_TIME = "create_time";
+    //    public static final String CREATE_TIME = "create_time";
     public static final String OPERATION_NUMBER = "operation_number";
     public static final String PROGRAM_FILE_EXTENSION = "program_file_extension";
     public static final String COMMENT = "comment";
@@ -30,4 +30,6 @@ public class ColumnNames {
     public static final String MODEL = "model";
     public static final String EQUIPMENT_CODE = "equipment_code";
 
+    private ColumnName() {
+    }
 }
