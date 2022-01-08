@@ -3,7 +3,13 @@ package by.petrovich.storage.controller.command;
 import java.util.HashMap;
 import java.util.Map;
 
-import by.petrovich.storage.controller.command.impl.*;
+import by.petrovich.storage.controller.command.impl.ChangeLocalCommand;
+import by.petrovich.storage.controller.command.impl.GoToErrorPage;
+import by.petrovich.storage.controller.command.impl.GoToLogInPage;
+import by.petrovich.storage.controller.command.impl.GoToMainPage;
+import by.petrovich.storage.controller.command.impl.GoToRegistrationPage;
+import by.petrovich.storage.controller.command.impl.RegistrationCommand;
+
 
 public class CommandProvider {
 	private Map<CommandName, Command> commands = new HashMap<>();
