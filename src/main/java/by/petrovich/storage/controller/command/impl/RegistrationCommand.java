@@ -7,6 +7,8 @@ import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.Level;
@@ -23,24 +25,26 @@ public class RegistrationCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        User user = createUser(request);
+        User user = buildUser(request);
         try {
-            userService.registration(user);
             logger.log(Level.DEBUG, "user from UI is get", user.toString());
             request.getSession(true).setAttribute("user from UI", user);
-            try {
-                response.sendRedirect(PathToPage.LOG_IN);
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
+            userService.registration(user);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.LOG_IN);
+            requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             logger.log(Level.ERROR, e.getLocalizedMessage());
-        }
+            e.printStackTrace();
+        } catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
-    private User createUser(HttpServletRequest request) {
+    private User buildUser(HttpServletRequest request) {
     	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         User user = new User();
         user.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));

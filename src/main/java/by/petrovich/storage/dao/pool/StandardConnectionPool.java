@@ -34,8 +34,8 @@ public class StandardConnectionPool {
 		DataSource dataSource = null;
 		Connection connection = null;
 		try {
-			Context initContext = new InitialContext();
-			dataSource = (DataSource) initContext.lookup("java:comp/env/jdbc/CncProgramPool");
+			context = new InitialContext();
+			dataSource = (DataSource) context.lookup("java:comp/env/jdbc/CncProgramPool");
 			connection = dataSource.getConnection();
 		} catch (NamingException e) {
 			e.printStackTrace();
