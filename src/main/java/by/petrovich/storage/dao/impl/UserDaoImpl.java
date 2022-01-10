@@ -1,18 +1,22 @@
 package by.petrovich.storage.dao.impl;
 
-import by.petrovich.storage.dao.ColumnName;
-import by.petrovich.storage.dao.DaoException;
-import by.petrovich.storage.dao.UserDao;
-import by.petrovich.storage.dao.pool.ConnectionPool;
-import by.petrovich.storage.dao.pool.StandardConnectionPool;
-import by.petrovich.storage.entity.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import by.petrovich.storage.dao.ColumnName;
+import by.petrovich.storage.dao.DaoException;
+import by.petrovich.storage.dao.UserDao;
+import by.petrovich.storage.dao.pool.ConnectionPool;
+import by.petrovich.storage.entity.User;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
