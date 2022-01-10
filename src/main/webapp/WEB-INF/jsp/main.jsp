@@ -16,8 +16,8 @@
 <fmt:message bundle="${loc}" key="local.locbutton.en" var="en_button" />
 <fmt:message bundle="${loc}" key="local.locbutton.ru" var="ru_button" />
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
-<fmt:message bundle="${loc}" key="local.main.navigate.registration"
-	var="registration" />
+<fmt:message bundle="${loc}" key="local.main.navigate.registration" var="registration" />
+<fmt:message bundle="${loc}" key="local.main.navigate.logIn" var="logIn" />
 </head>
 <body>
 	<div class="header">
@@ -28,10 +28,9 @@
 				</h1>
 			</div>
 			<ul class="navigation">
-				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_registration_page">registration</a></li>
-				<li><a href="Controller?commandName=go_to_log_in_page">LOG
-						IN</a></li>
+				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
+				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
+				<li><a href="Controller?commandName=go_to_log_in_page">${logIn}</a></li>
 			</ul>
 		</div>
 	</div>
