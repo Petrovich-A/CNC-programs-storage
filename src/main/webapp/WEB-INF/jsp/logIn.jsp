@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="customtags" prefix="ctg"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
 			</div>
 			<ul class="navigation">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-                <li><a href="Controller?commandName=go_to_registration_page">Registration</a></li>
+				<li><a href="Controller?commandName=go_to_registration_page">Registration</a></li>
 			</ul>
 		</div>
 	</div>
