@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
 
 public class UserValidator implements UserValidatable {
     private static final Logger logger = LogManager.getLogger();
-    private static final String LOGIN_PERSONNEL_NUMBER_PATTERN = "^\\d{5}+$";
+    private static final String LOGIN_PERSONNEL_NUMBER_PATTERN = "^\\p{Digit}{5}+$";
     private static final String PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,40}$";
-    private static final String EMPLOYEE_NAME_PATTERN = "^[A-Z,a-z,А-Я,а-я]{3,20}+$";
+    private static final String EMPLOYEE_NAME_PATTERN = "^\\p{Alnum}[А-Я,а-я]{3,20}+$";
     private static final String EMPLOYEE_SURNAME_PATTERN = "^[A-Z,a-z,А-Я,а-я]{3,20}+$";
     private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[A-Z,a-z,А-Я,а-я]{3,20}+$";
     private static final String POSITION_PATTERN = "^[A-Z,a-z,А-Я,а-я]{3,30}+$";
@@ -24,72 +24,58 @@ public class UserValidator implements UserValidatable {
                 && isEmailValid(user.getEmail());
     }
 
-    private boolean isPasswordValid(String password) {
-        boolean isValid = false;
-        if (password.matches(PASSWORD_PATTERN)) {
-            isValid = true;
-        } else {
-            logger.log(Level.DEBUG, "password is not valid: ", isValid);
+    private boolean isLoginPersonnelNumberValid(String loginPersonnelNumber) {
+        boolean isValid = loginPersonnelNumber.matches(LOGIN_PERSONNEL_NUMBER_PATTERN);
+        if (!isValid) {
+            logger.log(Level.ERROR, "loginPersonnelNumber is not valid: ", loginPersonnelNumber);
         }
         return isValid;
     }
 
-    private boolean isLoginPersonnelNumberValid(String loginPersonnelNumber) {
-        boolean isValid = false;
-        if (loginPersonnelNumber.matches(LOGIN_PERSONNEL_NUMBER_PATTERN)) {
-            isValid = true;
-        } else {
-            logger.log(Level.ERROR, "loginPersonnelNumber is not valid: ", isValid);
+    private boolean isPasswordValid(String password) {
+        boolean isValid = password.matches(PASSWORD_PATTERN);
+        if (!isValid) {
+            logger.log(Level.DEBUG, "password is not valid");
         }
         return isValid;
     }
 
     private boolean isEmployeeNameValid(String employeeName) {
-        boolean isValid = false;
-        if (employeeName.matches(EMPLOYEE_NAME_PATTERN)) {
-            isValid = true;
-        } else {
-            logger.log(Level.ERROR, "employeeName is not valid: ", isValid);
+        boolean isValid = employeeName.matches(EMPLOYEE_NAME_PATTERN);
+        if (!isValid) {
+            logger.log(Level.ERROR, "employeeName is not valid: ", employeeName);
         }
         return isValid;
     }
 
     private boolean isEmployeeSurnameValid(String employeeSurname) {
-        boolean isValid = false;
-        if (employeeSurname.matches(EMPLOYEE_SURNAME_PATTERN)) {
-            isValid = true;
-        } else {
-            logger.log(Level.ERROR, "employeeSurname is not valid: ", isValid);
+        boolean isValid = employeeSurname.matches(EMPLOYEE_SURNAME_PATTERN);
+        if (!isValid) {
+            logger.log(Level.ERROR, "employeeSurname is not valid: ", employeeSurname);
         }
         return isValid;
     }
 
     private boolean isEmployeePatronymicValid(String employeePatronymic) {
-        boolean isValid = false;
-        if (employeePatronymic.matches(EMPLOYEE_PATRONYMIC_PATTERN)) {
-            isValid = true;
-        } else {
-            logger.log(Level.ERROR, "employeePatronymic is not valid: ", isValid);
+        boolean isValid = employeePatronymic.matches(EMPLOYEE_PATRONYMIC_PATTERN);
+        if (!isValid) {
+            logger.log(Level.ERROR, "employeePatronymic is not valid: ", employeePatronymic);
         }
         return isValid;
     }
 
     private boolean isPositionValid(String position) {
-        boolean isValid = false;
-        if (position.matches(POSITION_PATTERN)) {
-            isValid = true;
-        } else {
-            logger.log(Level.ERROR, "position is not valid: ", isValid);
+        boolean isValid = position.matches(POSITION_PATTERN);
+        if (!isValid) {
+            logger.log(Level.ERROR, "position is not valid: ", position);
         }
         return isValid;
     }
 
     private boolean isEmailValid(String email) {
-        boolean isValid = false;
-        if (email.matches(EMAIL_PATTERN)) {
-            isValid = true;
-        } else {
-            logger.log(Level.ERROR, "email is not valid: ", isValid);
+        boolean isValid = email.matches(EMAIL_PATTERN);
+        if (!isValid) {
+            logger.log(Level.ERROR, "email is not valid: ", email);
         }
         return isValid;
     }
