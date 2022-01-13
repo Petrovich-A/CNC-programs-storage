@@ -9,11 +9,11 @@ import org.apache.logging.log4j.Logger;
 public class UserValidator implements UserValidatable {
     private static final Logger logger = LogManager.getLogger();
     private static final String LOGIN_PERSONNEL_NUMBER_PATTERN = "^\\p{Digit}{5}+$";
-    private static final String PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,40}$";
-    private static final String EMPLOYEE_NAME_PATTERN = "^\\p{Alnum}[А-Я,а-я]{3,20}+$";
-    private static final String EMPLOYEE_SURNAME_PATTERN = "^[A-Z,a-z,А-Я,а-я]{3,20}+$";
-    private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[A-Z,a-z,А-Я,а-я]{3,20}+$";
-    private static final String POSITION_PATTERN = "^[A-Z,a-z,А-Я,а-я]{3,30}+$";
+    private static final String PASSWORD_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{8,40}+$";
+    private static final String EMPLOYEE_NAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
+    private static final String EMPLOYEE_SURNAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
+    private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
+    private static final String POSITION_PATTERN = "^[\\p{IsAlphabetic}+\\-]{3,20}+$";
     private static final String EMAIL_PATTERN = "^\\S+@\\S+\\.\\S+$";
 
     @Override

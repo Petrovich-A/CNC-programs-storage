@@ -1,17 +1,21 @@
 package by.petrovich.storage.validator.impl;
 
 import by.petrovich.storage.entity.User;
-import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
 
-public class UserValidatorTest extends TestCase {
+public class UserValidatorTest {
 
     @Test
     public void testIsUserValidWhenUserValidReturnTrue() {
-        User userActual = new User(65484, "efwef23", "Иван", "Иванов",
-                "Рудольфович", "инженер", "ivanov@mail.ru");
+        User userActual = new User(65484, "efwef23!#", "Иван", "Иванов",
+                "Рудольфович", "инженер-технолог","ivanov@mail.ru");
+        User userActual1 = new User(12345, "кпоулр!уаkh534", "John", "Smith",
+                "Smitovich", "начальник", "america@usa.com");
         UserValidator userValidator = new UserValidator();
-        boolean isUserValid = userValidator.isUserValid(userActual);
-        assertTrue("isUserValid: ", isUserValid);
+        boolean actual = userValidator.isUserValid(userActual);
+        boolean actual1 = userValidator.isUserValid(userActual);
+        Assert.assertTrue("test", actual);
+        Assert.assertTrue("test1", actual1);
     }
 }
