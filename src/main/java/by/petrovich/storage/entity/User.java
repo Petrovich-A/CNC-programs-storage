@@ -55,6 +55,11 @@ public class User {
         this.email = email;
     }
 
+    public User(int loginPersonnelNumber, String password) {
+        this.loginPersonnelNumber = loginPersonnelNumber;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }

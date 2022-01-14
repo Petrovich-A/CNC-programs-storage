@@ -25,11 +25,11 @@ public class RegistrationCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        User user = buildUser(request);
+        User userFromRegistrForm = buildUser(request);
         try {
-            logger.log(Level.DEBUG, "user from UI is get", user.toString());
-            request.getSession(true).setAttribute("user from UI", user);
-            userService.registration(user);
+            logger.log(Level.DEBUG, "userFromRegistrForm from UI is get", userFromRegistrForm.toString());
+            request.getSession(true).setAttribute("userFromRegistrForm from UI", userFromRegistrForm);
+            userService.registration(userFromRegistrForm);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.LOG_IN);
             requestDispatcher.forward(request, response);
         } catch (ServiceException e) {

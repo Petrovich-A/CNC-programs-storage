@@ -1,14 +1,9 @@
 package by.petrovich.storage.controller.command;
 
+import by.petrovich.storage.controller.command.impl.*;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import by.petrovich.storage.controller.command.impl.ChangeLocalCommand;
-import by.petrovich.storage.controller.command.impl.GoToErrorPage;
-import by.petrovich.storage.controller.command.impl.GoToLogInPage;
-import by.petrovich.storage.controller.command.impl.GoToMainPage;
-import by.petrovich.storage.controller.command.impl.GoToRegistrationPage;
-import by.petrovich.storage.controller.command.impl.RegistrationCommand;
 
 
 public class CommandProvider {
@@ -21,6 +16,7 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_ERROR_PAGE, new GoToErrorPage());
 
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
+		commands.put(CommandName.AUTHORIZATION, new AuthorizationCommand());
 		commands.put(CommandName.CHANGE_LOCAL, new ChangeLocalCommand());
 	}
 
