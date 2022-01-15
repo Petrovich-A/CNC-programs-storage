@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+.header {
+    width: 100%;
+    height: 60px;
+    display: block;
+    background-color: #eeeeee;
+}
+
+.inner_header {
+    width: 1000px;
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+    background-color: #eeeeee;
+}
+
+.logo_container {
+    height: 100%;
+    display: table;
+    float: left;
+}
+
+.logo_container h1 {
+    color: #d44400;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Montserrat';
+    font-size: 36px;
+    font-weight: 200;
+}
+
+.logo_container h1 span {
+    font-weight: 800;
+}
+
+.navigation {
+    float: right;
+    height: 100%;
+}
+
+.navigation a {
+    float: right;
+    display: table;
+    float: left;
+    padding: 0px 10px;
+}
+
+.navigation li a {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+    color: #d44400;
+    font-family: sans-serif;
+    padding: 0px 20px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 1.2), rgba(0, 0, 0, 0)),
+    url(../images/background_1_CNC_Machines_In_Manufacturing.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed
+}
+
+body {
+    color: white;
+    margin: 0;
+    margin-top: 50px;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+section {
+    height: 80vh;
+    border: 1px solid black;
+    display: block;
+    text-align: left;
+    padding: 50px;
+}
+
+section h1 {
+    font-size: 2.2em;
+    text-align: justify;
+}
+
+section h2 {
+    font-size: 1.7em;
+    text-align: justify;
+}
+
+section h3 {
+    text-align: justify;
+    text-indent: 40px;
+    font-size: 1.2em;
+}
+
+section a {
+    text-align: right;
+    font-size: 1.8em;
+}
+
+footer {
+    position: absolute;
+    text-align: right;
+    bottom: 0;
+    padding: 20px;
+    font-size: 1.3em;
+}
