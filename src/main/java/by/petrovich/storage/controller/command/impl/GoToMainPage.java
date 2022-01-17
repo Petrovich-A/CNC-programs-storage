@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class GoToMainPage implements Command {
-//	private static final ServiceProvider SERVICE_PROVIDER = ServiceProvider.getInstance();
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) 

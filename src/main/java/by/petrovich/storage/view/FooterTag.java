@@ -15,13 +15,13 @@ public class FooterTag extends TagSupport {
     private static final long serialVersionUID = 1L;
     private static final String FOOTER_TAG_OPEN = "<footer>";
     private static final String P_TAG_OPEN = "<p>";
-    private static final String TEXT_IN = "EPAM Java Web Development Training"
+    private static final String FOOTER_TEXT = "EPAM Java Web Development Training"
             + " | WEB APP TASK | &copy Copyright by ";
-    private static final String A_TAG_OPEN_LINK = "<a href=";
-    private static final String TEXT_LINK = "\"https://www.linkedin.com/in/alexandr-petrovich-java-developer/\">";
-    private static final String TEXT_NAME = "Petrovich Alexandr";
+    private static final String A_HREF_TAG_OPEN = "<a href=";
+    private static final String FOOTER_TEXT_LINK = "\"https://www.linkedin.com/in/alexandr-petrovich-java-developer/\">";
+    private static final String FOOTER_TEXT_NAME = "Petrovich Alexandr";
     private static final String A_TAG_CLOSE = "</a>";
-    private static final String TEXT_IN_YEARS = ", 2021-2022";
+    private static final String FOOTER_TEXT_YEARS = ", 2021-2022";
     private static final String P_TAG_CLOSE = "</p>";
     private static final String FOOTER_TAG_CLOSE = "</footer>";
 
@@ -35,12 +35,12 @@ public class FooterTag extends TagSupport {
                 e.printStackTrace();
             }
             jspWriter.write(P_TAG_OPEN);
-            jspWriter.write(TEXT_IN);
-            jspWriter.write(A_TAG_OPEN_LINK);
-            jspWriter.write(TEXT_LINK);
-            jspWriter.write(TEXT_NAME);
+            jspWriter.write(FOOTER_TEXT);
+            jspWriter.write(A_HREF_TAG_OPEN);
+            jspWriter.write(FOOTER_TEXT_LINK);
+            jspWriter.write(FOOTER_TEXT_NAME);
             jspWriter.write(A_TAG_CLOSE);
-            jspWriter.write(TEXT_IN_YEARS);
+            jspWriter.write(FOOTER_TEXT_YEARS);
             jspWriter.write(P_TAG_CLOSE);
             jspWriter.write(FOOTER_TAG_CLOSE);
         } catch (IOException e) {

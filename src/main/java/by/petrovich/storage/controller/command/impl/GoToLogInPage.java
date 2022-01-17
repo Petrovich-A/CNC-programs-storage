@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class GoToLogInPage implements Command {
-//	private static final ServiceProvider SERVICE_PROVIDER = ServiceProvider.getInstance();
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
