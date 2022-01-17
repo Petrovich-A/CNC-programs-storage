@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="refresh" content="5">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -26,35 +27,40 @@
 <fmt:message bundle="${loc}" key="local.message" var="message" />
 <fmt:message bundle="${loc}" key="local.locbutton.en" var="en_button" />
 <fmt:message bundle="${loc}" key="local.locbutton.ru" var="ru_button" />
-<fmt:message bundle="${loc}" key="local.locbutton.search" var="search_button" />
-<fmt:message bundle="${loc}" key="local.search_placeholder" var="search_placeholder" />
+<fmt:message bundle="${loc}" key="local.locbutton.search"
+	var="search_button" />
+<fmt:message bundle="${loc}" key="local.search_placeholder"
+	var="search_placeholder" />
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <fmt:message bundle="${loc}" key="local.main.navigate.registration"
 	var="registration" />
 <fmt:message bundle="${loc}" key="local.main.navigate.logIn" var="logIn" />
 </head>
 <body>
-	<div class="header">
-		<div class="inner_header">
-			<div class="logo_container">
+	<nav>
+		<ul>
+			<li class="logo">
 				<h1>
-					CNC <span>PROGRAMS STORAGE</span>
+					CNC<span>PROGRAMS STORAGE</span>
 				</h1>
-			</div>
-			<ul class="navigation">
+			</li>
+			<div class="navigation">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
 				<li><a href="Controller?commandName=go_to_log_in_page">${logIn}</a></li>
-			</ul>
-			<form id="" role="search" class="search">
-				<input type="search" id="" name="" placeholder="${search_placeholder}"
-					aria-label="Search through site content">
-				<button>${search_button}</button>
-			</form>
-		</div>
-	</div>
+			</div>
+			<li class="search">
+				<form role="search">
+					<input type="search" placeholder="${search_placeholder}"> <label
+						class="icon"> <span class="fa-search"> </span>
+						<button>${search_button}</button>
+					</label>
+				</form>
+			</li>
+		</ul>
+	</nav>
 	<main>
-		<div id="" class="local-buttons">
+		<div class="local-buttons">
 			<form class="" action="Controller" method="post">
 				<input type="hidden" name="commandName" value="change_local" /> <input
 					type="hidden" name="local" value="en" /> <input type="submit"
@@ -69,6 +75,17 @@
 		<p>
 			<c:out value="${message}" default="test using jstl" />
 		</p>
+		<h1>Main</h1>
+		<form action="Controller" method="post"></form>
+		<input type="hidden" name="commandName" value=""
+			placeholder="add programm">
+
+		<p>
+			Program number <input type="text" name="loginPersonnelNumber"
+				required pattern="^\\d{5}+$" />
+		</p>
+
+
 		<div class="main">
 			<!--  	<section id="news">
 				<c:forEach var="news" items="${listNews}" begin="0" end="2">
