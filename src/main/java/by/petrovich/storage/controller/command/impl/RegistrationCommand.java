@@ -27,9 +27,9 @@ public class RegistrationCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         User userFromRegistrForm = buildUser(request);
         try {
-            logger.log(Level.DEBUG, "userFromRegistrForm from UI is get", userFromRegistrForm.toString());
+            logger.log(Level.DEBUG, "user from registr form is received", userFromRegistrForm.toString());
             request.getSession(true).setAttribute("userFromRegistrForm from UI", userFromRegistrForm);
-            userService.registration(userFromRegistrForm);
+            userService.register(userFromRegistrForm);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.LOG_IN);
             requestDispatcher.forward(request, response);
         } catch (ServiceException e) {

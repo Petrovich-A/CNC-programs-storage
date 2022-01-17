@@ -1,22 +1,17 @@
 package by.petrovich.storage.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.petrovich.storage.dao.ColumnName;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.UserDao;
 import by.petrovich.storage.dao.pool.ConnectionPool;
 import by.petrovich.storage.entity.User;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
@@ -72,7 +67,7 @@ public class UserDaoImpl implements UserDao {
     }
 
 	@Override
-	public User findUser(String loginPersonnelNumber) throws DaoException {
+	public User findUser(int loginPersonnelNumber) throws DaoException {
 		User user = new User();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection
@@ -85,7 +80,7 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(6, user.getPosition());
 			preparedStatement.setString(7, user.getEmail());
 			preparedStatement.setTimestamp(8, (Timestamp) user.getDate());
-			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
+			preparedStatement.setInt(9, user.getUserRole().getValue()); // to do
 			logger.log(Level.DEBUG, "user find by loginPersonnelNumber", user, loginPersonnelNumber);
 		} catch (SQLException e) {
 			e.printStackTrace();
