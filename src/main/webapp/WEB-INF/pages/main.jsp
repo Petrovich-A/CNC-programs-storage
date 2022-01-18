@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="refresh" content="5">
+<meta http-equiv="refresh" content="60">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -76,32 +76,27 @@
 			<c:out value="${message}" default="test using jstl" />
 		</p>
 		<h1>Main</h1>
-		<form action="Controller" method="post"></form>
-		<input type="hidden" name="commandName" value=""
-			placeholder="add programm">
+		<div class="program_input">
+			<form action="Controller" method="post"></form>
+			<input type="hidden" name="commandName" value=""
+				placeholder="add programm">
+			<p>number</p>
+			<input type="text" name="number" required pattern="^{3,20}+$" />
+			<p>operationNumber</p>
+			<input type="text" name="operation" required
+				pattern="^\\d{2,7}+$" />
+			<p>fileExtension</p>
+			<input type="text" name="fileExtension" required pattern="^{2,5}+$" />
+			<p>comment</p>
+			<input type="text" name="comment" pattern="^{100}+$" />
+			<p>programText</p>
+			<input type="text" name="programText" placeholder="" required pattern="*" />
+			<textarea rows="2" name="text program" class="form-control" placeholder="program..."></textarea>
+		</div>
 
-		<p>
-			Program number <input type="text" name="loginPersonnelNumber"
-				required pattern="^\\d{5}+$" />
-		</p>
-
-
-		<div class="main">
-			<!--  	<section id="news">
-				<c:forEach var="news" items="${listNews}" begin="0" end="2">
-					<c:url var="readLink" value="/news/read">
-						<c:param name="newsId" value="${news.id}" />
-					</c:url>
-					<h1>
-						<c:out value="${news.title}" />
-					</h1>
-					<h2>
-						<c:out value="${news.brief}" />
-					</h2>
-					<a href="${readLink}">Read</a>
-					<hr>
-				</c:forEach>
-			</section>  -->
+		<div class="previous_program">
+		<h1>name</h1>
+		<h1>detal</h1>
 		</div>
 	</main>
 	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->
