@@ -5,8 +5,8 @@ import java.util.StringJoiner;
 
 public class CncProgram {
     private int id;
+    private String number;
     private String programText;
-    private String name;
     private int operationNumber;
     private String fileExtension;
     private String comment;
@@ -20,7 +20,7 @@ public class CncProgram {
                       String comment, boolean isActive, Date date) {
         this.id = id;
         this.programText = programText;
-        this.name = name;
+        this.number = name;
         this.operationNumber = operationNumber;
         this.fileExtension = fileExtension;
         this.comment = comment;
@@ -45,11 +45,11 @@ public class CncProgram {
     }
 
     public String getName() {
-        return name;
+        return number;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.number = name;
     }
 
     public int getOperationNumber() {
@@ -129,7 +129,7 @@ public class CncProgram {
         return new StringJoiner(", ", CncProgram.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("programText='" + programText + "'")
-                .add("name='" + name + "'")
+                .add("name='" + number + "'")
                 .add("operationNumber=" + operationNumber)
                 .add("fileExtension='" + fileExtension + "'")
                 .add("comment='" + comment + "'")

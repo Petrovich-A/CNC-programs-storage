@@ -11,33 +11,39 @@ import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.UserService;
+import by.petrovich.storage.validator.impl.UserValidator;
 
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LogManager.getLogger();
 	private final DaoProvider daoProvider = DaoProvider.getInstance();
 	private final UserDaoImpl userDaoImpl = daoProvider.getUserDaoImpl();
+	private final UserValidator userValidator = new UserValidator();
 
 	@Override
-	public User authorize(User userFromAuthorizForm) throws ServiceException {
+	public User authorize(User userFromAuthorForm) throws ServiceException {
 		User userFromDao = null;
-		try {
-			userFromDao = userDaoImpl.findUser(userFromAuthorizForm.getLoginPersonnelNumber());
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
-		if (userFromAuthorizForm.getLoginPersonnelNumber() == userFromDao.getLoginPersonnelNumber()
-				&& userFromAuthorizForm.getPassword().equals(userFromDao.getPassword())) {
-			userFromDao.setUserRole(UserRole.USER);
-			logger.log(Level.DEBUG, "user is authorized", userFromDao.toString());
-		}else {
-			
+		if (validate(userFromAuthorForm.getLoginPersonnelNumber(), userFromAuthorForm.getPassword())) {
+			try {
+				userFromDao = userDaoImpl.findUser(userFromAuthorForm.getLoginPersonnelNumber());
+				userFromDao.setUserRole(UserRole.USER);
+				userDaoImpl.update(userFromDao, userFromDao.getId());
+				logger.log(Level.DEBUG, "user is authorized", userFromDao.toString());
+			} catch (DaoException e) {
+				logger.log(Level.ERROR, "login or password don't miss", userFromAuthorForm.toString(),
+						userFromDao.toString());
+				throw new ServiceException(e);
+			}
 		}
 		return userFromDao;
 	}
 
 	@Override
-	public boolean validate(User user) throws ServiceException {
-		return false;
+	public boolean validate(int loginPersonnelNumber, String password) throws ServiceException {
+		if (!userValidator.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber))
+				&& !userValidator.isPasswordValid(password)) {
+			logger.log(Level.ERROR, "");// to do
+		}
+		return true;
 	}
 
 	@Override
@@ -45,7 +51,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			userDaoImpl.create(userFromRegistrForm);
 		} catch (DaoException e) {
-			e.printStackTrace();
+			e.printStackTrace();// to do
 		}
 
 	}
