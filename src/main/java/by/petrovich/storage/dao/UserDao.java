@@ -5,16 +5,16 @@ import by.petrovich.storage.entity.User;
 import java.util.List;
 
 public interface UserDao {
-    List<User> findAll() throws DaoException;
+	List<User> readAll() throws DaoException;
 
-    void create(User user) throws DaoException;
+	void create(User user) throws DaoException;
 
-    User read(int id) throws DaoException;
+	User read(int id) throws DaoException;
 
-    void update(User user, int id) throws DaoException;
+	User find(int loginPersonnelNumber) throws DaoException;
 
-    void delete(User user) throws DaoException;
+	void update(User user, int loginPersonnelNumber) throws DaoException;
 
-    User findUser(int loginPersonnelNumber) throws DaoException;
+	void delete(int id) throws DaoException;
 
 }

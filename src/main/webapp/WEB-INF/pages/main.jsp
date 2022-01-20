@@ -50,8 +50,9 @@
 				<li><a href="Controller?commandName=go_to_log_in_page">${logIn}</a></li>
 			</div>
 			<li class="search">
-				<form role="search">
-					<input type="search" placeholder="${search_placeholder}"> <label
+				<form role="search" action="Controller" method="post">
+					<input type="hidden" name="commandName" value="to do" /> <input
+						type="search" placeholder="${search_placeholder}"> <label
 						class="icon"> <span class="fa-search"> </span>
 						<button>${search_button}</button>
 					</label>
@@ -61,7 +62,7 @@
 	</nav>
 	<main>
 		<div class="local-buttons">
-			<form class="" action="Controller" method="post">
+			<form action="Controller" method="post">
 				<input type="hidden" name="commandName" value="change_local" /> <input
 					type="hidden" name="local" value="en" /> <input type="submit"
 					value="${en_button}" class="" />
@@ -83,20 +84,21 @@
 			<p>number</p>
 			<input type="text" name="number" required pattern="^{3,20}+$" />
 			<p>operationNumber</p>
-			<input type="text" name="operation" required
-				pattern="^\\d{2,7}+$" />
+			<input type="text" name="operation" required pattern="^\\d{2,7}+$" />
 			<p>fileExtension</p>
 			<input type="text" name="fileExtension" required pattern="^{2,5}+$" />
 			<p>comment</p>
 			<input type="text" name="comment" pattern="^{100}+$" />
 			<p>programText</p>
-			<input type="text" name="programText" placeholder="" required pattern="*" />
-			<textarea rows="2" name="text program" class="form-control" placeholder="program..."></textarea>
+			<input type="text" name="programText" placeholder="" required
+				pattern="*" />
+			<textarea rows="2" name="text program" class="form-control"
+				placeholder="program..."></textarea>
 		</div>
 
 		<div class="previous_program">
-		<h1>name</h1>
-		<h1>detal</h1>
+			<h1>name</h1>
+			<h1>detail</h1>
 		</div>
 	</main>
 	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->

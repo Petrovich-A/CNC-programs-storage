@@ -15,7 +15,7 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
-	private final String SQL_FIND_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, "
+	private final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, "
 			+ "employee_patronymic, position, email, create_time, user_role_id FROM users";
 	private final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
 			+ "employee_surname, employee_patronymic, position, email, create_time, users_roles_user_role_id) VALUES(?,?,?,?,?,?,?,?,?)";
@@ -30,10 +30,10 @@ public class UserDaoImpl implements UserDao {
 			+ "employee_surname, employee_patronymic, position, email, create_time, user_role_id FROM users WHERE loginPersonnelNumber = ?";
 
 	@Override
-	public List<User> findAll() throws DaoException {
+	public List<User> readAll() throws DaoException {
 		List<User> allUsers = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL);
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_ALL);
 				ResultSet resultSet = preparedStatement.executeQuery()) {
 			while (resultSet.next()) {
 				allUsers.add(buildUser(resultSet));
@@ -67,7 +67,7 @@ public class UserDaoImpl implements UserDao {
     }
 
 	@Override
-	public User findUser(int loginPersonnelNumber) throws DaoException {
+	public User find(int loginPersonnelNumber) throws DaoException {
 		User user = new User();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection
@@ -133,11 +133,11 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void delete(User user) throws DaoException {
+	public void delete(int id) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
-			preparedStatement.setInt(1, user.getId());
-			logger.log(Level.DEBUG, "user with id {} is deleted", user.getId());
+			preparedStatement.setInt(1, id);
+			logger.log(Level.DEBUG, "user with id: {} is deleted", id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

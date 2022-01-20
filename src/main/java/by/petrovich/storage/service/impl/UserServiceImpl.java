@@ -1,5 +1,7 @@
 package by.petrovich.storage.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,9 +24,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User authorize(User userFromAuthorForm) throws ServiceException {
 		User userFromDao = null;
-		if (validate(userFromAuthorForm.getLoginPersonnelNumber(), userFromAuthorForm.getPassword())) {
+		if (authorizValidate(userFromAuthorForm.getLoginPersonnelNumber(), userFromAuthorForm.getPassword())) {
 			try {
-				userFromDao = userDaoImpl.findUser(userFromAuthorForm.getLoginPersonnelNumber());
+				userFromDao = userDaoImpl.find(userFromAuthorForm.getLoginPersonnelNumber());
 				userFromDao.setUserRole(UserRole.USER);
 				userDaoImpl.update(userFromDao, userFromDao.getId());
 				logger.log(Level.DEBUG, "user is authorized", userFromDao.toString());
@@ -38,21 +40,76 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean validate(int loginPersonnelNumber, String password) throws ServiceException {
+	public void register(User userFromRegistrForm) throws ServiceException {
+		if (registrValidate(userFromRegistrForm)) {
+			try {
+				userDaoImpl.create(userFromRegistrForm);
+			} catch (DaoException e) {
+				logger.log(Level.ERROR, "", userFromRegistrForm, e);
+			}
+		}
+	}
+
+	@Override
+	public boolean authorizValidate(int loginPersonnelNumber, String password) throws ServiceException {
 		if (!userValidator.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber))
 				&& !userValidator.isPasswordValid(password)) {
-			logger.log(Level.ERROR, "");// to do
+			logger.log(Level.ERROR, "login: {} and password: {} is't valid", loginPersonnelNumber, password);// to do
 		}
 		return true;
 	}
 
 	@Override
-	public void register(User userFromRegistrForm) throws ServiceException {
-		try {
-			userDaoImpl.create(userFromRegistrForm);
-		} catch (DaoException e) {
-			e.printStackTrace();// to do
+	public boolean registrValidate(User userFromRegistrForm) throws ServiceException {
+		if (!userValidator.isUserValid(userFromRegistrForm)) {
+			logger.log(Level.ERROR, "user from registration form: {} is't valid", userFromRegistrForm.toString());
 		}
+		return true;
+	}
 
+	@Override
+	public User read(int id) throws ServiceException {
+		User userFromDao = null;
+		try {
+			userFromDao = userDaoImpl.read(id);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "can't find user by id: {}", id, e);
+		}
+		return userFromDao;
+	}
+
+	@Override
+	public void delete(int id) throws ServiceException {
+		try {
+			userDaoImpl.delete(id);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "can't delete user with id: {}", id, e);
+		}
+	}
+
+	@Override
+	public void update(User userFromUpdateForm, int id) throws ServiceException {
+		try {
+			userDaoImpl.update(userFromUpdateForm, id);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "can't update user: {}", userFromUpdateForm, id, e);
+		}
+	}
+
+	@Override
+	public List<User> readAll() throws ServiceException {
+		List<User> allUsers = null;
+		try {
+			allUsers = userDaoImpl.readAll();
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "can't read all users", e);
+		}
+		return allUsers;
+	}
+
+	@Override
+	public User find(int loginPersonnelNumber) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
