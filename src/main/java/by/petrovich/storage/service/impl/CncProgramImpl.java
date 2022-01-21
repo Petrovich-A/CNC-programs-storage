@@ -15,12 +15,6 @@ public class CncProgramImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncProgram find(int loginPersonnelNumber) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<CncProgram> readAll() throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;

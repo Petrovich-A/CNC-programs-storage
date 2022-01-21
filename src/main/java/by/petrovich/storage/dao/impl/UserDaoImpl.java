@@ -23,9 +23,8 @@ public class UserDaoImpl implements UserDao {
 			+ " employee_surname = ?, employee_patronymic = ?, position = ?, email = ?, create_time = ?, users_roles_user_role_id = ?"
 			+ " WHERE user_id = ?";
 	private final String SQL_UPDATE = "UPDATE users SET  WHERE user_id = ?";
-	private final String SQL_READ = "SELECT login_personnel_number, password, employee_name, "
-			+ "employee_surname, employee_patronymic, position, email, create_time, user_role_id FROM users WHERE loginPersonnelNumber = ?";
-	
+	private final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname,"
+			+ " employee_patronymic, position, email, create_time, user_role_id FROM users WHERE login_personnel_number = ?";
 
 	@Override
 	public List<User> readAll() throws DaoException {
@@ -44,32 +43,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-    public void create(User user) throws DaoException {
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
-            preparedStatement.setInt(1, user.getLoginPersonnelNumber());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getEmployeeName());
-            preparedStatement.setString(4, user.getEmployeeSurname());
-            preparedStatement.setString(5, user.getEmployeePatronymic());
-            preparedStatement.setString(6, user.getPosition());
-            preparedStatement.setString(7, user.getEmail());
-            preparedStatement.setTimestamp(8, (Timestamp) user.getDate());
-            preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
-            int rowsInserted = preparedStatement.executeUpdate();
-            System.out.println(rowsInserted);
-            logger.log(Level.DEBUG, "create user have done", user.toString());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-	@Override
-	public User read(int loginPersonnelNumber) throws DaoException {
-		User user = new User();
+	public void create(User user) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection
-						.prepareStatement(SQL_READ);) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
 			preparedStatement.setInt(1, user.getLoginPersonnelNumber());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getEmployeeName());
@@ -78,7 +54,25 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(6, user.getPosition());
 			preparedStatement.setString(7, user.getEmail());
 			preparedStatement.setTimestamp(8, (Timestamp) user.getDate());
-			preparedStatement.setInt(9, user.getUserRole().getValue()); // to do
+			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
+			int rowsInserted = preparedStatement.executeUpdate();
+			System.out.println(rowsInserted);
+			logger.log(Level.DEBUG, "create user have done", user.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public User read(int loginPersonnelNumber) throws DaoException {
+		User user = new User();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ);) {
+			preparedStatement.setInt(1, loginPersonnelNumber);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				user = buildUser(resultSet);
+			}
 			logger.log(Level.DEBUG, "user find by loginPersonnelNumber", user, loginPersonnelNumber);
 		} catch (SQLException e) {
 			e.printStackTrace();

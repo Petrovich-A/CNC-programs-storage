@@ -98,31 +98,47 @@
 
 		<!-- List of programs for pagination -->
 		<section class="">
-			<h2>List of Cnc Programs</h2>
+			<h2>List of user</h2>
 			<c:choose>
-				<c:when
-					test="${cncPrograms.size() == 0 || cncPrograms.size() == null}">
+				<c:when test="${user == null}">
 					<p>
-						<c:out value="No CNC programs are avaliable" />
+						<c:out value="No user are avaliable" />
 					</p>
 					<hr>
 				</c:when>
 				<c:otherwise>
-					<%-- <c:forEach var="" items="${cncPrograms}">
-						<a
-							href="Controller?command=go_to_view_news_page&id=${news.getId()}">
-							<c:out value="${cncPrograms.getName()}" />
-						</a>
-					</c:forEach> --%>
+					<table class="table">
+						<col width="50">
+						<col width="30">
+						<col width="50">
+						<thead>
+							<tr>
+								<th>loginPersonnelNumber</th>
+								<th>employeeName</th>
+								<th>email</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>${user.getLoginPersonnelNumber()}</td>
+								<td>${user.getEmployeeName()}</td>
+								<td>${user.getEmail()}</td>
+							</tr>
+						</tbody>
+					</table>
 				</c:otherwise>
 			</c:choose>
 		</section>
+
+
 		<form action="yourservlet" method="post">
-			<input type="hidden" name="firstrow" value="${firstrow}">
-			<input	type="hidden" name="rowcount" value="${rowcount}"> 
-			<input	type="submit" name="page" value="next"> 
-			<input type="submit" name="page" value="previous">
+			<input type="hidden" name="firstrow" value="${firstrow}"> <input
+				type="hidden" name="rowcount" value="${rowcount}"> <input
+				type="submit" name="page" value="next"> <input type="submit"
+				name="page" value="previous">
 		</form>
+
+
 
 	</main>
 	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->
