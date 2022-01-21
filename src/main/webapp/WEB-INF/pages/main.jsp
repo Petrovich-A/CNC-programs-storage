@@ -96,10 +96,34 @@
 				placeholder="program..."></textarea>
 		</div>
 
-		<div class="previous_program">
-			<h1>name</h1>
-			<h1>detail</h1>
-		</div>
+		<!-- List of programs for pagination -->
+		<section class="">
+			<h2>List of Cnc Programs</h2>
+			<c:choose>
+				<c:when
+					test="${cncPrograms.size() == 0 || cncPrograms.size() == null}">
+					<p>
+						<c:out value="No CNC programs are avaliable" />
+					</p>
+					<hr>
+				</c:when>
+				<c:otherwise>
+					<%-- <c:forEach var="" items="${cncPrograms}">
+						<a
+							href="Controller?command=go_to_view_news_page&id=${news.getId()}">
+							<c:out value="${cncPrograms.getName()}" />
+						</a>
+					</c:forEach> --%>
+				</c:otherwise>
+			</c:choose>
+		</section>
+		<form action="yourservlet" method="post">
+			<input type="hidden" name="firstrow" value="${firstrow}">
+			<input	type="hidden" name="rowcount" value="${rowcount}"> 
+			<input	type="submit" name="page" value="next"> 
+			<input type="submit" name="page" value="previous">
+		</form>
+
 	</main>
 	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->
 	<footer>
