@@ -5,11 +5,9 @@ import java.util.List;
 import by.petrovich.storage.entity.User;
 
 public interface UserService {
-	User read(int id) throws ServiceException;
-
-	User find(int loginPersonnelNumber) throws ServiceException;
-
 	List<User> readAll() throws ServiceException;
+
+	User read(int loginPersonnelNumber) throws ServiceException;
 
 	void delete(int loginPersonnelNumber) throws ServiceException;
 

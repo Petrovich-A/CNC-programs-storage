@@ -1,197 +1,195 @@
 package by.petrovich.storage.entity;
 
 import java.util.Date;
-import java.util.StringJoiner;
+import java.util.Objects;
 
 public class User {
-    private int id;
-    private int loginPersonnelNumber;
-    private String password;
-    private String employeeName;
-    private String employeeSurname;
-    private String employeePatronymic;
-    private String position;
-    private String email;
-    private Date date;
-    private UserRole userRole;
+	private int loginPersonnelNumber;
+	private String password;
+	private String employeeName;
+	private String employeeSurname;
+	private String employeePatronymic;
+	private EmployeePosition employeePosition;
+	private String position;
+	private String email;
+	private Date date;
+	private UserRole userRole;
 
-    public User() {
-    }
+	public User() {
+	}
 
-    public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-                String employeePatronymic, String position, String email, Date date, UserRole userRole) {
-        this.loginPersonnelNumber = loginPersonnelNumber;
-        this.password = password;
-        this.employeeName = employeeName;
-        this.employeeSurname = employeeSurname;
-        this.employeePatronymic = employeePatronymic;
-        this.position = position;
-        this.email = email;
-        this.date = date;
-        this.userRole = userRole;
-    }
+	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
+			String employeePatronymic, EmployeePosition employeePosition, String email, Date date, UserRole userRole) {
+		super();
+		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.password = password;
+		this.employeeName = employeeName;
+		this.employeeSurname = employeeSurname;
+		this.employeePatronymic = employeePatronymic;
+		this.employeePosition = employeePosition;
+		this.email = email;
+		this.date = date;
+		this.userRole = userRole;
+	}
 
-    public User(int id, int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-                String employeePatronymic, String position, String email, Date date, UserRole userRole) {
-        this.id = id;
-        this.loginPersonnelNumber = loginPersonnelNumber;
-        this.password = password;
-        this.employeeName = employeeName;
-        this.employeeSurname = employeeSurname;
-        this.employeePatronymic = employeePatronymic;
-        this.position = position;
-        this.email = email;
-        this.date = date;
-        this.userRole = userRole;
-    }
+	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
+			String employeePatronymic, String position, String email, Date date, UserRole userRole) {
+		super();
+		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.password = password;
+		this.employeeName = employeeName;
+		this.employeeSurname = employeeSurname;
+		this.employeePatronymic = employeePatronymic;
+		this.position = position;
+		this.email = email;
+		this.date = date;
+		this.userRole = userRole;
+	}
 
-    public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname, String employeePatronymic, String position, String email) {
-        this.loginPersonnelNumber = loginPersonnelNumber;
-        this.password = password;
-        this.employeeName = employeeName;
-        this.employeeSurname = employeeSurname;
-        this.employeePatronymic = employeePatronymic;
-        this.position = position;
-        this.email = email;
-    }
+	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
+			String employeePatronymic, String position, String email) {
+		super();
+		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.password = password;
+		this.employeeName = employeeName;
+		this.employeeSurname = employeeSurname;
+		this.employeePatronymic = employeePatronymic;
+		this.position = position;
+		this.email = email;
+	}
 
-    public User(int loginPersonnelNumber, String password) {
-        this.loginPersonnelNumber = loginPersonnelNumber;
-        this.password = password;
-    }
+	public User(int loginPersonnelNumber, String password) {
+		super();
+		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.password = password;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getLoginPersonnelNumber() {
+		return loginPersonnelNumber;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setLoginPersonnelNumber(int loginPersonnelNumber) {
+		this.loginPersonnelNumber = loginPersonnelNumber;
+	}
 
-    public int getLoginPersonnelNumber() {
-        return loginPersonnelNumber;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setLoginPersonnelNumber(int loginPersonnelNumber) {
-        this.loginPersonnelNumber = loginPersonnelNumber;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getEmployeeName() {
+		return employeeName;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
 
-    public String getEmployeeName() {
-        return employeeName;
-    }
+	public String getEmployeeSurname() {
+		return employeeSurname;
+	}
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
+	public void setEmployeeSurname(String employeeSurname) {
+		this.employeeSurname = employeeSurname;
+	}
 
-    public String getEmployeeSurname() {
-        return employeeSurname;
-    }
+	public String getEmployeePatronymic() {
+		return employeePatronymic;
+	}
 
-    public void setEmployeeSurname(String employeeSurname) {
-        this.employeeSurname = employeeSurname;
-    }
+	public void setEmployeePatronymic(String employeePatronymic) {
+		this.employeePatronymic = employeePatronymic;
+	}
 
-    public String getEmployeePatronymic() {
-        return employeePatronymic;
-    }
+	public EmployeePosition getEmployeePosition() {
+		return employeePosition;
+	}
 
-    public void setEmployeePatronymic(String employeePatronymic) {
-        this.employeePatronymic = employeePatronymic;
-    }
+	public void setEmployeePosition(EmployeePosition employeePosition) {
+		this.employeePosition = employeePosition;
+	}
 
-    public String getPosition() {
-        return position;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setPosition(String position) {
-        this.position = position;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-    public Date getDate() {
-        return date;
-    }
+	public UserRole getUserRole() {
+		return userRole;
+	}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
+	}
 
-    public UserRole getUserRole() {
-        return userRole;
-    }
+	public String getPosition() {
+		return position;
+	}
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
-    }
+	public void setPosition(String position) {
+		this.position = position;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public int hashCode() {
+		return Objects.hash(date, email, employeeName, employeePatronymic, employeePosition, employeeSurname,
+				loginPersonnelNumber, password, userRole);
+	}
 
-        User user = (User) o;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(date, other.date) && Objects.equals(email, other.email)
+				&& Objects.equals(employeeName, other.employeeName)
+				&& Objects.equals(employeePatronymic, other.employeePatronymic)
+				&& employeePosition == other.employeePosition && Objects.equals(employeeSurname, other.employeeSurname)
+				&& loginPersonnelNumber == other.loginPersonnelNumber && Objects.equals(password, other.password)
+				&& userRole == other.userRole;
+	}
 
-        if (getId() != user.getId()) return false;
-        if (getLoginPersonnelNumber() != user.getLoginPersonnelNumber()) return false;
-        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
-            return false;
-        if (getEmployeeName() != null ? !getEmployeeName().equals(user.getEmployeeName()) : user.getEmployeeName() != null)
-            return false;
-        if (getEmployeeSurname() != null ? !getEmployeeSurname().equals(user.getEmployeeSurname()) : user.getEmployeeSurname() != null)
-            return false;
-        if (getEmployeePatronymic() != null ? !getEmployeePatronymic().equals(user.getEmployeePatronymic()) : user.getEmployeePatronymic() != null)
-            return false;
-        if (getPosition() != null ? !getPosition().equals(user.getPosition()) : user.getPosition() != null)
-            return false;
-        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) return false;
-        if (getDate() != null ? !getDate().equals(user.getDate()) : user.getDate() != null) return false;
-        return getUserRole() == user.getUserRole();
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [loginPersonnelNumber=");
+		builder.append(loginPersonnelNumber);
+		builder.append(", password=");
+		builder.append(password);
+		builder.append(", employeeName=");
+		builder.append(employeeName);
+		builder.append(", employeeSurname=");
+		builder.append(employeeSurname);
+		builder.append(", employeePatronymic=");
+		builder.append(employeePatronymic);
+		builder.append(", employeePosition=");
+		builder.append(employeePosition);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", date=");
+		builder.append(date);
+		builder.append(", userRole=");
+		builder.append(userRole);
+		builder.append("]");
+		return builder.toString();
+	}
 
-    @Override
-    public int hashCode() {
-        int result = getId();
-        result = 31 * result + getLoginPersonnelNumber();
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
-        result = 31 * result + (getEmployeeName() != null ? getEmployeeName().hashCode() : 0);
-        result = 31 * result + (getEmployeeSurname() != null ? getEmployeeSurname().hashCode() : 0);
-        result = 31 * result + (getEmployeePatronymic() != null ? getEmployeePatronymic().hashCode() : 0);
-        result = 31 * result + (getPosition() != null ? getPosition().hashCode() : 0);
-        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
-        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
-        result = 31 * result + (getUserRole() != null ? getUserRole().hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("loginPersonnelNumber=" + loginPersonnelNumber)
-                .add("password='" + password + "'")
-                .add("employeeName='" + employeeName + "'")
-                .add("employeeSurname='" + employeeSurname + "'")
-                .add("employeePatronymic='" + employeePatronymic + "'")
-                .add("position='" + position + "'")
-                .add("email='" + email + "'")
-                .add("date=" + date)
-                .add("userRole=" + userRole)
-                .toString();
-    }
 }

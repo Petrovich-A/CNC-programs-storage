@@ -26,9 +26,9 @@ public class UserServiceImpl implements UserService {
 		User userFromDao = null;
 		if (authorizValidate(userFromAuthorForm.getLoginPersonnelNumber(), userFromAuthorForm.getPassword())) {
 			try {
-				userFromDao = userDaoImpl.find(userFromAuthorForm.getLoginPersonnelNumber());
+				userFromDao = userDaoImpl.read(userFromAuthorForm.getLoginPersonnelNumber());
 				userFromDao.setUserRole(UserRole.USER);
-				userDaoImpl.update(userFromDao, userFromDao.getId());
+				userDaoImpl.update(userFromDao, userFromDao.getLoginPersonnelNumber());
 				logger.log(Level.DEBUG, "user is authorized", userFromDao.toString());
 			} catch (DaoException e) {
 				logger.log(Level.ERROR, "login or password don't miss", userFromAuthorForm.toString(),
@@ -68,31 +68,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User read(int id) throws ServiceException {
+	public User read(int loginPersonnelNumber) throws ServiceException {
 		User userFromDao = null;
 		try {
-			userFromDao = userDaoImpl.read(id);
+			userFromDao = userDaoImpl.read(loginPersonnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't find user by id: {}", id, e);
+			logger.log(Level.ERROR, "can't find user by loginPersonnelNumber: {}", loginPersonnelNumber, e);
 		}
 		return userFromDao;
 	}
 
 	@Override
-	public void delete(int id) throws ServiceException {
+	public void delete(int loginPersonnelNumber) throws ServiceException {
 		try {
-			userDaoImpl.delete(id);
+			userDaoImpl.delete(loginPersonnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't delete user with id: {}", id, e);
+			logger.log(Level.ERROR, "can't delete user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
 		}
 	}
 
 	@Override
-	public void update(User userFromUpdateForm, int id) throws ServiceException {
+	public void update(User userFromUpdateForm, int loginPersonnelNumber) throws ServiceException {
 		try {
-			userDaoImpl.update(userFromUpdateForm, id);
+			userDaoImpl.update(userFromUpdateForm, loginPersonnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't update user: {}", userFromUpdateForm, id, e);
+			logger.log(Level.ERROR, "can't update user: {}", userFromUpdateForm, loginPersonnelNumber, e);
 		}
 	}
 
@@ -107,9 +107,4 @@ public class UserServiceImpl implements UserService {
 		return allUsers;
 	}
 
-	@Override
-	public User find(int loginPersonnelNumber) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

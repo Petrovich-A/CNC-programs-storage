@@ -9,12 +9,10 @@ public interface UserDao {
 
 	void create(User user) throws DaoException;
 
-	User read(int id) throws DaoException;
-
-	User find(int loginPersonnelNumber) throws DaoException;
+	User read(int loginPersonnelNumber) throws DaoException;
 
 	void update(User user, int loginPersonnelNumber) throws DaoException;
 
-	void delete(int id) throws DaoException;
+	void delete(int loginPersonnelNumber) throws DaoException;
 
 }

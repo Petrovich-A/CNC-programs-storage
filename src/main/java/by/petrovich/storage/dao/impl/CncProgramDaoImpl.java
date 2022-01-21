@@ -138,6 +138,28 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		return cncProgram;
 	}
 
+	@Override
+	public List<CncProgram> findAmountOfRows(int startRow, int amountOfRows) throws DaoException {
+		List<CncProgram> cncPrograms = new ArrayList<>();
+		String SQL_FOUND_ROWS = "SELECT program_id, program_text, program_name, "
+				+ "create_time, operation_number, program_file_extension, comment, "
+				+ "active, detail_id FROM cnc_programs LIMIT "
+				+ startRow + ", " + amountOfRows;
+		ResultSet resultSet;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_FOUND_ROWS)) {
+			resultSet = preparedStatement.executeQuery(SQL_FOUND_ROWS);
+			while (resultSet.next()) {
+				cncPrograms.add(buildCncProgram(resultSet));
+			}
+			resultSet.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cncPrograms;
+	}
+
 	private CncProgram buildCncProgram(ResultSet resultSet) throws SQLException {
 		CncProgram cncProgram = new CncProgram();
 		cncProgram.setId(resultSet.getInt(ColumnName.PROGRAM_ID));

@@ -1,7 +1,9 @@
 package by.petrovich.storage.validator.impl;
 
+import by.petrovich.storage.entity.EmployeePosition;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.validator.UserValidate;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +15,6 @@ public class UserValidator implements UserValidate {
 	private static final String EMPLOYEE_NAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
 	private static final String EMPLOYEE_SURNAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
 	private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
-	private static final String POSITION_PATTERN = "^[\\p{IsAlphabetic}+\\-]{3,20}+$";
 	private static final String EMAIL_PATTERN = "^\\S+@\\S+\\.\\S+$";
 
 	@Override
@@ -72,9 +73,14 @@ public class UserValidator implements UserValidate {
 
 	@Override
 	public boolean isPositionValid(String position) {
-		boolean isValid = position.matches(POSITION_PATTERN);
-		if (!isValid) {
-			logger.log(Level.ERROR, "position is not valid: ", position);
+		boolean isValid = false;
+		for (EmployeePosition employeePosition : EmployeePosition.values()) {
+			if (employeePosition.name().equals(position)) {
+				isValid = true;
+				break;
+			}
+			logger.log(Level.ERROR, "Enum has no position as: ", position);
+			isValid = false;
 		}
 		return isValid;
 	}

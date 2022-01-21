@@ -16,5 +16,7 @@ public interface CncProgramDao {
 	void delete(CncProgram cncProgram) throws DaoException;
 
 	CncProgram find(String name) throws DaoException;
+	
+	List<CncProgram> findAmountOfRows(int startRow, int amountOfRows) throws DaoException;
 
 }
