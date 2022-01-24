@@ -6,6 +6,7 @@ public final class PathToPage {
 	public static final String LOG_IN = "/WEB-INF/pages/logIn.jsp";
 	public static final String ERROR = "/WEB-INF/pages/error.jsp";
 	public static final String AUTHORIZATION = "/WEB-INF/pages/authorization.jsp";
+	public static final String ADMIN = "/WEB-INF/pages/admin.jsp";
 
 	private PathToPage() {
 

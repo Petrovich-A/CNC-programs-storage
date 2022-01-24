@@ -48,6 +48,8 @@
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
 				<li><a href="Controller?commandName=go_to_log_in_page">${logIn}</a></li>
+				<li><a href="Controller?commandName=go_to_admin_page">Admin
+						page</a></li>
 			</div>
 			<li class="search">
 				<form role="search" action="Controller" method="post">
@@ -78,23 +80,31 @@
 		</p>
 		<h1>Main</h1>
 		<div class="program_input">
-			<form action="Controller" method="post"></form>
-			<input type="hidden" name="commandName" value=""
-				placeholder="add programm">
-			<p>number</p>
-			<input type="text" name="number" required pattern="^{3,20}+$" />
-			<p>operationNumber</p>
-			<input type="text" name="operation" required pattern="^\\d{2,7}+$" />
-			<p>fileExtension</p>
-			<input type="text" name="fileExtension" required pattern="^{2,5}+$" />
-			<p>comment</p>
-			<input type="text" name="comment" pattern="^{100}+$" />
-			<p>programText</p>
-			<input type="text" name="programText" placeholder="" required
-				pattern="*" />
-			<textarea rows="2" name="text program" class="form-control"
-				placeholder="program..."></textarea>
+			<form action="Controller" method="post">
+				<input type="hidden" name="commandName" value=""
+					placeholder="add programm">
+				<p>number</p>
+				<input type="text" name="number" required pattern="^{3,20}+$" />
+				<p>operationNumber</p>
+				<input type="text" name="operation" required pattern="^\\d{2,7}+$" />
+				<p>fileExtension</p>
+				<input type="text" name="fileExtension" required pattern="^{2,5}+$" />
+				<p>comment</p>
+				<input type="text" name="comment" pattern="^{100}+$" />
+				<p>programText</p>
+				<input type="text" name="programText" placeholder="" required
+					pattern="*" />
+				<textarea rows="2" name="text program" class="form-control"
+					placeholder="program..."></textarea>
+
+				<div class="button">
+					<input type="hidden" name="commandName" value="" />
+					<button type="submit" class="submit_button">Save</button>
+				</div>
+			</form>
 		</div>
+
+
 
 		<!-- List of programs for pagination -->
 		<section class="">

@@ -14,6 +14,7 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_REGISTRATION_PAGE, new GoToRegistrationPage());
 		commands.put(CommandName.GO_TO_LOG_IN_PAGE, new GoToLogInPage());
 		commands.put(CommandName.GO_TO_ERROR_PAGE, new GoToErrorPage());
+		commands.put(CommandName.GO_TO_ADMIN_PAGE, new GoToAdminPage());
 
 		commands.put(CommandName.SAVE_CNC_PROGRAM, new SaveCncProgram());
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());

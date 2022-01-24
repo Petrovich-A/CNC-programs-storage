@@ -46,7 +46,7 @@
 	<main>
 		<section id="news">
 			<h1>Please fill the registration form</h1>
-			<form action="Controller" method="POST"
+			<form action="Controller" method="post"
 				onsubmit="return matchPassword()">
 				<h3>
 					Personnel number <input type="text" id="loginPersonnelNumber"

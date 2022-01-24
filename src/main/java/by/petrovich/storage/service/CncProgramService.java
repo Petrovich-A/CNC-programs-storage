@@ -5,9 +5,13 @@ import java.util.List;
 import by.petrovich.storage.entity.CncProgram;
 
 public interface CncProgramService {
+	CncProgram create(CncProgram cncProgram) throws ServiceException;
+
 	CncProgram read(int id) throws ServiceException;
 
 	List<CncProgram> readAll() throws ServiceException;
+
+	List<CncProgram> findAmountOfRows(int startRow, int amountOfRows) throws ServiceException;
 
 	void delete(int loginPersonnelNumber) throws ServiceException;
 
