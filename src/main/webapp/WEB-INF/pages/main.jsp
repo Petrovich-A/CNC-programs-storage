@@ -81,30 +81,25 @@
 		<h1>Main</h1>
 		<div class="program_input">
 			<form action="Controller" method="post">
-				<input type="hidden" name="commandName" value=""
-					placeholder="add programm">
 				<p>number</p>
 				<input type="text" name="number" required pattern="^{3,20}+$" />
 				<p>operationNumber</p>
-				<input type="text" name="operation" required pattern="^\\d{2,7}+$" />
+				<input type="text" name="operationNumber" required
+					pattern="^\\d{2,7}+$" />
 				<p>fileExtension</p>
 				<input type="text" name="fileExtension" required pattern="^{2,5}+$" />
 				<p>comment</p>
 				<input type="text" name="comment" pattern="^{100}+$" />
 				<p>programText</p>
-				<input type="text" name="programText" placeholder="" required
-					pattern="*" />
-				<textarea rows="2" name="text program" class="form-control"
-					placeholder="program..."></textarea>
-
+				<textarea rows="10" name="programText" class="form-control"
+					placeholder="program text..."></textarea>
 				<div class="button">
-					<input type="hidden" name="commandName" value="" />
+					<input type="hidden" name="commandName" value="cnc_program_save" />
 					<button type="submit" class="submit_button">Save</button>
+					<button type="reset" value="Reset">Reset</button>
 				</div>
 			</form>
 		</div>
-
-
 
 		<!-- List of programs for pagination -->
 		<section class="">
@@ -147,8 +142,6 @@
 				type="submit" name="page" value="next"> <input type="submit"
 				name="page" value="previous">
 		</form>
-
-
 
 	</main>
 	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->

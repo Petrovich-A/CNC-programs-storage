@@ -7,7 +7,7 @@ import java.util.List;
 public interface CncProgramDao {
 	List<CncProgram> findAll() throws DaoException;
 
-	void create(CncProgram cncProgram) throws DaoException;
+	void create(CncProgram cncProgramFromMainForm) throws DaoException;
 
 	CncProgram read(int id) throws DaoException;
 

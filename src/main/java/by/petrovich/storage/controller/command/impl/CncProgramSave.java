@@ -3,6 +3,7 @@ package by.petrovich.storage.controller.command.impl;
 import java.io.IOException;
 import java.sql.Timestamp;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class SaveCncProgram implements Command {
+public class CncProgramSave implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
@@ -26,26 +27,32 @@ public class SaveCncProgram implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		CncProgram cncProgramFromMainForm = buildProgram(request);
 		try {
+			logger.log(Level.DEBUG, "Cnc program from main form is received", cncProgramFromMainForm.toString());
 			cncProgramService.create(cncProgramFromMainForm);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.MAIN);
 			requestDispatcher.forward(request, response);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			logger.log(Level.ERROR, e.getLocalizedMessage());
+			e.printStackTrace();
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-
 	}
 
 	private CncProgram buildProgram(HttpServletRequest request) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		CncProgram cncProgram = new CncProgram();
 		cncProgram.setName(getParameterToCheck("number", request));
-		cncProgram.setProgramText(getParameterToCheck("programText", request));
 		cncProgram.setOperationNumber(Integer.parseInt(getParameterToCheck("operationNumber", request)));
 		cncProgram.setFileExtension(getParameterToCheck("fileExtension", request));
+		cncProgram.setProgramText(getParameterToCheck("programText", request));
 		cncProgram.setComment(getParameterToCheck("comment", request));
 		cncProgram.setActive(true);
+		cncProgram.setDate(timestamp);
 		return cncProgram;
 	}
 

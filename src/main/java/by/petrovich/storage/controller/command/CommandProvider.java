@@ -16,7 +16,7 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_ERROR_PAGE, new GoToErrorPage());
 		commands.put(CommandName.GO_TO_ADMIN_PAGE, new GoToAdminPage());
 
-		commands.put(CommandName.SAVE_CNC_PROGRAM, new SaveCncProgram());
+		commands.put(CommandName.CNC_PROGRAM_SAVE, new CncProgramSave());
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
 		commands.put(CommandName.AUTHORIZATION, new AuthorizationCommand());
 		commands.put(CommandName.CHANGE_LOCAL, new ChangeLocalCommand());

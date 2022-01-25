@@ -73,10 +73,10 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public void create(CncProgram cncProgram) throws ServiceException {
+	public void create(CncProgram cncProgramFromMainForm) throws ServiceException {
 		// TODO validate
 		try {
-			cncProgramDao.create(cncProgram);
+			cncProgramDao.create(cncProgramFromMainForm);
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
