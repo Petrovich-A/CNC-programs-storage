@@ -104,11 +104,11 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public void delete(CncProgram cncProgram) throws DaoException {
+	public void delete(int id) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
-			preparedStatement.setInt(1, cncProgram.getId());
-			logger.log(Level.DEBUG, "cnc program with id {} is deleted", cncProgram.getId());
+			preparedStatement.setInt(1, id);
+			logger.log(Level.DEBUG, "cnc program with id {} is deleted", id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -143,8 +143,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		List<CncProgram> cncPrograms = new ArrayList<>();
 		String sqlQueryBuild = "SELECT program_id, program_text, program_name, "
 				+ "create_time, operation_number, program_file_extension, comment, "
-				+ "active, detail_id FROM cnc_programs LIMIT "
-				+ startRow + ", " + amountOfRows;
+				+ "active, detail_id FROM cnc_programs LIMIT " + startRow + ", " + amountOfRows;
 		ResultSet resultSet;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlQueryBuild)) {

@@ -13,7 +13,7 @@ public interface CncProgramDao {
 
 	void update(CncProgram cncProgram, int id) throws DaoException;
 
-	void delete(CncProgram cncProgram) throws DaoException;
+	void delete(int id) throws DaoException;
 
 	CncProgram find(String name) throws DaoException;
 	

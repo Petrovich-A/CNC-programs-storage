@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.DaoProvider;
-import by.petrovich.storage.dao.impl.UserDaoImpl;
+import by.petrovich.storage.dao.UserDao;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
@@ -18,7 +18,7 @@ import by.petrovich.storage.validator.impl.UserValidator;
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LogManager.getLogger();
 	private final DaoProvider daoProvider = DaoProvider.getInstance();
-	private final UserDaoImpl userDaoImpl = daoProvider.getUserDaoImpl();
+	private final UserDao userDao = daoProvider.getUserDao();
 	private final UserValidator userValidator = new UserValidator();
 
 	@Override
@@ -26,9 +26,9 @@ public class UserServiceImpl implements UserService {
 		User userFromDao = null;
 		if (authorizValidate(userFromAuthorForm.getLoginPersonnelNumber(), userFromAuthorForm.getPassword())) {
 			try {
-				userFromDao = userDaoImpl.read(userFromAuthorForm.getLoginPersonnelNumber());
+				userFromDao = userDao.read(userFromAuthorForm.getLoginPersonnelNumber());
 				userFromDao.setUserRole(UserRole.USER);
-				userDaoImpl.update(userFromDao, userFromDao.getLoginPersonnelNumber());
+				userDao.update(userFromDao, userFromDao.getLoginPersonnelNumber());
 				logger.log(Level.DEBUG, "user is authorized", userFromDao.toString());
 			} catch (DaoException e) {
 				logger.log(Level.ERROR, "login or password don't miss", userFromAuthorForm.toString(),
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	public void register(User userFromRegistrForm) throws ServiceException {
 		if (registrValidate(userFromRegistrForm)) {
 			try {
-				userDaoImpl.create(userFromRegistrForm);
+				userDao.create(userFromRegistrForm);
 			} catch (DaoException e) {
 				logger.log(Level.ERROR, "", userFromRegistrForm, e);
 			}
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	public User read(int loginPersonnelNumber) throws ServiceException {
 		User userFromDao = null;
 		try {
-			userFromDao = userDaoImpl.read(loginPersonnelNumber);
+			userFromDao = userDao.read(loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't find user by loginPersonnelNumber: {}", loginPersonnelNumber, e);
 		}
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void delete(int loginPersonnelNumber) throws ServiceException {
 		try {
-			userDaoImpl.delete(loginPersonnelNumber);
+			userDao.delete(loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't delete user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
 		}
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(User userFromUpdateForm, int loginPersonnelNumber) throws ServiceException {
 		try {
-			userDaoImpl.update(userFromUpdateForm, loginPersonnelNumber);
+			userDao.update(userFromUpdateForm, loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't update user: {}", userFromUpdateForm, loginPersonnelNumber, e);
 		}
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 	public List<User> readAll() throws ServiceException {
 		List<User> allUsers = null;
 		try {
-			allUsers = userDaoImpl.readAll();
+			allUsers = userDao.readAll();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't read all users", e);
 		}
