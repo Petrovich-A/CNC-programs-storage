@@ -3,6 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="customtags" prefix="ctg"%>
+<%@ page import="by.petrovich.storage.entity.User"%>
+<%@ page import="by.petrovich.storage.entity.CncProgram"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <head>
