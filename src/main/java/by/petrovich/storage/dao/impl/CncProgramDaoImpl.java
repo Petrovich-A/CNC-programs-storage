@@ -169,7 +169,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		cncProgram.setComment(resultSet.getString(ColumnName.COMMENT));
 		cncProgram.setActive(resultSet.getBoolean(ColumnName.ACTIVE));
 		cncProgram.setDate(new java.util.Date());
-		logger.log(Level.DEBUG, "cnc program build successfully", cncProgram.toString());
+		logger.log(Level.DEBUG, "cnc program build successfully, cncProgram: {}", cncProgram.toString());
 		return cncProgram;
 	}
 

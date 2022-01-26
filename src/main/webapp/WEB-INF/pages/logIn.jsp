@@ -27,7 +27,8 @@
 	</div>
 	<main>
 		<section id="news">
-			<h1>Please registr</h1>
+			<h1>Log in page</h1>
+			<h2>${message}</h2>
 			<form action="Controller" method="POST">
 				<p>
 					Personnel number <input type="text" name="loginPersonnelNumber"

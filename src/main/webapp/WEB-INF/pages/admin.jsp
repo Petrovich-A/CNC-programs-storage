@@ -102,15 +102,15 @@
 								<tr />
 							</thead>
 							<tbody>
-								<c:forEach var="user" items="${cn}">
+								<c:forEach var="cncProgram" items="${cn}">
 									<tr>
 										<td><input class="" type="radio"
 											name="id" required="required"
 											value="${user.getId()}"></td>
-										<td>${user.getOperationNumber()}</td>
-										<td>${user.getFileExtension()}</td>
-										<td>${user.isActive()}</td>
-										<td>${user.getDate()}</td>
+										<td>${cncProgram.getOperationNumber()}</td>
+										<td>${cncProgram.getFileExtension()}</td>
+										<td>${cncProgram.isActive()}</td>
+										<td>${cncProgram.getDate()}</td>
 									</tr>
 								</c:forEach>
 							</tbody>

@@ -17,6 +17,6 @@ public interface CncProgramService {
 
 	void update(CncProgram ñncProgram, int id) throws ServiceException;
 
-	boolean validate(CncProgram cncProgram) throws ServiceException;
+	boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException;
 
 }

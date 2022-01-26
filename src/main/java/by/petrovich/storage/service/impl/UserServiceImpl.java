@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void register(User userFromRegistrForm) throws ServiceException {
-		if (registrValidate(userFromRegistrForm)) {
+		if (userValidate(userFromRegistrForm)) {
 			try {
 				userDao.create(userFromRegistrForm);
 			} catch (DaoException e) {
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean registrValidate(User userFromRegistrForm) throws ServiceException {
+	public boolean userValidate(User userFromRegistrForm) throws ServiceException {
 		if (!userValidator.isUserValid(userFromRegistrForm)) {
 			logger.log(Level.ERROR, "user from registration form: {} is't valid", userFromRegistrForm.toString());
 		}

@@ -7,6 +7,7 @@ public final class PathToPage {
 	public static final String ERROR = "/WEB-INF/pages/error.jsp";
 	public static final String AUTHORIZATION = "/WEB-INF/pages/authorization.jsp";
 	public static final String ADMIN = "/WEB-INF/pages/admin.jsp";
+	public static final String USER_INFO = "/WEB-INF/pages/userInfo.jsp";
 
 	private PathToPage() {
 

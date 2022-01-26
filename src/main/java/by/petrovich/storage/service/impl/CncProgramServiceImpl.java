@@ -12,12 +12,13 @@ import by.petrovich.storage.dao.DaoProvider;
 import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
+import by.petrovich.storage.validator.impl.CncProgramValidator;
 
 public class CncProgramServiceImpl implements CncProgramService {
 	private static final Logger logger = LogManager.getLogger();
 	private final DaoProvider daoProvider = DaoProvider.getInstance();
 	private final CncProgramDao cncProgramDao = daoProvider.getCncProgramDao();
-//	to do validator
+	private final CncProgramValidator cncProgramValidator = new CncProgramValidator();
 
 	@Override
 	public CncProgram read(int id) throws ServiceException {
@@ -55,14 +56,16 @@ public class CncProgramServiceImpl implements CncProgramService {
 		try {
 			cncProgramDao.update(ñncProgram, id);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't update CNC program with id: {}, where" 
-					+ " CNC program: {}", cncProgramDao, id, e);
+			logger.log(Level.ERROR, "can't update CNC program with id: {}, where" + " CNC program: {}", cncProgramDao,
+					id, e);
 		}
 	}
 
 	@Override
-	public boolean validate(CncProgram cncProgram) throws ServiceException {
-		// TODO Auto-generated method stub
+	public boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException {
+		if (!cncProgramValidator.isCncProgramValid(cncProgram)) {
+			logger.log(Level.ERROR, "CNC program from main form isn't valid. cncProgram: {} ", cncProgram.toString());
+		}
 		return false;
 	}
 
