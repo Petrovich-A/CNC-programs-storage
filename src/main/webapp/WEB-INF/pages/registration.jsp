@@ -82,8 +82,9 @@
 				<p>cyrillic symbols(А-я)</p>
 				<h3>position</h3>
 				<select name="employeePosition" required>
-					<option value="ENGINEERING_TECHNICIAN" selected>engineering-technician</option>
-					<option value="CNC_PROGRAMMER">cnc-programmer</option>
+					<option value="engineeringTechnologist" selected>engineering
+						technologist</option>
+					<option value="cncProgrammer">CNC programmer</option>
 				</select>
 				<h3>
 					email <input type="email" name="email" required

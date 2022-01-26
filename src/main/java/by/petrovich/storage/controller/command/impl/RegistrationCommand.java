@@ -52,7 +52,7 @@ public class RegistrationCommand implements Command {
         user.setEmployeeName(getParameterToCheck("employeeName", request));
         user.setEmployeeSurname(getParameterToCheck("employeeSurname", request));
         user.setEmployeePatronymic(getParameterToCheck("employeePatronymic", request));
-        user.setPosition(getParameterToCheck("position", request));
+        user.setPosition(getParameterToCheck("employeePosition", request));
         user.setEmail(getParameterToCheck("email", request));
         user.setDate(timestamp);
         user.setUserRole(UserRole.USER);
