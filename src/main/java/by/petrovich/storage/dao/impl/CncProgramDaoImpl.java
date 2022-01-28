@@ -15,17 +15,17 @@ import java.util.List;
 
 public class CncProgramDaoImpl implements CncProgramDao {
 	private static final Logger logger = LogManager.getLogger();
-	private final String SQL_FIND_ALL = "SELECT program_id, program_text, program_name, create_time, operation_number,"
+	private static final String SQL_FIND_ALL = "SELECT program_id, program_text, program_name, create_time, operation_number,"
 			+ " program_file_extension, comment, active, detail_id FROM cnc_programs";
-	private final String SQL_CREATE = "INSERT INTO cnc_programs(program_id, program_text, program_name, create_time,"
+	private static final String SQL_CREATE = "INSERT INTO cnc_programs(program_id, program_text, program_name, create_time,"
 			+ " operation_number, program_file_extension, comment, active, detail_id) VALUES(?,?,?,?,?,?,?,?,?)";
-	private final String SQL_READ = "SELECT program_id, program_text, program_name, create_time, operation_number, "
+	private static final String SQL_READ = "SELECT program_id, program_text, program_name, create_time, operation_number, "
 			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE program_id";
-	private final String SQL_UPDATE = "UPDATE cnc_programs SET program_id, program_text, program_name, create_time, "
+	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_id, program_text, program_name, create_time, "
 			+ "operation_number, program_file_extension, comment, active, detail_id WHERE program_id = ?";
-	private final String SQL_DELETE = "DELETE FROM  program_id, program_text, program_name, create_time, operation_number, "
+	private static final String SQL_DELETE = "DELETE FROM  program_id, program_text, program_name, create_time, operation_number, "
 			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE program_id";
-	private final String SQL_FIND_BY_NAME = "SELECT program_id, program_text, program_name, create_time, operation_number, "
+	private static final String SQL_FIND_BY_NAME = "SELECT program_id, program_text, program_name, create_time, operation_number, "
 			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE name";
 
 	@Override
@@ -39,6 +39,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException();
 		}
 		return allCncPrograms;
 	}
@@ -58,6 +59,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			logger.log(Level.DEBUG, "create cnc program have done sucesfull", cncProgram.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException();
 		}
 	}
 
@@ -81,6 +83,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException();
 		}
 		return cncProgram;
 	}
@@ -100,6 +103,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			logger.log(Level.DEBUG, "cnc program is updated", cncProgram.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException();
 		}
 	}
 
@@ -111,6 +115,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			logger.log(Level.DEBUG, "cnc program with id {} is deleted", id);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException();
 		}
 	}
 
@@ -134,6 +139,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException();
 		}
 		return cncProgram;
 	}
@@ -155,6 +161,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DaoException();
 		}
 		return cncPrograms;
 	}

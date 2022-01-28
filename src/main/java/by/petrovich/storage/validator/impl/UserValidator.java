@@ -17,6 +17,19 @@ public class UserValidator implements UserValidate {
 	private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
 	private static final String EMAIL_PATTERN = "^\\S+@\\S+\\.\\S+$";
 
+	private static UserValidator instance;
+
+	private UserValidator() {
+
+	}
+
+	public static UserValidator getInstance() {
+		if (instance == null) {
+			instance = new UserValidator();
+		}
+		return instance;
+	}
+
 	@Override
 	public boolean isUserValid(User user) {
 		return isLoginPersonnelNumberValid(String.valueOf(user.getLoginPersonnelNumber()))

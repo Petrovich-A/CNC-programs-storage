@@ -15,6 +15,19 @@ public class CncProgramValidator implements CncProgramValidate {
 	private static final String FILE_EXTENSION_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{5,12}+$";
 	private static final String COMMENT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{5,12}+$";
 
+	private static CncProgramValidator instance;
+
+	private CncProgramValidator() {
+
+	}
+
+	public static CncProgramValidator getInstance() {
+		if (instance == null) {
+			instance = new CncProgramValidator();
+		}
+		return instance;
+	}
+
 	@Override
 	public boolean isCncProgramValid(CncProgram cncProgram) {
 		return isNumber(cncProgram.getName()) && isProgramText(cncProgram.getProgramText())

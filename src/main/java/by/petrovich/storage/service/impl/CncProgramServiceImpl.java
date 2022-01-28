@@ -12,13 +12,13 @@ import by.petrovich.storage.dao.DaoProvider;
 import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
+import by.petrovich.storage.validator.CncProgramValidate;
 import by.petrovich.storage.validator.impl.CncProgramValidator;
 
 public class CncProgramServiceImpl implements CncProgramService {
 	private static final Logger logger = LogManager.getLogger();
 	private final DaoProvider daoProvider = DaoProvider.getInstance();
 	private final CncProgramDao cncProgramDao = daoProvider.getCncProgramDao();
-	private final CncProgramValidator cncProgramValidator = new CncProgramValidator();
 
 	@Override
 	public CncProgram read(int id) throws ServiceException {
@@ -27,6 +27,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 			cncProgramFromDao = cncProgramDao.read(id);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't find CNC program in BD by id: {}", id, e);
+			throw new ServiceException(e);
 		}
 		return cncProgramFromDao;
 	}
@@ -38,6 +39,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 			allCncPrograms = cncProgramDao.findAll();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't find all CNC programs in BD", e);
+			throw new ServiceException(e);
 		}
 		return allCncPrograms;
 	}
@@ -48,6 +50,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 			cncProgramDao.delete(id);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't delete CNC program with id: {}", id, e);
+			throw new ServiceException(e);
 		}
 	}
 
@@ -58,11 +61,13 @@ public class CncProgramServiceImpl implements CncProgramService {
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't update CNC program with id: {}, where" + " CNC program: {}", cncProgramDao,
 					id, e);
+			throw new ServiceException(e);
 		}
 	}
 
 	@Override
 	public boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException {
+		CncProgramValidator cncProgramValidator = CncProgramValidator.getInstance();
 		if (!cncProgramValidator.isCncProgramValid(cncProgram)) {
 			logger.log(Level.ERROR, "CNC program from main form isn't valid. cncProgram: {} ", cncProgram.toString());
 		}
@@ -83,6 +88,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new ServiceException(e);
 		}
 	}
 

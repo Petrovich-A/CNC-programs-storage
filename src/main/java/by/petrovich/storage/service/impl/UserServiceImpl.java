@@ -13,13 +13,13 @@ import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.UserService;
+import by.petrovich.storage.validator.UserValidate;
 import by.petrovich.storage.validator.impl.UserValidator;
 
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LogManager.getLogger();
 	private final DaoProvider daoProvider = DaoProvider.getInstance();
 	private final UserDao userDao = daoProvider.getUserDao();
-	private final UserValidator userValidator = new UserValidator();
 
 	@Override
 	public User authorize(User userFromAuthorForm) throws ServiceException {
@@ -46,12 +46,14 @@ public class UserServiceImpl implements UserService {
 				userDao.create(userFromRegistrForm);
 			} catch (DaoException e) {
 				logger.log(Level.ERROR, "", userFromRegistrForm, e);
+				throw new ServiceException(e);
 			}
 		}
 	}
 
 	@Override
 	public boolean authorizValidate(int loginPersonnelNumber, String password) throws ServiceException {
+		UserValidator userValidator = UserValidator.getInstance();
 		if (!userValidator.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber))
 				&& !userValidator.isPasswordValid(password)) {
 			logger.log(Level.ERROR, "login: {} and password: {} is't valid", loginPersonnelNumber, password);// to do
@@ -61,6 +63,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean userValidate(User userFromRegistrForm) throws ServiceException {
+		UserValidator userValidator = UserValidator.getInstance();
 		if (!userValidator.isUserValid(userFromRegistrForm)) {
 			logger.log(Level.ERROR, "user from registration form: {} is't valid", userFromRegistrForm.toString());
 		}
@@ -74,6 +77,7 @@ public class UserServiceImpl implements UserService {
 			userFromDao = userDao.read(loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't find user by loginPersonnelNumber: {}", loginPersonnelNumber, e);
+			throw new ServiceException(e);
 		}
 		return userFromDao;
 	}
@@ -84,6 +88,7 @@ public class UserServiceImpl implements UserService {
 			userDao.delete(loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't delete user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
+			throw new ServiceException(e);
 		}
 	}
 
@@ -93,6 +98,7 @@ public class UserServiceImpl implements UserService {
 			userDao.update(userFromUpdateForm, loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't update user: {}", userFromUpdateForm, loginPersonnelNumber, e);
+			throw new ServiceException(e);
 		}
 	}
 
@@ -103,6 +109,7 @@ public class UserServiceImpl implements UserService {
 			allUsers = userDao.readAll();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't read all users", e);
+			throw new ServiceException(e);
 		}
 		return allUsers;
 	}
