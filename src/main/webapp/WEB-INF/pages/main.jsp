@@ -83,7 +83,7 @@
 			<c:out value="${message}" default="test using jstl" />
 		</p>
 		<h1>Main</h1>
-		<div class="program_input">
+		<div class="programInput">
 			<form action="Controller" method="post">
 				<p>number</p>
 				<input type="text" name="number" required pattern="^{3,20}+$" />
@@ -106,7 +106,7 @@
 		</div>
 
 		<!-- List of programs for pagination -->
-		<section class="">
+		<section class="listUsers">
 			<h2>List of user</h2>
 			<c:choose>
 				<c:when test="${user == null}">
@@ -116,36 +116,36 @@
 					<hr>
 				</c:when>
 				<c:otherwise>
-					<table class="table">
-						<col width="50">
-						<col width="30">
-						<col width="50">
-						<thead>
-							<tr>
-								<th>loginPersonnelNumber</th>
-								<th>employeeName</th>
-								<th>email</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>${user.getLoginPersonnelNumber()}</td>
-								<td>${user.getEmployeeName()}</td>
-								<td>${user.getEmail()}</td>
-							</tr>
-						</tbody>
-					</table>
+					<c:forEach var="user" items="${allUsers}">
+						<table class="table">
+							<col width="50">
+							<col width="30">
+							<col width="50">
+							<thead>
+								<tr>
+									<th>loginPersonnelNumber</th>
+									<th>employeeName</th>
+									<th>email</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>${user.getLoginPersonnelNumber()}</td>
+									<td>${user.getEmployeeName()}</td>
+									<td>${user.getEmail()}</td>
+								</tr>
+							</tbody>
+						</table>
+					</c:forEach>
+					<form action="yourservlet" method="post">
+						<input type="hidden" name="firstrow" value="${firstrow}">
+						<input type="hidden" name="rowcount" value="${rowcount}">
+						<input type="submit" name="page" value="next"> <input
+							type="submit" name="page" value="previous">
+					</form>
 				</c:otherwise>
 			</c:choose>
 		</section>
-
-
-		<form action="yourservlet" method="post">
-			<input type="hidden" name="firstrow" value="${firstrow}"> <input
-				type="hidden" name="rowcount" value="${rowcount}"> <input
-				type="submit" name="page" value="next"> <input type="submit"
-				name="page" value="previous">
-		</form>
 
 	</main>
 	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->

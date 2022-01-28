@@ -152,6 +152,18 @@ section a {
 	font-size: 1.8em;
 }
 
+main {
+	display: flex;
+}
+
+div.programInput {
+	width: 67%;
+}
+
+div.listUsers {
+	width: 33%;
+}
+
 .footer {
 	width: 100%;
 	height: 40px;
