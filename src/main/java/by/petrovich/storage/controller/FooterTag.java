@@ -1,4 +1,4 @@
-package by.petrovich.storage.view;
+package by.petrovich.storage.controller;
 
 import jakarta.servlet.jsp.JspException;
 import jakarta.servlet.jsp.JspTagException;
