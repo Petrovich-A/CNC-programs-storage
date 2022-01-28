@@ -1,4 +1,4 @@
-package by.petrovich.storage.reader;
+package by.petrovich.storage.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

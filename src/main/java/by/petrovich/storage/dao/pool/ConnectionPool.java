@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.petrovich.storage.reader.PropertyLoader;
+import by.petrovich.storage.util.PropertyLoader;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -15,15 +15,15 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
-	private final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, "
+	private static final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, "
 			+ "employee_patronymic, position, email, create_time, user_role_id FROM users";
-	private final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
+	private static final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
 			+ "employee_surname, employee_patronymic, position, email, create_time, users_roles_user_role_id) VALUES(?,?,?,?,?,?,?,?,?)";
-	private final String SQL_DELETE = "DELETE FROM users login_personnel_number = ?, password = ?, employee_name = ?,"
+	private static final String SQL_DELETE = "DELETE FROM users login_personnel_number = ?, password = ?, employee_name = ?,"
 			+ " employee_surname = ?, employee_patronymic = ?, position = ?, email = ?, create_time = ?, users_roles_user_role_id = ?"
 			+ " WHERE user_id = ?";
-	private final String SQL_UPDATE = "UPDATE users SET  WHERE user_id = ?";
-	private final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname,"
+	private static final String SQL_UPDATE = "UPDATE users SET  WHERE user_id = ?";
+	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname,"
 			+ " employee_patronymic, position, email, create_time, user_role_id FROM users WHERE login_personnel_number = ?";
 
 	@Override
@@ -56,7 +56,6 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setTimestamp(8, (Timestamp) user.getDate());
 			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
 			int rowsInserted = preparedStatement.executeUpdate();
-			System.out.println(rowsInserted);
 			logger.log(Level.DEBUG, "create user have done", user.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
