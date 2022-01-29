@@ -9,7 +9,7 @@
 	<uri>customtags</uri>
 	<tag>
 		<name>footer</name>
-		<tag-class>by.petrovich.storage.view.FooterTag</tag-class>
+		<tag-class>by.petrovich.storage.controller.FooterTag</tag-class>
 		<body-content>empty</body-content>
 	</tag>
 </taglib>
