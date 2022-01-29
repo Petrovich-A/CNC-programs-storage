@@ -12,7 +12,7 @@ public class UserValidatorTest {
                 "Рудольфович", "инженер-технолог","ivanov@mail.ru");
         User userActual1 = new User(12345, "кпоулр!уаkh534", "John", "Smith",
                 "Smitovich", "начальник", "america@usa.com");
-        UserValidator userValidator = new UserValidator();
+        UserValidator userValidator = UserValidator.getInstance();
         boolean actual = userValidator.isUserValid(userActual);
         boolean actual1 = userValidator.isUserValid(userActual);
         Assert.assertTrue("test", actual);

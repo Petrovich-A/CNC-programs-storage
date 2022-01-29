@@ -13,7 +13,6 @@ import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.UserService;
-import by.petrovich.storage.validator.UserValidate;
 import by.petrovich.storage.validator.impl.UserValidator;
 
 public class UserServiceImpl implements UserService {
