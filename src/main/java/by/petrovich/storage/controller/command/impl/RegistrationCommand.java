@@ -1,5 +1,12 @@
 package by.petrovich.storage.controller.command.impl;
 
+import java.io.IOException;
+import java.sql.Timestamp;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.entity.User;
@@ -12,15 +19,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.mysql.cj.Session;
-
-import java.io.IOException;
-import java.sql.Timestamp;
 
 public class RegistrationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
@@ -35,6 +33,7 @@ public class RegistrationCommand implements Command {
 		HttpSession session = request.getSession(true);
 		try {
 			logger.log(Level.DEBUG, "user from registr form is received", userFromRegistrForm.toString());
+			userFromRegistrForm.setUserRole(UserRole.USER);
 			request.getSession(true).setAttribute("userFromRegistrForm from UI", userFromRegistrForm);
 			userService.register(userFromRegistrForm);
 			session.setAttribute("message", SUCCESSFUL_REGISTRATION);
@@ -64,8 +63,7 @@ public class RegistrationCommand implements Command {
 		user.setEmployeePatronymic(getParameterToCheck("employeePatronymic", request));
 		user.setPosition(getParameterToCheck("employeePosition", request));
 		user.setEmail(getParameterToCheck("email", request));
-		user.setDate(timestamp);
-		user.setUserRole(UserRole.USER);
+		user.setTimestamp(timestamp);
 		return user;
 	}
 
