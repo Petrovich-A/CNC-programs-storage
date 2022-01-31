@@ -12,7 +12,6 @@ import by.petrovich.storage.dao.DaoProvider;
 import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
-import by.petrovich.storage.validator.CncProgramValidate;
 import by.petrovich.storage.validator.impl.CncProgramValidator;
 
 public class CncProgramServiceImpl implements CncProgramService {
