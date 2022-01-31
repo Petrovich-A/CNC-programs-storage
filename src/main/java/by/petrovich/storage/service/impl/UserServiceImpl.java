@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User authorize(User userFromAuthorForm) throws ServiceException {
 		User userFromDao = null;
-		if (authorizValidate(userFromAuthorForm.getLoginPersonnelNumber(), userFromAuthorForm.getPassword())) {
+		if (loginPasswordValidate(userFromAuthorForm.getLoginPersonnelNumber(), userFromAuthorForm.getPassword())) {
 			try {
 				userFromDao = userDao.read(userFromAuthorForm.getLoginPersonnelNumber());
 				userFromDao.setUserRole(UserRole.USER);
@@ -42,16 +42,23 @@ public class UserServiceImpl implements UserService {
 	public void register(User userFromRegistrForm) throws ServiceException {
 		if (userValidate(userFromRegistrForm)) {
 			try {
+				userDao.isExists(userFromRegistrForm.getLoginPersonnelNumber());
+			} catch (DaoException e2) {
+				logger.log(Level.ERROR, "user with getLoginPersonnelNumber: {} is exist in DB",
+						userFromRegistrForm.getLoginPersonnelNumber(), e2);
+				e2.printStackTrace();
+			}
+			try {
 				userDao.create(userFromRegistrForm);
 			} catch (DaoException e) {
-				logger.log(Level.ERROR, "", userFromRegistrForm, e);
+				logger.log(Level.ERROR, "user can't be registred, user: {}", userFromRegistrForm, e);
 				throw new ServiceException(e);
 			}
 		}
 	}
 
 	@Override
-	public boolean authorizValidate(int loginPersonnelNumber, String password) throws ServiceException {
+	public boolean loginPasswordValidate(int loginPersonnelNumber, String password) throws ServiceException {
 		UserValidator userValidator = UserValidator.getInstance();
 		if (!userValidator.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber))
 				&& !userValidator.isPasswordValid(password)) {

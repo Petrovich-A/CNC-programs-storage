@@ -1,6 +1,6 @@
 package by.petrovich.storage.entity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class User {
@@ -12,14 +12,15 @@ public class User {
 	private EmployeePosition employeePosition;
 	private String position;
 	private String email;
-	private Date date;
+	private Timestamp creationDate;
 	private UserRole userRole;
 
 	public User() {
 	}
 
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-			String employeePatronymic, EmployeePosition employeePosition, String email, Date date, UserRole userRole) {
+			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate,
+			UserRole userRole) {
 		super();
 		this.loginPersonnelNumber = loginPersonnelNumber;
 		this.password = password;
@@ -28,12 +29,12 @@ public class User {
 		this.employeePatronymic = employeePatronymic;
 		this.employeePosition = employeePosition;
 		this.email = email;
-		this.date = date;
+		this.creationDate = creationDate;
 		this.userRole = userRole;
 	}
 
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-			String employeePatronymic, String position, String email, Date date, UserRole userRole) {
+			String employeePatronymic, String position, String email, Timestamp creationDate, UserRole userRole) {
 		super();
 		this.loginPersonnelNumber = loginPersonnelNumber;
 		this.password = password;
@@ -42,7 +43,7 @@ public class User {
 		this.employeePatronymic = employeePatronymic;
 		this.position = position;
 		this.email = email;
-		this.date = date;
+		this.creationDate = creationDate;
 		this.userRole = userRole;
 	}
 
@@ -120,12 +121,12 @@ public class User {
 		this.email = email;
 	}
 
-	public Date getDate() {
-		return date;
+	public Timestamp getTimestamp() {
+		return creationDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setTimestamp(Timestamp creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public UserRole getUserRole() {
@@ -146,7 +147,7 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(date, email, employeeName, employeePatronymic, employeePosition, employeeSurname,
+		return Objects.hash(creationDate, email, employeeName, employeePatronymic, employeePosition, employeeSurname,
 				loginPersonnelNumber, password, userRole);
 	}
 
@@ -159,7 +160,7 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(date, other.date) && Objects.equals(email, other.email)
+		return Objects.equals(creationDate, other.creationDate) && Objects.equals(email, other.email)
 				&& Objects.equals(employeeName, other.employeeName)
 				&& Objects.equals(employeePatronymic, other.employeePatronymic)
 				&& employeePosition == other.employeePosition && Objects.equals(employeeSurname, other.employeeSurname)
@@ -184,8 +185,8 @@ public class User {
 		builder.append(employeePosition);
 		builder.append(", email=");
 		builder.append(email);
-		builder.append(", date=");
-		builder.append(date);
+		builder.append(", creationDate=");
+		builder.append(creationDate);
 		builder.append(", userRole=");
 		builder.append(userRole);
 		builder.append("]");

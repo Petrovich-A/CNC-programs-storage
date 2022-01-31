@@ -25,6 +25,7 @@ public class UserDaoImpl implements UserDao {
 	private static final String SQL_UPDATE = "UPDATE users SET  WHERE user_id = ?";
 	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname,"
 			+ " employee_patronymic, position, email, create_time, user_role_id FROM users WHERE login_personnel_number = ?";
+	private static final String SQL_IS_EXIST = "SELECT EXISTS(SELECT 1 FROM users WHERE login_personnel_number = ?)";
 
 	@Override
 	public List<User> readAll() throws DaoException {
@@ -53,7 +54,7 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(5, user.getEmployeePatronymic());
 			preparedStatement.setString(6, user.getPosition());
 			preparedStatement.setString(7, user.getEmail());
-			preparedStatement.setTimestamp(8, (Timestamp) user.getDate());
+			preparedStatement.setTimestamp(8, user.getTimestamp());
 			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
 			preparedStatement.executeUpdate();
 			logger.log(Level.DEBUG, "create user have done", user.toString());
@@ -90,7 +91,7 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(5, user.getEmployeePatronymic());
 			preparedStatement.setString(6, user.getPosition());
 			preparedStatement.setString(7, user.getEmail());
-			preparedStatement.setTimestamp(8, (Timestamp) user.getDate());
+			preparedStatement.setTimestamp(8, user.getTimestamp());
 			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
 			logger.log(Level.DEBUG, "user is updated", user.toString());
 		} catch (SQLException e) {
@@ -109,6 +110,23 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	@Override
+	public boolean isExists(int loginPersonnelNumber) throws DaoException {
+		boolean isExist = false;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
+			if (resultSet.next()) {
+				isExist = true;
+			}
+		} catch (SQLException e) {
+			isExist = false;
+			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} doesn't exist", loginPersonnelNumber);
+			e.printStackTrace();
+		}
+		return isExist;
+	}
+
 	private User buildUser(ResultSet resultSet) throws SQLException {
 		User user = new User();
 		user.setLoginPersonnelNumber(resultSet.getInt(ColumnName.LOGIN_PERSONNEL_NUMBER));
@@ -118,9 +136,9 @@ public class UserDaoImpl implements UserDao {
 		user.setEmployeePatronymic(resultSet.getString(ColumnName.EMPLOYEE_PATRONYMIC));
 		user.setPosition(resultSet.getString(ColumnName.POSITION));
 		user.setEmail(resultSet.getString(ColumnName.EMAIL));
-		user.setDate(new java.util.Date());
+		user.setTimestamp(resultSet.getTimestamp(ColumnName.CREATE_TIME));
 // to do       user.setUserRole(resultSet.getString(UserRole.USER));
-		logger.log(Level.DEBUG, "user build successfully", user.toString());
+		logger.log(Level.DEBUG, "user is built successfully", user.toString());
 		return user;
 	}
 

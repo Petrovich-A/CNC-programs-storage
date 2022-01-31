@@ -91,7 +91,7 @@ public class UserValidator implements UserValidate {
 			isValid = true;
 			logger.log(Level.ERROR, "Enum position is: {}", EmployeePosition.fromString(position));
 		} else {
-			logger.log(Level.ERROR, "Enum has no position as: {}", position);
+			logger.log(Level.ERROR, "Position: {} have no matches in enum", position);
 			isValid = false;
 		}
 		return isValid;

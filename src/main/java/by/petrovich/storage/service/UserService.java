@@ -17,7 +17,7 @@ public interface UserService {
 
 	User authorize(User userFromAuthorForm) throws ServiceException;
 
-	boolean authorizValidate(int loginPersonnelNumber, String password) throws ServiceException;
+	boolean loginPasswordValidate(int loginPersonnelNumber, String password) throws ServiceException;
 
 	boolean userValidate(User userFromRegistrForm) throws ServiceException;
 
