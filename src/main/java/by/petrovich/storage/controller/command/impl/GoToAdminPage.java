@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,11 +33,10 @@ public class GoToAdminPage implements Command {
 		try {
 			allUsers = userService.readAll();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			logger.log(Level.ERROR, "go to admin page error", request, response, session, allUsers, e);
 			e.printStackTrace();
 		}
 		session.setAttribute("allUsers", allUsers);
-
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.ADMIN);
 		requestDispatcher.forward(request, response);
 	}
