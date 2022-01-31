@@ -24,7 +24,6 @@ public class ConnectionPool {
 	private BlockingDeque<ProxyConnection> freeConnections;
 	private Queue<ProxyConnection> givenAwayConnections;
 	private static final int DEFAULT_POOL_SIZE = 20;
-	private static final String DRIVER_SQL = "java:comp/env/jdbc/CncProgramPool";
 	private static final PropertyLoader READER = new PropertyLoader();
 	private static final String PROP_USERNAME = "username";
 	private static final String PROP_PASSWORD = "password";
