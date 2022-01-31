@@ -41,22 +41,20 @@ public class GoToMainPage implements Command {
 			e.printStackTrace();
 		}
 		session.setAttribute("user", user);
-		
-		
+
 		int page = 1;
 		int recordsPerPage = 5;
 		List<CncProgram> cncPrograms = new ArrayList<>();
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 			try {
-				cncProgramService.findAmountOfRows((page-1)*recordsPerPage, recordsPerPage);
+				cncPrograms = cncProgramService.findAmountOfRows((page - 1) * recordsPerPage, recordsPerPage);
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.MAIN);
 		requestDispatcher.forward(request, response);
 	}
