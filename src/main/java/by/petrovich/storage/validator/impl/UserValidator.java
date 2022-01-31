@@ -87,12 +87,11 @@ public class UserValidator implements UserValidate {
 	@Override
 	public boolean isPositionValid(String position) {
 		boolean isValid = false;
-		for (EmployeePosition employeePosition : EmployeePosition.values()) {
-			if (employeePosition.name().equals(position)) {
-				isValid = true;
-				break;
-			}
-			logger.log(Level.ERROR, "Enum has no position as: ", position);
+		if (EmployeePosition.fromString(position) != null) {
+			isValid = true;
+			logger.log(Level.ERROR, "Enum position is: {}", EmployeePosition.fromString(position));
+		} else {
+			logger.log(Level.ERROR, "Enum has no position as: {}", position);
 			isValid = false;
 		}
 		return isValid;

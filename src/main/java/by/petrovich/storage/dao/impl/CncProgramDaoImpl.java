@@ -48,14 +48,13 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	public void create(CncProgram cncProgram) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
-			preparedStatement.setInt(1, cncProgram.getId());
-			preparedStatement.setString(2, cncProgram.getProgramText());
-			preparedStatement.setString(3, cncProgram.getName());
-			preparedStatement.setInt(4, cncProgram.getOperationNumber());
-			preparedStatement.setString(5, cncProgram.getFileExtension());
-			preparedStatement.setString(6, cncProgram.getComment());
-			preparedStatement.setBoolean(7, cncProgram.isActive());
-			preparedStatement.setTimestamp(8, (Timestamp) cncProgram.getDate());
+			preparedStatement.setString(1, cncProgram.getProgramText());
+			preparedStatement.setString(2, cncProgram.getName());
+			preparedStatement.setInt(3, cncProgram.getOperationNumber());
+			preparedStatement.setString(4, cncProgram.getFileExtension());
+			preparedStatement.setString(5, cncProgram.getComment());
+			preparedStatement.setBoolean(6, cncProgram.isActive());
+			preparedStatement.setTimestamp(7, (Timestamp) cncProgram.getDate());
 			logger.log(Level.DEBUG, "create cnc program have done sucesfull", cncProgram.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();

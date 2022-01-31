@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(7, user.getEmail());
 			preparedStatement.setTimestamp(8, (Timestamp) user.getDate());
 			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
-			int rowsInserted = preparedStatement.executeUpdate();
+			preparedStatement.executeUpdate();
 			logger.log(Level.DEBUG, "create user have done", user.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();

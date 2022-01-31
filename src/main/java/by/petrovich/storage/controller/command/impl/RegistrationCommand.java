@@ -26,7 +26,8 @@ public class RegistrationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String MESSAGE = "Registration is completed successfully! Please log in.";
+	private final String SUCCESSFUL_REGISTRATION = "Registration is completed successfully! Please log in.";
+	private final String REGISTRATION_FAILED = "Registration is completed successfully! Please log in.";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -36,10 +37,12 @@ public class RegistrationCommand implements Command {
 			logger.log(Level.DEBUG, "user from registr form is received", userFromRegistrForm.toString());
 			request.getSession(true).setAttribute("userFromRegistrForm from UI", userFromRegistrForm);
 			userService.register(userFromRegistrForm);
-			session.setAttribute("message", MESSAGE);
+			session.setAttribute("message", SUCCESSFUL_REGISTRATION);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.LOG_IN);
 			requestDispatcher.forward(request, response);
 		} catch (ServiceException e) {
+			session.setAttribute("message", REGISTRATION_FAILED);
+			logger.log(Level.ERROR, e.getLocalizedMessage());
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			logger.log(Level.ERROR, e.getLocalizedMessage());

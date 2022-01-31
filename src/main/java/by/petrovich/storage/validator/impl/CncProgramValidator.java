@@ -9,11 +9,11 @@ import by.petrovich.storage.validator.CncProgramValidate;
 
 public class CncProgramValidator implements CncProgramValidate {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String NUMBER_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{5,12}+$";
-	private static final String PROGRAM_TEXT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{5,12}+$";
-	private static final String OPERATION_NUMBER_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{5,12}+$";
-	private static final String FILE_EXTENSION_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{5,12}+$";
-	private static final String COMMENT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{5,12}+$";
+	private static final String NUMBER_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,12}+$";
+	private static final String PROGRAM_TEXT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,12}+$";
+	private static final String OPERATION_NUMBER_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,12}+$";
+	private static final String FILE_EXTENSION_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,12}+$";
+	private static final String COMMENT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,12}+$";
 
 	private static CncProgramValidator instance;
 
