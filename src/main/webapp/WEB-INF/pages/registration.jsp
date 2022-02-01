@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="main.css" />
 <title>Registration page</title>
 </head>
 <script type="text/javascript">
@@ -31,65 +32,83 @@
 	}
 </script>
 <body>
-	<div class="header">
-		<div class="">
-			<div class="">
-				<h1>
-					CNC <span>programs storage</span>
-				</h1>
-			</div>
-			<ul class="navigation">
+	<nav>
+		<ul>
+			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
+			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-			</ul>
-		</div>
-	</div>
+			</div>
+			<li class="search-icon">
+				<form role="search" action="Controller" method="post">
+					<input type="hidden" name="commandName" value="to do" /> <input
+						type="search" placeholder="search..."> <label class="icon">
+						<span class="fas fa-search"> </span>
+					</label>
+				</form>
+			</li>
+		</ul>
+	</nav>
 	<main>
-		<section id="news">
+		<section id="">
 			<h1>Please fill the registration form</h1>
 			<form action="Controller" method="post"
 				onsubmit="return matchPassword()">
-				<h3>
-					Personnel number <input type="text" id="loginPersonnelNumber"
-						name="loginPersonnelNumber" required pattern="^\\d{5}+$" />
-				</h3>
-				<p>Digits (0-5)</p>
-				<h3>
-					Password <input type="password" id="password" name="password"
-						required
-						pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
-				</h3>
-				<h3>
-					Confirm password <input type="password" id="passwordConfirm"
+				<table class="programInputTable" cellspacing="0" cellpadding="4">
+					<tr>
+						<td align="right" width="100">Personnel number</td>
+						<td>Digits (0-5)</td>
+						<td><input type="text" id="loginPersonnelNumber"
+							name="loginPersonnelNumber" required pattern="^\\d{5}+$" />
+						</td>
+					</tr>
+					<tr>
+						<td> Password </td>
+						<td><input type="password" id="password" name="password"required
+							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
+					</tr>
+				
+				<tr>
+					<td>Confirm password</td>
+					<td>Latin symbols (A-z), cyrillic symbols(А-я) plus digits (0-9)
+						plus *@#$%^&-+=().</td>
+					<td><input type="password" id="passwordConfirm"
 						name="passwordConfirm" required
-						pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
-				</h3>
-				<p>Latin symbols (A-z), cyrillic symbols(А-я) plus digits (0-9)
-					plus *@#$%^&-+=().</p>
-				<h3>
-					employeeName <input type="text" name="employeeName" required
-						pattern="^{8,40}+$" />
-				</h3>
-				<p>cyrillic symbols(А-я)</p>
-				<h3>
-					employeeSurname <input type="text" name="employeeSurname" required
-						pattern="^(?={8,40}+$" />
-				</h3>
-				<p>cyrillic symbols(А-я)</p>
-				<h3>
-					employeePatronimic <input type="text" name="employeePatronymic"
-						required pattern="^(?={8,40}+$" />
-				</h3>
-				<p>cyrillic symbols(А-я)</p>
-				<h3>position</h3>
-				<select name="employeePosition" required>
-					<option value="engineeringTechnologist" selected>engineering
-						technologist</option>
-					<option value="cncProgrammer">CNC programmer</option>
-				</select>
-				<h3>
-					email <input type="email" name="email" required
-						pattern="^\S+@\S+\.\S+$" />
-				</h3>
+						pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
+				<tr>		
+				<tr>
+					<td>employeeName</td>
+					<td>cyrillic symbols(А-я)</td>
+					<td><input type="text" name="employeeName" required
+						pattern="^{8,40}+$" /></td>
+				</tr>
+				<tr>
+					<td>employeeSurname</td>
+					<td>cyrillic symbols(А-я)</td>
+					<td><input type="text" name="employeeSurname" required
+						pattern="^(?={8,40}+$" /></td>
+				</tr>
+
+				<tr>
+					<td>employeePatronimic</td>
+					<td>cyrillic symbols(А-я)</td>
+					<td> <input type="text" name="employeePatronymic"
+						required pattern="^(?={8,40}+$" /></td>
+				</tr>
+				<tr>
+					<td>position</td>
+					<td><select name="employeePosition" required>
+						<option value="engineering_technician" selected>engineering
+							technologist</option>
+						<option value="cnc_programmer">CNC programmer</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>email</td>
+					<td><input type="email" name="email" required
+						pattern="^\S+@\S+\.\S+$" /></td>
+				</tr>
+		</table>
+
 				<div class="button">
 					<input type="hidden" name="commandName" value="registration" />
 					<button type="submit" class="submit_button"
