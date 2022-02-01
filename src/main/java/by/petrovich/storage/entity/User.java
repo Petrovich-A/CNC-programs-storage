@@ -34,7 +34,7 @@ public class User {
 	}
 
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-			String employeePatronymic, String position, String email, Timestamp creationDate, UserRole userRole) {
+			String employeePatronymic, String position, String email, UserRole userRole) {
 		super();
 		this.loginPersonnelNumber = loginPersonnelNumber;
 		this.password = password;
@@ -43,7 +43,6 @@ public class User {
 		this.employeePatronymic = employeePatronymic;
 		this.position = position;
 		this.email = email;
-		this.creationDate = creationDate;
 		this.userRole = userRole;
 	}
 
