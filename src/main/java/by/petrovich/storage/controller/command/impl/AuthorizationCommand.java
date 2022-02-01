@@ -30,7 +30,7 @@ public class AuthorizationCommand implements Command {
 		HttpSession session = request.getSession(true);
 		User userFromAuthorizForm = new User(Integer.parseInt(loginPersonnelNumber), password);
 		try {
-			User userFromDao = userService.authorize(userFromAuthorizForm);
+			User userFromDao = userService.authorizate(userFromAuthorizForm);
 			session.setAttribute("userFromDao", userFromDao);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.MAIN);
 			requestDispatcher.forward(request, response);
