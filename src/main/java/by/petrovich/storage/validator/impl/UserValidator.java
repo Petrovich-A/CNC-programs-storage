@@ -1,12 +1,12 @@
 package by.petrovich.storage.validator.impl;
 
-import by.petrovich.storage.entity.EmployeePosition;
-import by.petrovich.storage.entity.User;
-import by.petrovich.storage.validator.UserValidate;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import by.petrovich.storage.entity.EmployeePosition;
+import by.petrovich.storage.entity.User;
+import by.petrovich.storage.validator.UserValidate;
 
 public class UserValidator implements UserValidate {
 	private static final Logger logger = LogManager.getLogger();
@@ -52,7 +52,7 @@ public class UserValidator implements UserValidate {
 	public boolean isPasswordValid(String password) {
 		boolean isValid = password.matches(PASSWORD_PATTERN);
 		if (!isValid) {
-			logger.log(Level.DEBUG, "password is not valid");
+			logger.log(Level.ERROR, "password is not valid");
 		}
 		return isValid;
 	}
@@ -89,9 +89,9 @@ public class UserValidator implements UserValidate {
 		boolean isValid = false;
 		if (EmployeePosition.fromString(position) != null) {
 			isValid = true;
-			logger.log(Level.ERROR, "Enum position is: {}", EmployeePosition.fromString(position));
+			logger.log(Level.DEBUG, "Enum position is: {}", EmployeePosition.fromString(position));
 		} else {
-			logger.log(Level.ERROR, "Position: {} have no matches in enum", position);
+			logger.log(Level.ERROR, "Position: {} has no matches in enum", position);
 			isValid = false;
 		}
 		return isValid;
