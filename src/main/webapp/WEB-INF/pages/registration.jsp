@@ -9,7 +9,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="main.css" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/CSS/main.css"/>" />
 <title>Registration page</title>
 </head>
 <script type="text/javascript">
@@ -50,64 +51,65 @@
 	</nav>
 	<main>
 		<section id="">
-			<h1>Please fill the registration form</h1>
+			<h1>Welcome to CNC Program Storage account!</h1>
+			<br>
+			<h3>Please complete the registration form below</h3>
+			<br>
 			<form action="Controller" method="post"
 				onsubmit="return matchPassword()">
-				<table class="programInputTable" cellspacing="0" cellpadding="4">
+				<table class="programInputTable" cellpadding="10px"
+					cellspacing="5px">
 					<tr>
-						<td align="right" width="100">Personnel number</td>
-						<td>Digits (0-5)</td>
+						<td align="right" width="100">personnel number</td>
 						<td><input type="text" id="loginPersonnelNumber"
-							name="loginPersonnelNumber" required pattern="^\\d{5}+$" />
-						</td>
+							name="loginPersonnelNumber" required pattern="^\\d{5}+$" /></td>
+						<td>Login personnel number should have (0-9) digits 5 characters long.</td>
 					</tr>
 					<tr>
-						<td> Password </td>
-						<td><input type="password" id="password" name="password"required
-							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
+						<td>employeeName</td>
+						<td><input type="text" name="employeeName" required
+							pattern="^{8,40}+$" /></td>
+						<td>Cyrillic symbols(А-я)</td>
 					</tr>
-				
-				<tr>
-					<td>Confirm password</td>
-					<td>Latin symbols (A-z), cyrillic symbols(А-я) plus digits (0-9)
-						plus *@#$%^&-+=().</td>
-					<td><input type="password" id="passwordConfirm"
-						name="passwordConfirm" required
-						pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
-				<tr>		
-				<tr>
-					<td>employeeName</td>
-					<td>cyrillic symbols(А-я)</td>
-					<td><input type="text" name="employeeName" required
-						pattern="^{8,40}+$" /></td>
-				</tr>
-				<tr>
-					<td>employeeSurname</td>
-					<td>cyrillic symbols(А-я)</td>
-					<td><input type="text" name="employeeSurname" required
-						pattern="^(?={8,40}+$" /></td>
-				</tr>
-
-				<tr>
-					<td>employeePatronimic</td>
-					<td>cyrillic symbols(А-я)</td>
-					<td> <input type="text" name="employeePatronymic"
-						required pattern="^(?={8,40}+$" /></td>
-				</tr>
-				<tr>
-					<td>position</td>
-					<td><select name="employeePosition" required>
-						<option value="engineering_technician" selected>engineering
-							technologist</option>
-						<option value="cnc_programmer">CNC programmer</option>
-					</select></td>
-				</tr>
-				<tr>
-					<td>email</td>
-					<td><input type="email" name="email" required
-						pattern="^\S+@\S+\.\S+$" /></td>
-				</tr>
-		</table>
+					<tr>
+						<td>employeeSurname</td>
+						<td><input type="text" name="employeeSurname" required
+							pattern="^(?={8,40}+$" /></td>
+						<td>Cyrillic symbols(А-я)</td>
+					</tr>
+					<tr>
+						<td>employeePatronimic</td>
+						<td><input type="text" name="employeePatronymic" required
+							pattern="^(?={8,40}+$" /></td>
+						<td>Cyrillic symbols(А-я)</td>
+					</tr>
+					<tr>
+						<td>position</td>
+						<td><select name="employeePosition" required>
+								<option value="engineering_technician" selected>engineering
+									technologist</option>
+								<option value="cnc_programmer">CNC programmer</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>email</td>
+						<td><input type="email" name="email" required
+							pattern="^\S+@\S+\.\S+$" /></td>
+					</tr>
+					<tr>
+						<td>password</td> 
+						<td><input type="password" id="password" name="password"
+							required
+							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
+						<td>Password should contain latin symbols (A-z), cyrillic symbols (А-я), digits (0-9) 5 to 60 characters long </td>
+					</tr>
+					<tr>
+						<td>confirm password</td>
+						<td><input type="password" id="passwordConfirm"
+							name="passwordConfirm" required
+							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
+					<tr>
+				</table>
 
 				<div class="button">
 					<input type="hidden" name="commandName" value="registration" />
@@ -118,6 +120,11 @@
 			</form>
 		</section>
 	</main>
-	<ctg:footer />
+	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->
+	<footer>
+		<div class="footer">
+			<ctg:footer />
+		</div>
+	</footer>
 </body>
 </html>
