@@ -21,21 +21,20 @@ public class ConnectionPool {
 	private static final ReentrantLock reentrantLock = new ReentrantLock(true);
 	private static final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 	private static ConnectionPool instance;
-	private BlockingDeque<ProxyConnection> freeConnections;
-	private Queue<ProxyConnection> givenAwayConnections;
 	private static final int DEFAULT_POOL_SIZE = 20;
 	private static final PropertyLoader READER = new PropertyLoader();
 	private static final String PROP_USERNAME = "username";
 	private static final String PROP_PASSWORD = "password";
 	private static final String PROP_DRIVER_CLASS_NAME = "driverClassName";
 	private static final String PROP_URL = "url";
+	private BlockingDeque<ProxyConnection> freeConnections;
+	private Queue<ProxyConnection> givenAwayConnections;
 
 	static {
 		try {
 			Class.forName(READER.get(PROP_DRIVER_CLASS_NAME));
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.ERROR, "can't get PROP_DRIVER_CLASS_NAME: {} ", PROP_DRIVER_CLASS_NAME, e);
 		}
 	}
 
@@ -71,22 +70,22 @@ public class ConnectionPool {
 	}
 
 	public ProxyConnection getConnection() {
-		ProxyConnection proxyConnection = null;
+		ProxyConnection Connection = null;
 		try {
-			proxyConnection = freeConnections.take();
-			givenAwayConnections.offer(proxyConnection);
+			Connection = freeConnections.take();
+			givenAwayConnections.offer(Connection);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return proxyConnection;
+		return Connection;
 	}
 
-	public void releaseConnection(ProxyConnection proxyConnection) {
-//        if (proxyConnection){
+	public void releaseConnection(ProxyConnection Connection) {
+//        if (Connection){
 //
 //        }
-		givenAwayConnections.remove(proxyConnection);
-		freeConnections.offer(proxyConnection);
+		givenAwayConnections.remove(Connection);
+		freeConnections.offer(Connection);
 	}
 
 	public void destroyPool() {

@@ -10,7 +10,6 @@ public class User {
 	private String employeeSurname;
 	private String employeePatronymic;
 	private EmployeePosition employeePosition;
-	private String position;
 	private String email;
 	private Timestamp creationDate;
 	private UserRole userRole;
@@ -18,10 +17,15 @@ public class User {
 	public User() {
 	}
 
+	public User(int loginPersonnelNumber, String password) {
+		super();
+		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.password = password;
+	}
+
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate,
 			UserRole userRole) {
-		super();
 		this.loginPersonnelNumber = loginPersonnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
@@ -34,34 +38,27 @@ public class User {
 	}
 
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-			String employeePatronymic, String position, String email, UserRole userRole) {
+			String employeePatronymic, EmployeePosition employeePosition, String email) {
 		super();
 		this.loginPersonnelNumber = loginPersonnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
 		this.employeeSurname = employeeSurname;
 		this.employeePatronymic = employeePatronymic;
-		this.position = position;
+		this.employeePosition = employeePosition;
 		this.email = email;
-		this.userRole = userRole;
 	}
 
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
-			String employeePatronymic, String position, String email) {
-		super();
+			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate) {
 		this.loginPersonnelNumber = loginPersonnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
 		this.employeeSurname = employeeSurname;
 		this.employeePatronymic = employeePatronymic;
-		this.position = position;
+		this.employeePosition = employeePosition;
 		this.email = email;
-	}
-
-	public User(int loginPersonnelNumber, String password) {
-		super();
-		this.loginPersonnelNumber = loginPersonnelNumber;
-		this.password = password;
+		this.creationDate = creationDate;
 	}
 
 	public int getLoginPersonnelNumber() {
@@ -120,11 +117,11 @@ public class User {
 		this.email = email;
 	}
 
-	public Timestamp getTimestamp() {
+	public Timestamp getCreationDate() {
 		return creationDate;
 	}
 
-	public void setTimestamp(Timestamp creationDate) {
+	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -136,60 +133,24 @@ public class User {
 		this.userRole = userRole;
 	}
 
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		User user = (User) o;
+		return loginPersonnelNumber == user.loginPersonnelNumber && Objects.equals(password, user.password)
+				&& Objects.equals(employeeName, user.employeeName)
+				&& Objects.equals(employeeSurname, user.employeeSurname)
+				&& Objects.equals(employeePatronymic, user.employeePatronymic)
+				&& employeePosition == user.employeePosition && Objects.equals(email, user.email)
+				&& Objects.equals(creationDate, user.creationDate) && userRole == user.userRole;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(creationDate, email, employeeName, employeePatronymic, employeePosition, employeeSurname,
-				loginPersonnelNumber, password, userRole);
+		return Objects.hash(loginPersonnelNumber, password, employeeName, employeeSurname, employeePatronymic,
+				employeePosition, email, creationDate, userRole);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		return Objects.equals(creationDate, other.creationDate) && Objects.equals(email, other.email)
-				&& Objects.equals(employeeName, other.employeeName)
-				&& Objects.equals(employeePatronymic, other.employeePatronymic)
-				&& employeePosition == other.employeePosition && Objects.equals(employeeSurname, other.employeeSurname)
-				&& loginPersonnelNumber == other.loginPersonnelNumber && Objects.equals(password, other.password)
-				&& userRole == other.userRole;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("User [loginPersonnelNumber=");
-		builder.append(loginPersonnelNumber);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", employeeName=");
-		builder.append(employeeName);
-		builder.append(", employeeSurname=");
-		builder.append(employeeSurname);
-		builder.append(", employeePatronymic=");
-		builder.append(employeePatronymic);
-		builder.append(", employeePosition=");
-		builder.append(employeePosition);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", creationDate=");
-		builder.append(creationDate);
-		builder.append(", userRole=");
-		builder.append(userRole);
-		builder.append("]");
-		return builder.toString();
-	}
-
 }

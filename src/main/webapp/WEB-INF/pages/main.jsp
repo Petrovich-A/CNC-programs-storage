@@ -121,7 +121,7 @@
 		<section class="listUsers">
 			<h2>Previous program</h2>
 			<c:choose>
-				<c:when test="${user == null}">
+				<c:when test="${allUsers == null}">
 					<p>
 						<c:out value="No user are avaliable" />
 					</p>

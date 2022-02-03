@@ -16,16 +16,19 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, "
-			+ "employee_patronymic, position, email, create_time, user_role_id FROM users";
+			+ "employee_patronymic, email, create_time FROM users";
 	private static final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
-			+ "employee_surname, employee_patronymic, position, email, create_time, users_roles_user_role_id) VALUES(?,?,?,?,?,?,?,?,?)";
+			+ "employee_surname, employee_patronymic, email, create_time, users_roles_user_role_id, employee_positions_employee_positions_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE = "DELETE FROM users login_personnel_number = ?, password = ?, employee_name = ?,"
 			+ " employee_surname = ?, employee_patronymic = ?, position = ?, email = ?, create_time = ?, users_roles_user_role_id = ?"
 			+ " WHERE user_id = ?";
-	private static final String SQL_UPDATE = "UPDATE users SET  WHERE user_id = ?";
+	private static final String SQL_UPDATE = "UPDATE users SET WHERE user_id = ?";
 	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname,"
 			+ " employee_patronymic, position, email, create_time, user_role_id FROM users WHERE login_personnel_number = ?";
-	private static final String SQL_IS_EXIST = "SELECT EXISTS(SELECT 1 FROM users WHERE login_personnel_number = ?)";
+	private static final String SQL_READ_JOIN = "SELECT login_personnel_number, password, employee_name, employee_surname,"
+			+ " employee_patronymic, position, email, create_time, user_role_id FROM users "
+			+ "LEFT JOIN users_roles ON users.users_roles_user_role_id = users_roles.user_role_id WHERE login_personnel_number = ?";
+	private static final String SQL_IS_EXIST = "SELECT EXISTS(SELECT login_personnel_number FROM users WHERE login_personnel_number = ?)";
 
 	@Override
 	public List<User> readAll() throws DaoException {
@@ -34,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_ALL);
 				ResultSet resultSet = preparedStatement.executeQuery()) {
 			while (resultSet.next()) {
-				allUsers.add(buildUser(resultSet));
+				allUsers.add(buildUserFromDB(resultSet));
 			}
 		} catch (SQLException e) {
 			logger.log(Level.ERROR, "to do", e);
@@ -47,19 +50,21 @@ public class UserDaoImpl implements UserDao {
 	public void create(User user) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
+			connection.setAutoCommit(false);
 			preparedStatement.setInt(1, user.getLoginPersonnelNumber());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getEmployeeName());
 			preparedStatement.setString(4, user.getEmployeeSurname());
 			preparedStatement.setString(5, user.getEmployeePatronymic());
-			preparedStatement.setString(6, user.getPosition());
+			preparedStatement.setInt(6, user.getEmployeePosition().ordinal());
 			preparedStatement.setString(7, user.getEmail());
-			preparedStatement.setTimestamp(8, user.getTimestamp());
-			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
+			preparedStatement.setTimestamp(8, user.getCreationDate());
+			preparedStatement.setInt(9, user.getUserRole().getOrdinalNumber());
 			preparedStatement.executeUpdate();
-			logger.log(Level.DEBUG, "create user have done", user.toString());
+			logger.log(Level.DEBUG, "user creating have done. user: {} ", user.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException(e);
 		}
 	}
 
@@ -67,21 +72,22 @@ public class UserDaoImpl implements UserDao {
 	public User read(int loginPersonnelNumber) throws DaoException {
 		User user = new User();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ);) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
-			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				user = buildUser(resultSet);
+				user = buildUserFromDB(resultSet);
 			}
-			logger.log(Level.DEBUG, "user find by loginPersonnelNumber", user, loginPersonnelNumber);
+			logger.log(Level.DEBUG, "user: {} is found by loginPersonnelNumber: {}", user, loginPersonnelNumber);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException(e);
 		}
 		return user;
 	}
 
 	@Override
-	public void update(User user, int id) throws DaoException {
+	public void update(User user, int loginPersonnelNumber) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 			preparedStatement.setInt(1, user.getLoginPersonnelNumber());
@@ -89,24 +95,26 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(3, user.getEmployeeName());
 			preparedStatement.setString(4, user.getEmployeeSurname());
 			preparedStatement.setString(5, user.getEmployeePatronymic());
-			preparedStatement.setString(6, user.getPosition());
+			preparedStatement.setInt(6, user.getEmployeePosition().ordinal());
 			preparedStatement.setString(7, user.getEmail());
-			preparedStatement.setTimestamp(8, user.getTimestamp());
-			preparedStatement.setInt(9, user.getUserRole().getValue()); // ???
+			preparedStatement.setTimestamp(8, user.getCreationDate());
+			preparedStatement.setInt(9, user.getUserRole().getOrdinalNumber());
 			logger.log(Level.DEBUG, "user is updated", user.toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException(e);
 		}
 	}
 
 	@Override
-	public void delete(int id) throws DaoException {
+	public void delete(int loginPersonnelNumber) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
-			preparedStatement.setInt(1, id);
-			logger.log(Level.DEBUG, "user with id: {} is deleted", id);
+			preparedStatement.setInt(1, loginPersonnelNumber);
+			logger.log(Level.DEBUG, "user with id: {} is deleted", loginPersonnelNumber);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException(e);
 		}
 	}
 
@@ -116,29 +124,31 @@ public class UserDaoImpl implements UserDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST);
 				ResultSet resultSet = preparedStatement.executeQuery()) {
-			if (resultSet.next()) {
+			preparedStatement.setInt(1, loginPersonnelNumber);
+			if (resultSet.absolute(1)) {
 				isExist = true;
+			} else {
+				isExist = false;
 			}
 		} catch (SQLException e) {
-			isExist = false;
-			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} doesn't exist", loginPersonnelNumber);
-			e.printStackTrace();
+			logger.log(Level.ERROR, "Can't do isExists? SQL_IS_EXIST: {}", SQL_IS_EXIST, e);
+			throw new DaoException(e);
 		}
 		return isExist;
 	}
 
-	private User buildUser(ResultSet resultSet) throws SQLException {
+	private User buildUserFromDB(ResultSet resultSet) throws SQLException {
 		User user = new User();
 		user.setLoginPersonnelNumber(resultSet.getInt(ColumnName.LOGIN_PERSONNEL_NUMBER));
 		user.setPassword(resultSet.getString(ColumnName.PASSWORD));
 		user.setEmployeeName(resultSet.getString(ColumnName.EMPLOYEE_NAME));
 		user.setEmployeeSurname(resultSet.getString(ColumnName.EMPLOYEE_SURNAME));
 		user.setEmployeePatronymic(resultSet.getString(ColumnName.EMPLOYEE_PATRONYMIC));
-		user.setPosition(resultSet.getString(ColumnName.POSITION));
+//		user.setEmployeePosition(resultSet.getInt(ColumnName.POSITION));
 		user.setEmail(resultSet.getString(ColumnName.EMAIL));
-		user.setTimestamp(resultSet.getTimestamp(ColumnName.CREATE_TIME));
-// to do       user.setUserRole(resultSet.getString(UserRole.USER));
-		logger.log(Level.DEBUG, "user is built successfully", user.toString());
+		user.setCreationDate(resultSet.getTimestamp(ColumnName.CREATE_TIME));
+//		user.setUserRole(resultSet.getString(ColumnName.USER_ROLE_ID));
+		logger.log(Level.DEBUG, "user from DB is built successfully", user.toString());
 		return user;
 	}
 

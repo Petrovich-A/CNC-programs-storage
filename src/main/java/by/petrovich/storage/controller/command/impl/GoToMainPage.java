@@ -32,15 +32,13 @@ public class GoToMainPage implements Command {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("local", request.getParameter("local"));
-		User user = new User();
+		List<User> allUsers = new ArrayList<>();
 		try {
-			user = userService.read(12341);
+			allUsers = userService.readAll();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			logger.log(Level.DEBUG, user.toString(), e);
-			e.printStackTrace();
+			logger.log(Level.DEBUG, allUsers.toString(), e);
 		}
-		session.setAttribute("user", user);
+		session.setAttribute("allUsers", allUsers);
 
 		int page = 1;
 		int recordsPerPage = 5;
@@ -54,7 +52,6 @@ public class GoToMainPage implements Command {
 				e.printStackTrace();
 			}
 		}
-
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.MAIN);
 		requestDispatcher.forward(request, response);
 	}

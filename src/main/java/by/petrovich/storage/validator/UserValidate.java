@@ -15,8 +15,8 @@ public interface UserValidate {
 
 	boolean isEmployeePatronymicValid(String employeePatronymic);
 
-	boolean isPositionValid(String position);
-
 	boolean isEmailValid(String email);
+
+	boolean isEmployeePositionValid(String employeePosition);
 
 }

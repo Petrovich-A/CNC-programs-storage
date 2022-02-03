@@ -1,8 +1,8 @@
 package by.petrovich.storage.entity;
 
 public enum EmployeePosition {
-	ENGINEERING_TECHNICIAN("инженер-технолог"),
-	CNC_PROGRAMMER("наладчичк станков с ПУ");
+	ENGINEERING_TECHNICIAN("engineering_technician"),
+	CNC_PROGRAMMER("cnc_programmer");
 
 	private String position;
 

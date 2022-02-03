@@ -24,6 +24,7 @@ public class Controller extends HttpServlet {
 		String commandName = request.getParameter(COMMAND_REQUEST_PARAM);
 		Command command = commandProvider.findCommand(commandName);
 		command.execute(request, response);
+		
 	}
 
 }

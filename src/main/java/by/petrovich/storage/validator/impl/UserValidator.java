@@ -35,7 +35,7 @@ public class UserValidator implements UserValidate {
 		return isLoginPersonnelNumberValid(String.valueOf(user.getLoginPersonnelNumber()))
 				&& isPasswordValid(user.getPassword()) && isEmployeeNameValid(user.getEmployeeName())
 				&& isEmployeeSurnameValid(user.getEmployeeSurname())
-				&& isEmployeePatronymicValid(user.getEmployeePatronymic()) && isPositionValid(user.getPosition())
+				&& isEmployeePatronymicValid(user.getEmployeePatronymic()) && isEmployeePositionValid((user.getEmployeePosition().toString()))
 				&& isEmailValid(user.getEmail());
 	}
 
@@ -85,13 +85,13 @@ public class UserValidator implements UserValidate {
 	}
 
 	@Override
-	public boolean isPositionValid(String position) {
+	public boolean isEmployeePositionValid(String employeePosition) {
 		boolean isValid = false;
-		if (EmployeePosition.fromString(position) != null) {
+		if (EmployeePosition.fromString(employeePosition) != null) {
 			isValid = true;
-			logger.log(Level.DEBUG, "Enum position is: {}", EmployeePosition.fromString(position));
+			logger.log(Level.DEBUG, "Enum position is: {}", EmployeePosition.fromString(employeePosition));
 		} else {
-			logger.log(Level.ERROR, "Position: {} has no matches in enum", position);
+			logger.log(Level.ERROR, "Position: {} has no matches in enum", employeePosition);
 			isValid = false;
 		}
 		return isValid;

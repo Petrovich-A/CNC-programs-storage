@@ -63,7 +63,8 @@
 						<td align="right" width="100">personnel number</td>
 						<td><input type="text" id="loginPersonnelNumber"
 							name="loginPersonnelNumber" required pattern="^\\d{5}+$" /></td>
-						<td>Login personnel number should have (0-9) digits 5 characters long.</td>
+						<td>Login personnel number should have (0-9) digits 5
+							characters long.</td>
 					</tr>
 					<tr>
 						<td>employeeName</td>
@@ -97,11 +98,12 @@
 							pattern="^\S+@\S+\.\S+$" /></td>
 					</tr>
 					<tr>
-						<td>password</td> 
+						<td>password</td>
 						<td><input type="password" id="password" name="password"
 							required
 							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
-						<td>Password should contain latin symbols (A-z), cyrillic symbols (А-я), digits (0-9) 5 to 60 characters long </td>
+						<td>Password should contain latin symbols (A-z), cyrillic
+							symbols (А-я), digits (0-9) 5 to 60 characters long</td>
 					</tr>
 					<tr>
 						<td>confirm password</td>

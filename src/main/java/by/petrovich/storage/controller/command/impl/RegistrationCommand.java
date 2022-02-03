@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
+import by.petrovich.storage.entity.EmployeePosition;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
@@ -25,30 +26,30 @@ public class RegistrationCommand implements Command {
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
 	private final String SUCCESSFUL_REGISTRATION = "Registration is completed successfully! Please log in.";
-	private final String REGISTRATION_FAILED = "Registration is completed successfully! Please log in.";
+	private final String REGISTRATION_FAILED = "Error: user registration failed. Please reapeat registration.";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) {
 		User userFromRegistrForm = buildUser(request);
 		HttpSession session = request.getSession(true);
 		try {
-			logger.log(Level.DEBUG, "user from registr form is received", userFromRegistrForm.toString());
 			userFromRegistrForm.setUserRole(UserRole.USER);
-			request.getSession(true).setAttribute("userFromRegistrForm from UI", userFromRegistrForm);
-			userService.register(userFromRegistrForm);
+			request.setAttribute("userFromRegistrForm", userFromRegistrForm);
+			userService.registrate(userFromRegistrForm);
 			session.setAttribute("message", SUCCESSFUL_REGISTRATION);
+			logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.LOG_IN);
 			requestDispatcher.forward(request, response);
 		} catch (ServiceException e) {
 			session.setAttribute("message", REGISTRATION_FAILED);
-			logger.log(Level.ERROR, e.getLocalizedMessage());
-			e.printStackTrace();
+			logger.log(Level.ERROR, e.getLocalizedMessage(), e);
 		} catch (IllegalArgumentException e) {
-			logger.log(Level.ERROR, e.getLocalizedMessage());
-			e.printStackTrace();
+			logger.log(Level.ERROR, e.getLocalizedMessage(), e);
 		} catch (ServletException e) {
+//			to do
 			e.printStackTrace();
 		} catch (IOException e) {
+//			to do
 			e.printStackTrace();
 		}
 	}
@@ -61,16 +62,18 @@ public class RegistrationCommand implements Command {
 		user.setEmployeeName(getParameterToCheck("employeeName", request));
 		user.setEmployeeSurname(getParameterToCheck("employeeSurname", request));
 		user.setEmployeePatronymic(getParameterToCheck("employeePatronymic", request));
-		user.setPosition(getParameterToCheck("employeePosition", request));
+		user.setEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)));
 		user.setEmail(getParameterToCheck("email", request));
-		user.setTimestamp(timestamp);
+		user.setCreationDate(timestamp);
+		logger.log(Level.DEBUG, "buildUser: {}", user.toString());
 		return user;
 	}
 
 	private String getParameterToCheck(String name, HttpServletRequest request) {
 		final String parameter = request.getParameter(name);
 		if (parameter == null) {
-			throw new IllegalArgumentException("request have no parameter with name: " + name);
+			logger.log(Level.ERROR, "request have no parameter with name: {}" + name);
+			throw new IllegalArgumentException("request have no parameter with name: {}" + name);
 		}
 		return parameter;
 	}
