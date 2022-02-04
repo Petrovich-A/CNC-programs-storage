@@ -18,7 +18,7 @@ public class UserDaoImpl implements UserDao {
 	private static final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, "
 			+ "employee_patronymic, email, create_time FROM users";
 	private static final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
-			+ "employee_surname, employee_patronymic, email, create_time, users_roles_user_role_id, employee_positions_employee_positions_id) VALUES(?,?,?,?,?,?,?,?,?)";
+			+ "employee_surname, employee_patronymic, email, create_time, user_role_id, employee_positions_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE = "DELETE FROM users login_personnel_number = ?, password = ?, employee_name = ?,"
 			+ " employee_surname = ?, employee_patronymic = ?, position = ?, email = ?, create_time = ?, users_roles_user_role_id = ?"
 			+ " WHERE user_id = ?";
@@ -56,10 +56,10 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(3, user.getEmployeeName());
 			preparedStatement.setString(4, user.getEmployeeSurname());
 			preparedStatement.setString(5, user.getEmployeePatronymic());
-			preparedStatement.setInt(6, user.getEmployeePosition().ordinal());
-			preparedStatement.setString(7, user.getEmail());
-			preparedStatement.setTimestamp(8, user.getCreationDate());
-			preparedStatement.setInt(9, user.getUserRole().getOrdinalNumber());
+			preparedStatement.setString(6, user.getEmail());
+			preparedStatement.setTimestamp(7, user.getCreationDate());
+			preparedStatement.setInt(8, user.getUserRole().getOrdinalNumber());
+			preparedStatement.setInt(9, user.getEmployeePosition().ordinal());
 			preparedStatement.executeUpdate();
 			logger.log(Level.DEBUG, "user creating have done. user: {} ", user.toString());
 		} catch (SQLException e) {
@@ -122,9 +122,9 @@ public class UserDaoImpl implements UserDao {
 	public boolean isExists(int loginPersonnelNumber) throws DaoException {
 		boolean isExist = false;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST);
-				ResultSet resultSet = preparedStatement.executeQuery()) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
+			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.absolute(1)) {
 				isExist = true;
 			} else {

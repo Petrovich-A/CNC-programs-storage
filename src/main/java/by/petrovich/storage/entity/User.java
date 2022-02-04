@@ -153,4 +153,16 @@ public class User {
 		return Objects.hash(loginPersonnelNumber, password, employeeName, employeeSurname, employeePatronymic,
 				employeePosition, email, creationDate, userRole);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [loginPersonnelNumber=").append(loginPersonnelNumber).append(", password=")
+				.append(password).append(", employeeName=").append(employeeName).append(", employeeSurname=")
+				.append(employeeSurname).append(", employeePatronymic=").append(employeePatronymic)
+				.append(", employeePosition=").append(employeePosition).append(", email=").append(email)
+				.append(", creationDate=").append(creationDate).append(", userRole=").append(userRole).append("]");
+		return builder.toString();
+	}
+
 }

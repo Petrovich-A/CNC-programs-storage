@@ -32,6 +32,8 @@
 		}
 	}
 </script>
+
+
 <body>
 	<nav>
 		<ul>
@@ -57,35 +59,35 @@
 			<br>
 			<form action="Controller" method="post"
 				onsubmit="return matchPassword()">
-				<table class="programInputTable" cellpadding="10px"
-					cellspacing="5px">
+				<table class="programInputTable" cellpadding="5px"
+					cellspacing="12px">
 					<tr>
-						<td align="right" width="100">personnel number</td>
+						<td align="right">personnel number</td>
 						<td><input type="text" id="loginPersonnelNumber"
 							name="loginPersonnelNumber" required pattern="^\\d{5}+$" /></td>
 						<td>Login personnel number should have (0-9) digits 5
 							characters long.</td>
 					</tr>
 					<tr>
-						<td>employeeName</td>
+						<td align="right">employeeName</td>
 						<td><input type="text" name="employeeName" required
 							pattern="^{8,40}+$" /></td>
 						<td>Cyrillic symbols(А-я)</td>
 					</tr>
 					<tr>
-						<td>employeeSurname</td>
+						<td align="right">employeeSurname</td>
 						<td><input type="text" name="employeeSurname" required
 							pattern="^(?={8,40}+$" /></td>
 						<td>Cyrillic symbols(А-я)</td>
 					</tr>
 					<tr>
-						<td>employeePatronimic</td>
+						<td align="right">employeePatronimic</td>
 						<td><input type="text" name="employeePatronymic" required
 							pattern="^(?={8,40}+$" /></td>
 						<td>Cyrillic symbols(А-я)</td>
 					</tr>
 					<tr>
-						<td>position</td>
+						<td align="right">position</td>
 						<td><select name="employeePosition" required>
 								<option value="engineering_technician" selected>engineering
 									technologist</option>
@@ -93,20 +95,21 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td>email</td>
+						<td align="right">email</td>
 						<td><input type="email" name="email" required
 							pattern="^\S+@\S+\.\S+$" /></td>
 					</tr>
 					<tr>
-						<td>password</td>
-						<td><input type="password" id="password" name="password"
-							required
-							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
+						<td align="right">password</td>
+						<td><input type="password" id="password-input"
+							name="password" required
+							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
+						</td>
 						<td>Password should contain latin symbols (A-z), cyrillic
-							symbols (А-я), digits (0-9) 5 to 60 characters long</td>
+							symbols (А-я), digits (0-9) 8 to 40 characters long</td>
 					</tr>
 					<tr>
-						<td>confirm password</td>
+						<td align="right">confirm password</td>
 						<td><input type="password" id="passwordConfirm"
 							name="passwordConfirm" required
 							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>

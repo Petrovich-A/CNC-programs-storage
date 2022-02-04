@@ -1,6 +1,5 @@
 package by.petrovich.storage.controller.command.impl;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 
 import org.apache.logging.log4j.Level;
@@ -9,14 +8,14 @@ import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
+import by.petrovich.storage.controller.command.Router;
+import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.EmployeePosition;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +28,7 @@ public class RegistrationCommand implements Command {
 	private final String REGISTRATION_FAILED = "Error: user registration failed. Please reapeat registration.";
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		User userFromRegistrForm = buildUser(request);
 		HttpSession session = request.getSession(true);
 		try {
@@ -38,19 +37,11 @@ public class RegistrationCommand implements Command {
 			userService.registrate(userFromRegistrForm);
 			session.setAttribute("message", SUCCESSFUL_REGISTRATION);
 			logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.LOG_IN);
-			requestDispatcher.forward(request, response);
+			return new Router(PathToPage.LOG_IN, RouterType.FORWARD);
 		} catch (ServiceException e) {
 			session.setAttribute("message", REGISTRATION_FAILED);
 			logger.log(Level.ERROR, e.getLocalizedMessage(), e);
-		} catch (IllegalArgumentException e) {
-			logger.log(Level.ERROR, e.getLocalizedMessage(), e);
-		} catch (ServletException e) {
-//			to do
-			e.printStackTrace();
-		} catch (IOException e) {
-//			to do
-			e.printStackTrace();
+			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
 	}
 

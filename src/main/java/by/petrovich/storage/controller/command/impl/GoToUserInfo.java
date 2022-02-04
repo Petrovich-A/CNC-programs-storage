@@ -1,19 +1,17 @@
 package by.petrovich.storage.controller.command.impl;
 
-import java.io.IOException;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
+import by.petrovich.storage.controller.command.Router;
+import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +22,7 @@ public class GoToUserInfo implements Command {
 	private final UserService userService = serviceProvider.getUserService();
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
 		User user = new User();
 		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
@@ -35,8 +33,7 @@ public class GoToUserInfo implements Command {
 			e.printStackTrace();
 		}
 		session.setAttribute("user", user);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.USER_INFO);
-		requestDispatcher.forward(request, response);
+		return new Router(PathToPage.USER_INFO, RouterType.FORWARD);
 	}
 
 }

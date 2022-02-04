@@ -1,6 +1,5 @@
 package by.petrovich.storage.controller.command.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +9,14 @@ import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
+import by.petrovich.storage.controller.command.Router;
+import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +28,7 @@ public class GoToMainPage implements Command {
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("local", request.getParameter("local"));
 		List<User> allUsers = new ArrayList<>();
@@ -52,8 +51,7 @@ public class GoToMainPage implements Command {
 				e.printStackTrace();
 			}
 		}
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.MAIN);
-		requestDispatcher.forward(request, response);
+		return new Router(PathToPage.MAIN, RouterType.FORWARD);
 	}
 
 }

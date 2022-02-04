@@ -1,22 +1,20 @@
 package by.petrovich.storage.controller.command.impl;
 
-import by.petrovich.storage.controller.command.Command;
-import by.petrovich.storage.controller.command.PathToPage;
-import by.petrovich.storage.entity.User;
-import by.petrovich.storage.service.ServiceException;
-import by.petrovich.storage.service.ServiceProvider;
-import by.petrovich.storage.service.UserService;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
+import by.petrovich.storage.controller.command.Command;
+import by.petrovich.storage.controller.command.PathToPage;
+import by.petrovich.storage.controller.command.Router;
+import by.petrovich.storage.controller.command.Router.RouterType;
+import by.petrovich.storage.entity.User;
+import by.petrovich.storage.service.ServiceException;
+import by.petrovich.storage.service.ServiceProvider;
+import by.petrovich.storage.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class AuthorizationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
@@ -24,7 +22,7 @@ public class AuthorizationCommand implements Command {
 	private final UserService userService = serviceProvider.getUserService();
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		String loginPersonnelNumber = getParameterToCheck("loginPersonnelNumber", request);
 		String password = getParameterToCheck("password", request);
 		HttpSession session = request.getSession(true);
@@ -32,11 +30,9 @@ public class AuthorizationCommand implements Command {
 		try {
 			User userFromDao = userService.authorizate(userFromAuthorizForm);
 			session.setAttribute("userFromDao", userFromDao);
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.MAIN);
-			requestDispatcher.forward(request, response);
+			return new Router(PathToPage.MAIN, RouterType.FORWARD);
 		} catch (ServiceException e) {
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.AUTHORIZATION);
-			requestDispatcher.forward(request, response);
+			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
 	}
 

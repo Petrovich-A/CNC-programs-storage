@@ -2,23 +2,19 @@ package by.petrovich.storage.controller.command.impl;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
+import by.petrovich.storage.controller.command.Router;
+import by.petrovich.storage.controller.command.Router.RouterType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.io.IOException;
-
 public class GoToLogInPage implements Command {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("local", request.getParameter("local"));
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.LOG_IN);
-		requestDispatcher.forward(request, response);
+		return new Router(PathToPage.LOG_IN, RouterType.FORWARD);
 	}
 
 }

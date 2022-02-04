@@ -1,6 +1,5 @@
 package by.petrovich.storage.controller.command.impl;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 
 import org.apache.logging.log4j.Level;
@@ -9,12 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
+import by.petrovich.storage.controller.command.Router;
+import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -24,22 +23,15 @@ public class CncProgramSave implements Command {
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		CncProgram cncProgramFromMainForm = buildProgram(request);
 		try {
 			logger.log(Level.DEBUG, "Cnc program from main form is received", cncProgramFromMainForm.toString());
 			cncProgramService.create(cncProgramFromMainForm);
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PathToPage.MAIN);
-			requestDispatcher.forward(request, response);
+			return new Router(PathToPage.MAIN, RouterType.FORWARD);
 		} catch (ServiceException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
 			logger.log(Level.ERROR, e.getLocalizedMessage());
-			e.printStackTrace();
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			return new Router(PathToPage.MAIN, RouterType.FORWARD);
 		}
 	}
 

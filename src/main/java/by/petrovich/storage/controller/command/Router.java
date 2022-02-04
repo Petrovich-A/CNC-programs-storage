@@ -1,40 +1,24 @@
 package by.petrovich.storage.controller.command;
 
 public class Router {
-	private String page = PathToPage.MAIN;
-	private Router.RouterType routerType;
-
 	public enum RouterType {
-		FORWARD, REDIRECT;
-
-		private RouterType() {
-		}
+		FORWARD, REDIRECT
 	}
 
-	public Router() {
-		this.routerType = Router.RouterType.FORWARD;
+	private String pagePath;
+	private final RouterType routerType;
+
+	public Router(String pagePath, RouterType routerType) {
+		this.pagePath = pagePath;
+		this.routerType = routerType;
 	}
 
-	public Router(String currentPage, RouterType forward) {
+	public String getPagePath() {
+		return pagePath;
 	}
 
-	public String getPage() {
-		return page;
-	}
-
-	public void setPage(String page) {
-		if (page == null) {
-			page = PathToPage.ERROR;
-		}
-		this.page = page;
-	}
-
-	public Router.RouterType getType() {
-		return this.routerType;
-	}
-
-	public void setRedirect() {
-		this.routerType = Router.RouterType.REDIRECT;
+	public RouterType getRouterType() {
+		return routerType;
 	}
 
 }

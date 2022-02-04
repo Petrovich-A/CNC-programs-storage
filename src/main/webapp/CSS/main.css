@@ -60,7 +60,7 @@ nav ul .search-icon {
 	border-radius: 5px;
 }
 
-nav ul .search-icon input{
+nav ul .search-icon input {
 	height: 100%;
 	width: 200px;
 	border: none;
@@ -79,7 +79,7 @@ nav ul .search-icon .icon {
 	border: 1px solid #cccccc;
 	border-radius: 5px 0 0 5px;
 	cursor: pointer;
-} 
+}
 
 nav ul .search-icon .icon:hover {
 	background: #000;
@@ -150,16 +150,17 @@ div.listUsers {
 	width: 50%;
 }
 
-.programTable{
-    width: 100%; /* Ширина таблицы */
+.programTable {
+	width: 100%; /* Ширина таблицы */
 	table-layout: auto;
 }
 
-.programTable td{
+.programTable td {
 	text-align: center;
 	vertical-align: middle;
 }
-.programTable th{
+
+.programTable th {
 	text-align: center;
 	vertical-align: middle;
 }

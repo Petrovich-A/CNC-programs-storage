@@ -1,13 +1,15 @@
 package by.petrovich.storage.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.CommandProvider;
+import by.petrovich.storage.controller.command.Router;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,7 +26,20 @@ public class Controller extends HttpServlet {
 		String commandName = request.getParameter(COMMAND_REQUEST_PARAM);
 		Command command = commandProvider.findCommand(commandName);
 		command.execute(request, response);
-		
+		Router router = command.execute(request, response);
+		switch (router.getRouterType()) {
+		case FORWARD:
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher(router.getPagePath());
+			requestDispatcher.forward(request, response);
+			break;
+
+		case REDIRECT:
+			response.sendRedirect(router.getPagePath());
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }
