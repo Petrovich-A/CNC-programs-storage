@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 				throw new ServiceException(e2);
 			}
 		}
-		if (isExists) {
+		if (!isExists) {
 			try {
 				userDao.create(userFromRegistrForm);
 			} catch (DaoException e) {

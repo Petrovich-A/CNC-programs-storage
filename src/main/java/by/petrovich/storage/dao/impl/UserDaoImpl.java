@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
 	public void create(User user) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
-			connection.setAutoCommit(false);
+//			connection.setAutoCommit(false);
 			preparedStatement.setInt(1, user.getLoginPersonnelNumber());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getEmployeeName());
@@ -59,11 +59,11 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(6, user.getEmail());
 			preparedStatement.setTimestamp(7, user.getCreationDate());
 			preparedStatement.setInt(8, user.getUserRole().getOrdinalNumber());
-			preparedStatement.setInt(9, user.getEmployeePosition().ordinal());
+			preparedStatement.setInt(9, user.getEmployeePosition().getOrdinalNumber());
 			preparedStatement.executeUpdate();
-			logger.log(Level.DEBUG, "user creating have done. user: {} ", user.toString());
+			logger.log(Level.DEBUG, "DB user creating have done. user: {} ", user.toString());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.log(Level.DEBUG, "can't save user to DB. user: {} ", user.toString());
 			throw new DaoException(e);
 		}
 	}
@@ -122,18 +122,18 @@ public class UserDaoImpl implements UserDao {
 	public boolean isExists(int loginPersonnelNumber) throws DaoException {
 		boolean isExist = false;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST,
+						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.absolute(1)) {
-				isExist = true;
-			} else {
-				isExist = false;
+			while (resultSet.next()) {
+				isExist = resultSet.getBoolean(1);
 			}
 		} catch (SQLException e) {
 			logger.log(Level.ERROR, "Can't do isExists? SQL_IS_EXIST: {}", SQL_IS_EXIST, e);
 			throw new DaoException(e);
 		}
+		logger.log(Level.DEBUG, "isExists: {}", isExist);
 		return isExist;
 	}
 
