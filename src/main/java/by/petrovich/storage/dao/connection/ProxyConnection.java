@@ -1,4 +1,4 @@
-package by.petrovich.storage.dao.pool;
+package by.petrovich.storage.dao.connection;
 
 import java.sql.*;
 import java.util.Map;

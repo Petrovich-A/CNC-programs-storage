@@ -3,7 +3,7 @@ package by.petrovich.storage.dao.impl;
 import by.petrovich.storage.dao.ColumnName;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.UserDao;
-import by.petrovich.storage.dao.pool.ConnectionPool;
+import by.petrovich.storage.dao.connection.ConnectionPool;
 import by.petrovich.storage.entity.User;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

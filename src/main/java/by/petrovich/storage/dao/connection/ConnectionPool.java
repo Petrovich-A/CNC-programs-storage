@@ -1,4 +1,4 @@
-package by.petrovich.storage.dao.pool;
+package by.petrovich.storage.dao.connection;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -70,22 +70,23 @@ public class ConnectionPool {
 	}
 
 	public ProxyConnection getConnection() {
-		ProxyConnection Connection = null;
+		ProxyConnection connection = null;
 		try {
-			Connection = freeConnections.take();
-			givenAwayConnections.offer(Connection);
+			connection = freeConnections.take();
+			givenAwayConnections.offer(connection);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return Connection;
+		return connection;
 	}
 
-	public void releaseConnection(ProxyConnection Connection) {
-//        if (Connection){
-//
-//        }
-		givenAwayConnections.remove(Connection);
-		freeConnections.offer(Connection);
+	public boolean releaseConnection(ProxyConnection connection) {
+		if (!(connection instanceof ProxyConnection)) {
+			return false;
+		}
+		givenAwayConnections.remove(connection);
+		freeConnections.offer(connection);
+		return true;
 	}
 
 	public void destroyPool() {
