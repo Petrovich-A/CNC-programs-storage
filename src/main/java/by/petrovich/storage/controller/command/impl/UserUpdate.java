@@ -19,27 +19,29 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class RegistrationCommand implements Command {
+public class UserUpdate implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String REGISTRATION_SUCCESSFUL = "Registration is completed successfully! Please log in.";
-	private final String REGISTRATION_FAILED = "Error: user registration failed. Please reapeat registration.";
+	private final String DELETE_USER_SUCCESSFUL = "user delete is successful";
+	private final String DELETE_USER_FAILD = "user delete is faild";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
-		User userFromRegistrForm = buildUser(request);
+		User userFromUpdateForm = buildUser(request);
+		int loginPersonnelNumber;
+		loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		HttpSession session = request.getSession(true);
 		try {
-			request.setAttribute("userFromRegistrForm", userFromRegistrForm);
-			userService.registrate(userFromRegistrForm);
-			session.setAttribute("message", REGISTRATION_SUCCESSFUL);
-			logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
-			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
+			userService.update(userFromUpdateForm, loginPersonnelNumber);
+			session.setAttribute("message", DELETE_USER_SUCCESSFUL);
+			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is updated", loginPersonnelNumber);
+			return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 		} catch (ServiceException e) {
-			session.setAttribute("message", REGISTRATION_FAILED);
-			logger.log(Level.ERROR, e.getLocalizedMessage(), e);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			session.setAttribute("message", DELETE_USER_FAILD);
+			logger.log(Level.DEBUG, "can't update user with loginPersonnelNumber: {}, user: {}", loginPersonnelNumber,
+					userFromUpdateForm.toString(), e);
+			return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
 		}
 	}
 
@@ -66,4 +68,5 @@ public class RegistrationCommand implements Command {
 		}
 		return parameter;
 	}
+
 }

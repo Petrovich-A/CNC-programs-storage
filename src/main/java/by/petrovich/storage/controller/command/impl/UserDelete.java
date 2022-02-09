@@ -8,7 +8,6 @@ import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
-import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
@@ -16,23 +15,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToUserInfo implements Command {
+public class UserDelete implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
+	private final String UPDATE_USER_SUCCESSFUL = "user delete is successful";
+	private final String UPDATE_USER_FAILD = "user delete is faild";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+		int loginPersonnelNumber;
+		loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		HttpSession session = request.getSession(true);
-		User user = new User();
-		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		try {
-			user = userService.read(loginPersonnelNumber);
+			userService.delete(loginPersonnelNumber);
+			session.setAttribute("message", UPDATE_USER_SUCCESSFUL);
+			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is deleted", loginPersonnelNumber);
+			return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} can't be read", loginPersonnelNumber, e);
+			session.setAttribute("message", UPDATE_USER_FAILD);
+			logger.log(Level.DEBUG, "can't delete user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
+			return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 		}
-		session.setAttribute("user", user);
-		return new Router(PathToPage.USER_INFO, RouterType.FORWARD);
 	}
 
 }

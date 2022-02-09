@@ -1,7 +1,9 @@
 package by.petrovich.storage.entity;
 
 public enum UserRole {
-	GUEST(1), USER(2), ADMINISTRATOR(3);
+	GUEST(1),
+	USER(2),
+	ADMINISTRATOR(3);
 
 	private int ordinalNumber;
 
@@ -17,8 +19,8 @@ public enum UserRole {
 		return UserRole.ofUserRole(ordinalNumber);
 	}
 
-	public static UserRole fromString(String value) {
-		return UserRole.valueOf(value);
+	public static UserRole ofUserRole(String value) {
+		return UserRole.ofUserRole(value);
 	}
 
 }

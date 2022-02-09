@@ -5,17 +5,17 @@ import by.petrovich.storage.controller.command.impl.*;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class CommandProvider {
 	private Map<CommandName, Command> commands = new HashMap<>();
 
 	public CommandProvider() {
 		commands.put(CommandName.GO_TO_MAIN_PAGE, new GoToMainPage());
 		commands.put(CommandName.GO_TO_REGISTRATION_PAGE, new GoToRegistrationPage());
-		commands.put(CommandName.GO_TO_LOG_IN_PAGE, new GoToLogInPage());
+		commands.put(CommandName.GO_TO_AUTHORIZATION_PAGE, new GoToAuthorizationPage());
 		commands.put(CommandName.GO_TO_ERROR_PAGE, new GoToErrorPage());
 		commands.put(CommandName.GO_TO_ADMIN_PAGE, new GoToAdminPage());
 		commands.put(CommandName.GO_TO_USER_INFO, new GoToUserInfo());
+		commands.put(CommandName.GO_TO_UPDATE_USER_PAGE, new GoToUpdateUserPage());
 
 		commands.put(CommandName.CNC_PROGRAM_SAVE, new CncProgramSave());
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());

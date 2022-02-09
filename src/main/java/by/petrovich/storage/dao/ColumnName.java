@@ -13,6 +13,7 @@ public final class ColumnName {
 	public static final String EMAIL = "email";
 	public static final String CREATE_TIME = "create_time";
 	public static final String USER_ROLE_ID = "user_role_id";
+	public static final String EMPLOYEE_POSITIONS_ID = "employee_positions_id";
 	/*
 	 * users_roles
 	 */

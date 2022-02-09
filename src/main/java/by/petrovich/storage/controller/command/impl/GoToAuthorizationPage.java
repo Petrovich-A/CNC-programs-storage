@@ -8,13 +8,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToLogInPage implements Command {
+public class GoToAuthorizationPage implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("local", request.getParameter("local"));
-		return new Router(PathToPage.LOG_IN, RouterType.FORWARD);
+		return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 	}
 
 }

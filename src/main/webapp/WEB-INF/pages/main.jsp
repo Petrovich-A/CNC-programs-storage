@@ -38,7 +38,8 @@
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <fmt:message bundle="${loc}" key="local.main.navigate.registration"
 	var="registration" />
-<fmt:message bundle="${loc}" key="local.main.navigate.logIn" var="logIn" />
+<fmt:message bundle="${loc}" key="local.main.navigate.authorization"
+	var="authorization" />
 </head>
 <body>
 	<nav>
@@ -47,7 +48,7 @@
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
-				<li><a href="Controller?commandName=go_to_log_in_page">${logIn}</a></li>
+				<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
 				<li><a href="Controller?commandName=go_to_admin_page">Admin
 						page</a></li>
 			</div>

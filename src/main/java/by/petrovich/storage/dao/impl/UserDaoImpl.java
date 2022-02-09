@@ -12,7 +12,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +153,7 @@ public class UserDaoImpl implements UserDao {
 				EmployeePosition.ofEmployeePosition(resultSet.getString(ColumnName.EMPLOYEE_POSITION)));
 		user.setEmail(resultSet.getString(ColumnName.EMAIL));
 		user.setCreationDate(resultSet.getTimestamp(ColumnName.CREATE_TIME));
-		user.setUserRole(UserRole.valueOf(resultSet.getString(ColumnName.USER_ROLE_NAME)));
+		user.setUserRole(UserRole.ofUserRole(resultSet.getString(ColumnName.USER_ROLE_NAME)));
 		logger.log(Level.DEBUG, "user from DB is built successfully", user.toString());
 		return user;
 	}

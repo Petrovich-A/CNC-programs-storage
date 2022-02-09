@@ -13,7 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
 <meta charset="UTF-8">
-<title>Log in page</title>
+<title>User update page</title>
 </head>
 <body>
 	<div class="header">

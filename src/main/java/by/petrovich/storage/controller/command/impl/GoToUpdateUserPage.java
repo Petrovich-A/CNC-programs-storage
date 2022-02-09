@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToUserInfo implements Command {
+public class GoToUpdateUserPage implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
