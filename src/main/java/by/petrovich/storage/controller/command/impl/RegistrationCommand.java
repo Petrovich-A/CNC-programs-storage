@@ -12,7 +12,6 @@ import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.EmployeePosition;
 import by.petrovich.storage.entity.User;
-import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
@@ -24,7 +23,7 @@ public class RegistrationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String SUCCESSFUL_REGISTRATION = "Registration is completed successfully! Please log in.";
+	private final String REGISTRATION_SUCCESSFUL = "Registration is completed successfully! Please log in.";
 	private final String REGISTRATION_FAILED = "Error: user registration failed. Please reapeat registration.";
 
 	@Override
@@ -32,10 +31,9 @@ public class RegistrationCommand implements Command {
 		User userFromRegistrForm = buildUser(request);
 		HttpSession session = request.getSession(true);
 		try {
-			userFromRegistrForm.setUserRole(UserRole.USER);
 			request.setAttribute("userFromRegistrForm", userFromRegistrForm);
 			userService.registrate(userFromRegistrForm);
-			session.setAttribute("message", SUCCESSFUL_REGISTRATION);
+			session.setAttribute("message", REGISTRATION_SUCCESSFUL);
 			logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
 			return new Router(PathToPage.LOG_IN, RouterType.FORWARD);
 		} catch (ServiceException e) {

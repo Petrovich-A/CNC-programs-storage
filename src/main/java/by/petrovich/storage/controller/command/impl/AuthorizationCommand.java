@@ -20,18 +20,24 @@ public class AuthorizationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
+	private final String AUTHORIZATION_SUCCESSFUL = "Authorization is completed successfully!";
+	private final String AUTHORIZATION_FAILED = "Error: user authorization failed. Please reapeat authorization.";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
-		String loginPersonnelNumber = getParameterToCheck("loginPersonnelNumber", request);
-		String password = getParameterToCheck("password", request);
+		User userFromAuthorizationForm = null;
+		userFromAuthorizationForm
+				.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));
+		userFromAuthorizationForm.setPassword(getParameterToCheck("password", request));
 		HttpSession session = request.getSession(true);
-		User userFromAuthorizForm = new User(Integer.parseInt(loginPersonnelNumber), password);
 		try {
-			User userFromDao = userService.authorizate(userFromAuthorizForm);
+			User userFromDao = userService.authorizate(userFromAuthorizationForm);
 			session.setAttribute("userFromDao", userFromDao);
+			session.setAttribute("message", AUTHORIZATION_SUCCESSFUL);
 			return new Router(PathToPage.MAIN, RouterType.FORWARD);
 		} catch (ServiceException e) {
+			session.setAttribute("message", AUTHORIZATION_FAILED);
+			logger.log(Level.ERROR, "authorization failed",  e.getLocalizedMessage(), e);
 			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
 	}

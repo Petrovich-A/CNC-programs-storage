@@ -18,6 +18,10 @@ public final class ColumnName {
 	 */
 	public static final String USER_ROLE_NAME = "user_role_name";
 	/*
+	 * employee_positions
+	 */
+	public static final String EMPLOYEE_POSITION = "employee_position";
+	/*
 	 * cnc_programs
 	 */
 	public static final String PROGRAM_ID = "program_id";

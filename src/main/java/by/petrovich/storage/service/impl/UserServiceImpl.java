@@ -20,17 +20,18 @@ public class UserServiceImpl implements UserService {
 	private final UserDao userDao = daoProvider.getUserDao();
 
 	@Override
-	public User authorizate(User userFromAuthorForm) throws ServiceException {
+	public User authorizate(User userFromAuthorizationForm) throws ServiceException {
 		User userFromDao = null;
-		if (loginPasswordValidate(userFromAuthorForm.getLoginPersonnelNumber(), userFromAuthorForm.getPassword())) {
+		boolean isUserExists = false;
+		if (!isUserExists) {
 			try {
-				userFromDao = userDao.read(userFromAuthorForm.getLoginPersonnelNumber());
+				userFromDao = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
 				userFromDao.setUserRole(UserRole.USER);
 				userDao.update(userFromDao, userFromDao.getLoginPersonnelNumber());
-				logger.log(Level.DEBUG, "user is authorized", userFromDao.toString());
+				logger.log(Level.DEBUG, "user is authorized. user: {}", userFromDao.toString());
 			} catch (DaoException e) {
-				logger.log(Level.ERROR, "login or password don't miss", userFromAuthorForm.toString(),
-						userFromDao.toString());
+				logger.log(Level.ERROR, "user with LoginPersonnelNumber: {} can't be authorizate",
+						userFromAuthorizationForm.getLoginPersonnelNumber(), e);
 				throw new ServiceException(e);
 			}
 		}
@@ -39,18 +40,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void registrate(User userFromRegistrForm) throws ServiceException {
-		boolean isExists = false;
+		boolean isUserExists = false;
 		if (userValidate(userFromRegistrForm)) {
 			try {
-				isExists = userDao.isExists(userFromRegistrForm.getLoginPersonnelNumber());
+				isUserExists = userDao.isExists(userFromRegistrForm.getLoginPersonnelNumber());
 			} catch (DaoException e2) {
 				logger.log(Level.ERROR, "user with getLoginPersonnelNumber: {} is exist in DB",
 						userFromRegistrForm.getLoginPersonnelNumber(), e2);
 				throw new ServiceException(e2);
 			}
 		}
-		if (!isExists) {
+		if (!isUserExists) {
 			try {
+				userFromRegistrForm.setUserRole(UserRole.GUEST);
 				userDao.create(userFromRegistrForm);
 			} catch (DaoException e) {
 				logger.log(Level.ERROR, "user can't be registred, user: {}", userFromRegistrForm, e);

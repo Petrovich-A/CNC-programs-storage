@@ -39,7 +39,7 @@
 						pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
 				</p>
 				<div class="button">
-					<input type="hidden" name="commandName" value="logIn" />
+					<input type="hidden" name="commandName" value="authorization" />
 					<button type="submit" class="">submit</button>
 				</div>
 			</form>

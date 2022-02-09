@@ -4,7 +4,10 @@ import by.petrovich.storage.dao.ColumnName;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.UserDao;
 import by.petrovich.storage.dao.connection.ConnectionPool;
+import by.petrovich.storage.entity.EmployeePosition;
 import by.petrovich.storage.entity.User;
+import by.petrovich.storage.entity.UserRole;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +53,6 @@ public class UserDaoImpl implements UserDao {
 	public void create(User user) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
-//			connection.setAutoCommit(false);
 			preparedStatement.setInt(1, user.getLoginPersonnelNumber());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getEmployeeName());
@@ -78,7 +80,7 @@ public class UserDaoImpl implements UserDao {
 			while (resultSet.next()) {
 				user = buildUserFromDB(resultSet);
 			}
-			logger.log(Level.DEBUG, "user: {} is found by loginPersonnelNumber: {}", user, loginPersonnelNumber);
+			logger.log(Level.DEBUG, "can't read user with loginPersonnelNumber: {}", loginPersonnelNumber);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DaoException(e);
@@ -144,10 +146,11 @@ public class UserDaoImpl implements UserDao {
 		user.setEmployeeName(resultSet.getString(ColumnName.EMPLOYEE_NAME));
 		user.setEmployeeSurname(resultSet.getString(ColumnName.EMPLOYEE_SURNAME));
 		user.setEmployeePatronymic(resultSet.getString(ColumnName.EMPLOYEE_PATRONYMIC));
-//		user.setEmployeePosition(resultSet.getInt(ColumnName.POSITION));
+		user.setEmployeePosition(
+				EmployeePosition.ofEmployeePosition(resultSet.getString(ColumnName.EMPLOYEE_POSITION)));
 		user.setEmail(resultSet.getString(ColumnName.EMAIL));
 		user.setCreationDate(resultSet.getTimestamp(ColumnName.CREATE_TIME));
-//		user.setUserRole(resultSet.getString(ColumnName.USER_ROLE_ID));
+		user.setUserRole(UserRole.valueOf(resultSet.getString(ColumnName.USER_ROLE_NAME)));
 		logger.log(Level.DEBUG, "user from DB is built successfully", user.toString());
 		return user;
 	}
