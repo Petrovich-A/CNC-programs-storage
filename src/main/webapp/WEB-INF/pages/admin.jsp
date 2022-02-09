@@ -49,6 +49,9 @@
 									<th>getEmployeeSurname</th>
 									<th>getEmployeePatronymic</th>
 									<th>getEmail</th>
+									<th>time create</th>
+									<th>role name</th>
+									<th>position name</th>
 								<tr />
 							</thead>
 							<tbody>
@@ -61,6 +64,9 @@
 										<td>${user.getEmployeeSurname()}</td>
 										<td>${user.getEmployeePatronymic()}</td>
 										<td>${user.getEmail()}</td>
+										<td>${user.getCreationDate()}</td>
+										<td>${user.getUserRole()}</td>
+										<td>${user.getEmployeePosition()}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -75,10 +81,10 @@
 				</div>
 			</form>
 		</section>
-		
-		
-		
-		
+
+
+
+
 		<section class="cncPrograms">
 			<h2>List of cncPrograms</h2>
 			<form action="Controller" method="POST">
@@ -104,9 +110,8 @@
 							<tbody>
 								<c:forEach var="cncProgram" items="${cn}">
 									<tr>
-										<td><input class="" type="radio"
-											name="id" required="required"
-											value="${user.getId()}"></td>
+										<td><input class="" type="radio" name="id"
+											required="required" value="${user.getId()}"></td>
 										<td>${cncProgram.getOperationNumber()}</td>
 										<td>${cncProgram.getFileExtension()}</td>
 										<td>${cncProgram.isActive()}</td>
@@ -125,12 +130,12 @@
 				</div>
 			</form>
 		</section>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 	</main>
 	<ctg:footer />
 </body>

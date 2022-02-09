@@ -21,8 +21,8 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, "
-			+ "employee_patronymic, email, create_time FROM users";
+	private static final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic,"
+			+ " email, create_time, role_name, position_name FROM users LEFT JOIN user_roles ON role_id = user_role LEFT JOIN employee_positions ON position_id = employee_position";
 	private static final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
 			+ "employee_surname, employee_patronymic, email, create_time, user_role_id, employee_positions_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE = "DELETE FROM users login_personnel_number = ?, password = ?, employee_name = ?,"
@@ -149,11 +149,10 @@ public class UserDaoImpl implements UserDao {
 		user.setEmployeeName(resultSet.getString(ColumnName.EMPLOYEE_NAME));
 		user.setEmployeeSurname(resultSet.getString(ColumnName.EMPLOYEE_SURNAME));
 		user.setEmployeePatronymic(resultSet.getString(ColumnName.EMPLOYEE_PATRONYMIC));
-		user.setEmployeePosition(
-				EmployeePosition.ofEmployeePosition(resultSet.getString(ColumnName.EMPLOYEE_POSITION)));
 		user.setEmail(resultSet.getString(ColumnName.EMAIL));
 		user.setCreationDate(resultSet.getTimestamp(ColumnName.CREATE_TIME));
-		user.setUserRole(UserRole.ofUserRole(resultSet.getString(ColumnName.USER_ROLE_NAME)));
+		user.setUserRole(UserRole.fromString(resultSet.getString(ColumnName.ROLE_NAME)));
+		user.setEmployeePosition(EmployeePosition.fromString(resultSet.getString(ColumnName.POSITION_NAME)));
 		logger.log(Level.DEBUG, "user from DB is built successfully", user.toString());
 		return user;
 	}

@@ -4,11 +4,11 @@ public enum EmployeePosition {
 	ENGINEERING_TECHNICIAN("engineering_technician", 1),
 	CNC_PROGRAMMER("cnc_programmer", 2);
 
-	private String position;
+	private String positionName;
 	private int ordinalNumber;
 
 	EmployeePosition(String positionName, int ordinalNumber) {
-		this.position = positionName;
+		this.positionName = positionName;
 		this.ordinalNumber = ordinalNumber;
 	}
 
@@ -20,17 +20,13 @@ public enum EmployeePosition {
 		this.ordinalNumber = ordinalNumber;
 	}
 
-	public String getPosition() {
-		return this.position;
+	public String getPositionName() {
+		return this.positionName;
 	}
 
-	public static EmployeePosition ofEmployeePosition(String value) {
-		return EmployeePosition.ofEmployeePosition(value);
-	}
-
-	public static EmployeePosition fromString(String position) {
+	public static EmployeePosition fromString(String positionName) {
 		for (EmployeePosition employeePosition : EmployeePosition.values()) {
-			if (employeePosition.position.equalsIgnoreCase(position)) {
+			if (employeePosition.positionName.equalsIgnoreCase(positionName)) {
 				return employeePosition;
 			}
 		}

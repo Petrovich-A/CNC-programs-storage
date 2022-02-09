@@ -1,13 +1,19 @@
 package by.petrovich.storage.entity;
 
 public enum UserRole {
-	GUEST(1),
-	USER(2),
-	ADMINISTRATOR(3);
+	GUEST("guest", 1),
+	USER("user", 2),
+	ADMINISTRATOR("administrator", 3);
 
 	private int ordinalNumber;
+	private String roleName;
 
-	UserRole(int ordinalNumber) {
+	UserRole(String userRole, int ordinalNumber) {
+		this.roleName = userRole;
+		this.ordinalNumber = ordinalNumber;
+	}
+
+	public void setOrdinalNumber(int ordinalNumber) {
 		this.ordinalNumber = ordinalNumber;
 	}
 
@@ -15,12 +21,16 @@ public enum UserRole {
 		return this.ordinalNumber;
 	}
 
-	public static UserRole ofUserRole(int ordinalNumber) {
-		return UserRole.ofUserRole(ordinalNumber);
+	public String getUserRole() {
+		return this.roleName;
 	}
 
-	public static UserRole ofUserRole(String value) {
-		return UserRole.ofUserRole(value);
+	public static UserRole fromString(String roleName) {
+		for (UserRole userRole : UserRole.values()) {
+			if (userRole.roleName.equalsIgnoreCase(roleName)) {
+				return userRole;
+			}
+		}
+		return null;
 	}
-
 }

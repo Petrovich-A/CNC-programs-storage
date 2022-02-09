@@ -12,16 +12,18 @@ public final class ColumnName {
 	public static final String POSITION = "position";
 	public static final String EMAIL = "email";
 	public static final String CREATE_TIME = "create_time";
-	public static final String USER_ROLE_ID = "user_role_id";
-	public static final String EMPLOYEE_POSITIONS_ID = "employee_positions_id";
+	public static final String USER_ROLE = "user_role";
+	public static final String EMPLOYEE_POSITIONS = "employee_positions";
 	/*
-	 * users_roles
+	 * user_roles
 	 */
-	public static final String USER_ROLE_NAME = "user_role_name";
+	public static final String ROLE_ID = "role_id";
+	public static final String ROLE_NAME = "role_name";
 	/*
 	 * employee_positions
 	 */
-	public static final String EMPLOYEE_POSITION = "employee_position";
+	public static final String POSITION_ID = "position_id";
+	public static final String POSITION_NAME = "position_name";
 	/*
 	 * cnc_programs
 	 */
