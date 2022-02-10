@@ -23,8 +23,8 @@ public class UserUpdate implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String DELETE_USER_SUCCESSFUL = "user delete is successful";
-	private final String DELETE_USER_FAILD = "user delete is faild";
+	private final String UPDATE_USER_SUCCESSFUL = "user update is successful";
+	private final String UPDATE_USER_FAILD = "user update is faild";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
@@ -34,11 +34,11 @@ public class UserUpdate implements Command {
 		HttpSession session = request.getSession(true);
 		try {
 			userService.update(userFromUpdateForm, loginPersonnelNumber);
-			session.setAttribute("message", DELETE_USER_SUCCESSFUL);
+			session.setAttribute("message", UPDATE_USER_SUCCESSFUL);
 			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is updated", loginPersonnelNumber);
 			return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 		} catch (ServiceException e) {
-			session.setAttribute("message", DELETE_USER_FAILD);
+			session.setAttribute("message", UPDATE_USER_FAILD);
 			logger.log(Level.DEBUG, "can't update user with loginPersonnelNumber: {}, user: {}", loginPersonnelNumber,
 					userFromUpdateForm.toString(), e);
 			return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);

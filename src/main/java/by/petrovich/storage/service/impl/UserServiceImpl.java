@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 		boolean isUserExists = false;
 		if (userValidate(userFromRegistrForm)) {
 			try {
-				isUserExists = userDao.isExists(userFromRegistrForm.getLoginPersonnelNumber());
+				isUserExists = userDao.isUserExists(userFromRegistrForm.getLoginPersonnelNumber());
 			} catch (DaoException e2) {
 				logger.log(Level.ERROR, "user with getLoginPersonnelNumber: {} is exist in DB",
 						userFromRegistrForm.getLoginPersonnelNumber(), e2);

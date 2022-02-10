@@ -15,5 +15,5 @@ public interface UserDao {
 
 	void delete(int loginPersonnelNumber) throws DaoException;
 
-	boolean isExists(int loginPersonnelNumber) throws DaoException;
+	boolean isUserExists(int loginPersonnelNumber) throws DaoException;
 }

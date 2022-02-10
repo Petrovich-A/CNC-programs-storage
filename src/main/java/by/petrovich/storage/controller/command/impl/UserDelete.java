@@ -19,8 +19,8 @@ public class UserDelete implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String UPDATE_USER_SUCCESSFUL = "user delete is successful";
-	private final String UPDATE_USER_FAILD = "user delete is faild";
+	private final String DELETE_USER_SUCCESSFUL = "user delete is successful";
+	private final String DELETE_USER_FAILD = "user delete is faild";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
@@ -29,11 +29,11 @@ public class UserDelete implements Command {
 		HttpSession session = request.getSession(true);
 		try {
 			userService.delete(loginPersonnelNumber);
-			session.setAttribute("message", UPDATE_USER_SUCCESSFUL);
+			session.setAttribute("message", DELETE_USER_SUCCESSFUL);
 			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is deleted", loginPersonnelNumber);
 			return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 		} catch (ServiceException e) {
-			session.setAttribute("message", UPDATE_USER_FAILD);
+			session.setAttribute("message", DELETE_USER_FAILD);
 			logger.log(Level.DEBUG, "can't delete user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
 			return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 		}

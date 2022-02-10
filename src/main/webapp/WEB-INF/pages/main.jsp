@@ -38,9 +38,11 @@
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <fmt:message bundle="${loc}" key="local.main.navigate.registration"
 	var="registration" />
+</head>
 <fmt:message bundle="${loc}" key="local.main.navigate.authorization"
 	var="authorization" />
-</head>
+<fmt:message bundle="${loc}" key="local.main.navigate.admin_page"
+	var="admin_page" />
 <body>
 	<nav>
 		<ul>
@@ -49,7 +51,7 @@
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
 				<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
-				<li><a href="Controller?commandName=go_to_admin_page">Admin
+				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}
 						page</a></li>
 			</div>
 			<li class="search-icon">
@@ -159,7 +161,6 @@
 				</c:otherwise>
 			</c:choose>
 		</section>
-
 	</main>
 	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->
 	<footer>

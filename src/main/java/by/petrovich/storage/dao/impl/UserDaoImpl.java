@@ -29,11 +29,9 @@ public class UserDaoImpl implements UserDao {
 			+ " employee_surname = ?, employee_patronymic = ?, position = ?, email = ?, create_time = ?, users_roles_user_role_id = ?"
 			+ " WHERE user_id = ?";
 	private static final String SQL_UPDATE = "UPDATE users SET WHERE user_id = ?";
-	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname,"
-			+ " employee_patronymic, position, email, create_time, user_role_id FROM users WHERE login_personnel_number = ?";
-	private static final String SQL_READ_JOIN = "SELECT login_personnel_number, password, employee_name, employee_surname,"
-			+ " employee_patronymic, position, email, create_time, user_role_id FROM users "
-			+ "LEFT JOIN users_roles ON users.users_roles_user_role_id = users_roles.user_role_id WHERE login_personnel_number = ?";
+	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic,"
+			+ " email, create_time, role_name, position_name FROM users LEFT JOIN user_roles ON role_id = user_role LEFT JOIN employee_positions "
+			+ "ON position_id = employee_position WHERE login_personnel_number = ?";
 	private static final String SQL_IS_EXIST = "SELECT EXISTS(SELECT login_personnel_number FROM users WHERE login_personnel_number = ?)";
 
 	@Override
@@ -124,7 +122,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean isExists(int loginPersonnelNumber) throws DaoException {
+	public boolean isUserExists(int loginPersonnelNumber) throws DaoException {
 		boolean isExist = false;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST,
@@ -135,7 +133,7 @@ public class UserDaoImpl implements UserDao {
 				isExist = resultSet.getBoolean(1);
 			}
 		} catch (SQLException e) {
-			logger.log(Level.ERROR, "Can't do isExists? SQL_IS_EXIST: {}", SQL_IS_EXIST, e);
+			logger.log(Level.ERROR, "Can't do isExists. SQL_IS_EXIST: {}", SQL_IS_EXIST, e);
 			throw new DaoException(e);
 		}
 		logger.log(Level.DEBUG, "isExists: {}", isExist);

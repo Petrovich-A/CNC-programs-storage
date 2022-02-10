@@ -13,7 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
 <meta charset="UTF-8">
-<title>Log in page</title>
+<title>Admin page</title>
 </head>
 <body>
 	<div class="header">
@@ -25,7 +25,6 @@
 			</div>
 			<ul class="navigation">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_registration_page">Registration</a></li>
 			</ul>
 		</div>
 	</div>
@@ -74,24 +73,22 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="">
-					<button type="submit" name="command" value="go_to_"
+					<button type="submit" name="command" value="go_to_update_user_page"
 						class="btn btn-big btn-primary">Update</button>
-					<button type="submit" name="command" value="go_to_"
+					<button type="submit" name="command" value="user_delete"
 						class="btn btn-big btn-primary">Delete</button>
+					<button type="submit" name="command" value="go_to_user_info"
+						class="btn btn-big btn-primary">User info</button>
 				</div>
 			</form>
 		</section>
-
-
-
-
 		<section class="cncPrograms">
 			<h2>List of cncPrograms</h2>
 			<form action="Controller" method="POST">
 				<c:choose>
 					<c:when test="${allUsers.size() == 0 || allUsers.size() == null}">
 						<p class="mb-1">
-							<c:out value="No news are avaliable" />
+							<c:out value="No users are avaliable" />
 						</p>
 						<hr class="mb-1">
 					</c:when>
@@ -125,17 +122,9 @@
 				<div class="">
 					<button type="submit" name="command" value="go_to_"
 						class="btn btn-big btn-primary">Update</button>
-					<button type="submit" name="command" value="go_to_"
-						class="btn btn-big btn-primary">Delete</button>
 				</div>
 			</form>
 		</section>
-
-
-
-
-
-
 	</main>
 	<ctg:footer />
 </body>
