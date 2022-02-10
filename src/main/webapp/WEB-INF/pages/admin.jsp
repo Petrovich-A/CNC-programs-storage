@@ -58,7 +58,7 @@
 									<tr>
 										<td><input class="" type="radio"
 											name="loginPersonnelNumber" required="required"
-											value="${user.getLoginPersonnelNumber()}"></td>
+											value="${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</td>
 										<td>${user.getEmployeeName()}</td>
 										<td>${user.getEmployeeSurname()}</td>
 										<td>${user.getEmployeePatronymic()}</td>
@@ -73,11 +73,11 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="">
-					<button type="submit" name="command" value="go_to_update_user_page"
-						class="btn btn-big btn-primary">Update</button>
-					<button type="submit" name="command" value="user_delete"
+					<button type="submit" name="commandName"
+						value="go_to_update_user_page" class="btn btn-big btn-primary">Update</button>
+					<button type="submit" name="commandName" value="user_delete"
 						class="btn btn-big btn-primary">Delete</button>
-					<button type="submit" name="command" value="go_to_user_info"
+					<button type="submit" name="commandName" value="go_to_user_info"
 						class="btn btn-big btn-primary">User info</button>
 				</div>
 			</form>

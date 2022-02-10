@@ -32,7 +32,7 @@ public class GoToAdminPage implements Command {
 		try {
 			allUsers = userService.readAll();
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "can't read allUsers", request, response, session, allUsers, e);
+			logger.log(Level.ERROR, "can't read allUsers", allUsers, e);
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
 		session.setAttribute("allUsers", allUsers);

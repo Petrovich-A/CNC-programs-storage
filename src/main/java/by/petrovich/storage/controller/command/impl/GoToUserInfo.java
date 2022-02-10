@@ -24,14 +24,14 @@ public class GoToUserInfo implements Command {
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
-		User user = new User();
+		User userFromDao = new User();
 		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		try {
-			user = userService.read(loginPersonnelNumber);
+			userFromDao = userService.read(loginPersonnelNumber);
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} can't be read", loginPersonnelNumber, e);
+			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);
 		}
-		session.setAttribute("user", user);
+		session.setAttribute("userFromDao", userFromDao);
 		return new Router(PathToPage.USER_INFO, RouterType.FORWARD);
 	}
 

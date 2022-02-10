@@ -13,30 +13,26 @@
 <title>User info page</title>
 </head>
 <body>
-	<nav>
-		<ul>
-			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
-			<div class="items">
-				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
-				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
+	<div class="header">
+		<div class="">
+			<div class="">
+				<h1>
+					CNC <span>programs storage</span>
+				</h1>
 			</div>
-			<li class="search-icon">
-				<form role="search" action="Controller" method="post">
-					<input type="hidden" name="commandName" value="to do" /> <input
-						type="search" placeholder="${search_placeholder}"> <label
-						class="icon"> <span class="fas fa-search"> </span>
-					</label>
-				</form>
-			</li>
-		</ul>
-	</nav>
+			<ul class="navigation">
+				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
+			</ul>
+		</div>
+	</div>
 	<main>
-		<section class="users">
-			<h2>List of users</h2>
+		<section class="user">
+			<h2>User information:</h2>
 			<c:choose>
-				<c:when test="${user.size() == 0 || user.size() == null}">
+				<c:when
+					test="${userFromDao == null}">
 					<p class="mb-1">
-						<c:out value="No users are avaliable" />
+						<c:out value="User isn't avaliable" />
 					</p>
 					<hr class="mb-1">
 				</c:when>
@@ -55,15 +51,15 @@
 						<tr />
 						<tbody>
 							<tr>
-								<td>${user.getLoginPersonnelNumber()}></td>
-								<td>${user.getEmployeeName()}</td>
-								<td>${user.getEmployeeSurname()}</td>
-								<td>${user.getEmployeePatronymic()}</td>
-								<td>${user.getEmployeePosition()}</td>
-								<td>${user.getEmail()}</td>
-								<td>${user.getCreationDate()}</td>
-								<td>${user.getUserRole()}</td>
-								<td>${user.getEmployeePosition()}</td>
+								<td>${userFromDao.getLoginPersonnelNumber()}></td>
+								<td>${userFromDao.getEmployeeName()}</td>
+								<td>${userFromDao.getEmployeeSurname()}</td>
+								<td>${userFromDao.getEmployeePatronymic()}</td>
+								<td>${userFromDao.getEmployeePosition()}</td>
+								<td>${userFromDao.getEmail()}</td>
+								<td>${userFromDao.getCreationDate()}</td>
+								<td>${userFromDao.getUserRole()}</td>
+								<td>${userFromDao.getEmployeePosition()}</td>
 							</tr>
 						</tbody>
 					</table>

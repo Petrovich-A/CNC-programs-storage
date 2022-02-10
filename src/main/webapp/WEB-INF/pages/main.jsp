@@ -51,8 +51,7 @@
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
 				<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
-				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}
-						page</a></li>
+				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
@@ -82,7 +81,6 @@
 		</p>
 		<div class="programInput">
 			<form action="Controller" method="post">
-
 				<table class="programInputTable" cellspacing="0" cellpadding="4">
 					<tr>
 						<td align="right" width="100">number</td>
@@ -94,12 +92,14 @@
 						<td><input type="text" name="operationNumber" maxlength="50"
 							size="20" pattern="^\\d{2,7}+$" /></td>
 					</tr>
-					<tr>
-						<td align="right">fileExtension</td>
-						<td><input type="text" name="fileExtension" maxlength="50"
-							size="20" required pattern="^{2,5}+$" /></td>
-					</tr>
-
+					<c:forEach var="fileExtension" items="${fileExtension}">
+						<tr>
+							<td align="right">file Extension</td>
+							<td><select name="fileExtension" required>
+									<option value="">${fileExtension}</option>
+							</select></td>
+						</tr>
+					</c:forEach>
 					<tr>
 						<td align="right">comment</td>
 						<td><input type="text" name="comment" maxlength="50"

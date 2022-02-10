@@ -5,6 +5,8 @@ import by.petrovich.storage.dao.ColumnName;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.connection.ConnectionPool;
 import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.entity.FileExtensions;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +23,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ " operation_number, program_file_extension, comment, active, detail_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_READ = "SELECT program_id, program_text, program_name, create_time, operation_number, "
 			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE program_id";
+	private static final String SQL_READ_FILE_EXTENSIONS = "SELECT program_id";
 	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_id, program_text, program_name, create_time, "
 			+ "operation_number, program_file_extension, comment, active, detail_id WHERE program_id = ?";
 	private static final String SQL_DELETE = "DELETE FROM  program_id, program_text, program_name, create_time, operation_number, "
@@ -177,6 +180,23 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		cncProgram.setDate(new java.util.Date());
 		logger.log(Level.DEBUG, "cnc program build successfully, cncProgram: {}", cncProgram.toString());
 		return cncProgram;
+	}
+
+	@Override
+	public List<FileExtensions> findFileExtensionNames() throws DaoException {
+		List<FileExtensions> fileExtensionNames = new ArrayList<>();
+		FileExtensions fileExtensions = new FileExtensions();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_FILE_EXTENSIONS);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
+			while (resultSet.next()) {
+				fileExtensionNames.add(fileExtensions);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException();
+		}
+		return fileExtensionNames;
 	}
 
 }

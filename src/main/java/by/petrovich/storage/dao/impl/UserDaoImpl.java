@@ -66,27 +66,27 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.executeUpdate();
 			logger.log(Level.DEBUG, "DB user creating have done. user: {} ", user.toString());
 		} catch (SQLException e) {
-			logger.log(Level.DEBUG, "can't save user to DB. user: {} ", user.toString());
+			logger.log(Level.ERROR, "can't save user to DB. user: {} ", user.toString());
 			throw new DaoException(e);
 		}
 	}
 
 	@Override
 	public User read(int loginPersonnelNumber) throws DaoException {
-		User user = new User();
+		User userFromDao = new User();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ);
-				ResultSet resultSet = preparedStatement.executeQuery()) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
+			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				user = buildUserFromDB(resultSet);
+				userFromDao = buildUserFromDB(resultSet);
 			}
-			logger.log(Level.DEBUG, "can't read user with loginPersonnelNumber: {}", loginPersonnelNumber);
+			logger.log(Level.DEBUG, "userFromDao: {}", userFromDao.toString());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.log(Level.ERROR, "can't read user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
 			throw new DaoException(e);
 		}
-		return user;
+		return userFromDao;
 	}
 
 	@Override
@@ -114,6 +114,7 @@ public class UserDaoImpl implements UserDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
+			ResultSet resultSet = preparedStatement.executeQuery();
 			logger.log(Level.DEBUG, "user with id: {} is deleted", loginPersonnelNumber);
 		} catch (SQLException e) {
 			e.printStackTrace();
