@@ -1,10 +1,15 @@
 package by.petrovich.storage.entity;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public enum UserRole {
 	GUEST("guest", 1),
 	USER("user", 2),
 	ADMINISTRATOR("administrator", 3);
 
+	private static final Logger logger = LogManager.getLogger();
 	private int ordinalNumber;
 	private String roleName;
 
@@ -31,6 +36,7 @@ public enum UserRole {
 				return userRole;
 			}
 		}
+		logger.log(Level.ERROR, "enum has no element as: {}", roleName);
 		return null;
 	}
 }
