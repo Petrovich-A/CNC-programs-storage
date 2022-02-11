@@ -1,31 +1,37 @@
 package by.petrovich.storage.entity;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.StringJoiner;
 
 public class CncProgram {
     private int id;
     private String number;
-    private String programText;
     private int operationNumber;
-    private String fileExtension;
+    private String programText;
+    private Timestamp creationDate;
     private String comment;
     private boolean isActive;
-    private Date date;
+    private Detail detail;
+    private CncMachine cncMachine;
+    private FileExtensions fileExtension;
+    private int loginPersonnelNumber;
 
     public CncProgram() {
     }
 
-    public CncProgram(int id, String programText, String name, int operationNumber, String fileExtension,
-                      String comment, boolean isActive, Date date) {
+    public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate, String comment,
+                      boolean isActive, Detail detail, CncMachine cncMachine, FileExtensions fileExtension, int loginPersonnelNumber) {
         this.id = id;
-        this.programText = programText;
-        this.number = name;
+        this.number = number;
         this.operationNumber = operationNumber;
-        this.fileExtension = fileExtension;
+        this.programText = programText;
+        this.creationDate = creationDate;
         this.comment = comment;
         this.isActive = isActive;
-        this.date = date;
+        this.detail = detail;
+        this.cncMachine = cncMachine;
+        this.fileExtension = fileExtension;
+        this.loginPersonnelNumber = loginPersonnelNumber;
     }
 
     public int getId() {
@@ -36,20 +42,12 @@ public class CncProgram {
         this.id = id;
     }
 
-    public String getProgramText() {
-        return programText;
-    }
-
-    public void setProgramText(String programText) {
-        this.programText = programText;
-    }
-
-    public String getName() {
+    public String getNumber() {
         return number;
     }
 
-    public void setName(String name) {
-        this.number = name;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public int getOperationNumber() {
@@ -60,12 +58,20 @@ public class CncProgram {
         this.operationNumber = operationNumber;
     }
 
-    public String getFileExtension() {
-        return fileExtension;
+    public String getProgramText() {
+        return programText;
     }
 
-    public void setFileExtension(String fileExtension) {
-        this.fileExtension = fileExtension;
+    public void setProgramText(String programText) {
+        this.programText = programText;
+    }
+
+    public Timestamp getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getComment() {
@@ -84,12 +90,36 @@ public class CncProgram {
         isActive = active;
     }
 
-    public Date getDate() {
-        return date;
+    public Detail getDetail() {
+        return detail;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDetail(Detail detail) {
+        this.detail = detail;
+    }
+
+    public CncMachine getCncMachine() {
+        return cncMachine;
+    }
+
+    public void setCncMachine(CncMachine cncMachine) {
+        this.cncMachine = cncMachine;
+    }
+
+    public FileExtensions getFileExtension() {
+        return fileExtension;
+    }
+
+    public void setFileExtension(FileExtensions fileExtension) {
+        this.fileExtension = fileExtension;
+    }
+
+    public int getLoginPersonnelNumber() {
+        return loginPersonnelNumber;
+    }
+
+    public void setLoginPersonnelNumber(int loginPersonnelNumber) {
+        this.loginPersonnelNumber = loginPersonnelNumber;
     }
 
     @Override
@@ -102,25 +132,32 @@ public class CncProgram {
         if (getId() != that.getId()) return false;
         if (getOperationNumber() != that.getOperationNumber()) return false;
         if (isActive() != that.isActive()) return false;
+        if (getLoginPersonnelNumber() != that.getLoginPersonnelNumber()) return false;
+        if (getNumber() != null ? !getNumber().equals(that.getNumber()) : that.getNumber() != null) return false;
         if (getProgramText() != null ? !getProgramText().equals(that.getProgramText()) : that.getProgramText() != null)
             return false;
-        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
-        if (getFileExtension() != null ? !getFileExtension().equals(that.getFileExtension()) : that.getFileExtension() != null)
+        if (getCreationDate() != null ? !getCreationDate().equals(that.getCreationDate()) : that.getCreationDate() != null)
             return false;
         if (getComment() != null ? !getComment().equals(that.getComment()) : that.getComment() != null) return false;
-        return getDate() != null ? getDate().equals(that.getDate()) : that.getDate() == null;
+        if (getDetail() != null ? !getDetail().equals(that.getDetail()) : that.getDetail() != null) return false;
+        if (getCncMachine() != null ? !getCncMachine().equals(that.getCncMachine()) : that.getCncMachine() != null)
+            return false;
+        return getFileExtension() != null ? getFileExtension().equals(that.getFileExtension()) : that.getFileExtension() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId();
-        result = 31 * result + (getProgramText() != null ? getProgramText().hashCode() : 0);
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
         result = 31 * result + getOperationNumber();
-        result = 31 * result + (getFileExtension() != null ? getFileExtension().hashCode() : 0);
+        result = 31 * result + (getProgramText() != null ? getProgramText().hashCode() : 0);
+        result = 31 * result + (getCreationDate() != null ? getCreationDate().hashCode() : 0);
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
         result = 31 * result + (isActive() ? 1 : 0);
-        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
+        result = 31 * result + (getDetail() != null ? getDetail().hashCode() : 0);
+        result = 31 * result + (getCncMachine() != null ? getCncMachine().hashCode() : 0);
+        result = 31 * result + (getFileExtension() != null ? getFileExtension().hashCode() : 0);
+        result = 31 * result + getLoginPersonnelNumber();
         return result;
     }
 
@@ -128,13 +165,16 @@ public class CncProgram {
     public String toString() {
         return new StringJoiner(", ", CncProgram.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
-                .add("programText='" + programText + "'")
-                .add("name='" + number + "'")
+                .add("number='" + number + "'")
                 .add("operationNumber=" + operationNumber)
-                .add("fileExtension='" + fileExtension + "'")
+                .add("programText='" + programText + "'")
+                .add("creationDate=" + creationDate)
                 .add("comment='" + comment + "'")
                 .add("isActive=" + isActive)
-                .add("date=" + date)
+                .add("detail=" + detail)
+                .add("cncMachine=" + cncMachine)
+                .add("fileExtension=" + fileExtension)
+                .add("loginPersonnelNumber=" + loginPersonnelNumber)
                 .toString();
     }
 }

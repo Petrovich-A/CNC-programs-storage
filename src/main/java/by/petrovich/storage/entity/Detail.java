@@ -11,6 +11,13 @@ public class Detail {
         this.name = name;
     }
 
+    public Detail(String name) {
+        this.name = name;
+    }
+
+    public Detail() {
+    }
+
     public int getId() {
         return id;
     }
