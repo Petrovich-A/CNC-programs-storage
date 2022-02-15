@@ -21,17 +21,16 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic,"
-			+ " email, create_time, role_name, position_name FROM users LEFT JOIN user_roles ON role_id = user_role LEFT JOIN employee_positions ON position_id = employee_position";
+	private static final String SQL_READ_ALL = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic, email,"
+			+ "create_time, role_name, position_name FROM users LEFT JOIN user_roles "
+			+ "ON users.role_id = user_roles.role_id LEFT JOIN employee_positions ON users.position_id = employee_positions.position_id";
 	private static final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
-			+ "employee_surname, employee_patronymic, email, create_time, user_role_id, employee_positions_id) VALUES(?,?,?,?,?,?,?,?,?)";
-	private static final String SQL_DELETE = "DELETE FROM users login_personnel_number = ?, password = ?, employee_name = ?,"
-			+ " employee_surname = ?, employee_patronymic = ?, position = ?, email = ?, create_time = ?, users_roles_user_role_id = ?"
-			+ " WHERE user_id = ?";
+			+ "employee_surname, employee_patronymic, email, create_time, role_id, position_id) VALUES(?,?,?,?,?,?,?,?,?)";
+	private static final String SQL_DELETE = "DELETE FROM users WHERE login_personnel_number = ?";
 	private static final String SQL_UPDATE = "UPDATE users SET WHERE user_id = ?";
-	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic,"
-			+ " email, create_time, role_name, position_name FROM users LEFT JOIN user_roles ON role_id = user_role LEFT JOIN employee_positions "
-			+ "ON position_id = employee_position WHERE login_personnel_number = ?";
+	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic, email,"
+			+ "create_time, role_name, position_name FROM users LEFT JOIN user_roles ON users.role_id = user_roles.role_id "
+			+ "LEFT JOIN employee_positions ON users.position_id = employee_positions.position_id WHERE login_personnel_number = ?";
 	private static final String SQL_IS_EXIST = "SELECT EXISTS(SELECT login_personnel_number FROM users WHERE login_personnel_number = ?)";
 
 	@Override
@@ -41,7 +40,7 @@ public class UserDaoImpl implements UserDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_ALL);
 				ResultSet resultSet = preparedStatement.executeQuery()) {
 			while (resultSet.next()) {
-				allUsers.add(buildUserFromDB(resultSet));
+				allUsers.add(buildUser(resultSet));
 			}
 		} catch (SQLException e) {
 			logger.log(Level.ERROR, "to do", e);
@@ -79,7 +78,7 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setInt(1, loginPersonnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				userFromDao = buildUserFromDB(resultSet);
+				userFromDao = buildUser(resultSet);
 			}
 			logger.log(Level.DEBUG, "userFromDao: {}", userFromDao.toString());
 		} catch (SQLException e) {
@@ -102,9 +101,11 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(7, user.getEmail());
 			preparedStatement.setTimestamp(8, user.getCreationDate());
 			preparedStatement.setInt(9, user.getUserRole().getOrdinalNumber());
+			preparedStatement.executeUpdate();
 			logger.log(Level.DEBUG, "user is updated", user.toString());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {} in DB. user: {} ",
+					loginPersonnelNumber, user.toString(), e);
 			throw new DaoException(e);
 		}
 	}
@@ -114,10 +115,10 @@ public class UserDaoImpl implements UserDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			logger.log(Level.DEBUG, "user with id: {} is deleted", loginPersonnelNumber);
+			preparedStatement.executeUpdate();
+			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is deleted", loginPersonnelNumber);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.log(Level.ERROR, "can't delete user with loginPersonnelNumber: {} in DB", loginPersonnelNumber, e);
 			throw new DaoException(e);
 		}
 	}
@@ -141,7 +142,7 @@ public class UserDaoImpl implements UserDao {
 		return isExist;
 	}
 
-	private User buildUserFromDB(ResultSet resultSet) throws SQLException {
+	private User buildUser(ResultSet resultSet) throws SQLException {
 		User user = new User();
 		user.setLoginPersonnelNumber(resultSet.getInt(ColumnName.LOGIN_PERSONNEL_NUMBER));
 		user.setPassword(resultSet.getString(ColumnName.PASSWORD));

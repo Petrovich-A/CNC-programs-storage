@@ -35,7 +35,7 @@
 				<c:choose>
 					<c:when test="${allUsers.size() == 0 || allUsers.size() == null}">
 						<p class="mb-1">
-							<c:out value="No news are avaliable" />
+							<c:out value="No users are avaliable" />
 						</p>
 						<hr class="mb-1">
 					</c:when>
@@ -88,7 +88,7 @@
 				<c:choose>
 					<c:when test="${allUsers.size() == 0 || allUsers.size() == null}">
 						<p class="mb-1">
-							<c:out value="No users are avaliable" />
+							<c:out value="No CNC programs are avaliable" />
 						</p>
 						<hr class="mb-1">
 					</c:when>

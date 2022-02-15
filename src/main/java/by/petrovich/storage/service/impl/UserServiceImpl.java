@@ -23,16 +23,22 @@ public class UserServiceImpl implements UserService {
 	public User authorizate(User userFromAuthorizationForm) throws ServiceException {
 		User userFromDao = null;
 		boolean isUserExists = false;
-		if (!isUserExists) {
+		try {
+			isUserExists = userDao.isUserExists(userFromAuthorizationForm.getLoginPersonnelNumber());
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} isn't exist in DB", e);
+			throw new ServiceException(e);
+		}
+		if (isUserExists) {
 			try {
 				userFromDao = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
 				userFromDao.setUserRole(UserRole.USER);
 				userDao.update(userFromDao, userFromDao.getLoginPersonnelNumber());
 				logger.log(Level.DEBUG, "user is authorized. user: {}", userFromDao.toString());
-			} catch (DaoException e) {
+			} catch (DaoException e1) {
 				logger.log(Level.ERROR, "user with LoginPersonnelNumber: {} can't be authorizate",
-						userFromAuthorizationForm.getLoginPersonnelNumber(), e);
-				throw new ServiceException(e);
+						userFromAuthorizationForm.getLoginPersonnelNumber(), e1);
+				throw new ServiceException(e1);
 			}
 		}
 		return userFromDao;

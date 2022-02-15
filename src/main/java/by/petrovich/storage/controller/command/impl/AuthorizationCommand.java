@@ -25,7 +25,7 @@ public class AuthorizationCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
-		User userFromAuthorizationForm = null;
+		User userFromAuthorizationForm = new User();
 		userFromAuthorizationForm
 				.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));
 		userFromAuthorizationForm.setPassword(getParameterToCheck("password", request));
