@@ -12,6 +12,7 @@ import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.EmployeePosition;
 import by.petrovich.storage.entity.User;
+import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
@@ -36,7 +37,7 @@ public class UserUpdate implements Command {
 			userService.update(userFromUpdateForm, loginPersonnelNumber);
 			session.setAttribute("message", UPDATE_USER_SUCCESSFUL);
 			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is updated", loginPersonnelNumber);
-			return new Router(PathToPage.ADMIN, RouterType.FORWARD);
+			return new Router(PathToPage.ADMIN_USERS, RouterType.FORWARD);
 		} catch (ServiceException e) {
 			session.setAttribute("message", UPDATE_USER_FAILD);
 			logger.log(Level.DEBUG, "can't update user with loginPersonnelNumber: {}, user: {}", loginPersonnelNumber,
@@ -54,6 +55,7 @@ public class UserUpdate implements Command {
 		user.setEmployeeSurname(getParameterToCheck("employeeSurname", request));
 		user.setEmployeePatronymic(getParameterToCheck("employeePatronymic", request));
 		user.setEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)));
+		user.setUserRole(UserRole.fromString(getParameterToCheck("userRole", request)));
 		user.setEmail(getParameterToCheck("email", request));
 		user.setCreationDate(timestamp);
 		logger.log(Level.DEBUG, "buildUser: {}", user.toString());

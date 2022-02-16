@@ -43,40 +43,61 @@
 								<tr>
 									<td>loginPersonnelNumber</td>
 									<td><input name="loginPersonnelNumber"
-										value="${user.getLoginPersonnelNumber()}" pattern="^{3,20}+$"></td>
+										value="${user.getLoginPersonnelNumber()}" pattern="^\\d{5}+$"></td>
 								</tr>
 								<tr>
 									<td>EmployeeName</td>
-									<td>${user.getEmployeeName()}</td>
+									<td><input name="employeeName"
+										value="${user.getEmployeeName()}" pattern="^{8,40}+$"></td>
 								</tr>
 								<tr>
 									<td>EmployeeSurname</td>
-									<td>${user.getEmployeeSurname()}</td>
+									<td><input name="employeeSurname"
+										value="${user.getEmployeeSurname()}" pattern="^(?={8,40}+$"></td>
 								</tr>
 								<tr>
 									<td>EmployeePatronymic</td>
-									<td>${user.getEmployeePatronymic()}</td>
+									<td><input name="employeePatronymic"
+										value="${user.getEmployeePatronymic()}" pattern="^(?={8,40}+$"></td>
 								</tr>
 								<tr>
-									<td>employeePosition</td>
-									<td>${user.getEmployeePosition()}</td>
+									<td align="right">position</td>
+									<td><select name="employeePosition" required>
+											<option value="engineering_technician" selected>engineering
+												technologist</option>
+											<option value="cnc_programmer">CNC programmer</option>
+									</select></td>
 								</tr>
 								<tr>
 									<td>email</td>
-									<td>${user.getEmail()}</td>
+									<td><input type="email" name="email"
+										value="${user.getEmail()}" pattern="^\S+@\S+\.\S+$"></td>
+								</tr>
+
+								<tr>
+									<td align="right">user role</td>
+									<td><select name="userRole" required>
+											<option value="GUEST" selected>GUEST</option>
+											<option value="USER">USER</option>
+											<option value="ADMINISTRATOR">ADMINISTRATOR</option>
+									</select></td>
+								</tr>
+
+								<tr>
+									<td align="right">password</td>
+									<td><input type="password" id="password-input"
+										name="password" required
+										pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
+									</td>
+									<td>Password should contain latin symbols (A-z), cyrillic
+										symbols (А-я), digits (0-9) 8 to 40 characters long</td>
 								</tr>
 								<tr>
-									<td>CreationDate</td>
-									<td>${user.getCreationDate()}</td>
-								</tr>
+									<td align="right">confirm password</td>
+									<td><input type="password" id="passwordConfirm"
+										name="passwordConfirm" required
+										pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
 								<tr>
-									<td>role name</td>
-									<td>${user.getUserRole()}</td>
-								</tr>
-								<tr>
-									<td>position name</td>
-									<td>${user.getEmployeePosition()}</td>
-								</tr>
 							</tbody>
 						</table>
 						<div class="button">
