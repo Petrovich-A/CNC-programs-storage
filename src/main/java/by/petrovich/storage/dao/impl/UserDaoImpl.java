@@ -27,7 +27,9 @@ public class UserDaoImpl implements UserDao {
 	private static final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
 			+ "employee_surname, employee_patronymic, email, create_time, role_id, position_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE = "DELETE FROM users WHERE login_personnel_number = ?";
-	private static final String SQL_UPDATE = "UPDATE users SET WHERE user_id = ?";
+	private static final String SQL_UPDATE = "UPDATE users SET login_personnel_number = ?, password = ?, employee_name = ?, employee_surname = ?, "
+			+ "employee_patronymic = ?, email  = ?, create_time = ?, role_id = ?, position_id = ? "
+			+ "WHERE login_personnel_number = ?";
 	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic, email,"
 			+ "create_time, role_name, position_name FROM users LEFT JOIN user_roles ON users.role_id = user_roles.role_id "
 			+ "LEFT JOIN employee_positions ON users.position_id = employee_positions.position_id WHERE login_personnel_number = ?";
@@ -101,6 +103,7 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(7, user.getEmail());
 			preparedStatement.setTimestamp(8, user.getCreationDate());
 			preparedStatement.setInt(9, user.getUserRole().getOrdinalNumber());
+			preparedStatement.setInt(10, user.getEmployeePosition().getOrdinalNumber());
 			preparedStatement.executeUpdate();
 			logger.log(Level.DEBUG, "user is updated", user.toString());
 		} catch (SQLException e) {

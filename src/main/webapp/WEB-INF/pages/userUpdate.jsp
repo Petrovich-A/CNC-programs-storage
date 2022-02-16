@@ -4,9 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="customtags" prefix="ctg"%>
 <%@ page import="by.petrovich.storage.entity.User"%>
-<%@ page import="by.petrovich.storage.entity.CncProgram"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,42 +27,64 @@
 		</div>
 	</div>
 	<main>
-		<section class="users">
+		<section class="user">
 			<h2>User info:</h2>
 			<c:choose>
-				<c:when test="${user.size() == 0 || user.size() == null}">
+				<c:when test="${user == null}">
 					<p class="mb-1">
-						<c:out value="No news are avaliable" />
+						<c:out value="No user avaliable" />
 					</p>
 					<hr class="mb-1">
 				</c:when>
 				<c:otherwise>
-					<table class="">
-						<tr>
-							<th>loginPersonnelNumber</th>
-							<th>EmployeeName</th>
-							<th>EmployeeSurname</th>
-							<th>EmployeePatronymic</th>
-							<th>employeePosition</th>
-							<th>email</th>
-							<th>CreationDate</th>
-							<th>user role</th>
-						<tr />
-						<tbody>
-							<c:forEach var="user" items="${user}">
+					<form action="Controller" method="POST">
+						<table class="">
+							<tbody>
 								<tr>
-									<td>${user.getLoginPersonnelNumber()}></td>
+									<td>loginPersonnelNumber</td>
+									<td><input name="loginPersonnelNumber"
+										value="${user.getLoginPersonnelNumber()}" pattern="^{3,20}+$"></td>
+								</tr>
+								<tr>
+									<td>EmployeeName</td>
 									<td>${user.getEmployeeName()}</td>
+								</tr>
+								<tr>
+									<td>EmployeeSurname</td>
 									<td>${user.getEmployeeSurname()}</td>
+								</tr>
+								<tr>
+									<td>EmployeePatronymic</td>
 									<td>${user.getEmployeePatronymic()}</td>
+								</tr>
+								<tr>
+									<td>employeePosition</td>
 									<td>${user.getEmployeePosition()}</td>
+								</tr>
+								<tr>
+									<td>email</td>
 									<td>${user.getEmail()}</td>
+								</tr>
+								<tr>
+									<td>CreationDate</td>
 									<td>${user.getCreationDate()}</td>
+								</tr>
+								<tr>
+									<td>role name</td>
 									<td>${user.getUserRole()}</td>
 								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+								<tr>
+									<td>position name</td>
+									<td>${user.getEmployeePosition()}</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="button">
+							<input type="hidden" name="commandName" value="user_update" />
+							<button type="submit" class="submit_button">Update</button>
+							<button type="reset" value="Reset">Reset</button>
+						</div>
+					</form>
 				</c:otherwise>
 			</c:choose>
 		</section>

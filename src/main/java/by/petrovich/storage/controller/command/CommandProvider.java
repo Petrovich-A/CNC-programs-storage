@@ -16,6 +16,8 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_ADMIN_PAGE, new GoToAdminPage());
 		commands.put(CommandName.GO_TO_USER_INFO, new GoToUserInfo());
 		commands.put(CommandName.GO_TO_UPDATE_USER_PAGE, new GoToUpdateUserPage());
+		commands.put(CommandName.GO_TO_ADMIN_USERS_PAGE, new GoToAdminUsersPage());
+		commands.put(CommandName.GO_TO_ADMIN_ADD_EXTENSION_PAGE, new GoToAdminAddExtensionPage());
 
 		commands.put(CommandName.CNC_PROGRAM_SAVE, new CncProgramSave());
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
