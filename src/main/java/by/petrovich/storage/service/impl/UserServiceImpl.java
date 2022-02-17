@@ -113,7 +113,8 @@ public class UserServiceImpl implements UserService {
 		try {
 			userDao.update(userFromUpdateForm, loginPersonnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't update user: {}", userFromUpdateForm, loginPersonnelNumber, e);
+			logger.log(Level.ERROR, "can't update user: {} with loginPersonnelNumber: {}", userFromUpdateForm,
+					loginPersonnelNumber, e);
 			throw new ServiceException(e);
 		}
 	}

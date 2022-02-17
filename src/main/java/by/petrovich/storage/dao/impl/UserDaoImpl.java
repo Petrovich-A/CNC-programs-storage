@@ -99,13 +99,13 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(3, user.getEmployeeName());
 			preparedStatement.setString(4, user.getEmployeeSurname());
 			preparedStatement.setString(5, user.getEmployeePatronymic());
-			preparedStatement.setInt(6, user.getEmployeePosition().ordinal());
-			preparedStatement.setString(7, user.getEmail());
-			preparedStatement.setTimestamp(8, user.getCreationDate());
-			preparedStatement.setInt(9, user.getUserRole().getOrdinalNumber());
-			preparedStatement.setInt(10, user.getEmployeePosition().getOrdinalNumber());
+			preparedStatement.setString(6, user.getEmail());
+			preparedStatement.setTimestamp(7, user.getCreationDate());
+			preparedStatement.setInt(8, user.getUserRole().getOrdinalNumber());
+			preparedStatement.setInt(9, user.getEmployeePosition().getOrdinalNumber());
+			preparedStatement.setInt(10, loginPersonnelNumber);
 			preparedStatement.executeUpdate();
-			logger.log(Level.DEBUG, "user is updated", user.toString());
+			logger.log(Level.DEBUG, "user is updated. user: {}", user.toString());
 		} catch (SQLException e) {
 			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {} in DB. user: {} ",
 					loginPersonnelNumber, user.toString(), e);

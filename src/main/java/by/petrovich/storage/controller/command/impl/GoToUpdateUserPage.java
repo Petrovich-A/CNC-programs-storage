@@ -28,10 +28,10 @@ public class GoToUpdateUserPage implements Command {
 		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		try {
 			user = userService.read(loginPersonnelNumber);
+			session.setAttribute("user", user);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} can't be read", loginPersonnelNumber, e);
 		}
-		session.setAttribute("user", user);
 		return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
 	}
 
