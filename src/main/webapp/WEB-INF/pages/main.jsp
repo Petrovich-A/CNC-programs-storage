@@ -76,9 +76,7 @@
 		</form>
 	</div>
 	<main>
-		<p>
-			<c:out value="${message}" default="test using jstl" />
-		</p>
+		<h2>${message}</h2>
 		<div class="programInput">
 			<form action="Controller" method="post">
 				<table class="programInputTable" cellspacing="0" cellpadding="4">
