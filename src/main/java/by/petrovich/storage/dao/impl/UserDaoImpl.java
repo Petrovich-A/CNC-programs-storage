@@ -44,9 +44,9 @@ public class UserDaoImpl implements UserDao {
 			while (resultSet.next()) {
 				allUsers.add(buildUser(resultSet));
 			}
+			logger.log(Level.INFO, "read allUsers from BD have done successfully. allUsers: {} ", allUsers.toString());
 		} catch (SQLException e) {
-			logger.log(Level.ERROR, "to do", e);
-			throw new DaoException(e);
+			throw new DaoException(String.format("can't read allUsers from DB", e));
 		}
 		return allUsers;
 	}
@@ -65,10 +65,9 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setInt(8, user.getUserRole().getOrdinalNumber());
 			preparedStatement.setInt(9, user.getEmployeePosition().getOrdinalNumber());
 			preparedStatement.executeUpdate();
-			logger.log(Level.DEBUG, "DB user creating have done. user: {} ", user.toString());
+			logger.log(Level.INFO, "User creating from BD have done successfully. user: {} ", user.toString());
 		} catch (SQLException e) {
-			logger.log(Level.ERROR, "can't save user to DB. user: {} ", user.toString());
-			throw new DaoException(e);
+			throw new DaoException(String.format("can't create user to DB. user: %s ", user.toString()), e);
 		}
 	}
 
@@ -82,10 +81,11 @@ public class UserDaoImpl implements UserDao {
 			while (resultSet.next()) {
 				userFromDao = buildUser(resultSet);
 			}
-			logger.log(Level.DEBUG, "userFromDao: {}", userFromDao.toString());
+			logger.log(Level.INFO, "User reading from BD have done successfully. userFromDao: {}",
+					userFromDao.toString());
 		} catch (SQLException e) {
-			logger.log(Level.ERROR, "can't read user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
-			throw new DaoException(e);
+			throw new DaoException(
+					String.format("can't read user with loginPersonnelNumber: %s from DB", loginPersonnelNumber, e));
 		}
 		return userFromDao;
 	}
@@ -105,11 +105,10 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setInt(9, user.getEmployeePosition().getOrdinalNumber());
 			preparedStatement.setInt(10, loginPersonnelNumber);
 			preparedStatement.executeUpdate();
-			logger.log(Level.DEBUG, "user is updated. user: {}", user.toString());
+			logger.log(Level.INFO, "user is updated. user: {}", user.toString());
 		} catch (SQLException e) {
-			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {} in DB. user: {} ",
-					loginPersonnelNumber, user.toString(), e);
-			throw new DaoException(e);
+			throw new DaoException(String.format("can't update user with loginPersonnelNumber: %s in DB. user: %s ",
+					loginPersonnelNumber, user.toString(), e));
 		}
 	}
 
@@ -119,10 +118,10 @@ public class UserDaoImpl implements UserDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
 			preparedStatement.executeUpdate();
-			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is deleted", loginPersonnelNumber);
+			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is deleted", loginPersonnelNumber);
 		} catch (SQLException e) {
-			logger.log(Level.ERROR, "can't delete user with loginPersonnelNumber: {} in DB", loginPersonnelNumber, e);
-			throw new DaoException(e);
+			throw new DaoException(
+					String.format("can't delete user with loginPersonnelNumber: %s in DB", loginPersonnelNumber, e));
 		}
 	}
 
@@ -138,10 +137,9 @@ public class UserDaoImpl implements UserDao {
 				isExist = resultSet.getBoolean(1);
 			}
 		} catch (SQLException e) {
-			logger.log(Level.ERROR, "Can't do isExists. SQL_IS_EXIST: {}", SQL_IS_EXIST, e);
-			throw new DaoException(e);
+			throw new DaoException(String.format("Can't do isExists. SQL_IS_EXIST: %s", isExist, e));
 		}
-		logger.log(Level.DEBUG, "isExists: {}", isExist);
+		logger.log(Level.INFO, "isExists: {}", isExist);
 		return isExist;
 	}
 
@@ -156,7 +154,7 @@ public class UserDaoImpl implements UserDao {
 		user.setCreationDate(resultSet.getTimestamp(ColumnName.CREATE_TIME));
 		user.setUserRole(UserRole.fromString(resultSet.getString(ColumnName.ROLE_NAME)));
 		user.setEmployeePosition(EmployeePosition.fromString(resultSet.getString(ColumnName.POSITION_NAME)));
-		logger.log(Level.DEBUG, "user from DB is built successfully", user.toString());
+		logger.log(Level.INFO, "user from DB is built successfully: {}", user.toString());
 		return user;
 	}
 
