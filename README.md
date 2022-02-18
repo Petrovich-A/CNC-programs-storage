@@ -15,6 +15,7 @@ ___
 - [x] administrator can read user info, update, delete users  
 #### :two: To do list :clipboard:
 - [ ] hash password
+- [ ] pagination
 - [ ] save Cnc Program
 - [ ] filters
 - [ ] logout
