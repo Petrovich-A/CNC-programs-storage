@@ -13,14 +13,12 @@ public class CncProgram {
     private boolean isActive;
     private Detail detail;
     private CncMachine cncMachine;
-    private FileExtensions fileExtension;
     private int loginPersonnelNumber;
 
     public CncProgram() {
     }
 
-    public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate, String comment,
-                      boolean isActive, Detail detail, CncMachine cncMachine, FileExtensions fileExtension, int loginPersonnelNumber) {
+    public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate, String comment, boolean isActive, Detail detail, CncMachine cncMachine, int loginPersonnelNumber) {
         this.id = id;
         this.number = number;
         this.operationNumber = operationNumber;
@@ -30,8 +28,17 @@ public class CncProgram {
         this.isActive = isActive;
         this.detail = detail;
         this.cncMachine = cncMachine;
-        this.fileExtension = fileExtension;
         this.loginPersonnelNumber = loginPersonnelNumber;
+    }
+
+    public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate, String comment, boolean isActive) {
+        this.id = id;
+        this.number = number;
+        this.operationNumber = operationNumber;
+        this.programText = programText;
+        this.creationDate = creationDate;
+        this.comment = comment;
+        this.isActive = isActive;
     }
 
     public int getId() {
@@ -106,14 +113,6 @@ public class CncProgram {
         this.cncMachine = cncMachine;
     }
 
-    public FileExtensions getFileExtension() {
-        return fileExtension;
-    }
-
-    public void setFileExtension(FileExtensions fileExtension) {
-        this.fileExtension = fileExtension;
-    }
-
     public int getLoginPersonnelNumber() {
         return loginPersonnelNumber;
     }
@@ -140,9 +139,7 @@ public class CncProgram {
             return false;
         if (getComment() != null ? !getComment().equals(that.getComment()) : that.getComment() != null) return false;
         if (getDetail() != null ? !getDetail().equals(that.getDetail()) : that.getDetail() != null) return false;
-        if (getCncMachine() != null ? !getCncMachine().equals(that.getCncMachine()) : that.getCncMachine() != null)
-            return false;
-        return getFileExtension() != null ? getFileExtension().equals(that.getFileExtension()) : that.getFileExtension() == null;
+        return getCncMachine() != null ? getCncMachine().equals(that.getCncMachine()) : that.getCncMachine() == null;
     }
 
     @Override
@@ -156,7 +153,6 @@ public class CncProgram {
         result = 31 * result + (isActive() ? 1 : 0);
         result = 31 * result + (getDetail() != null ? getDetail().hashCode() : 0);
         result = 31 * result + (getCncMachine() != null ? getCncMachine().hashCode() : 0);
-        result = 31 * result + (getFileExtension() != null ? getFileExtension().hashCode() : 0);
         result = 31 * result + getLoginPersonnelNumber();
         return result;
     }
@@ -173,7 +169,6 @@ public class CncProgram {
                 .add("isActive=" + isActive)
                 .add("detail=" + detail)
                 .add("cncMachine=" + cncMachine)
-                .add("fileExtension=" + fileExtension)
                 .add("loginPersonnelNumber=" + loginPersonnelNumber)
                 .toString();
     }

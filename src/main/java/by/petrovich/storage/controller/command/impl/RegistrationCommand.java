@@ -54,7 +54,7 @@ public class RegistrationCommand implements Command {
 		user.setEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)));
 		user.setEmail(getParameterToCheck("email", request));
 		user.setCreationDate(timestamp);
-		logger.log(Level.DEBUG, "buildUser: {}", user.toString());
+		logger.log(Level.INFO, "buildUser: {}", user.toString());
 		return user;
 	}
 

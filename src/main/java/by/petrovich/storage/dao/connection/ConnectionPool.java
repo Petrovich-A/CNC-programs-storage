@@ -46,7 +46,7 @@ public class ConnectionPool {
 				Connection connection = DriverManager.getConnection(READER.get(PROP_URL), READER.get(PROP_USERNAME),
 						READER.get(PROP_PASSWORD));
 				freeConnections.offer(new ProxyConnection(connection));
-				logger.log(Level.DEBUG, "connection have been got");
+				logger.log(Level.INFO, "connection have been got");
 			}
 		} catch (SQLException e) {
 			logger.log(Level.ERROR, "proxyConnection isn't created", e);

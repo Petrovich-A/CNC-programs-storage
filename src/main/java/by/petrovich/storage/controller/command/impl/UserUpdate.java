@@ -22,10 +22,10 @@ import jakarta.servlet.http.HttpSession;
 
 public class UserUpdate implements Command {
 	private static final Logger logger = LogManager.getLogger();
+	private static final String UPDATE_USER_SUCCESSFUL = "user updating is successful";
+	private static final String UPDATE_USER_FAILD = "user updating is faild";
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String UPDATE_USER_SUCCESSFUL = "user updating is successful";
-	private final String UPDATE_USER_FAILD = "user updating is faild";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
@@ -35,12 +35,12 @@ public class UserUpdate implements Command {
 		try {
 			userService.update(userFromUpdateForm, userFromSession.getLoginPersonnelNumber());
 			session.setAttribute("message", UPDATE_USER_SUCCESSFUL);
-			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is updated",
+			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is updated",
 					userFromSession.getLoginPersonnelNumber());
 			return new Router(PathToPage.ADMIN_USERS, RouterType.FORWARD);
 		} catch (ServiceException e) {
 			session.setAttribute("message", UPDATE_USER_FAILD);
-			logger.log(Level.DEBUG, "can't update user with loginPersonnelNumber: {}, user: {}",
+			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {}, user: {}",
 					userFromSession.getLoginPersonnelNumber(), userFromUpdateForm.toString(), e);
 			return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
 		}
@@ -58,7 +58,7 @@ public class UserUpdate implements Command {
 		user.setUserRole(UserRole.fromString(getParameterToCheck("userRole", request)));
 		user.setEmail(getParameterToCheck("email", request));
 		user.setCreationDate(timestamp);
-		logger.log(Level.DEBUG, "buildUser: {}", user.toString());
+		logger.log(Level.INFO, "buildUser: {}", user.toString());
 		return user;
 	}
 

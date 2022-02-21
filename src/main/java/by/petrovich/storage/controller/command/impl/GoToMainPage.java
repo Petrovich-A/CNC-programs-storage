@@ -35,7 +35,7 @@ public class GoToMainPage implements Command {
 		try {
 			allUsers = userService.readAll();
 		} catch (ServiceException e) {
-			logger.log(Level.DEBUG, allUsers.toString(), e);
+			logger.log(Level.INFO, allUsers.toString(), e);
 		}
 		session.setAttribute("allUsers", allUsers);
 

@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 				userFromDao = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
 				userFromDao.setUserRole(UserRole.USER);
 				userDao.update(userFromDao, userFromDao.getLoginPersonnelNumber());
-				logger.log(Level.DEBUG, "user is authorized. user: {}", userFromDao.toString());
+				logger.log(Level.INFO, "user is authorized. user: {}", userFromDao.toString());
 			} catch (DaoException e1) {
 				logger.log(Level.ERROR, "user with LoginPersonnelNumber: {} can't be authorizate",
 						userFromAuthorizationForm.getLoginPersonnelNumber(), e1);

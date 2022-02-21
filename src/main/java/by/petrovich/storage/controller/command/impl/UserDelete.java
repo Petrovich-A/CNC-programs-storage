@@ -30,11 +30,11 @@ public class UserDelete implements Command {
 		try {
 			userService.delete(loginPersonnelNumber);
 			session.setAttribute("message", DELETE_USER_SUCCESSFUL);
-			logger.log(Level.DEBUG, "user with loginPersonnelNumber: {} is deleted", loginPersonnelNumber);
+			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is deleted", loginPersonnelNumber);
 			return new Router(PathToPage.ADMIN, RouterType.REDIRECT);
 		} catch (ServiceException e) {
 			session.setAttribute("message", DELETE_USER_FAILD);
-			logger.log(Level.DEBUG, "can't delete user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
+			logger.log(Level.INFO, "can't delete user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
 			return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 		}
 	}
