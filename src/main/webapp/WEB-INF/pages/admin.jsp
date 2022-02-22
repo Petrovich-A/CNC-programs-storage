@@ -32,10 +32,11 @@
 	</div>
 	<main>
 		<section class="cncPrograms">
-			<h2>List of cncPrograms</h2>
+			<h2>List of cncPrograms:</h2>
 			<form action="Controller" method="POST">
 				<c:choose>
-					<c:when test="${allUsers.size() == 0 || allUsers.size() == null}">
+					<c:when
+						test="${allCncPrograms.size() == 0 || allCncPrograms.size() == null}">
 						<p class="mb-1">
 							<c:out value="No CNC programs are avaliable" />
 						</p>
@@ -46,22 +47,20 @@
 							<thead>
 								<tr>
 									<th></th>
+									<th>id</th>
 									<th>number</th>
-									<th>operationNumber</th>
-									<th>fileExtension</th>
-									<th>isActive</th>
-									<th>date</th>
+									<th>operation Number</th>
+									<th>Creation Date</th>
 								<tr />
 							</thead>
 							<tbody>
-								<c:forEach var="cncProgram" items="${cn}">
+								<c:forEach var="cncProgram" items="${cncProgram}">
 									<tr>
 										<td><input class="" type="radio" name="id"
-											required="required" value="${user.getId()}"></td>
+											required="required" value="${cncProgram.getId()}"></td>
+										<td>${cncProgram.getNumber()}</td>
 										<td>${cncProgram.getOperationNumber()}</td>
-										<td>${cncProgram.getFileExtension()}</td>
-										<td>${cncProgram.isActive()}</td>
-										<td>${cncProgram.getDate()}</td>
+										<td>${cncProgram.getCreationDate()}</td>
 									</tr>
 								</c:forEach>
 							</tbody>

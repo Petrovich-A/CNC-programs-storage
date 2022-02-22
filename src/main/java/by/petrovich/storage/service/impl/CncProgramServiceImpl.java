@@ -20,6 +20,21 @@ public class CncProgramServiceImpl implements CncProgramService {
 	private final CncProgramDao cncProgramDao = daoProvider.getCncProgramDao();
 
 	@Override
+	public void create(CncProgram cncProgramFromMainForm, int loginPersonnelNumber) throws ServiceException {
+		if (cncProgramValidate(cncProgramFromMainForm)) {
+			cncProgramFromMainForm.setActive(true);
+			try {
+				cncProgramDao.create(cncProgramFromMainForm, loginPersonnelNumber);
+			} catch (DaoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			logger.log(Level.ERROR, "cid: {}");
+		}
+	}
+
+	@Override
 	public CncProgram read(int id) throws ServiceException {
 		CncProgram cncProgramFromDao = null;
 		try {
@@ -35,7 +50,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	public List<CncProgram> readAll() throws ServiceException {
 		List<CncProgram> allCncPrograms = null;
 		try {
-			allCncPrograms = cncProgramDao.findAll();
+			allCncPrograms = cncProgramDao.readAll();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't find all CNC programs in BD", e);
 			throw new ServiceException(e);
@@ -77,18 +92,6 @@ public class CncProgramServiceImpl implements CncProgramService {
 	public List<CncProgram> findAmountOfRows(int startRow, int amountOfRows) throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void create(CncProgram cncProgramFromMainForm) throws ServiceException {
-		// TODO validate
-		try {
-			cncProgramDao.create(cncProgramFromMainForm);
-		} catch (DaoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new ServiceException(e);
-		}
 	}
 
 }

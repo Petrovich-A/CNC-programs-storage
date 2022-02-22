@@ -1,18 +1,26 @@
 package by.petrovich.storage.validator;
 
+import by.petrovich.storage.entity.CncMachine;
 import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.entity.Detail;
 
 public interface CncProgramValidate {
 	boolean isCncProgramValid(CncProgram cncProgram);
 
-	boolean isNumber(String number);
+	boolean isDetailValid(Detail detail);
 
-	boolean isProgramText(String programText);
+	boolean isCncMachineValid(CncMachine cncMachine);
+
+	boolean isNumber(String number);
 
 	boolean isOperationNumber(String operationNumber);
 
-	boolean isFileExtension(String fileExtension);
-
 	boolean isComment(String comment);
+
+	boolean isDatailName(String name);
+
+	boolean isCncMachineModelValid(String model);
+
+	boolean isCncMachineCodeEquipmentValid(String codeEquipment);
 
 }

@@ -21,8 +21,12 @@ import java.util.List;
 
 public class CncProgramDaoImpl implements CncProgramDao {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_READ_ALL = "SELECT program_id, program_text, program_name, create_time, operation_number,"
-			+ " program_file_extension, comment, active, detail_id FROM cnc_programs";
+	private static final String SQL_READ_ALL = "SELECT program_id, program_number, operation_number, program_text, "
+			+ "cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id, "
+			+ "cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model, cnc_machines.code_equipment "
+			+ "FROM cnc_programs LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
+			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
+			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id";
 	private static final String SQL_CREATE = "INSERT INTO cnc_programs(program_number, operation_number, program_text, create_time,"
 			+ " comment, active, login_personnel_number, detail_id, cnc_machine_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_READ = "SELECT program_id, program_number, operation_number, program_text, cnc_programs.create_time,"
@@ -41,7 +45,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_CREATE_CNC_MACHINE = "INSERT INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
 
 	@Override
-	public List<CncProgram> findAll() throws DaoException {
+	public List<CncProgram> readAll() throws DaoException {
 		List<CncProgram> allCncPrograms = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_ALL);
@@ -50,8 +54,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 				allCncPrograms.add(buildCncProgram(resultSet));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DaoException();
+			throw new DaoException(String.format("can't read allCncPrograms from DB", e));
 		}
 		return allCncPrograms;
 	}
@@ -251,6 +254,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		Detail detail = new Detail();
 		detail.setId(resultSet.getInt(ColumnName.DETAIL_ID));
 		detail.setName(resultSet.getString(ColumnName.DETAIL_NAME));
+		logger.log(Level.INFO, "detail build successfully, detail: {}", detail.toString());
 		return detail;
 
 	}
@@ -260,8 +264,8 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		cncMachine.setId(resultSet.getInt(ColumnName.CNC_MACHINE_ID));
 		cncMachine.setModel(resultSet.getString(ColumnName.MODEL));
 		cncMachine.setId(resultSet.getInt(ColumnName.CODE_EQUIPMENT));
+		logger.log(Level.INFO, "cncMachine build successfully, cncMachine: {}", cncMachine.toString());
 		return cncMachine;
-
 	}
 
 }

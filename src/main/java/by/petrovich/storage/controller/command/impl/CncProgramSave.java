@@ -7,7 +7,7 @@ import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.CncMachine;
 import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.entity.Detail;
-import by.petrovich.storage.entity.FileExtensions;
+import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
@@ -32,16 +32,21 @@ public class CncProgramSave implements Command {
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		CncProgram cncProgramFromMainForm = buildCncProgram(request);
 		HttpSession session = request.getSession(true);
-		try {
-			logger.log(Level.DEBUG, "Cnc program from main form is received", cncProgramFromMainForm.toString());
-			cncProgramService.create(cncProgramFromMainForm);
-			session.setAttribute("mesage", CNC_PROGRAM_SAVE_SUCCESSFUL);
-			return new Router(PathToPage.MAIN, RouterType.FORWARD);
-		} catch (ServiceException e) {
-			session.setAttribute("mesage", CNC_PROGRAM_SAVE__FAILD);
-			logger.log(Level.ERROR, e.getLocalizedMessage());
-			return new Router(PathToPage.MAIN, RouterType.FORWARD);
+		User user = new User();
+		user = (User) session.getAttribute("user");
+		if (user != null) {
+			try {
+				logger.log(Level.INFO, "Cnc program from main form is received", cncProgramFromMainForm.toString());
+				cncProgramService.create(cncProgramFromMainForm, user.getLoginPersonnelNumber());
+				session.setAttribute("mesage", CNC_PROGRAM_SAVE_SUCCESSFUL);
+				return new Router(PathToPage.MAIN, RouterType.FORWARD);
+			} catch (ServiceException e) {
+				session.setAttribute("mesage", CNC_PROGRAM_SAVE__FAILD);
+				logger.log(Level.ERROR, e.getLocalizedMessage());
+				return new Router(PathToPage.MAIN, RouterType.FORWARD);
+			}
 		}
+		return new Router(PathToPage.MAIN, RouterType.FORWARD);
 	}
 
 	private CncProgram buildCncProgram(HttpServletRequest request) {
@@ -52,12 +57,22 @@ public class CncProgramSave implements Command {
 		cncProgram.setProgramText(getParameterToCheck("programText", request));
 		cncProgram.setCreationDate(timestamp);
 		cncProgram.setComment(getParameterToCheck("comment", request));
-		cncProgram.setActive(true);
-		cncProgram.setDetail(new Detail(getParameterToCheck("detail", request)));
-		cncProgram.setCncMachine(new CncMachine(getParameterToCheck("cncMachine", request)));
-		cncProgram.setFileExtension(new FileExtensions(getParameterToCheck("fileExtension", request)));
-		cncProgram.setProgramText(getParameterToCheck("programText", request));
+		cncProgram.setDetail(buildDetail(request));
+		cncProgram.setCncMachine(buildCncMachine(request));
 		return cncProgram;
+	}
+
+	private Detail buildDetail(HttpServletRequest request) {
+		Detail detail = new Detail();
+		detail.setName(getParameterToCheck("detail", request));
+		return detail;
+	}
+
+	private CncMachine buildCncMachine(HttpServletRequest request) {
+		CncMachine cncMachine = new CncMachine();
+		cncMachine.setModel(getParameterToCheck("cncMachine", request));
+		cncMachine.setCodeEquipment(Integer.parseInt(getParameterToCheck("codeEquipment", request)));
+		return cncMachine;
 	}
 
 	private String getParameterToCheck(String name, HttpServletRequest request) {

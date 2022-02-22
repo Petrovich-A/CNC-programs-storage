@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="refresh" content="60">
+<!-- <meta http-equiv="refresh" content="60"> -->
 <meta http-equiv="Content-Type" conАtent="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -88,28 +88,34 @@
 					<tr>
 						<td align="right">operationNumber</td>
 						<td><input type="text" name="operationNumber" maxlength="50"
-							size="20" pattern="^\\d{2,7}+$" /></td>
-					</tr>
-					<c:forEach var="fileExtension" items="${fileExtension}">
-						<tr>
-							<td align="right">file Extension</td>
-							<td><select name="fileExtension" required>
-									<option value="">${fileExtension}</option>
-							</select></td>
-						</tr>
-					</c:forEach>
-					<tr>
-						<td align="right">comment</td>
-						<td><input type="text" name="comment" maxlength="50"
-							size="20" pattern="^{100}+$" /></td>
+							size="20" pattern="^\\d{3}+$" /></td>
 					</tr>
 					<tr>
 						<td align="right">programText</td>
 						<td><textarea name="programText" cols="60" rows="20"
 								class="form-control" placeholder="program text..."></textarea></td>
 					</tr>
+					<tr>
+						<td align="right">comment</td>
+						<td><input type="text" name="comment" maxlength="50"
+							size="20" pattern="^{100}+$" /></td>
+					</tr>
+					<tr>
+						<td align="right">detail</td>
+						<td><input type="text" name="detail" maxlength="50" size="20"
+							pattern="^{20}+$" /></td>
+					</tr>
+					<tr>
+						<td align="right">cncMachine</td>
+						<td><input type="text" name="cncMachine" maxlength="50"
+							size="20" pattern="^{20}+$" /></td>
+					</tr>
+					<tr>
+						<td align="right">codeEquipment</td>
+						<td><input type="text" name="codeEquipment" maxlength="50"
+							size="20" pattern="^\\d{3}+$" /></td>
+					</tr>
 				</table>
-
 				<div class="button">
 					<input type="hidden" name="commandName" value="cnc_program_save" />
 					<button type="submit" class="submit_button">Save</button>
@@ -120,32 +126,32 @@
 
 		<!-- List of programs for pagination -->
 		<section class="listUsers">
-			<h2>Previous program</h2>
+			<h2>Previous program:</h2>
 			<c:choose>
-				<c:when test="${allUsers == null}">
+				<c:when test="${allCncPrograms == null}">
 					<p>
-						<c:out value="No user are avaliable" />
+						<c:out value="No CNC programs are avaliable" />
 					</p>
 					<hr>
 				</c:when>
 				<c:otherwise>
-					<c:forEach var="user" items="${allUsers}">
+					<c:forEach var="cncProgram" items="${allCncPrograms}">
 						<table class="table">
 							<col width="50">
 							<col width="30">
 							<col width="50">
 							<thead>
 								<tr>
-									<th>loginPersonnelNumber</th>
-									<th>employeeName</th>
-									<th>email</th>
+									<th>login Personnel Number</th>
+									<th>Number</th>
+									<th>Creation Date</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>${user.getLoginPersonnelNumber()}</td>
-									<td>${user.getEmployeeName()}</td>
-									<td>${user.getEmail()}</td>
+									<td>${cncProgram.getLoginPersonnelNumber()}</td>
+									<td>${cncProgram.getNumber()}</td>
+									<td>${cncProgram.getCreationDate()}</td>
 								</tr>
 							</tbody>
 						</table>

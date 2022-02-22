@@ -7,7 +7,7 @@ import by.petrovich.storage.entity.Detail;
 import java.util.List;
 
 public interface CncProgramDao {
-	List<CncProgram> findAll() throws DaoException;
+	List<CncProgram> readAll() throws DaoException;
 
 	void create(CncProgram cncProgramFromMainForm, int loginPersonnelNumber) throws DaoException;
 
