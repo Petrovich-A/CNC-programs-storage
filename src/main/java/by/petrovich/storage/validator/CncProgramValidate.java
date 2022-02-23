@@ -11,13 +11,13 @@ public interface CncProgramValidate {
 
 	boolean isCncMachineValid(CncMachine cncMachine);
 
-	boolean isNumber(String number);
+	boolean isNumberValid(String number);
 
-	boolean isOperationNumber(String operationNumber);
+	boolean isOperationNumberValid(String operationNumber);
 
-	boolean isComment(String comment);
+	boolean isCommentValid(String comment);
 
-	boolean isDatailName(String name);
+	boolean isDatailNameValid(String name);
 
 	boolean isCncMachineModelValid(String model);
 

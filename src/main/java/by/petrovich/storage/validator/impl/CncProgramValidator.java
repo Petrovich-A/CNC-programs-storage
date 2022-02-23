@@ -11,9 +11,9 @@ import by.petrovich.storage.validator.CncProgramValidate;
 
 public class CncProgramValidator implements CncProgramValidate {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String NUMBER_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,12}+$";
+	private static final String NUMBER_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,20}+$";
 	private static final String OPERATION_NUMBER_PATTERN = "^[\\p{IsDigit}]{3}+$";
-	private static final String COMMENT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{0,100}+$";
+	private static final String COMMENT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}\\p{Space}]{1,100}+$";
 	private static final String DETAIL_NAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{3,20}+$";
 	private static final String CNC_MACHINE_MODEL_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{3,20}+$";
 	private static final String CNC_MACHINE_CODE_EQUIPMENT_PATTERN = "^[\\p{IsDigit}]{3}+$";
@@ -32,14 +32,14 @@ public class CncProgramValidator implements CncProgramValidate {
 
 	@Override
 	public boolean isCncProgramValid(CncProgram cncProgram) {
-		return isNumber(cncProgram.getNumber()) && isOperationNumber(String.valueOf(cncProgram.getOperationNumber()))
-				&& isComment(cncProgram.getComment()) && isDetailValid(cncProgram.getDetail())
+		return isNumberValid(cncProgram.getNumber()) && isOperationNumberValid(String.valueOf(cncProgram.getOperationNumber()))
+				&& isCommentValid(cncProgram.getComment()) && isDetailValid(cncProgram.getDetail())
 				&& isCncMachineValid(cncProgram.getCncMachine());
 	}
 
 	@Override
 	public boolean isDetailValid(Detail detail) {
-		return isNumber(detail.getName());
+		return isNumberValid(detail.getName());
 	}
 
 	@Override
@@ -49,37 +49,37 @@ public class CncProgramValidator implements CncProgramValidate {
 	}
 
 	@Override
-	public boolean isNumber(String number) {
+	public boolean isNumberValid(String number) {
 		boolean isValid = number.matches(NUMBER_PATTERN);
 		if (!isValid) {
-			logger.log(Level.INFO, "isn't valid number: {}", number);
+			logger.log(Level.ERROR, "isn't valid number: {}", number);
 		}
 		return isValid;
 	}
 
 	@Override
-	public boolean isOperationNumber(String operationNumber) {
+	public boolean isOperationNumberValid(String operationNumber) {
 		boolean isValid = operationNumber.matches(OPERATION_NUMBER_PATTERN);
 		if (!isValid) {
-			logger.log(Level.INFO, "isn't valid number: {}", operationNumber);
+			logger.log(Level.ERROR, "isn't valid number: {}", operationNumber);
 		}
 		return isValid;
 	}
 
 	@Override
-	public boolean isComment(String comment) {
+	public boolean isCommentValid(String comment) {
 		boolean isValid = comment.matches(COMMENT_PATTERN);
 		if (!isValid) {
-			logger.log(Level.INFO, "isn't valid number: {}", comment);
+			logger.log(Level.ERROR, "isn't valid comment: {}", comment);
 		}
 		return isValid;
 	}
 
 	@Override
-	public boolean isDatailName(String name) {
+	public boolean isDatailNameValid(String name) {
 		boolean isValid = name.matches(DETAIL_NAME_PATTERN);
 		if (!isValid) {
-			logger.log(Level.INFO, "isn't valid name: {}", name);
+			logger.log(Level.ERROR, "isn't valid name: {}", name);
 		}
 		return isValid;
 	}
@@ -88,7 +88,7 @@ public class CncProgramValidator implements CncProgramValidate {
 	public boolean isCncMachineModelValid(String model) {
 		boolean isValid = model.matches(CNC_MACHINE_MODEL_PATTERN);
 		if (!isValid) {
-			logger.log(Level.INFO, "isn't valid model: {}", model);
+			logger.log(Level.ERROR, "isn't valid model: {}", model);
 		}
 		return isValid;
 	}
@@ -97,7 +97,7 @@ public class CncProgramValidator implements CncProgramValidate {
 	public boolean isCncMachineCodeEquipmentValid(String codeEquipment) {
 		boolean isValid = codeEquipment.matches(CNC_MACHINE_CODE_EQUIPMENT_PATTERN);
 		if (!isValid) {
-			logger.log(Level.INFO, "isn't valid codeEquipment: {}", codeEquipment);
+			logger.log(Level.ERROR, "isn't valid codeEquipment: {}", codeEquipment);
 		}
 		return isValid;
 	}

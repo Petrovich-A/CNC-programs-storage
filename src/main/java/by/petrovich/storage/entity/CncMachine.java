@@ -17,6 +17,11 @@ public class CncMachine {
         this.model = model;
     }
 
+    public CncMachine(String model, int codeEquipment) {
+        this.model = model;
+        this.codeEquipment = codeEquipment;
+    }
+
     public CncMachine() {
     }
 

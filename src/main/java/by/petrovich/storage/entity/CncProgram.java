@@ -41,6 +41,19 @@ public class CncProgram {
         this.isActive = isActive;
     }
 
+    public CncProgram(String number, int operationNumber, String programText, Timestamp creationDate, String comment, boolean isActive,
+                      Detail detail, CncMachine cncMachine, int loginPersonnelNumber) {
+        this.number = number;
+        this.operationNumber = operationNumber;
+        this.programText = programText;
+        this.creationDate = creationDate;
+        this.comment = comment;
+        this.isActive = isActive;
+        this.detail = detail;
+        this.cncMachine = cncMachine;
+        this.loginPersonnelNumber = loginPersonnelNumber;
+    }
+
     public int getId() {
         return id;
     }
