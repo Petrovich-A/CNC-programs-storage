@@ -63,7 +63,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public void create(CncProgram cncProgram, int loginPersonnelNumber) throws DaoException {
+	public void create(CncProgram cncProgram) throws DaoException {
 		int cncMachineId = 0;
 		int detailId = 0;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -100,7 +100,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			preparedStatementCncProgram.setTimestamp(5, cncProgram.getCreationDate());
 			preparedStatementCncProgram.setString(6, cncProgram.getComment());
 			preparedStatementCncProgram.setBoolean(7, cncProgram.isActive());
-			preparedStatementCncProgram.setInt(8, loginPersonnelNumber);
+			preparedStatementCncProgram.setInt(8, cncProgram.getLoginPersonnelNumber());
 			preparedStatementCncProgram.setInt(9, detailId);
 			preparedStatementCncProgram.setInt(10, cncMachineId);
 			preparedStatementCncProgram.executeUpdate();

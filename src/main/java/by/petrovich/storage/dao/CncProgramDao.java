@@ -9,7 +9,7 @@ import java.util.List;
 public interface CncProgramDao {
 	List<CncProgram> readAll() throws DaoException;
 
-	void create(CncProgram cncProgramFromMainForm, int loginPersonnelNumber) throws DaoException;
+	void create(CncProgram cncProgramFromMainForm) throws DaoException;
 
 	CncProgram read(int id) throws DaoException;
 

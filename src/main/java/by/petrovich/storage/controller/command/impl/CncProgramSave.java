@@ -38,11 +38,11 @@ public class CncProgramSave implements Command {
 			try {
 				logger.log(Level.INFO, "Cnc program from main form is received", cncProgramFromMainForm.toString());
 				cncProgramFromMainForm.setLoginPersonnelNumber(user.getLoginPersonnelNumber());
-				cncProgramService.create(cncProgramFromMainForm);
-				session.setAttribute("mesage", CNC_PROGRAM_SAVE_SUCCESSFUL);
+				cncProgramService.create(cncProgramFromMainForm, user);
+				session.setAttribute("message", CNC_PROGRAM_SAVE_SUCCESSFUL);
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);
 			} catch (ServiceException e) {
-				session.setAttribute("mesage", CNC_PROGRAM_SAVE_FAILD);
+				session.setAttribute("message", CNC_PROGRAM_SAVE_FAILD);
 				logger.log(Level.ERROR, e.getLocalizedMessage());
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);
 			}

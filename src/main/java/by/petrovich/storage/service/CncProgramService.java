@@ -3,9 +3,10 @@ package by.petrovich.storage.service;
 import java.util.List;
 
 import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.entity.User;
 
 public interface CncProgramService {
-	void create(CncProgram cncProgram) throws ServiceException;
+	void create(CncProgram cncProgram, User user) throws ServiceException;
 
 	CncProgram read(int id) throws ServiceException;
 

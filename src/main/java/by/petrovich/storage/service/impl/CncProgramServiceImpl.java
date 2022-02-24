@@ -10,6 +10,7 @@ import by.petrovich.storage.dao.CncProgramDao;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.DaoProvider;
 import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.validator.impl.CncProgramValidator;
@@ -20,14 +21,16 @@ public class CncProgramServiceImpl implements CncProgramService {
 	private final CncProgramDao cncProgramDao = daoProvider.getCncProgramDao();
 
 	@Override
-	public void create(CncProgram cncProgramFromMainForm, int loginPersonnelNumber) throws ServiceException {
+	public void create(CncProgram cncProgramFromMainForm, User user) throws ServiceException {
 		if (cncProgramValidate(cncProgramFromMainForm)) {
 			cncProgramFromMainForm.setActive(true);
+			cncProgramFromMainForm.setLoginPersonnelNumber(user.getLoginPersonnelNumber());
 			try {
-				cncProgramDao.create(cncProgramFromMainForm, loginPersonnelNumber);
+				cncProgramDao.create(cncProgramFromMainForm);
 			} catch (DaoException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.log(Level.ERROR, "can't create CNC program. cncProgramFromMainForm: {}",
+						cncProgramFromMainForm.toString(), e);
+				throw new ServiceException(e);
 			}
 		} else {
 			logger.log(Level.ERROR, "cid: {}");

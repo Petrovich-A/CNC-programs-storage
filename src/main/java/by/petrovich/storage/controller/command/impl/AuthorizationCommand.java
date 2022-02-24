@@ -31,13 +31,13 @@ public class AuthorizationCommand implements Command {
 		userFromAuthorizationForm.setPassword(getParameterToCheck("password", request));
 		HttpSession session = request.getSession(true);
 		try {
-			User userFromDao = userService.authorizate(userFromAuthorizationForm);
-			session.setAttribute("userFromDao", userFromDao);
+			User user = userService.authorizate(userFromAuthorizationForm);
+			session.setAttribute("user", user);
 			session.setAttribute("message", AUTHORIZATION_SUCCESSFUL);
 			return new Router(PathToPage.MAIN, RouterType.FORWARD);
 		} catch (ServiceException e) {
 			session.setAttribute("message", AUTHORIZATION_FAILED);
-			logger.log(Level.ERROR, "authorization failed",  e.getLocalizedMessage(), e);
+			logger.log(Level.ERROR, "authorization failed", e.getLocalizedMessage(), e);
 			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
 	}
