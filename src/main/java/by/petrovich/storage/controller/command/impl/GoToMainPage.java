@@ -31,13 +31,13 @@ public class GoToMainPage implements Command {
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("local", request.getParameter("local"));
-		List<User> allUsers = new ArrayList<>();
+		List<CncProgram> allCncPrograms = new ArrayList<>();
 		try {
-			allUsers = userService.readAll();
+			allCncPrograms = cncProgramService.readAll();
 		} catch (ServiceException e) {
-			logger.log(Level.INFO, allUsers.toString(), e);
+			logger.log(Level.INFO, allCncPrograms.toString(), e);
 		}
-		session.setAttribute("allUsers", allUsers);
+		session.setAttribute("allCncPrograms", allCncPrograms);
 
 		int page = 1;
 		int recordsPerPage = 5;
@@ -47,8 +47,8 @@ public class GoToMainPage implements Command {
 			try {
 				cncPrograms = cncProgramService.findAmountOfRows((page - 1) * recordsPerPage, recordsPerPage);
 			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.log(Level.ERROR, "can't read allCncPrograms", e);
+				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}
 		}
 		return new Router(PathToPage.MAIN, RouterType.FORWARD);

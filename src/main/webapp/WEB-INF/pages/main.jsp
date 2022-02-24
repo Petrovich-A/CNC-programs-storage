@@ -50,9 +50,17 @@
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
-				<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
 				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
 			</div>
+			<li><c:choose>
+					<c:when test="${user != null}">
+						<li><a href="Controller?commandName=go_to_user_info">${user.getLoginPersonnelNumber()}</a></li>
+						<li><a href="Controller?commandName=log_out">LOG OUT</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
+					</c:otherwise>
+				</c:choose></li>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
 					<input type="hidden" name="commandName" value="to do" /> <input
@@ -143,18 +151,18 @@
 							<col width="50">
 							<thead>
 								<tr>
-									<th>login Personnel Number</th>
 									<th>Number</th>
 									<th>Detail</th>
 									<th>Model</th>
+									<th>login Personnel Number</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>${cncProgram.getLoginPersonnelNumber()}</td>
 									<td>${cncProgram.getNumber()}</td>
 									<td>${cncProgram.getDetail().getName()}</td>
 									<td>${cncProgram.getCncMachine().getModel()}</td>
+									<td>${cncProgram.getLoginPersonnelNumber()}</td>
 								</tr>
 							</tbody>
 						</table>

@@ -16,6 +16,7 @@ public enum CommandName {
 	REGISTRATION,
 	CHANGE_LOCAL,
 	USER_DELETE,
-	USER_UPDATE
+	USER_UPDATE,
+	LOG_OUT
 	
 }

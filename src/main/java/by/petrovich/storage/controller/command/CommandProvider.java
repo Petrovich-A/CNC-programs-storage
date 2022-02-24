@@ -25,6 +25,7 @@ public class CommandProvider {
 		commands.put(CommandName.CHANGE_LOCAL, new ChangeLocalCommand());
 		commands.put(CommandName.USER_DELETE, new UserDelete());
 		commands.put(CommandName.USER_UPDATE, new UserUpdate());
+		commands.put(CommandName.LOG_OUT, new LogOut());
 	}
 
 	public Command findCommand(String name) {
