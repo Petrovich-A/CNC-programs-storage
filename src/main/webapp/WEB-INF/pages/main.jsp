@@ -128,7 +128,8 @@
 		<section class="listUsers">
 			<h2>Previous program:</h2>
 			<c:choose>
-				<c:when test="${allCncPrograms == null}">
+				<c:when
+					test="${allCncPrograms.size() == 0 || allCncPrograms.size() == null}">
 					<p>
 						<c:out value="No CNC programs are avaliable" />
 					</p>
@@ -144,14 +145,16 @@
 								<tr>
 									<th>login Personnel Number</th>
 									<th>Number</th>
-									<th>Creation Date</th>
+									<th>Detail</th>
+									<th>Model</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td>${cncProgram.getLoginPersonnelNumber()}</td>
 									<td>${cncProgram.getNumber()}</td>
-									<td>${cncProgram.getCreationDate()}</td>
+									<td>${cncProgram.getDetail().getName()}</td>
+									<td>${cncProgram.getCncMachine().getModel()}</td>
 								</tr>
 							</tbody>
 						</table>

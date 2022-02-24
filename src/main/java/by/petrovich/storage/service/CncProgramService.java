@@ -5,7 +5,7 @@ import java.util.List;
 import by.petrovich.storage.entity.CncProgram;
 
 public interface CncProgramService {
-	void create(CncProgram cncProgram, int loginPersonnelNumber) throws ServiceException;
+	void create(CncProgram cncProgram) throws ServiceException;
 
 	CncProgram read(int id) throws ServiceException;
 

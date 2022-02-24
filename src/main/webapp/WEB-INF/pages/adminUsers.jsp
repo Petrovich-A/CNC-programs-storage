@@ -31,14 +31,14 @@
 	</div>
 	<main>
 		<section class="users">
-			<h2>List of users</h2>
+			<h2>List of users:</h2>
 			<form action="Controller" method="POST">
 				<c:choose>
 					<c:when test="${allUsers.size() == 0 || allUsers.size() == null}">
-						<p class="mb-1">
+						<p class="">
 							<c:out value="No users are avaliable" />
 						</p>
-						<hr class="mb-1">
+						<hr class="">
 					</c:when>
 					<c:otherwise>
 						<table class="">

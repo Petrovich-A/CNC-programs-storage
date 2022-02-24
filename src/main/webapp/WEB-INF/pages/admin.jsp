@@ -26,7 +26,6 @@
 			<ul class="navigation">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
 				<li><a href="Controller?commandName=go_to_admin_users_page">USERS</a></li>
-				<li><a href="Controller?commandName=">ADD EXT</a></li>
 			</ul>
 		</div>
 	</div>
@@ -46,21 +45,37 @@
 						<table class="">
 							<thead>
 								<tr>
-									<th></th>
 									<th>id</th>
 									<th>number</th>
 									<th>operation Number</th>
 									<th>Creation Date</th>
+									<th>Comment</th>
+									<th>is active</th>
+									<th>Login Personnel Number</th>
+									<th>detail id</th>
+									<th>detail name</th>
+									<th>cncMachine Model</th>
+									<th>cncMachine Code Equipment</th>
 								<tr />
 							</thead>
 							<tbody>
-								<c:forEach var="cncProgram" items="${cncProgram}">
+								<c:forEach var="cncProgram" items="${allCncPrograms}">
 									<tr>
 										<td><input class="" type="radio" name="id"
 											required="required" value="${cncProgram.getId()}"></td>
 										<td>${cncProgram.getNumber()}</td>
 										<td>${cncProgram.getOperationNumber()}</td>
 										<td>${cncProgram.getCreationDate()}</td>
+										<td>${cncProgram.getComment()}</td>
+										<td><c:choose>
+												<c:when test="${cncProgram.isActive()}">active</c:when>
+												<c:otherwise>archive</c:otherwise>
+											</c:choose></td>
+										<td>${cncProgram.getLoginPersonnelNumber()}</td>
+										<td>${cncProgram.getDetail().getId()}</td>
+										<td>${cncProgram.getDetail().getName()}</td>
+										<td>${cncProgram.getCncMachine().getModel()}</td>
+										<td>${cncProgram.getCncMachine().getCodeEquipment()}</td>
 									</tr>
 								</c:forEach>
 							</tbody>

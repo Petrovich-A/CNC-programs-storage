@@ -27,7 +27,7 @@ public final class ColumnName {
 	 * cnc_programs
 	 */
 	public static final String PROGRAM_ID = "program_id";
-	public static final String PROGRAM_NAME = "program_name";
+	public static final String PROGRAM_NUMBER = "program_number";
 	public static final String OPERATION_NUMBER = "operation_number";
 	public static final String PROGRAM_TEXT = "program_text";
 	public static final String create_time = "create_time";

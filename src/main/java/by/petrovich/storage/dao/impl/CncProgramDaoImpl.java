@@ -21,10 +21,11 @@ import java.util.List;
 
 public class CncProgramDaoImpl implements CncProgramDao {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_READ_ALL = "SELECT program_id, program_number, operation_number, program_text, "
-			+ "cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id, "
+	private static final String SQL_READ_ALL = "SELECT program_id, program_number, operation_number, program_text,"
+			+ "cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,"
 			+ "cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model, cnc_machines.code_equipment "
-			+ "FROM cnc_programs LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
+			+ "FROM cnc_programs "
+			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id";
 	private static final String SQL_CREATE = "INSERT INTO cnc_programs(program_number, operation_number, program_text, create_time,"
@@ -53,6 +54,8 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			while (resultSet.next()) {
 				allCncPrograms.add(buildCncProgram(resultSet));
 			}
+			logger.log(Level.INFO, "read allCncPrograms from BD have done successfully. allCncPrograms: {} ",
+					allCncPrograms.toString());
 		} catch (SQLException e) {
 			throw new DaoException(String.format("can't read allCncPrograms from DB", e));
 		}
@@ -237,16 +240,17 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private CncProgram buildCncProgram(ResultSet resultSet) throws SQLException {
 		CncProgram cncProgram = new CncProgram();
 		cncProgram.setId(resultSet.getInt(ColumnName.PROGRAM_ID));
-		cncProgram.setNumber(resultSet.getString(ColumnName.PROGRAM_NAME));
+		cncProgram.setNumber(resultSet.getString(ColumnName.PROGRAM_NUMBER));
 		cncProgram.setOperationNumber(resultSet.getInt(ColumnName.OPERATION_NUMBER));
 		cncProgram.setProgramText(resultSet.getString(ColumnName.PROGRAM_TEXT));
-		cncProgram.setCreationDate(resultSet.getTimestamp(ColumnName.CREATE_TIME));
+		cncProgram.setCreationDate(resultSet.getTimestamp(ColumnName.create_time));
 		cncProgram.setComment(resultSet.getString(ColumnName.COMMENT));
 		cncProgram.setActive(resultSet.getBoolean(ColumnName.ACTIVE));
 		cncProgram.setLoginPersonnelNumber(resultSet.getInt(ColumnName.LOGIN_PERSONNEL_NUMBER));
 		cncProgram.setDetail(buildDetail(resultSet));
 		cncProgram.setCncMachine(buildCncMachine(resultSet));
-		logger.log(Level.INFO, "cnc program build successfully, cncProgram: {}", cncProgram.toString());
+		cncProgram.getDetail().getId();
+		logger.log(Level.INFO, "cnc program is built successfully, cncProgram: {}", cncProgram.toString());
 		return cncProgram;
 	}
 
@@ -263,7 +267,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		CncMachine cncMachine = new CncMachine();
 		cncMachine.setId(resultSet.getInt(ColumnName.CNC_MACHINE_ID));
 		cncMachine.setModel(resultSet.getString(ColumnName.MODEL));
-		cncMachine.setId(resultSet.getInt(ColumnName.CODE_EQUIPMENT));
+		cncMachine.setCodeEquipment(resultSet.getInt(ColumnName.CODE_EQUIPMENT));
 		logger.log(Level.INFO, "cncMachine build successfully, cncMachine: {}", cncMachine.toString());
 		return cncMachine;
 	}
