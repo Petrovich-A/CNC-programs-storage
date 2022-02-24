@@ -12,14 +12,13 @@ ___
 - [x] custom tag for HTML footer
 - [x] localizing web applications (eng, rus)
 - [x] user registration and authorization
-- [x] administrator can read user info, update, delete users  
+- [x] administrator can read user info, update, delete users 
+- [x] user can log in and log out
+- [x] user can save CNC Programs
 #### :two: To do list :clipboard:
 - [ ] hash password
 - [ ] pagination
-- [ ] save Cnc Program
 - [ ] filters
-- [ ] logout
-- [ ] user can add file_extension, code_equipment
 
 ___
 >### :page_facing_up: Database structure 
