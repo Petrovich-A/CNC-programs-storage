@@ -39,23 +39,23 @@
 					<table class="">
 						<tbody>
 							<tr>
-								<td>loginPersonnelNumber</td>
+								<td>login Personnel Number</td>
 								<td>${userFromDao.getLoginPersonnelNumber()}</td>
 							</tr>
 							<tr>
-								<td>EmployeeName</td>
+								<td>Employee Name</td>
 								<td>${userFromDao.getEmployeeName()}</td>
 							</tr>
 							<tr>
-								<td>EmployeeSurname</td>
+								<td>Employee Surname</td>
 								<td>${userFromDao.getEmployeeSurname()}</td>
 							</tr>
 							<tr>
-								<td>EmployeePatronymic</td>
+								<td>Employee Patronymic</td>
 								<td>${userFromDao.getEmployeePatronymic()}</td>
 							</tr>
 							<tr>
-								<td>employeePosition</td>
+								<td>employee Position</td>
 								<td>${userFromDao.getEmployeePosition()}</td>
 							</tr>
 							<tr>
@@ -63,7 +63,7 @@
 								<td>${userFromDao.getEmail()}</td>
 							</tr>
 							<tr>
-								<td>CreationDate</td>
+								<td>Creation Date</td>
 								<td>${userFromDao.getCreationDate()}</td>
 							</tr>
 							<tr>
