@@ -28,11 +28,11 @@
 	<main>
 		<section id="news">
 			<h1>Please, enter password and login for authorization</h1>
-			<h2>${message}</h2>
+			<h2>${registration_message}</h2>
 			<form action="Controller" method="post">
 				<p>
 					Personnel number <input type="text" name="loginPersonnelNumber"
-						required pattern="^\\d{5}+$" />
+						required pattern="^\d{5,5}+$" />
 				</p>
 				<p>
 					Password <input type="password" name="password" required
