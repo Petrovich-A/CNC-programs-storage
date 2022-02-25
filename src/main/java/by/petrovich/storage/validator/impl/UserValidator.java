@@ -1,5 +1,7 @@
 package by.petrovich.storage.validator.impl;
 
+import java.util.regex.Pattern;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,11 +12,11 @@ import by.petrovich.storage.validator.UserValidate;
 
 public class UserValidator implements UserValidate {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String LOGIN_PERSONNEL_NUMBER_PATTERN = "^\\p{Digit}{5}+$";
-	private static final String PASSWORD_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{8,40}+$";
-	private static final String EMPLOYEE_NAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
-	private static final String EMPLOYEE_SURNAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
-	private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}]{3,30}+$";
+	private static final String LOGIN_PERSONNEL_NUMBER_PATTERN = "^\\p{Digit}{5,5}+$";
+	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[!@#$%^&+=]).{8,40}$";
+	private static final String EMPLOYEE_NAME_PATTERN = "^[\\p{IsAlphabetic}]{3,30}+$";
+	private static final String EMPLOYEE_SURNAME_PATTERN = "^[\\p{IsAlphabetic}]{3,30}+$";
+	private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[\\p{IsAlphabetic}]{3,30}+$";
 	private static final String EMAIL_PATTERN = "^\\S+@\\S+\\.\\S+$";
 
 	private static UserValidator instance;
@@ -35,24 +37,24 @@ public class UserValidator implements UserValidate {
 		return isLoginPersonnelNumberValid(String.valueOf(user.getLoginPersonnelNumber()))
 				&& isPasswordValid(user.getPassword()) && isEmployeeNameValid(user.getEmployeeName())
 				&& isEmployeeSurnameValid(user.getEmployeeSurname())
-				&& isEmployeePatronymicValid(user.getEmployeePatronymic()) && isEmployeePositionValid((user.getEmployeePosition().toString()))
-				&& isEmailValid(user.getEmail());
+				&& isEmployeePatronymicValid(user.getEmployeePatronymic())
+				&& isEmployeePositionValid((user.getEmployeePosition().toString())) && isEmailValid(user.getEmail());
 	}
 
 	@Override
 	public boolean isLoginPersonnelNumberValid(String loginPersonnelNumber) {
-		boolean isValid = loginPersonnelNumber.matches(LOGIN_PERSONNEL_NUMBER_PATTERN);
+		boolean isValid = Pattern.matches(LOGIN_PERSONNEL_NUMBER_PATTERN, loginPersonnelNumber);
 		if (!isValid) {
-			logger.log(Level.ERROR, "loginPersonnelNumber is not valid: ", loginPersonnelNumber);
+			logger.log(Level.ERROR, "loginPersonnelNumber: {} is not valid", loginPersonnelNumber);
 		}
 		return isValid;
 	}
 
 	@Override
 	public boolean isPasswordValid(String password) {
-		boolean isValid = password.matches(PASSWORD_PATTERN);
+		boolean isValid = Pattern.matches(PASSWORD_PATTERN, password);
 		if (!isValid) {
-			logger.log(Level.ERROR, "password is not valid");
+			logger.log(Level.ERROR, "password: {} is not valid", password);
 		}
 		return isValid;
 	}
@@ -61,7 +63,7 @@ public class UserValidator implements UserValidate {
 	public boolean isEmployeeNameValid(String employeeName) {
 		boolean isValid = employeeName.matches(EMPLOYEE_NAME_PATTERN);
 		if (!isValid) {
-			logger.log(Level.ERROR, "employeeName is not valid: ", employeeName);
+			logger.log(Level.ERROR, "employeeName: {} is not valid: ", employeeName);
 		}
 		return isValid;
 	}
@@ -70,7 +72,7 @@ public class UserValidator implements UserValidate {
 	public boolean isEmployeeSurnameValid(String employeeSurname) {
 		boolean isValid = employeeSurname.matches(EMPLOYEE_SURNAME_PATTERN);
 		if (!isValid) {
-			logger.log(Level.ERROR, "employeeSurname is not valid: ", employeeSurname);
+			logger.log(Level.ERROR, "employeeSurname: {} is not valid: ", employeeSurname);
 		}
 		return isValid;
 	}
@@ -79,7 +81,7 @@ public class UserValidator implements UserValidate {
 	public boolean isEmployeePatronymicValid(String employeePatronymic) {
 		boolean isValid = employeePatronymic.matches(EMPLOYEE_PATRONYMIC_PATTERN);
 		if (!isValid) {
-			logger.log(Level.ERROR, "employeePatronymic is not valid: ", employeePatronymic);
+			logger.log(Level.ERROR, "employeePatronymic: {} is not valid: ", employeePatronymic);
 		}
 		return isValid;
 	}
@@ -91,7 +93,8 @@ public class UserValidator implements UserValidate {
 			isValid = true;
 			logger.log(Level.INFO, "Enum position is: {}", EmployeePosition.fromString(employeePosition));
 		} else {
-			logger.log(Level.ERROR, "Position: {} has no matches in enum", employeePosition);
+			logger.log(Level.ERROR, "Position: {} has no matches in enum",
+					EmployeePosition.fromString(employeePosition));
 			isValid = false;
 		}
 		return isValid;
@@ -101,7 +104,7 @@ public class UserValidator implements UserValidate {
 	public boolean isEmailValid(String email) {
 		boolean isValid = email.matches(EMAIL_PATTERN);
 		if (!isValid) {
-			logger.log(Level.ERROR, "email is not valid: ", email);
+			logger.log(Level.ERROR, "email: {} is not valid: ", email);
 		}
 		return isValid;
 	}

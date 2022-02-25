@@ -11,7 +11,12 @@ public class UserValidatorTest {
 	UserValidator userValidator = UserValidator.getInstance();
 	private int loginPersonnelNumber = 52914;
 	private int loginPersonnelNumber1 = 2914;
-	private String password = "ejfwdwdw1!";
+	private String passwordWithoutPunct = "efweferg2324";
+	private String passwordWithoutDigit = "!!dgergergw";
+	private String passwordWithoutAlpha = "2325%42123!";
+	private String passwordLess = "rg15!%f";
+	private String passwordMore = "145waasdf!wwf2efwef%#414sdfjkhsad987asfsafasf";
+	private String passwordValid = "dfdg244!$";
 	private String employeeName = "Иван";
 	private String employeeSurname = "Иванов";
 	private String employeePatronymic = "Иванович";
@@ -19,15 +24,15 @@ public class UserValidatorTest {
 	private String email = "ivanov@mail.by";
 	private UserRole userRole = UserRole.USER;
 
-	User userActual = new User(65484, "efwsef23!#", "Иван", "Иванов", "Рудольфович", EmployeePosition.CNC_PROGRAMMER,
+	User userActual = new User(65484, "efwsef23%", "Иван", "Иванов", "Рудольфович", EmployeePosition.CNC_PROGRAMMER,
 			"ivanov@mail.ru");
-	User userActual1 = new User(12345, "кпоулр!уаkh534", "John", "Smith", "Smitovich",
+	User userActual1 = new User(12345, "nmverg24#%", "John", "Smith", "Smitovich",
 			EmployeePosition.ENGINEERING_TECHNICIAN, "america@usa.com");
-	User userActual2 = new User(54218, "кпоу(efw:ef3234", "Слесарев", "Николай", "Иванович",
+	User userActual2 = new User(54218, "easfav97!", "Слесарев", "Николай", "Иванович",
 			EmployeePosition.CNC_PROGRAMMER, "bigBoss@gov.no");
-	User userActualWithRole = new User(84576, "кпоswgv)wef234", "Ролевой", "Роман", "Иванович",
+	User userActualWithRole = new User(84576, "swgvf234$%", "Ролевой", "Роман", "Иванович",
 			EmployeePosition.CNC_PROGRAMMER, "withRole@sm.com");
-	User userActual3 = new User(84566, "vwedfdfe", "Сунь", "Лин", "Иванович", EmployeePosition.CNC_PROGRAMMER,
+	User userActual3 = new User(84566, "vwkop5651%", "Сунь", "Лин", "Иванович", EmployeePosition.CNC_PROGRAMMER,
 			"lisymn@sm.com");
 
 	@Test
@@ -56,8 +61,18 @@ public class UserValidatorTest {
 
 	@Test
 	public void isPasswordValid() {
-		boolean actualPassword = userValidator.isPasswordValid(password);
-		Assert.assertTrue("isPasswordValid", actualPassword);
+		boolean actualPassword = userValidator.isPasswordValid(passwordWithoutPunct);
+		boolean actualPassword1 = userValidator.isPasswordValid(passwordWithoutDigit);
+		boolean actualPassword2 = userValidator.isPasswordValid(passwordWithoutAlpha);
+		boolean actualPassword3 = userValidator.isPasswordValid(passwordLess);
+		boolean actualPassword4 = userValidator.isPasswordValid(passwordMore);
+		boolean actualPassword5 = userValidator.isPasswordValid(passwordValid);
+		Assert.assertFalse("", actualPassword);
+		Assert.assertFalse("", actualPassword1);
+		Assert.assertFalse("", actualPassword2);
+		Assert.assertFalse("", actualPassword3);
+		Assert.assertFalse("", actualPassword4);
+		Assert.assertTrue("", actualPassword5);
 	}
 
 	@Test
