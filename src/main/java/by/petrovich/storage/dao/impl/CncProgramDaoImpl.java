@@ -66,9 +66,10 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	public void create(CncProgram cncProgram) throws DaoException {
 		int cncMachineId = 0;
 		int detailId = 0;
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatementDetail = connection.prepareStatement(SQL_CREATE_DETAIL,
-						PreparedStatement.RETURN_GENERATED_KEYS);
+		Connection connection = null;
+		connection = ConnectionPool.getInstance().getConnection();
+		try (PreparedStatement preparedStatementDetail = connection.prepareStatement(SQL_CREATE_DETAIL,
+				PreparedStatement.RETURN_GENERATED_KEYS);
 				PreparedStatement preparedStatementCncMachine = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,
 						PreparedStatement.RETURN_GENERATED_KEYS);
 				PreparedStatement preparedStatementCncProgram = connection.prepareStatement(SQL_CREATE)) {
@@ -104,12 +105,24 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			preparedStatementCncProgram.setInt(9, detailId);
 			preparedStatementCncProgram.setInt(10, cncMachineId);
 			preparedStatementCncProgram.executeUpdate();
-			logger.log(Level.INFO, "create cnc program have done sucesfull", cncProgram.toString());
+			logger.log(Level.INFO, "CNC program creating have done successfully", cncProgram.toString());
 			connection.commit();
+			connection.close();
 		} catch (SQLException e) {
-//			connection.rollback();
-			throw new DaoException(
-					String.format("can't create cncProgram to DB. cncProgram: %s ", cncProgram.toString()), e);
+			rollBackCOnnection(connection);
+			throw new DaoException(String.format(
+					"transaction is failed. can't create cncProgram to DB. cncProgram: %s ", cncProgram.toString()), e);
+		} finally {
+			connection.setAutoCommit(true);
+		}
+	}
+
+	// to do
+	public void rollBackCOnnection(Connection connection) throws DaoException {
+		try {
+			connection.rollback();
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Do rollBack connection", e));
 		}
 	}
 

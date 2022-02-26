@@ -54,9 +54,9 @@
 	<main>
 		<section id="">
 			<h1>Welcome to CNC Program Storage account!</h1>
-			<br>
-			<h3>Please complete the registration form below</h3>
-			<br>
+			<hr>
+			<h3>${registration_message}</h3>
+			<hr>
 			<form action="Controller" method="post"
 				onsubmit="return matchPassword()">
 				<table class="programInputTable" cellpadding="5px"

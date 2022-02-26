@@ -23,24 +23,35 @@ public class RegistrationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String REGISTRATION_SUCCESSFUL = "Registration is completed successfully! Please log in.";
+	private final String REGISTRATION_SUCCESSFUL = "Registration is completed successfully. Please log in.";
 	private final String REGISTRATION_FAILED = "Error: user registration failed. Please reapeat registration.";
+	private final String USER_IS_NOT_VALID = "Please fill the registration form below:";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		User userFromRegistrForm = buildUser(request);
 		HttpSession session = request.getSession(true);
+		boolean isUserValid = false;
 		try {
-			request.setAttribute("userFromRegistrForm", userFromRegistrForm);
-			userService.registrate(userFromRegistrForm);
-			session.setAttribute("message", REGISTRATION_SUCCESSFUL);
-			logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
-			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
-		} catch (ServiceException e) {
-			session.setAttribute("message", REGISTRATION_FAILED);
-			logger.log(Level.ERROR, e.getLocalizedMessage(), e);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			isUserValid = userService.userValidate(userFromRegistrForm);
+		} catch (ServiceException e1) {
+			logger.log(Level.ERROR, "user from registr form: {} isn't valid", userFromRegistrForm.toString(), e1);
+			session.setAttribute("registration_message", USER_IS_NOT_VALID);
+			return new Router(PathToPage.REGISTRATION, RouterType.FORWARD);
 		}
+		if (isUserValid) {
+			try {
+				request.setAttribute("userFromRegistrForm", userFromRegistrForm);
+				userService.registrate(userFromRegistrForm);
+				session.setAttribute("registration_message", REGISTRATION_SUCCESSFUL);
+				logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
+			} catch (ServiceException e) {
+				session.setAttribute("registration_message", REGISTRATION_FAILED);
+				logger.log(Level.ERROR, e.getLocalizedMessage(), e);
+				return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			}
+		}
+		return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 	}
 
 	private User buildUser(HttpServletRequest request) {

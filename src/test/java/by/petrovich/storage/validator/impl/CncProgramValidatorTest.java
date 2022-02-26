@@ -12,7 +12,7 @@ public class CncProgramValidatorTest {
     CncProgramValidator cncProgramValidator = CncProgramValidator.getInstance();
     private int cncProgramId = 154;
     private String cncProgramNumber = "7558411";
-    private int cncProgramOperationNumber = 130;
+    private int cncProgramOperationNumber = 030;
     private String cncProgramText = "%\n" +
             "N001G00G99M73\n" +
             "N131G50X87000Z34000S22T02\n" +

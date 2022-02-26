@@ -1,5 +1,6 @@
 package by.petrovich.storage.service.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;

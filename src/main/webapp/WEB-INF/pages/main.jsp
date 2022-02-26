@@ -52,15 +52,15 @@
 				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
 				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
 			</div>
-			<li><c:choose>
-					<c:when test="${user != null}">
-						<li><a href="Controller?commandName=go_to_user_info">${user.getLoginPersonnelNumber()}</a></li>
-						<li><a href="Controller?commandName=log_out">LOG OUT</a></li>
-					</c:when>
-					<c:otherwise>
-						<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
-					</c:otherwise>
-				</c:choose></li>
+			<c:choose>
+				<c:when test="${user != null}">
+					<li><a href="Controller?commandName=go_to_user_info">${user.getLoginPersonnelNumber()}</a></li>
+					<li><a href="Controller?commandName=log_out">LOG OUT</a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
+				</c:otherwise>
+			</c:choose>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
 					<input type="hidden" name="commandName" value="to do" /> <input
@@ -84,8 +84,10 @@
 		</form>
 	</div>
 	<main>
-		<h2>${message}</h2>
 		<div class="programInput">
+			<h2>To save program:</h2>
+			<hr>
+			<h3>${save_program_message}</h3>
 			<form action="Controller" method="post">
 				<table class="programInputTable" cellspacing="0" cellpadding="4">
 					<tr>
@@ -96,11 +98,11 @@
 					<tr>
 						<td align="right">operationNumber</td>
 						<td><input type="text" name="operationNumber" maxlength="50"
-							size="20" pattern="^\\d{3}+$" /></td>
+							size="20" required="required" pattern="^\\d{2,3}+$" /></td>
 					</tr>
 					<tr>
 						<td align="right">programText</td>
-						<td><textarea name="programText" cols="60" rows="20"
+						<td><textarea name="programText" cols="60" rows="20" required="required"
 								class="form-control" placeholder="program text..."></textarea></td>
 					</tr>
 					<tr>
@@ -134,7 +136,8 @@
 
 		<!-- List of programs for pagination -->
 		<section class="listUsers">
-			<h2>Previous program:</h2>
+			<h2>Previous program list:</h2>
+			<hr>
 			<c:choose>
 				<c:when
 					test="${allCncPrograms.size() == 0 || allCncPrograms.size() == null}">
@@ -167,7 +170,7 @@
 							</tbody>
 						</table>
 					</c:forEach>
-					<form action="yourservlet" method="post">
+					<form action="Controller" method="post">
 						<input type="hidden" name="firstrow" value="${firstrow}">
 						<input type="hidden" name="rowcount" value="${rowcount}">
 						<input type="submit" name="page" value="next"> <input

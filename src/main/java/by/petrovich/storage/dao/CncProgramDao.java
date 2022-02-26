@@ -4,6 +4,7 @@ import by.petrovich.storage.entity.CncMachine;
 import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.entity.Detail;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface CncProgramDao {

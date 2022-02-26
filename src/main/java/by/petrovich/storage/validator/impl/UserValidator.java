@@ -13,7 +13,7 @@ import by.petrovich.storage.validator.UserValidate;
 public class UserValidator implements UserValidate {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String LOGIN_PERSONNEL_NUMBER_PATTERN = "^\\p{Digit}{5,5}+$";
-	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[!@#$%^&+=]).{8,40}$";
+	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z,A-Z])(?=.*[!?@#$%^&+=,;:_*()]).{8,40}$";
 	private static final String EMPLOYEE_NAME_PATTERN = "^[\\p{IsAlphabetic}]{3,30}+$";
 	private static final String EMPLOYEE_SURNAME_PATTERN = "^[\\p{IsAlphabetic}]{3,30}+$";
 	private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[\\p{IsAlphabetic}]{3,30}+$";

@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 			try {
 				isUserExists = userDao.isUserExists(userFromRegistrForm.getLoginPersonnelNumber());
 			} catch (DaoException e2) {
-				logger.log(Level.ERROR, "user with getLoginPersonnelNumber: {} is exist in DB",
+				logger.log(Level.ERROR, "user with getLoginPersonnelNumber: {} is existed in DB",
 						userFromRegistrForm.getLoginPersonnelNumber(), e2);
 				throw new ServiceException(e2);
 			}
@@ -73,15 +73,6 @@ public class UserServiceImpl implements UserService {
 		if (!userValidator.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber))
 				&& !userValidator.isPasswordValid(password)) {
 			logger.log(Level.ERROR, "login: {} and password: {} isn't valid", loginPersonnelNumber, password);// to do
-		}
-		return true;
-	}
-
-	@Override
-	public boolean userValidate(User userFromRegistrForm) throws ServiceException {
-		UserValidator userValidator = UserValidator.getInstance();
-		if (!userValidator.isUserValid(userFromRegistrForm)) {
-			logger.log(Level.ERROR, "user from registration form: {} isn't valid", userFromRegistrForm.toString());
 		}
 		return true;
 	}
@@ -131,4 +122,12 @@ public class UserServiceImpl implements UserService {
 		return allUsers;
 	}
 
+	@Override
+	public boolean userValidate(User userFromRegistrForm) throws ServiceException {
+		UserValidator userValidator = UserValidator.getInstance();
+		if (!userValidator.isUserValid(userFromRegistrForm)) {
+			logger.log(Level.ERROR, "user from registration form: {} isn't valid", userFromRegistrForm.toString());
+		}
+		return true;
+	}
 }

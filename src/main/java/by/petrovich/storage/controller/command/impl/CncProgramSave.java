@@ -1,5 +1,11 @@
 package by.petrovich.storage.controller.command.impl;
 
+import java.sql.Timestamp;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
@@ -15,12 +21,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.sql.Timestamp;
-
 public class CncProgramSave implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -34,7 +34,10 @@ public class CncProgramSave implements Command {
 		HttpSession session = request.getSession(true);
 		User user = new User();
 		user = (User) session.getAttribute("user");
-		if (user != null) {
+		if (user == null) {
+			logger.log(Level.ERROR, "have no user data in session");
+			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+		} else {
 			try {
 				logger.log(Level.INFO, "Cnc program from main form is received", cncProgramFromMainForm.toString());
 				cncProgramFromMainForm.setLoginPersonnelNumber(user.getLoginPersonnelNumber());
@@ -42,14 +45,11 @@ public class CncProgramSave implements Command {
 				session.setAttribute("message", CNC_PROGRAM_SAVE_SUCCESSFUL);
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);
 			} catch (ServiceException e) {
-				session.setAttribute("message", CNC_PROGRAM_SAVE_FAILD);
+				session.setAttribute("savmessage", CNC_PROGRAM_SAVE_FAILD);
 				logger.log(Level.ERROR, e.getLocalizedMessage());
-				return new Router(PathToPage.MAIN, RouterType.FORWARD);
+				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}
-		} else {
-			logger.log(Level.ERROR, "have no user in session");
 		}
-		return new Router(PathToPage.MAIN, RouterType.FORWARD);
 	}
 
 	private CncProgram buildCncProgram(HttpServletRequest request) {
