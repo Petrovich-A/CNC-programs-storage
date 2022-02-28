@@ -1,6 +1,5 @@
 package by.petrovich.storage.service.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
@@ -11,7 +10,6 @@ import by.petrovich.storage.dao.CncProgramDao;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.DaoProvider;
 import by.petrovich.storage.entity.CncProgram;
-import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.validator.impl.CncProgramValidator;
@@ -20,12 +18,14 @@ public class CncProgramServiceImpl implements CncProgramService {
 	private static final Logger logger = LogManager.getLogger();
 	private final DaoProvider daoProvider = DaoProvider.getInstance();
 	private final CncProgramDao cncProgramDao = daoProvider.getCncProgramDao();
+	private final CncProgramValidator cncProgramValidator = CncProgramValidator.getInstance();
 
 	@Override
-	public void create(CncProgram cncProgramFromMainForm, User user) throws ServiceException {
-		if (cncProgramValidate(cncProgramFromMainForm)) {
+	public void create(CncProgram cncProgramFromMainForm) throws ServiceException {
+		boolean isCncProgramValid = false;
+		isCncProgramValid = cncProgramValidator.isCncProgramValid(cncProgramFromMainForm);
+		if (isCncProgramValid) {
 			cncProgramFromMainForm.setActive(true);
-			cncProgramFromMainForm.setLoginPersonnelNumber(user.getLoginPersonnelNumber());
 			try {
 				cncProgramDao.create(cncProgramFromMainForm);
 			} catch (DaoException e) {
@@ -33,8 +33,6 @@ public class CncProgramServiceImpl implements CncProgramService {
 						cncProgramFromMainForm.toString(), e);
 				throw new ServiceException(e);
 			}
-		} else {
-			logger.log(Level.ERROR, "cid: {}");
 		}
 	}
 

@@ -45,8 +45,8 @@ public class AuthorizationCommand implements Command {
 	private String getParameterToCheck(String parameter, HttpServletRequest request) {
 		final String parameterFromRequest = request.getParameter(parameter);
 		if (parameterFromRequest == null || parameterFromRequest.equals("")) {
-			logger.log(Level.ERROR, "request contains parameter eaqual null: ", parameterFromRequest);
-			throw new IllegalArgumentException("request contains parameter eaqual null: " + parameterFromRequest);
+			logger.log(Level.ERROR, "Request contains parameter eaqual null: ", parameterFromRequest);
+			throw new IllegalArgumentException("Request contains parameter eaqual null: " + parameterFromRequest);
 		}
 		return parameterFromRequest;
 	}

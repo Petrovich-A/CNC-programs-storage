@@ -26,7 +26,9 @@ public class CncProgramSave implements Command {
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
 	private final String CNC_PROGRAM_SAVE_SUCCESSFUL = "CNC program is saved successful";
-	private final String CNC_PROGRAM_SAVE_FAILD = "CNC program saving faild";
+	private final String CNC_PROGRAM_SAVE_ERROR = "We apologize for the inconvenience. "
+			+ "However we have some problems with CNC program saving. "
+			+ "Plese try again or contact to the administrator.";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
@@ -36,16 +38,16 @@ public class CncProgramSave implements Command {
 		user = (User) session.getAttribute("user");
 		if (user == null) {
 			logger.log(Level.ERROR, "have no user data in session");
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		} else {
 			try {
 				logger.log(Level.INFO, "Cnc program from main form is received", cncProgramFromMainForm.toString());
 				cncProgramFromMainForm.setLoginPersonnelNumber(user.getLoginPersonnelNumber());
-				cncProgramService.create(cncProgramFromMainForm, user);
+				cncProgramService.create(cncProgramFromMainForm);
 				session.setAttribute("message", CNC_PROGRAM_SAVE_SUCCESSFUL);
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);
 			} catch (ServiceException e) {
-				session.setAttribute("savmessage", CNC_PROGRAM_SAVE_FAILD);
+				session.setAttribute("error_message", CNC_PROGRAM_SAVE_ERROR);
 				logger.log(Level.ERROR, e.getLocalizedMessage());
 				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}

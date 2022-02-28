@@ -74,51 +74,53 @@ public class CncProgramDaoImpl implements CncProgramDao {
 						PreparedStatement.RETURN_GENERATED_KEYS);
 				PreparedStatement preparedStatementCncProgram = connection.prepareStatement(SQL_CREATE)) {
 			connection.setAutoCommit(false);
-			preparedStatementDetail.setString(2, cncProgram.getDetail().getName());
+			preparedStatementDetail.setString(1, cncProgram.getDetail().getName());
 			preparedStatementDetail.executeUpdate();
 			try (ResultSet resultSetDetail = preparedStatementDetail.getGeneratedKeys()) {
 				if (resultSetDetail.next()) {
 					detailId = resultSetDetail.getInt(1);
 				}
 			}
-			if (detailId != 1) {
-				connection.rollback();
-			}
-			preparedStatementCncMachine.setString(2, cncProgram.getCncMachine().getModel());
-			preparedStatementCncMachine.setInt(3, cncProgram.getCncMachine().getCodeEquipment());
+
+			preparedStatementCncMachine.setString(1, cncProgram.getCncMachine().getModel());
+			preparedStatementCncMachine.setInt(2, cncProgram.getCncMachine().getCodeEquipment());
 			preparedStatementCncMachine.executeUpdate();
 			try (ResultSet resultSetCncMachine = preparedStatementCncMachine.getGeneratedKeys()) {
 				if (resultSetCncMachine.next()) {
 					cncMachineId = resultSetCncMachine.getInt(1);
 				}
 			}
-			if (cncMachineId != 1) {
-				connection.rollback();
-			}
-			preparedStatementCncProgram.setString(2, cncProgram.getNumber());
-			preparedStatementCncProgram.setInt(3, cncProgram.getOperationNumber());
-			preparedStatementCncProgram.setString(4, cncProgram.getProgramText());
-			preparedStatementCncProgram.setTimestamp(5, cncProgram.getCreationDate());
-			preparedStatementCncProgram.setString(6, cncProgram.getComment());
-			preparedStatementCncProgram.setBoolean(7, cncProgram.isActive());
-			preparedStatementCncProgram.setInt(8, cncProgram.getLoginPersonnelNumber());
-			preparedStatementCncProgram.setInt(9, detailId);
-			preparedStatementCncProgram.setInt(10, cncMachineId);
+
+			preparedStatementCncProgram.setString(1, cncProgram.getNumber());
+			preparedStatementCncProgram.setInt(2, cncProgram.getOperationNumber());
+			preparedStatementCncProgram.setString(3, cncProgram.getProgramText());
+			preparedStatementCncProgram.setTimestamp(4, cncProgram.getCreationDate());
+			preparedStatementCncProgram.setString(5, cncProgram.getComment());
+			preparedStatementCncProgram.setBoolean(6, cncProgram.isActive());
+			preparedStatementCncProgram.setInt(7, cncProgram.getLoginPersonnelNumber());
+			preparedStatementCncProgram.setInt(8, detailId);
+			preparedStatementCncProgram.setInt(9, cncMachineId);
 			preparedStatementCncProgram.executeUpdate();
 			logger.log(Level.INFO, "CNC program creating have done successfully", cncProgram.toString());
 			connection.commit();
-			connection.close();
+
 		} catch (SQLException e) {
 			rollBackCOnnection(connection);
 			throw new DaoException(String.format(
 					"transaction is failed. can't create cncProgram to DB. cncProgram: %s ", cncProgram.toString()), e);
 		} finally {
-			connection.setAutoCommit(true);
+			try {
+				connection.setAutoCommit(true);
+				connection.close();
+			} catch (SQLException e) {
+				logger.log(Level.ERROR, "Connection hasn't closed", cncProgram.toString());
+				e.printStackTrace();
+			}
 		}
 	}
 
 	// to do
-	public void rollBackCOnnection(Connection connection) throws DaoException {
+	private void rollBackCOnnection(Connection connection) throws DaoException {
 		try {
 			connection.rollback();
 		} catch (SQLException e) {
