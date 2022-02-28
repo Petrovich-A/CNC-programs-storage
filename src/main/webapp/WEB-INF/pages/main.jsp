@@ -92,38 +92,43 @@
 				<table class="programInputTable" cellspacing="0" cellpadding="4">
 					<tr>
 						<td align="right" width="100">number</td>
-						<td><input type="text" name="number" maxlength="50" size="20"
-							required pattern="^{3,20}+$" /></td>
+						<td><input type="text" name="number" required
+							pattern="[0-9]{3,20}"
+							title="Program number should only contain digitals. e.g. 24500411" /></td>
 					</tr>
 					<tr>
 						<td align="right">operationNumber</td>
-						<td><input type="text" name="operationNumber" maxlength="50"
-							size="20" required="required" pattern="^\\d{2,3}+$" /></td>
+						<td><input type="text" name="operationNumber" required
+							pattern="[0-9]{2,3}"
+							title="Operation number should only contain digitals. e.g. 120" /></td>
 					</tr>
 					<tr>
 						<td align="right">programText</td>
-						<td><textarea name="programText" cols="60" rows="20" required="required"
+						<td><textarea name="programText" cols="60" rows="20" required
 								class="form-control" placeholder="program text..."></textarea></td>
 					</tr>
 					<tr>
-						<td align="right">comment</td>
-						<td><input type="text" name="comment" maxlength="50"
-							size="20" pattern="^{100}+$" /></td>
+						<td align="right">comment*</td>
+						<td><input type="text" name="comment"
+							pattern="[a-z,A-Z,а-я,А-Я,0-9]{0,100}" /></td>
 					</tr>
 					<tr>
 						<td align="right">detail</td>
-						<td><input type="text" name="detail" maxlength="50" size="20"
-							pattern="^{20}+$" /></td>
+						<td><input type="text" name="detail" required
+							pattern="[0-9,A-Z,-]{3,20}"
+							title="Detail number should contain digitals and uppercase letters. e.g. 7555H-1712412" /></td>
 					</tr>
 					<tr>
 						<td align="right">cncMachine</td>
-						<td><input type="text" name="cncMachine" maxlength="50"
-							size="20" pattern="^{20}+$" /></td>
+						<td><input type="text" name="cncMachine" required
+							pattern="[a-z,A-Z,а-я,А-Я,0-9]{2,20}"
+							title="CNC machine number should contain digitals and uppercase/lowcase letters. e.g. LM70-AT" /></td>
 					</tr>
 					<tr>
 						<td align="right">codeEquipment</td>
-						<td><input type="text" name="codeEquipment" maxlength="50"
-							size="20" pattern="^\\d{3}+$" /></td>
+						<td><input type="text" name="codeEquipment" required
+							pattern="[0-9]{2,5}"
+							title="Code equipment should only contain digitals. e.g. 117" /></td>
 					</tr>
 				</table>
 				<div class="button">
