@@ -13,7 +13,7 @@ public class CncProgramValidator implements CncProgramValidate {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String NUMBER_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,20}+$";
 	private static final String OPERATION_NUMBER_PATTERN = "^[\\p{IsDigit}]{2,3}+$";
-	private static final String COMMENT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}\\p{Space}]{1,100}+$";
+	private static final String COMMENT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}\\p{Space}]{0,100}+$";
 	private static final String DETAIL_NAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{3,20}+$";
 	private static final String CNC_MACHINE_MODEL_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{3,20}+$";
 	private static final String CNC_MACHINE_CODE_EQUIPMENT_PATTERN = "^[\\p{IsDigit}]{3}+$";
