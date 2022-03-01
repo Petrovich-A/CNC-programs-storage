@@ -22,6 +22,7 @@ public class AuthorizationCommand implements Command {
 	private final UserService userService = serviceProvider.getUserService();
 	private final String AUTHORIZATION_SUCCESSFUL = "Authorization is completed successfully!";
 	private final String AUTHORIZATION_FAILED = "Error: user authorization failed. Please reapeat authorization.";
+	private final String USER_IS_NOT_EXIST = "Login or password aren't correct. Try again.";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
@@ -30,14 +31,30 @@ public class AuthorizationCommand implements Command {
 				.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));
 		userFromAuthorizationForm.setPassword(getParameterToCheck("password", request));
 		HttpSession session = request.getSession(true);
+		User user = new User();
+		boolean isUserExist = false;
 		try {
-			User user = userService.authorizate(userFromAuthorizationForm);
-			session.setAttribute("user", user);
-			session.setAttribute("message", AUTHORIZATION_SUCCESSFUL);
-			return new Router(PathToPage.MAIN, RouterType.FORWARD);
-		} catch (ServiceException e) {
-			session.setAttribute("message", AUTHORIZATION_FAILED);
-			logger.log(Level.ERROR, "authorization failed", e.getLocalizedMessage(), e);
+			isUserExist = userService.isUserExist(userFromAuthorizationForm);
+		} catch (ServiceException e1) {
+			logger.log(Level.ERROR, "Can't check is user with LoginPersonnelNumber: {} exist in BD",
+					userFromAuthorizationForm.getLoginPersonnelNumber(), e1);
+			session.setAttribute("authorization_message", AUTHORIZATION_FAILED);
+			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
+		}
+		if (isUserExist) {
+			try {
+				user = userService.authorizate(userFromAuthorizationForm);
+				session.setAttribute("user", user);
+				session.setAttribute("main_message", AUTHORIZATION_SUCCESSFUL);
+				return new Router(PathToPage.MAIN, RouterType.FORWARD);
+			} catch (ServiceException e) {
+				session.setAttribute("authorization_message", AUTHORIZATION_FAILED);
+				logger.log(Level.ERROR, "authorization failed", e.getLocalizedMessage(), e);
+				return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
+			}
+		} else {
+			session.setAttribute("authorization_message", USER_IS_NOT_EXIST);
+			logger.log(Level.INFO, "authorization failed");
 			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
 	}

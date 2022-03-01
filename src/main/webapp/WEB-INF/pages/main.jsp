@@ -84,6 +84,7 @@
 		</form>
 	</div>
 	<main>
+		<h2>${main_message}</h2>
 		<div class="programInput">
 			<h2>To save program:</h2>
 			<hr>

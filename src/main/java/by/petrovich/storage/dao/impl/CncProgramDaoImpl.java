@@ -137,7 +137,6 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				cncProgram = buildCncProgram(resultSet);
-
 				logger.log(Level.INFO, "cnc program is read", cncProgram.toString());
 			}
 		} catch (SQLException e) {

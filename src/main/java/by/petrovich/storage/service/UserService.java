@@ -21,4 +21,6 @@ public interface UserService {
 
 	boolean userValidate(User userFromRegistrForm) throws ServiceException;
 
+	boolean isUserExist(User userFromRegistrForm) throws ServiceException;
+
 }

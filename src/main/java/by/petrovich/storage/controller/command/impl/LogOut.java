@@ -21,6 +21,7 @@ public class LogOut implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
+	private final String LOG_OUT_FAILED = "Error: user logout failed.";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
@@ -35,11 +36,13 @@ public class LogOut implements Command {
 			try {
 				userService.update(user, user.getLoginPersonnelNumber());
 			} catch (ServiceException e) {
+				session.setAttribute("error_message", LOG_OUT_FAILED);
 				logger.log(Level.ERROR, "can't change user role (update)", e);
 				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}
 		}
 		session.removeAttribute("user");
+		session.removeAttribute("main_message");
 		logger.log(Level.INFO, "user has been deleted from httpSession");
 		return new Router(PathToPage.MAIN, RouterType.FORWARD);
 	}

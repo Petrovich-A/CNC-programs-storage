@@ -28,16 +28,27 @@
 	<main>
 		<section id="news">
 			<h1>Please, enter password and login for authorization</h1>
-			<h2>${registration_message}</h2>
+			<h2>${authorization_message}</h2>
 			<form action="Controller" method="post">
-				<p>
-					Personnel number <input type="text" name="loginPersonnelNumber"
-						required pattern="^\d{5,5}+$" />
-				</p>
-				<p>
-					Password <input type="password" name="password" required
-						pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
-				</p>
+				<table class="authorizationInputTable">
+					<tr>
+						<td align="right">personnel number</td>
+						<td><input type="text" name="loginPersonnelNumber" required
+							pattern="[0-9]{5}" placeholder="Input your loginPersonnelNumber"
+							title="loginPersonnelNumber should only contain digitals. e.g. 43510" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">password</td>
+						<td><input type="password" id="password-input"
+							name="password" required
+							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$"
+							placeholder="Input your current password"
+							title="password should contain at least once lowcase and uppercase letters, at least once specail symbol, at least once digital." />
+						</td>
+					</tr>
+				</table>
+
 				<div class="button">
 					<input type="hidden" name="commandName" value="authorization" />
 					<button type="submit" class="">submit</button>

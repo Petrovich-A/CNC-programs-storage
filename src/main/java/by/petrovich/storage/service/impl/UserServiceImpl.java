@@ -22,24 +22,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User authorizate(User userFromAuthorizationForm) throws ServiceException {
 		User userFromDao = null;
-		boolean isUserExists = false;
 		try {
-			isUserExists = userDao.isUserExists(userFromAuthorizationForm.getLoginPersonnelNumber());
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} isn't exist in DB", e);
-			throw new ServiceException(e);
-		}
-		if (isUserExists) {
-			try {
-				userFromDao = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
-				userFromDao.setUserRole(UserRole.USER);
-				userDao.update(userFromDao, userFromDao.getLoginPersonnelNumber());
-				logger.log(Level.INFO, "user is authorized. user: {}", userFromDao.toString());
-			} catch (DaoException e1) {
-				logger.log(Level.ERROR, "user with LoginPersonnelNumber: {} can't be authorizate",
-						userFromAuthorizationForm.getLoginPersonnelNumber(), e1);
-				throw new ServiceException(e1);
-			}
+			userFromDao = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
+			userFromDao.setUserRole(UserRole.USER);
+			userDao.update(userFromDao, userFromDao.getLoginPersonnelNumber());
+			logger.log(Level.INFO, "user is authorized. user: {}", userFromDao.toString());
+		} catch (DaoException e1) {
+			logger.log(Level.ERROR, "user with LoginPersonnelNumber: {} can't be authorizate",
+					userFromAuthorizationForm.getLoginPersonnelNumber(), e1);
+			throw new ServiceException(e1);
 		}
 		return userFromDao;
 	}
@@ -129,5 +120,17 @@ public class UserServiceImpl implements UserService {
 			logger.log(Level.ERROR, "user from registration form: {} isn't valid", userFromRegistrForm.toString());
 		}
 		return true;
+	}
+
+	@Override
+	public boolean isUserExist(User userFromRegistrForm) throws ServiceException {
+		boolean isUserExist = false;
+		try {
+			isUserExist = userDao.isUserExists(userFromRegistrForm.getLoginPersonnelNumber());
+		} catch (DaoException e) {
+			throw new ServiceException(String.format("Can't find user with LoginPersonnelNumber: {} in DB",
+					userFromRegistrForm.getLoginPersonnelNumber(), e));
+		}
+		return isUserExist;
 	}
 }

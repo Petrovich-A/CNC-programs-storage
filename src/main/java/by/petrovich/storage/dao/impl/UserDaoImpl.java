@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
 	private static final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
 			+ "employee_surname, employee_patronymic, email, create_time, role_id, position_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE = "DELETE FROM users WHERE login_personnel_number = ?";
-	private static final String SQL_UPDATE = "UPDATE users SET login_personnel_number = ?, password = ?, employee_name = ?, employee_surname = ?, "
+	private static final String SQL_UPDATE = "UPDATE users SET password = ?, employee_name = ?, employee_surname = ?, "
 			+ "employee_patronymic = ?, email  = ?, create_time = ?, role_id = ?, position_id = ? "
 			+ "WHERE login_personnel_number = ?";
 	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic, email,"
@@ -94,20 +94,19 @@ public class UserDaoImpl implements UserDao {
 	public void update(User user, int loginPersonnelNumber) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
-			preparedStatement.setInt(1, user.getLoginPersonnelNumber());
-			preparedStatement.setString(2, user.getPassword());
-			preparedStatement.setString(3, user.getEmployeeName());
-			preparedStatement.setString(4, user.getEmployeeSurname());
-			preparedStatement.setString(5, user.getEmployeePatronymic());
-			preparedStatement.setString(6, user.getEmail());
-			preparedStatement.setTimestamp(7, user.getCreationDate());
-			preparedStatement.setInt(8, user.getUserRole().getOrdinalNumber());
-			preparedStatement.setInt(9, user.getEmployeePosition().getOrdinalNumber());
-			preparedStatement.setInt(10, loginPersonnelNumber);
+			preparedStatement.setString(1, user.getPassword());
+			preparedStatement.setString(2, user.getEmployeeName());
+			preparedStatement.setString(3, user.getEmployeeSurname());
+			preparedStatement.setString(4, user.getEmployeePatronymic());
+			preparedStatement.setString(5, user.getEmail());
+			preparedStatement.setTimestamp(6, user.getCreationDate());
+			preparedStatement.setInt(7, user.getUserRole().getOrdinalNumber());
+			preparedStatement.setInt(8, user.getEmployeePosition().getOrdinalNumber());
+			preparedStatement.setInt(9, loginPersonnelNumber);
 			preparedStatement.executeUpdate();
 			logger.log(Level.INFO, "user is updated. user: {}", user.toString());
 		} catch (SQLException e) {
-			throw new DaoException(String.format("can't update user with loginPersonnelNumber: %s in DB. user: %s ",
+			throw new DaoException(String.format("can't update user with loginPersonnelNumber: %s in DB. User: %s ",
 					loginPersonnelNumber, user.toString(), e));
 		}
 	}

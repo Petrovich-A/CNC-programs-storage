@@ -64,26 +64,30 @@
 					<tr>
 						<td align="right">personnel number</td>
 						<td><input type="text" id="loginPersonnelNumber"
-							name="loginPersonnelNumber" required pattern="^\\d{5}+$" /></td>
+							name="loginPersonnelNumber" required pattern="[0-9]{5}"
+							title="loginPersonnelNumber should only contain digitals. e.g. 43510" /></td>
 						<td>Login personnel number should have (0-9) digits 5
 							characters long.</td>
 					</tr>
 					<tr>
 						<td align="right">employeeName</td>
 						<td><input type="text" name="employeeName" required
-							pattern="^{8,40}+$" /></td>
+							pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
+							title="employeeName should contain lowcase and uppercase letters. e.g. Алексей" /></td>
 						<td>Cyrillic symbols(А-я)</td>
 					</tr>
 					<tr>
 						<td align="right">employeeSurname</td>
 						<td><input type="text" name="employeeSurname" required
-							pattern="^(?={8,40}+$" /></td>
+							pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
+							title="employeeSurname should contain lowcase and uppercase letters. e.g. Муравьев" /></td>
 						<td>Cyrillic symbols(А-я)</td>
 					</tr>
 					<tr>
 						<td align="right">employeePatronimic</td>
 						<td><input type="text" name="employeePatronymic" required
-							pattern="^(?={8,40}+$" /></td>
+							pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
+							title="employeePatronimic should contain lowcase and uppercase letters. e.g. Арнольдович" /></td>
 						<td>Cyrillic symbols(А-я)</td>
 					</tr>
 					<tr>
@@ -103,7 +107,8 @@
 						<td align="right">password</td>
 						<td><input type="password" id="password-input"
 							name="password" required
-							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
+							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$"
+							title="password should contain at least once lowcase and uppercase letters, at least once specail symbol, at least once digital." />
 						</td>
 						<td>Password should contain latin symbols (A-z), cyrillic
 							symbols (А-я), digits (0-9) 8 to 40 characters long</td>

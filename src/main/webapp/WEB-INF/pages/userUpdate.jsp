@@ -42,23 +42,25 @@
 							<tbody>
 								<tr>
 									<td>loginPersonnelNumber</td>
-									<td><input name="loginPersonnelNumber"
-										value="${user.getLoginPersonnelNumber()}" pattern="^\\d{5}+$"></td>
+									<td>${user.getLoginPersonnelNumber()}</td>
 								</tr>
 								<tr>
 									<td>EmployeeName</td>
-									<td><input name="employeeName"
-										value="${user.getEmployeeName()}" pattern="^{8,40}+$"></td>
+									<td><input name="employeeName" required
+										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
+										value="${user.getEmployeeName()}"></td>
 								</tr>
 								<tr>
 									<td>EmployeeSurname</td>
-									<td><input name="employeeSurname"
-										value="${user.getEmployeeSurname()}" pattern="^(?={8,40}+$"></td>
+									<td><input name="employeeSurname" required
+										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
+										value="${user.getEmployeeSurname()}"></td>
 								</tr>
 								<tr>
 									<td>EmployeePatronymic</td>
-									<td><input name="employeePatronymic"
-										value="${user.getEmployeePatronymic()}" pattern="^(?={8,40}+$"></td>
+									<td><input name="employeePatronymic" required
+										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
+										value="${user.getEmployeePatronymic()}"></td>
 								</tr>
 								<tr>
 									<td align="right">position</td>
@@ -71,7 +73,7 @@
 								<tr>
 									<td>email</td>
 									<td><input type="email" name="email"
-										value="${user.getEmail()}" pattern="^\S+@\S+\.\S+$"></td>
+										value="${user.getEmail()}" required pattern="^\S+@\S+\.\S+$"></td>
 								</tr>
 
 								<tr>
@@ -82,22 +84,6 @@
 											<option value="ADMINISTRATOR">ADMINISTRATOR</option>
 									</select></td>
 								</tr>
-
-								<tr>
-									<td align="right">password</td>
-									<td><input type="password" id="password-input"
-										name="password" required
-										pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" />
-									</td>
-									<td>Password should contain latin symbols (A-z), cyrillic
-										symbols (А-я), digits (0-9) 8 to 40 characters long</td>
-								</tr>
-								<tr>
-									<td align="right">confirm password</td>
-									<td><input type="password" id="passwordConfirm"
-										name="passwordConfirm" required
-										pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
-								<tr>
 							</tbody>
 						</table>
 						<div class="button">
