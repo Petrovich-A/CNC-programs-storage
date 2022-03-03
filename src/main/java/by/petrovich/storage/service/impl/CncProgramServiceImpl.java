@@ -49,18 +49,6 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> readAll() throws ServiceException {
-		List<CncProgram> allCncPrograms = null;
-		try {
-			allCncPrograms = cncProgramDao.readAll();
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't find all CNC programs in BD", e);
-			throw new ServiceException(e);
-		}
-		return allCncPrograms;
-	}
-
-	@Override
 	public void delete(int id) throws ServiceException {
 		try {
 			cncProgramDao.delete(id);
@@ -91,9 +79,39 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> findAmountOfRows(int startRow, int amountOfRows) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CncProgram> readAll(int offset, int numberOfRecords) throws ServiceException {
+		List<CncProgram> allCncPrograms = null;
+		try {
+			allCncPrograms = cncProgramDao.readAll(offset, numberOfRecords);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't find all CNC programs in BD", e);
+			throw new ServiceException(e);
+		}
+		return allCncPrograms;
+	}
+
+	@Override
+	public List<CncProgram> readAll() throws ServiceException {
+		List<CncProgram> allCncPrograms = null;
+		try {
+			allCncPrograms = cncProgramDao.readAll();
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't find all CNC programs in BD", e);
+			throw new ServiceException(e);
+		}
+		return allCncPrograms;
+	}
+
+	@Override
+	public int getNumberOfRecords() throws ServiceException {
+		int numberOfRecords = 0;
+		try {
+			numberOfRecords = cncProgramDao.getNumberOfRecords();
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't getNumberOfRecords programs in BD", e);
+			throw new ServiceException(e);
+		}
+		return numberOfRecords;
 	}
 
 }

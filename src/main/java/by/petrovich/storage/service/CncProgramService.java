@@ -9,14 +9,16 @@ public interface CncProgramService {
 
 	CncProgram read(int id) throws ServiceException;
 
-	List<CncProgram> readAll() throws ServiceException;
-
-	List<CncProgram> findAmountOfRows(int startRow, int amountOfRows) throws ServiceException;
-
 	void delete(int id) throws ServiceException;
 
 	void update(CncProgram ñncProgram, int id) throws ServiceException;
 
 	boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException;
+
+	List<CncProgram> readAll(int offset, int numberOfRecords) throws ServiceException;
+
+	List<CncProgram> readAll() throws ServiceException;
+
+	int getNumberOfRecords() throws ServiceException;
 
 }

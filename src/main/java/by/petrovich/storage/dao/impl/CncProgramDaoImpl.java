@@ -21,6 +21,13 @@ import java.util.List;
 
 public class CncProgramDaoImpl implements CncProgramDao {
 	private static final Logger logger = LogManager.getLogger();
+	private static final String SQL_READ_ALL_WITH_LIMIT = "SELECT SQL_CALC_FOUND_ROWS program_id, program_number, operation_number, program_text,"
+			+ "cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,"
+			+ "cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model, cnc_machines.code_equipment "
+			+ "FROM cnc_programs "
+			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
+			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
+			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id LIMIT";
 	private static final String SQL_READ_ALL = "SELECT program_id, program_number, operation_number, program_text,"
 			+ "cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,"
 			+ "cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model, cnc_machines.code_equipment "
@@ -28,6 +35,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id";
+	private static final String SQL_FOUND_ROWS = "SELECT COUNT(*) FROM cnc_programs";
 	private static final String SQL_CREATE = "INSERT INTO cnc_programs(program_number, operation_number, program_text, create_time,"
 			+ " comment, active, login_personnel_number, detail_id, cnc_machine_id) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String SQL_READ = "SELECT program_id, program_number, operation_number, program_text, cnc_programs.create_time,"
@@ -46,6 +54,27 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_CREATE_CNC_MACHINE = "INSERT INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
 
 	@Override
+	public List<CncProgram> readAll(int offset, int numberOfRecords) throws DaoException {
+		List<CncProgram> allCncPrograms = new ArrayList<>();
+		String sql_query = SQL_READ_ALL_WITH_LIMIT + " " + offset + ", " + numberOfRecords;
+		logger.log(Level.DEBUG, "Sring query building. sql_query: {}", sql_query);
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sql_query);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
+			while (resultSet.next()) {
+				allCncPrograms.add(buildCncProgram(resultSet));
+			}
+			logger.log(Level.INFO, "Reading all CNC programs from BD have done successfully. allCncPrograms: {} ",
+					allCncPrograms.toString());
+		} catch (SQLException e) {
+			throw new DaoException(
+					String.format("can't read allCncPrograms with offset: {} and numberOfRecords: {} from DB", offset,
+							numberOfRecords, e));
+		}
+		return allCncPrograms;
+	}
+
+	@Override
 	public List<CncProgram> readAll() throws DaoException {
 		List<CncProgram> allCncPrograms = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -54,12 +83,27 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			while (resultSet.next()) {
 				allCncPrograms.add(buildCncProgram(resultSet));
 			}
-			logger.log(Level.INFO, "read allCncPrograms from BD have done successfully. allCncPrograms: {} ",
+			logger.log(Level.INFO, "Reading all CNC programs from BD have done successfully. allCncPrograms: {} ",
 					allCncPrograms.toString());
 		} catch (SQLException e) {
 			throw new DaoException(String.format("can't read allCncPrograms from DB", e));
 		}
 		return allCncPrograms;
+	}
+
+	public int getNumberOfRecords() throws DaoException {
+		int numberOfRecords = 0;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_FOUND_ROWS);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
+			if (resultSet.next()) {
+				numberOfRecords = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(
+					String.format("can't get number of records from DB, numberOfRecords: {}", numberOfRecords, e));
+		}
+		return numberOfRecords;
 	}
 
 	@Override

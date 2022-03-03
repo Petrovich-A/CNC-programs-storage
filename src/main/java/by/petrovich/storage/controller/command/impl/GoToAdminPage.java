@@ -26,16 +26,26 @@ public class GoToAdminPage implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+		int page = 1;
+		int recordsPerPage = 3;
+		int numberOfPages = 0;
+		int numberOfRecords = 0;
 		HttpSession session = request.getSession(true);
 		session.setAttribute("local", request.getParameter("local"));
 		List<CncProgram> allCncPrograms = new ArrayList<>();
+		if (request.getParameter("page") != null)
+			page = Integer.parseInt(request.getParameter("page"));
 		try {
-			allCncPrograms = cncProgramService.readAll();
+			allCncPrograms = cncProgramService.readAll((page - 1) * recordsPerPage, recordsPerPage);
+			numberOfRecords = cncProgramService.getNumberOfRecords();
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "can't read allCncPrograms", e);
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
-		session.setAttribute("allCncPrograms", allCncPrograms);
+		numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
+		request.setAttribute("allCncPrograms", allCncPrograms);
+		request.setAttribute("numberOfPages", numberOfPages);
+		request.setAttribute("currentPage", page);
 		return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 	}
 

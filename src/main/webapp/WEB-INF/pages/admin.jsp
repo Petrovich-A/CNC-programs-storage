@@ -61,8 +61,8 @@
 							<tbody>
 								<c:forEach var="cncProgram" items="${allCncPrograms}">
 									<tr>
-										<td><input class="" type="radio" name="id"
-											required="required" value="${cncProgram.getId()}"></td>
+										<td><input class="" type="radio" name="id" required
+											value="${cncProgram.getId()}"></td>
 										<td>${cncProgram.getNumber()}</td>
 										<td>${cncProgram.getOperationNumber()}</td>
 										<td>${cncProgram.getCreationDate()}</td>
@@ -83,10 +83,40 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="">
-					<button type="submit" name="command" value="go_to_"
+					<button type="submit" name="commandName" value="go_to_??"
 						class="btn btn-big btn-primary">Update</button>
 				</div>
 			</form>
+
+			<%--For displaying Previous link except for the 1st page --%>
+			<c:if test="${currentPage != 1}">
+				<td><a
+					href="Controller?commandName=go_to_admin_page&page=${currentPage - 1}">Previous</a></td>
+			</c:if>
+
+			<!--For displaying Page numbers. The when condition does not display a link for the current page -->
+			<table border="1" cellpadding="5" cellspacing="5">
+				<tr>
+					<c:forEach begin="1" end="${numberOfPages}" var="i">
+						<c:choose>
+							<c:when test="${currentPage eq i}">
+								<td>${i}</td>
+							</c:when>
+							<c:otherwise>
+								<td><a
+									href="Controller?commandName=go_to_admin_page&page=${i}">${i}</a></td>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</tr>
+			</table>
+
+			<%--For displaying Next link --%>
+			<c:if test="${currentPage lt numberOfPages}">
+				<td><a
+					href="Controller?commandName=go_to_admin_page&page=${currentPage + 1}">Next</a></td>
+			</c:if>
+
 		</section>
 	</main>
 	<ctg:footer />

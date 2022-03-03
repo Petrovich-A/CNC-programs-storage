@@ -43,6 +43,28 @@
 	var="authorization" />
 <fmt:message bundle="${loc}" key="local.main.navigate.admin_page"
 	var="admin_page" />
+<fmt:message bundle="${loc}" key="local.main.navigate.log_out"
+	var="log_out" />
+<fmt:message bundle="${loc}" key="local.main.message.to_save_program"
+	var="save_program_message" />
+<fmt:message bundle="${loc}" key="local.main.form.number" var="number" />
+<fmt:message bundle="${loc}" key="local.main.form.operation_number"
+	var="operation_number" />
+<fmt:message bundle="${loc}" key="local.main.form.program_text"
+	var="program_text" />
+<fmt:message bundle="${loc}" key="local.main.form.comment" var="comment" />
+<fmt:message bundle="${loc}" key="local.main.form.detail" var="detail" />
+<fmt:message bundle="${loc}" key="local.main.form.cnc_machine"
+	var="cnc_machine" />
+<fmt:message bundle="${loc}" key="local.main.form.code_equipment"
+	var="code_equipment" />
+<fmt:message bundle="${loc}" key="local.main.button.save" var="save" />
+<fmt:message bundle="${loc}" key="local.main.button.reset" var="reset" />
+<fmt:message bundle="${loc}" key="local.main.message.program_list"
+	var="program_list" />
+<fmt:message bundle="${loc}" key="local.main.table.personnel_number"
+	var="personnel_number" />
+
 <body>
 	<nav>
 		<ul>
@@ -55,7 +77,7 @@
 			<c:choose>
 				<c:when test="${user != null}">
 					<li><a href="Controller?commandName=go_to_user_info">${user.getLoginPersonnelNumber()}</a></li>
-					<li><a href="Controller?commandName=log_out">LOG OUT</a></li>
+					<li><a href="Controller?commandName=log_out">${log_out}</a></li>
 				</c:when>
 				<c:otherwise>
 					<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
@@ -86,47 +108,48 @@
 	<main>
 		<h2>${main_message}</h2>
 		<div class="programInput">
-			<h2>To save program:</h2>
+			<h2>${to_save_program}</h2>
 			<hr>
-			<h3>${save_program_message}</h3>
+			<h2>${save_program_message}</h2>
 			<form action="Controller" method="post">
-				<table class="programInputTable" cellspacing="0" cellpadding="4">
+				<table class="programInputTable" border="0" cellspacing="0"
+					cellpadding="4">
 					<tr>
-						<td align="right" width="100">number</td>
+						<td align="right" width="100">${number}</td>
 						<td><input type="text" name="number" required
 							pattern="[0-9]{3,20}"
 							title="Program number should only contain digitals. e.g. 24500411" /></td>
 					</tr>
 					<tr>
-						<td align="right">operationNumber</td>
+						<td align="right">${operation_number}</td>
 						<td><input type="text" name="operationNumber" required
 							pattern="[0-9]{2,3}"
 							title="Operation number should only contain digitals. e.g. 120" /></td>
 					</tr>
 					<tr>
-						<td align="right">programText</td>
+						<td align="right">${program_text}</td>
 						<td><textarea name="programText" cols="60" rows="20" required
 								class="form-control" placeholder="program text..."></textarea></td>
 					</tr>
 					<tr>
-						<td align="right">comment*</td>
+						<td align="right">${comment}</td>
 						<td><input type="text" name="comment"
 							pattern="[a-z,A-Z,а-я,А-Я,0-9]{0,100}" /></td>
 					</tr>
 					<tr>
-						<td align="right">detail</td>
+						<td align="right">${detail}</td>
 						<td><input type="text" name="detail" required
 							pattern="[0-9,A-Z,-]{3,20}"
 							title="Detail number should contain digitals and uppercase letters. e.g. 7555H-1712412" /></td>
 					</tr>
 					<tr>
-						<td align="right">cncMachine</td>
+						<td align="right">${cnc_machine}</td>
 						<td><input type="text" name="cncMachine" required
 							pattern="[a-z,A-Z,а-я,А-Я,0-9]{2,20}"
 							title="CNC machine number should contain digitals and uppercase/lowcase letters. e.g. LM70-AT" /></td>
 					</tr>
 					<tr>
-						<td align="right">codeEquipment</td>
+						<td align="right">${code_equipment}</td>
 						<td><input type="text" name="codeEquipment" required
 							pattern="[0-9]{2,5}"
 							title="Code equipment should only contain digitals. e.g. 117" /></td>
@@ -134,15 +157,15 @@
 				</table>
 				<div class="button">
 					<input type="hidden" name="commandName" value="cnc_program_save" />
-					<button type="submit" class="submit_button">Save</button>
-					<button type="reset" value="Reset">Reset</button>
+					<button type="submit" class="submit_button">${save}</button>
+					<button type="reset" value="Reset">${reset}</button>
 				</div>
 			</form>
 		</div>
 
 		<!-- List of programs for pagination -->
 		<section class="listUsers">
-			<h2>Previous program list:</h2>
+			<h2>${program_list}</h2>
 			<hr>
 			<c:choose>
 				<c:when
@@ -153,35 +176,58 @@
 					<hr>
 				</c:when>
 				<c:otherwise>
-					<c:forEach var="cncProgram" items="${allCncPrograms}">
-						<table class="table">
-							<col width="50">
-							<col width="30">
-							<col width="50">
-							<thead>
-								<tr>
-									<th>Number</th>
-									<th>Detail</th>
-									<th>Model</th>
-									<th>login Personnel Number</th>
-								</tr>
-							</thead>
-							<tbody>
+					<table class="table">
+						<col width="50">
+						<col width="30">
+						<col width="50">
+						<thead>
+							<tr>
+								<th>${number}</th>
+								<th>${detail}</th>
+								<th>${code_equipment}</th>
+								<th>${personnel_number}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="cncProgram" items="${allCncPrograms}">
 								<tr>
 									<td>${cncProgram.getNumber()}</td>
 									<td>${cncProgram.getDetail().getName()}</td>
 									<td>${cncProgram.getCncMachine().getModel()}</td>
 									<td>${cncProgram.getLoginPersonnelNumber()}</td>
 								</tr>
-							</tbody>
-						</table>
-					</c:forEach>
-					<form action="Controller" method="post">
-						<input type="hidden" name="firstrow" value="${firstrow}">
-						<input type="hidden" name="rowcount" value="${rowcount}">
-						<input type="submit" name="page" value="next"> <input
-							type="submit" name="page" value="previous">
-					</form>
+							</c:forEach>
+						</tbody>
+					</table>
+
+					<!--For displaying Previous link except for the 1st page -->
+					<c:if test="${currentPage != 1}">
+						<td><a
+							href="Controller?commandName=go_to_main_page?page=${currentPage - 1}">Previous</a></td>
+					</c:if>
+
+					<!--For displaying Page numbers. The when condition does not display a link for the current page-->
+					<table border="1" cellpadding="5" cellspacing="5">
+						<tr>
+							<c:forEach begin="1" end="${numberOfPages}" var="i">
+								<c:choose>
+									<c:when test="${currentPage eq i}">
+										<td>${i}</td>
+									</c:when>
+									<c:otherwise>
+										<td><a
+											href="Controller?commandName=go_to_main_page?page=${i}">${i}</a></td>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</tr>
+					</table>
+
+					<!--For displaying Next link -->
+					<c:if test="${currentPage lt numberOfPages}">
+						<td><a href="employee.do?page=${currentPage + 1}">Next</a></td>
+					</c:if>
+
 				</c:otherwise>
 			</c:choose>
 		</section>
