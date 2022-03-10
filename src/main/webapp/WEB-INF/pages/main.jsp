@@ -5,6 +5,7 @@
 <%@ taglib uri="customtags" prefix="ctg"%>
 <%@ page import="by.petrovich.storage.entity.User"%>
 <%@ page import="by.petrovich.storage.entity.CncProgram"%>
+<%@ page import="by.petrovich.storage.entity.UserRole"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <!DOCTYPE html>
@@ -72,11 +73,15 @@
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_registration_page">${registration}</a></li>
-				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
+				<c:if
+					test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+					<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
+				</c:if>
 			</div>
 			<c:choose>
-				<c:when test="${user != null}">
-					<li><a href="Controller?commandName=go_to_user_info">${user.getLoginPersonnelNumber()}</a></li>
+				<c:when test="${sessionScope.user != null}">
+					<li><a
+						href="Controller?commandName=go_to_user_info&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
 					<li><a href="Controller?commandName=log_out">${log_out}</a></li>
 				</c:when>
 				<c:otherwise>
@@ -156,9 +161,12 @@
 					</tr>
 				</table>
 				<div class="button">
-					<input type="hidden" name="commandName" value="cnc_program_save" />
-					<button type="submit" class="submit_button">${save}</button>
-					<button type="reset" value="Reset">${reset}</button>
+					<c:if
+						test="${sessionScope.user.getUserRole() eq UserRole.USER || sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+						<input type="hidden" name="commandName" value="cnc_program_save" />
+						<button type="submit" class="submit_button">${save}</button>
+						<button type="reset" value="Reset">${reset}</button>
+					</c:if>
 				</div>
 			</form>
 		</div>
