@@ -17,6 +17,7 @@ import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class RegistrationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
@@ -31,6 +32,7 @@ public class RegistrationCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(true);
 		User userFromRegistrForm = buildUser(request);
 		boolean isUserValid = isValid(userFromRegistrForm);
 		if (!isUserValid) {
@@ -62,6 +64,9 @@ public class RegistrationCommand implements Command {
 				request.setAttribute("error_message", REGISTRATION_FAILED);
 				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}
+		}
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("user");
 		}
 		return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 	}
