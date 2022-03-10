@@ -9,7 +9,6 @@ import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.User;
-import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
@@ -32,17 +31,15 @@ public class LogOut implements Command {
 			logger.log(Level.ERROR, "HttpSession hasn't contain user");
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		} else {
-			user.setUserRole(UserRole.GUEST);
 			try {
-				userService.update(user, user.getLoginPersonnelNumber());
+				userService.logOut(user);
 			} catch (ServiceException e) {
 				session.setAttribute("error_message", LOG_OUT_FAILED);
-				logger.log(Level.ERROR, "can't change user role (update)", e);
+				logger.log(Level.ERROR, "Can't log out", e);
 				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}
 		}
 		session.removeAttribute("user");
-		session.removeAttribute("main_message");
 		logger.log(Level.INFO, "user has been deleted from httpSession");
 		return new Router(PathToPage.MAIN, RouterType.FORWARD);
 	}
