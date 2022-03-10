@@ -16,7 +16,7 @@ public class UserValidatorTest {
 	private String passwordWithoutAlpha = "2325%42123!";
 	private String passwordLess = "rg15!%f";
 	private String passwordMore = "145waasdf!wwf2efwef%#414sdfjkhsad987asfsafasf";
-	private String passwordValid = "dfdg244!$";
+	private String passwordValid = "efefe!2d";
 	private String employeeName = "Иван";
 	private String employeeSurname = "Иванов";
 	private String employeePatronymic = "Иванович";

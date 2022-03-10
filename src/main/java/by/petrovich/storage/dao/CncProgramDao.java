@@ -9,7 +9,7 @@ import by.petrovich.storage.entity.Detail;
 public interface CncProgramDao {
 	List<CncProgram> readAll(int offset, int numberOfRecords) throws DaoException;
 
-	List<CncProgram> readAll() throws DaoException;
+	List<CncProgram> showList() throws DaoException;
 
 	public int getNumberOfRecords() throws DaoException;
 

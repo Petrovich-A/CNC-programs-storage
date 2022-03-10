@@ -91,10 +91,10 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> readAll() throws ServiceException {
+	public List<CncProgram> showList() throws ServiceException {
 		List<CncProgram> allCncPrograms = null;
 		try {
-			allCncPrograms = cncProgramDao.readAll();
+			allCncPrograms = cncProgramDao.showList();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't find all CNC programs in BD", e);
 			throw new ServiceException(e);

@@ -17,7 +17,7 @@ public interface CncProgramService {
 
 	List<CncProgram> readAll(int offset, int numberOfRecords) throws ServiceException;
 
-	List<CncProgram> readAll() throws ServiceException;
+	List<CncProgram> showList() throws ServiceException;
 
 	int getNumberOfRecords() throws ServiceException;
 
