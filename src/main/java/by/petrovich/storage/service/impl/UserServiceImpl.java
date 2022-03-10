@@ -24,13 +24,15 @@ public class UserServiceImpl implements UserService {
 		User userFromDao = null;
 		try {
 			userFromDao = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
-			userFromDao.setUserRole(UserRole.USER);
-			userDao.update(userFromDao, userFromDao.getLoginPersonnelNumber());
+			if (userFromDao.getUserRole() != UserRole.ADMINISTRATOR) {
+				userFromDao.setUserRole(UserRole.USER);
+			}
+			userDao.updateRole(userFromDao);
 			logger.log(Level.INFO, "user is authorized. user: {}", userFromDao.toString());
-		} catch (DaoException e1) {
+		} catch (DaoException e) {
 			logger.log(Level.ERROR, "user with LoginPersonnelNumber: {} can't be authorizate",
-					userFromAuthorizationForm.getLoginPersonnelNumber(), e1);
-			throw new ServiceException(e1);
+					userFromAuthorizationForm.getLoginPersonnelNumber(), e);
+			throw new ServiceException(e);
 		}
 		return userFromDao;
 	}
@@ -38,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registrate(User userFromRegistrForm) throws ServiceException {
 		boolean isUserExists = false;
-		if (userValidate(userFromRegistrForm)) {
+		if (isValid(userFromRegistrForm)) {
 			try {
 				isUserExists = userDao.isUserExists(userFromRegistrForm.getLoginPersonnelNumber());
 			} catch (DaoException e2) {
@@ -52,8 +54,20 @@ public class UserServiceImpl implements UserService {
 				userFromRegistrForm.setUserRole(UserRole.GUEST);
 				userDao.create(userFromRegistrForm);
 			} catch (DaoException e) {
-				logger.log(Level.ERROR, "user can't be registred, user: {}", userFromRegistrForm, e);
-				throw new ServiceException(e);
+				logger.log(Level.ERROR, "User can't be registred, user: {}", userFromRegistrForm, e);
+				throw new ServiceException("dfdf", e);
+			}
+		}
+	}
+
+	@Override
+	public void logOut(User user) throws ServiceException {
+		if (user.getUserRole() != UserRole.ADMINISTRATOR) {
+			user.setUserRole(UserRole.GUEST);
+			try {
+				userDao.updateRole(user);
+			} catch (DaoException e) {
+				logger.log(Level.ERROR, "Can't update role. User: {}", user.toString(), e);
 			}
 		}
 	}
@@ -114,12 +128,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean userValidate(User userFromRegistrForm) throws ServiceException {
+	public boolean isValid(User userFromRegistrForm) {
 		UserValidator userValidator = UserValidator.getInstance();
-		if (!userValidator.isUserValid(userFromRegistrForm)) {
-			logger.log(Level.ERROR, "user from registration form: {} isn't valid", userFromRegistrForm.toString());
+		boolean isUserValid = userValidator.isUserValid(userFromRegistrForm);
+		if (!isUserValid) {
+			logger.log(Level.ERROR, "User from registration's form isn't valid. User: {}",
+					userFromRegistrForm.toString());
 		}
-		return true;
+		return isUserValid;
 	}
 
 	@Override
@@ -128,9 +144,13 @@ public class UserServiceImpl implements UserService {
 		try {
 			isUserExist = userDao.isUserExists(userFromRegistrForm.getLoginPersonnelNumber());
 		} catch (DaoException e) {
-			throw new ServiceException(String.format("Can't find user with LoginPersonnelNumber: {} in DB",
-					userFromRegistrForm.getLoginPersonnelNumber(), e));
+			throw new ServiceException(String.format("Can't do isUserExist.", e));
+		}
+		if (isUserExist) {
+			logger.log(Level.INFO, "User with loginPersonnelNumber: {} is existed in DB.",
+					userFromRegistrForm.getLoginPersonnelNumber());
 		}
 		return isUserExist;
 	}
+
 }
