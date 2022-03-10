@@ -70,10 +70,6 @@
 								<td>role name</td>
 								<td>${userFromDao.getUserRole()}</td>
 							</tr>
-							<tr>
-								<td>position name</td>
-								<td>${userFromDao.getEmployeePosition()}</td>
-							</tr>
 						</tbody>
 					</table>
 				</c:otherwise>
