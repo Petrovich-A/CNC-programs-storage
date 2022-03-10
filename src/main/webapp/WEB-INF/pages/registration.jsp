@@ -14,25 +14,16 @@
 <title>Registration page</title>
 </head>
 <script type="text/javascript">
-	function matchPassword() {
-		var password = document.getElementById("password").value;
+	function confirmMatchPassword() {
+		var password = document.getElementById("passwordInput").value;
 		var passwordConfirm = document.getElementById("passwordConfirm").value;
 		if (password != passwordConfirm) {
 			alert("Passwords did not match");
 		} else {
-			alert("Password created successfully");
-		}
-	}
-	function verifyRegistrationData() {
-		var loginPersonnelNumber = document
-				.getElementById("loginPersonnelNumber").value;
-		if (pw.loginPersonnelNumber == 5) {
-			document.getElementById("loginPersonnelNumber").innerHTML = "**loginPersonnelNumber length must be atleast 5 characters";
-			return false;
+			alert("Registration completed successfully");
 		}
 	}
 </script>
-
 
 <body>
 	<nav>
@@ -105,8 +96,8 @@
 					</tr>
 					<tr>
 						<td align="right">password</td>
-						<td><input type="password" id="password-input"
-							name="password" required
+						<td><input type="password" id="passwordInput" name="password"
+							required
 							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$"
 							title="password should contain at least once lowcase and uppercase letters, at least once specail symbol, at least once digital." />
 						</td>
@@ -124,7 +115,7 @@
 				<div class="button">
 					<input type="hidden" name="commandName" value="registration" />
 					<button type="submit" class="submit_button"
-						onclick="matchPassword()">Submit</button>
+						onclick="confirmMatchPassword()">Submit</button>
 					<button type="reset" value="Reset">Reset</button>
 				</div>
 			</form>
