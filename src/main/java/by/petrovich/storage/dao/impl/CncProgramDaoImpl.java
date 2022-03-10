@@ -57,7 +57,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	public List<CncProgram> readAll(int offset, int numberOfRecords) throws DaoException {
 		List<CncProgram> allCncPrograms = new ArrayList<>();
 		String sql_query = SQL_READ_ALL_WITH_LIMIT + " " + offset + ", " + numberOfRecords;
-		logger.log(Level.DEBUG, "Sring query building. sql_query: {}", sql_query);
+		logger.log(Level.INFO, "Sring query building. sql_query: {}", sql_query);
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sql_query);
 				ResultSet resultSet = preparedStatement.executeQuery()) {
