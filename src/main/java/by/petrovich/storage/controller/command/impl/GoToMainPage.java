@@ -26,26 +26,15 @@ public class GoToMainPage implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
-		int page = 1;
-		int recordsPerPage = 3;
-		int numberOfRecords;
-		int numberOfPages;
 		HttpSession session = request.getSession(true);
 		session.setAttribute("local", request.getParameter("local"));
 		List<CncProgram> allCncPrograms = new ArrayList<>();
-		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
-			try {
-				numberOfRecords = cncProgramService.getNumberOfRecords();
-				allCncPrograms = cncProgramService.readAll((page - 1) * recordsPerPage, recordsPerPage);
-				numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
-				request.setAttribute("allCncPrograms", allCncPrograms);
-				request.setAttribute("numberOfPages", numberOfPages);
-				request.setAttribute("currentPage", page);
-			} catch (ServiceException e) {
-				logger.log(Level.ERROR, "can't read allCncPrograms", e);
-				return new Router(PathToPage.ERROR, RouterType.FORWARD);
-			}
+		try {
+			allCncPrograms = cncProgramService.showList();
+			session.setAttribute("allCncPrograms", allCncPrograms);
+		} catch (ServiceException e) {
+			logger.log(Level.ERROR, "can't read allCncPrograms", e);
+			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
 		return new Router(PathToPage.MAIN, RouterType.FORWARD);
 	}
