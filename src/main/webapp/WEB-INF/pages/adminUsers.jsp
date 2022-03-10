@@ -75,11 +75,10 @@
 				</c:choose>
 				<div class="">
 					<button type="submit" name="commandName"
-						value="go_to_update_user_page" class="btn btn-big btn-primary">Update</button>
-					<button type="submit" name="commandName" value="user_delete"
-						class="btn btn-big btn-primary">Delete</button>
-					<button type="submit" name="commandName" value="go_to_user_info"
-						class="btn btn-big btn-primary">User info</button>
+						value="go_to_update_user_page">Update</button>
+					<button type="submit" name="commandName" value="user_delete">Delete</button>
+					<button type="submit" name="commandName" value="go_to_user_info">User
+						info</button>
 				</div>
 			</form>
 		</section>
