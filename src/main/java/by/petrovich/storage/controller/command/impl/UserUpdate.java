@@ -34,12 +34,12 @@ public class UserUpdate implements Command {
 		User userFromSession = (User) session.getAttribute("user");
 		try {
 			userService.update(userFromUpdateForm, userFromSession.getLoginPersonnelNumber());
-			session.setAttribute("message", UPDATE_USER_SUCCESSFUL);
+			request.setAttribute("message", UPDATE_USER_SUCCESSFUL);
 			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is updated",
 					userFromSession.getLoginPersonnelNumber());
 			return new Router(PathToPage.ADMIN_USERS, RouterType.FORWARD);
 		} catch (ServiceException e) {
-			session.setAttribute("message", UPDATE_USER_FAILD);
+			request.setAttribute("message", UPDATE_USER_FAILD);
 			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {}, user: {}",
 					userFromSession.getLoginPersonnelNumber(), userFromUpdateForm.toString(), e);
 			return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);

@@ -15,11 +15,13 @@ public interface UserService {
 
 	void registrate(User userFromRegistrForm) throws ServiceException;
 
+	void logOut(User user) throws ServiceException;
+
 	User authorizate(User userFromAuthorForm) throws ServiceException;
 
 	boolean loginPasswordValidate(int loginPersonnelNumber, String password) throws ServiceException;
 
-	boolean userValidate(User userFromRegistrForm) throws ServiceException;
+	boolean isValid(User userFromRegistrForm);
 
 	boolean isUserExist(User userFromRegistrForm) throws ServiceException;
 

@@ -87,9 +87,7 @@
 							</tbody>
 						</table>
 						<div class="button">
-							<input type="hidden" name="commandName" value="user_update" />
-							<button type="submit" class="submit_button">Update</button>
-							<button type="reset" value="Reset">Reset</button>
+							<button type="submit" name="commandName" value="user_update">Update</button>
 						</div>
 					</form>
 				</c:otherwise>

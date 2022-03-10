@@ -13,6 +13,8 @@ public interface UserDao {
 
 	void update(User user, int loginPersonnelNumber) throws DaoException;
 
+	void updateRole(User user) throws DaoException;
+
 	void delete(int loginPersonnelNumber) throws DaoException;
 
 	boolean isUserExists(int loginPersonnelNumber) throws DaoException;
