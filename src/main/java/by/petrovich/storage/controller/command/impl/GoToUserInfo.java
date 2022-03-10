@@ -23,9 +23,11 @@ public class GoToUserInfo implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession(true);
+		int loginPersonnelNumber = 0;
 		User userFromDao = new User();
-		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
+		HttpSession session = request.getSession(true);
+		if (request.getParameter("loginPersonnelNumber") != null)
+			loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		try {
 			userFromDao = userService.read(loginPersonnelNumber);
 		} catch (ServiceException e) {
