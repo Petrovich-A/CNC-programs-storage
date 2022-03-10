@@ -65,7 +65,10 @@
 	var="program_list" />
 <fmt:message bundle="${loc}" key="local.main.table.personnel_number"
 	var="personnel_number" />
-
+<fmt:message bundle="${loc}" key="local.main.table.creation_date"
+	var="creation_date" />
+<fmt:message bundle="${loc}" key="local.main.table.cnc_machine_model"
+	var="cnc_machine_model" />
 <body>
 	<nav>
 		<ul>
@@ -190,52 +193,25 @@
 						<col width="50">
 						<thead>
 							<tr>
-								<th>${number}</th>
 								<th>${detail}</th>
-								<th>${code_equipment}</th>
+								<th>${number}</th>
+								<th>${cnc_machine_model}</th>
 								<th>${personnel_number}</th>
+								<th>${creation_date}</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach var="cncProgram" items="${allCncPrograms}">
 								<tr>
-									<td>${cncProgram.getNumber()}</td>
 									<td>${cncProgram.getDetail().getName()}</td>
+									<td>${cncProgram.getNumber()}</td>
 									<td>${cncProgram.getCncMachine().getModel()}</td>
 									<td>${cncProgram.getLoginPersonnelNumber()}</td>
+									<td>${cncProgram.getCreationDate()}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-
-					<!--For displaying Previous link except for the 1st page -->
-					<c:if test="${currentPage != 1}">
-						<td><a
-							href="Controller?commandName=go_to_main_page?page=${currentPage - 1}">Previous</a></td>
-					</c:if>
-
-					<!--For displaying Page numbers. The when condition does not display a link for the current page-->
-					<table border="1" cellpadding="5" cellspacing="5">
-						<tr>
-							<c:forEach begin="1" end="${numberOfPages}" var="i">
-								<c:choose>
-									<c:when test="${currentPage eq i}">
-										<td>${i}</td>
-									</c:when>
-									<c:otherwise>
-										<td><a
-											href="Controller?commandName=go_to_main_page?page=${i}">${i}</a></td>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</tr>
-					</table>
-
-					<!--For displaying Next link -->
-					<c:if test="${currentPage lt numberOfPages}">
-						<td><a href="employee.do?page=${currentPage + 1}">Next</a></td>
-					</c:if>
-
 				</c:otherwise>
 			</c:choose>
 		</section>
