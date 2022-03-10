@@ -17,41 +17,58 @@ import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 public class RegistrationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String REGISTRATION_SUCCESSFUL = "Registration is completed successfully. Please log in.";
+	private final String VALIDATION_FAILED = "User validation is failed. Please, try to reapeat registration.";
+	private final String IS_USER_EXIST_FAILED = "User check is failed. Please, try to reapeat registration.";
+	private final String USER_IS_NOT_VALID = "User isn't valid. Please fill the registration form below with correct data.";
+	private final String USER_IS_EXIST = "User has existed in BD yet. Please fill the registration form below with another loggin.";
 	private final String REGISTRATION_FAILED = "Error: user registration failed. Please reapeat registration.";
-	private final String USER_IS_NOT_VALID = "Please fill the registration form below:";
+	private final String REGISTRATION_SUCCESSFUL = "Registration is completed successfully. Please log in.";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		User userFromRegistrForm = buildUser(request);
-		HttpSession session = request.getSession(true);
-		boolean isUserValid = false;
-		try {
-			isUserValid = userService.userValidate(userFromRegistrForm);
-		} catch (ServiceException e1) {
-			logger.log(Level.ERROR, "user from registr form: {} isn't valid", userFromRegistrForm.toString(), e1);
-			session.setAttribute("registration_message", USER_IS_NOT_VALID);
+		boolean isUserValid = isValid(userFromRegistrForm);
+		if (!isUserValid) {
+			request.setAttribute("registration_message", USER_IS_NOT_VALID);
+			logger.log(Level.INFO, "User isn't valid.");
 			return new Router(PathToPage.REGISTRATION, RouterType.FORWARD);
 		}
-		if (isUserValid) {
+		boolean isUserExists = false;
+		try {
+			isUserExists = userService.isUserExist(userFromRegistrForm);
+		} catch (ServiceException e) {
+			logger.log(Level.ERROR, "Can't check is user exist in BD.", e);
+			request.setAttribute("error_message", IS_USER_EXIST_FAILED);
+			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+		}
+		if (isUserExists) {
+			request.setAttribute("registration_message", USER_IS_EXIST);
+			logger.log(Level.INFO, "User with loginPersonnelNumber: {} is exist in DB.",
+					userFromRegistrForm.getLoginPersonnelNumber());
+			return new Router(PathToPage.REGISTRATION, RouterType.FORWARD);
+		}
+		if (!isUserExists && isUserValid) {
 			try {
-				request.setAttribute("userFromRegistrForm", userFromRegistrForm);
 				userService.registrate(userFromRegistrForm);
-				session.setAttribute("registration_message", REGISTRATION_SUCCESSFUL);
+				request.setAttribute("registration_message", REGISTRATION_SUCCESSFUL);
 				logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
-			} catch (ServiceException e) {
-				session.setAttribute("registration_message", REGISTRATION_FAILED);
-				logger.log(Level.ERROR, e.getLocalizedMessage(), e);
+			} catch (ServiceException e2) {
+				logger.log(Level.ERROR, "User registration is failed. User: {} ", userFromRegistrForm.toString(), e2);
+				request.setAttribute("error_message", REGISTRATION_FAILED);
 				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}
 		}
 		return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
+	}
+
+	private boolean isValid(User user) {
+		boolean isValid = userService.isValid(user);
+		return isValid;
 	}
 
 	private User buildUser(HttpServletRequest request) {
@@ -65,15 +82,15 @@ public class RegistrationCommand implements Command {
 		user.setEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)));
 		user.setEmail(getParameterToCheck("email", request));
 		user.setCreationDate(timestamp);
-		logger.log(Level.INFO, "buildUser: {}", user.toString());
+		logger.log(Level.INFO, "User is built. User: {}", user.toString());
 		return user;
 	}
 
 	private String getParameterToCheck(String name, HttpServletRequest request) {
 		final String parameter = request.getParameter(name);
 		if (parameter == null) {
-			logger.log(Level.ERROR, "request have no parameter with name: {}" + name);
-			throw new IllegalArgumentException("request have no parameter with name: {}" + name);
+			logger.log(Level.ERROR, "Request have no parameter with name: {}" + name);
+			throw new IllegalArgumentException("Request have no parameter with name: {}" + name);
 		}
 		return parameter;
 	}
