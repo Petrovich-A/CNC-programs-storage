@@ -38,22 +38,22 @@ public class AuthorizationCommand implements Command {
 		} catch (ServiceException e1) {
 			logger.log(Level.ERROR, "Can't check is user with LoginPersonnelNumber: {} exist in BD",
 					userFromAuthorizationForm.getLoginPersonnelNumber(), e1);
-			session.setAttribute("authorization_message", AUTHORIZATION_FAILED);
+			request.setAttribute("authorization_message", AUTHORIZATION_FAILED);
 			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
 		if (isUserExist) {
 			try {
 				user = userService.authorizate(userFromAuthorizationForm);
 				session.setAttribute("user", user);
-				session.setAttribute("main_message", AUTHORIZATION_SUCCESSFUL);
+				request.setAttribute("main_message", AUTHORIZATION_SUCCESSFUL);
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);
 			} catch (ServiceException e) {
-				session.setAttribute("authorization_message", AUTHORIZATION_FAILED);
+				request.setAttribute("authorization_message", AUTHORIZATION_FAILED);
 				logger.log(Level.ERROR, "authorization failed", e.getLocalizedMessage(), e);
 				return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 			}
 		} else {
-			session.setAttribute("authorization_message", USER_IS_NOT_EXIST);
+			request.setAttribute("authorization_message", USER_IS_NOT_EXIST);
 			logger.log(Level.INFO, "authorization failed");
 			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
@@ -62,8 +62,8 @@ public class AuthorizationCommand implements Command {
 	private String getParameterToCheck(String parameter, HttpServletRequest request) {
 		final String parameterFromRequest = request.getParameter(parameter);
 		if (parameterFromRequest == null || parameterFromRequest.equals("")) {
-			logger.log(Level.ERROR, "Request contains parameter eaqual null: ", parameterFromRequest);
-			throw new IllegalArgumentException("Request contains parameter eaqual null: " + parameterFromRequest);
+			logger.log(Level.ERROR, "Request contains parameter eaqual null: {}", parameterFromRequest);
+			throw new IllegalArgumentException("Request contains parameter eaqual null: {}" + parameterFromRequest);
 		}
 		return parameterFromRequest;
 	}
