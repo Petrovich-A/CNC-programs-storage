@@ -133,7 +133,6 @@ public class CncProgramDaoImpl implements CncProgramDao {
 					detailId = resultSetDetail.getInt(1);
 				}
 			}
-
 			preparedStatementCncMachine.setString(1, cncProgram.getCncMachine().getModel());
 			preparedStatementCncMachine.setInt(2, cncProgram.getCncMachine().getCodeEquipment());
 			preparedStatementCncMachine.executeUpdate();
@@ -142,7 +141,6 @@ public class CncProgramDaoImpl implements CncProgramDao {
 					cncMachineId = resultSetCncMachine.getInt(1);
 				}
 			}
-
 			preparedStatementCncProgram.setString(1, cncProgram.getNumber());
 			preparedStatementCncProgram.setInt(2, cncProgram.getOperationNumber());
 			preparedStatementCncProgram.setString(3, cncProgram.getProgramText());
@@ -171,7 +169,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		}
 	}
 
-	// to do
+	// to do???
 	private void rollBackCOnnection(Connection connection) throws DaoException {
 		try {
 			connection.rollback();
