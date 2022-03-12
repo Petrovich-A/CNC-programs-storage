@@ -25,8 +25,7 @@ public class RegistrationCommand implements Command {
 	private final UserService userService = serviceProvider.getUserService();
 	private final String VALIDATION_FAILED = "User validation is failed. Please, try to reapeat registration.";
 	private final String IS_USER_EXIST_FAILED = "User check is failed. Please, try to reapeat registration.";
-	private final String USER_IS_NOT_VALID = "User isn't valid. Please fill the registration form below with correct data.";
-	private final String USER_IS_EXIST = "User has existed in BD yet. Please fill the registration form below with another loggin.";
+	private final String USER_IS_NOT_VALID = "The entered data is not validat. Please fill the registration form below with correct data.";
 	private final String REGISTRATION_FAILED = "Error: user registration failed. Please reapeat registration.";
 	private final String REGISTRATION_SUCCESSFUL = "Registration is completed successfully. Please log in.";
 
@@ -49,7 +48,9 @@ public class RegistrationCommand implements Command {
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
 		if (isUserExists) {
-			request.setAttribute("registration_message", USER_IS_EXIST);
+			request.setAttribute("registration_message",
+					"User with login personnel number: " + userFromRegistrForm.getLoginPersonnelNumber()
+							+ " has existed in BD yet. Please fill the registration form below with another loggin.");
 			logger.log(Level.INFO, "User with loginPersonnelNumber: {} is exist in DB.",
 					userFromRegistrForm.getLoginPersonnelNumber());
 			return new Router(PathToPage.REGISTRATION, RouterType.FORWARD);

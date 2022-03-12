@@ -15,12 +15,12 @@
 </head>
 <script type="text/javascript">
 	function confirmMatchPassword() {
-		var password = document.getElementById("passwordInput").value;
-		var passwordConfirm = document.getElementById("passwordConfirm").value;
+		var password = document.getElementById("passwordInput");
+		var passwordConfirm = document.getElementById("passwordConfirm");
 		if (password != passwordConfirm) {
 			alert("Passwords did not match");
 		} else {
-			alert("Registration completed successfully");
+			alert("Passwords is norm");
 		}
 	}
 </script>
@@ -57,7 +57,7 @@
 						<td><input type="text" id="loginPersonnelNumber"
 							name="loginPersonnelNumber" required pattern="[0-9]{5}"
 							title="loginPersonnelNumber should only contain digitals. e.g. 43510" /></td>
-						<td>Login personnel number should have (0-9) digits 5
+						<td>Login personnel number should have (0-9) numeric digits 5
 							characters long.</td>
 					</tr>
 					<tr>
@@ -98,17 +98,19 @@
 						<td align="right">password</td>
 						<td><input type="password" id="passwordInput" name="password"
 							required
-							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$"
-							title="password should contain at least once lowcase and uppercase letters, at least once specail symbol, at least once digital." />
+							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%^&+=,;:_*()]).{8,40}+$"
+							title="passwords have to contain at least 1 lowcase and uppercase letter,
+							at least once digital, including at least 1 specail symbol(!?()@#$%^&+=,;:_*) 
+							at least 8 to 40 characters long." />
 						</td>
-						<td>Password should contain latin symbols (A-z), cyrillic
-							symbols (А-я), digits (0-9) 8 to 40 characters long</td>
+						<td>Password have to contain latin symbols (A-z), cyrillic
+							symbols (А-я), numeric digits (0-9) from 8 to 40 characters long.</td>
 					</tr>
 					<tr>
 						<td align="right">confirm password</td>
 						<td><input type="password" id="passwordConfirm"
 							name="passwordConfirm" required
-							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$" /></td>
+							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%^&+=,;:_*()]).{8,40}+$" /></td>
 					<tr>
 				</table>
 
@@ -119,6 +121,12 @@
 					<button type="reset" value="Reset">Reset</button>
 				</div>
 			</form>
+			<hr>
+			<h4>
+				Have an account already? <a
+					href="Controller?commandName=go_to_authorization_page">LogIn</a>
+			</h4>
+
 		</section>
 	</main>
 	<!-- Here is the main footer that is used across all the pages of website with using customTag writing -->
