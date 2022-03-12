@@ -30,7 +30,7 @@
 		<section class="user">
 			<h2>User info:</h2>
 			<c:choose>
-				<c:when test="${user == null}">
+				<c:when test="${userForUpdate == null}">
 					<p class="mb-1">
 						<c:out value="No user avaliable" />
 					</p>
@@ -42,25 +42,25 @@
 							<tbody>
 								<tr>
 									<td>loginPersonnelNumber</td>
-									<td>${user.getLoginPersonnelNumber()}</td>
+									<td>${userForUpdate.getLoginPersonnelNumber()}</td>
 								</tr>
 								<tr>
 									<td>EmployeeName</td>
 									<td><input name="employeeName" required
 										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
-										value="${user.getEmployeeName()}"></td>
+										value="${userForUpdate.getEmployeeName()}"></td>
 								</tr>
 								<tr>
 									<td>EmployeeSurname</td>
 									<td><input name="employeeSurname" required
 										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
-										value="${user.getEmployeeSurname()}"></td>
+										value="${userForUpdate.getEmployeeSurname()}"></td>
 								</tr>
 								<tr>
 									<td>EmployeePatronymic</td>
 									<td><input name="employeePatronymic" required
 										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
-										value="${user.getEmployeePatronymic()}"></td>
+										value="${userForUpdate.getEmployeePatronymic()}"></td>
 								</tr>
 								<tr>
 									<td align="right">position</td>
@@ -73,7 +73,7 @@
 								<tr>
 									<td>email</td>
 									<td><input type="email" name="email"
-										value="${user.getEmail()}" required pattern="^\S+@\S+\.\S+$"></td>
+										value="${userForUpdate.getEmail()}" required pattern="^\S+@\S+\.\S+$"></td>
 								</tr>
 
 								<tr>

@@ -1,7 +1,5 @@
 package by.petrovich.storage.controller.command.impl;
 
-import java.sql.Timestamp;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,42 +20,37 @@ import jakarta.servlet.http.HttpSession;
 
 public class UserUpdate implements Command {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String UPDATE_USER_SUCCESSFUL = "user updating is successful";
-	private static final String UPDATE_USER_FAILD = "user updating is faild";
+	private static final String UPDATE_USER_SUCCESSFUL = "User updating is successful";
+	private static final String UPDATE_USER_FAILD = "User updating is faild";
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
-		User userFromUpdateForm = buildUser(request);
 		HttpSession session = request.getSession(true);
-		User userFromSession = (User) session.getAttribute("user");
+		User userFromUpdateForm = buildUser(request);
+		int loginPersonnelNumber = (Integer) session.getAttribute("loginPersonnelNumber");
 		try {
-			userService.update(userFromUpdateForm, userFromSession.getLoginPersonnelNumber());
-			request.setAttribute("message", UPDATE_USER_SUCCESSFUL);
-			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is updated",
-					userFromSession.getLoginPersonnelNumber());
+			userService.update(userFromUpdateForm, loginPersonnelNumber);
+			request.setAttribute("admin_users_message", UPDATE_USER_SUCCESSFUL);
+			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is updated", loginPersonnelNumber);
 			return new Router(PathToPage.ADMIN_USERS, RouterType.FORWARD);
 		} catch (ServiceException e) {
 			request.setAttribute("message", UPDATE_USER_FAILD);
-			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {}, user: {}",
-					userFromSession.getLoginPersonnelNumber(), userFromUpdateForm.toString(), e);
+			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {}, user: {}", loginPersonnelNumber,
+					userFromUpdateForm.toString(), e);
 			return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
 		}
 	}
 
 	private User buildUser(HttpServletRequest request) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		User user = new User();
-		user.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));
-		user.setPassword(getParameterToCheck("password", request));
 		user.setEmployeeName(getParameterToCheck("employeeName", request));
 		user.setEmployeeSurname(getParameterToCheck("employeeSurname", request));
 		user.setEmployeePatronymic(getParameterToCheck("employeePatronymic", request));
 		user.setEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)));
 		user.setUserRole(UserRole.fromString(getParameterToCheck("userRole", request)));
 		user.setEmail(getParameterToCheck("email", request));
-		user.setCreationDate(timestamp);
 		logger.log(Level.INFO, "buildUser: {}", user.toString());
 		return user;
 	}
