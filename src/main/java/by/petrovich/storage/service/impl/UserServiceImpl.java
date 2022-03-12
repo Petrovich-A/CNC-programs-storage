@@ -95,16 +95,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void delete(int loginPersonnelNumber) throws ServiceException {
-		try {
-			userDao.delete(loginPersonnelNumber);
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't delete user with loginPersonnelNumber: {}", loginPersonnelNumber, e);
-			throw new ServiceException(e);
-		}
-	}
-
-	@Override
 	public void update(User userFromUpdateForm, int loginPersonnelNumber) throws ServiceException {
 		try {
 			userDao.update(userFromUpdateForm, loginPersonnelNumber);

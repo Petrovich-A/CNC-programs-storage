@@ -26,7 +26,6 @@ public class UserDaoImpl implements UserDao {
 			+ "ON users.role_id = user_roles.role_id LEFT JOIN employee_positions ON users.position_id = employee_positions.position_id";
 	private static final String SQL_CREATE = "INSERT INTO users(login_personnel_number, password, employee_name, "
 			+ "employee_surname, employee_patronymic, email, create_time, role_id, position_id) VALUES(?,?,?,?,?,?,?,?,?)";
-	private static final String SQL_DELETE = "DELETE FROM users WHERE login_personnel_number = ?";
 	private static final String SQL_UPDATE = "UPDATE users SET employee_name = ?, employee_surname = ?, employee_patronymic = ?,"
 			+ " email = ?, role_id = ?, position_id = ? WHERE login_personnel_number = ?";
 	private static final String SQL_UPDATE_ROLE = "UPDATE users SET role_id = ? WHERE login_personnel_number = ?";
@@ -98,28 +97,14 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(2, user.getEmployeeSurname());
 			preparedStatement.setString(3, user.getEmployeePatronymic());
 			preparedStatement.setString(4, user.getEmail());
-			preparedStatement.setTimestamp(5, user.getCreationDate());
-			preparedStatement.setInt(6, user.getUserRole().getOrdinalNumber());
-			preparedStatement.setInt(7, user.getEmployeePosition().getOrdinalNumber());
-			preparedStatement.setInt(8, loginPersonnelNumber);
+			preparedStatement.setInt(5, user.getUserRole().getOrdinalNumber());
+			preparedStatement.setInt(6, user.getEmployeePosition().getOrdinalNumber());
+			preparedStatement.setInt(7, loginPersonnelNumber);
 			preparedStatement.executeUpdate();
 			logger.log(Level.INFO, "user is updated. user: {}", user.toString());
 		} catch (SQLException e) {
 			throw new DaoException(String.format("can't update user with loginPersonnelNumber: %s in DB. User: %s ",
 					loginPersonnelNumber, user.toString(), e));
-		}
-	}
-
-	@Override
-	public void delete(int loginPersonnelNumber) throws DaoException {
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
-			preparedStatement.setInt(1, loginPersonnelNumber);
-			preparedStatement.executeUpdate();
-			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is deleted", loginPersonnelNumber);
-		} catch (SQLException e) {
-			throw new DaoException(
-					String.format("can't delete user with loginPersonnelNumber: %s in DB", loginPersonnelNumber, e));
 		}
 	}
 

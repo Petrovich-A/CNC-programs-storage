@@ -32,6 +32,7 @@
 	<main>
 		<section class="users">
 			<h2>List of users:</h2>
+			<h2>${admin_users_message}</h2>
 			<form action="Controller" method="POST">
 				<c:choose>
 					<c:when test="${allUsers.size() == 0 || allUsers.size() == null}">
@@ -76,7 +77,6 @@
 				<div class="">
 					<button type="submit" name="commandName"
 						value="go_to_update_user_page">Update</button>
-					<button type="submit" name="commandName" value="user_delete">Delete</button>
 					<button type="submit" name="commandName" value="go_to_user_info">User
 						info</button>
 				</div>
