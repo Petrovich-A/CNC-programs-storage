@@ -21,4 +21,6 @@ public interface CncProgramService {
 
 	int getNumberOfRecords() throws ServiceException;
 
+	CncProgram searchCncProgram(String name) throws ServiceException;
+
 }

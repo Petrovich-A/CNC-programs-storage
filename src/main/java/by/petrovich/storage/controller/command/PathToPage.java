@@ -9,6 +9,7 @@ public final class PathToPage {
 	public static final String USER_INFO = "/WEB-INF/pages/userInfo.jsp";
 	public static final String USER_UPDATE = "/WEB-INF/pages/userUpdate.jsp";
 	public static final String ADMIN_USERS = "/WEB-INF/pages/adminUsers.jsp";
+	public static final String SEARCH_CNC_PROGRAM = "/WEB-INF/pages/searchCncProgram.jsp";
 
 	private PathToPage() {
 

@@ -43,14 +43,21 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ " comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id, cnc_programs.cnc_machine_id, details.detail_name, "
 			+ "cnc_machines.model, cnc_machines.code_equipment FROM cnc_programs "
 			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
-			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
+			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
+			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
 			+ "WHERE program_id = ?";
 	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_id, program_text, program_name, create_time, "
 			+ "operation_number, program_file_extension, comment, active, detail_id WHERE program_id = ?";
 	private static final String SQL_DELETE = "DELETE FROM  program_id, program_text, program_name, create_time, operation_number, "
-			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE program_id";
-	private static final String SQL_FIND_BY_NAME = "SELECT program_id, program_text, program_name, create_time, operation_number, "
-			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE name";
+			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE program_id = ?";
+	private static final String SQL_FIND_BY_NAME = "SELECT program_id, program_number, operation_number, program_text, "
+			+ "cnc_programs.create_time, comment, active, "
+			+ "cnc_programs.login_personnel_number, details.detail_id, details.detail_name, "
+			+ "cnc_machines.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment FROM cnc_programs "
+			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
+			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
+			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
+			+ "WHERE program_number = ?";
 	private static final String SQL_CREATE_DETAIL = "INSERT INTO details (detail_name) VALUES (?)";
 	private static final String SQL_CREATE_CNC_MACHINE = "INSERT INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
 
@@ -217,19 +224,14 @@ public class CncProgramDaoImpl implements CncProgramDao {
 
 	@Override
 	public CncProgram find(String name) throws DaoException {
-		CncProgram cncProgram = new CncProgram();
+		CncProgram cncProgram = null;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_NAME)) {
 			preparedStatement.setString(1, name);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				cncProgram.setId(resultSet.getInt(1));
-				cncProgram.setProgramText(resultSet.getString(2));
-				cncProgram.setNumber(resultSet.getString(3));
-				cncProgram.setOperationNumber(resultSet.getInt(4));
-				cncProgram.setComment(resultSet.getString(6));
-				cncProgram.setActive(resultSet.getBoolean(7));
-				logger.log(Level.INFO, "cnc program is read", cncProgram.toString());
+				cncProgram = buildCncProgram(resultSet);
+				logger.log(Level.INFO, "CNC program is found with name: ", name);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

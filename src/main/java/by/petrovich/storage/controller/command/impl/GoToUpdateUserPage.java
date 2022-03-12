@@ -24,11 +24,12 @@ public class GoToUpdateUserPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
-		User user = new User();
+		User userForUpdate = new User();
 		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
+		session.setAttribute("loginPersonnelNumber", loginPersonnelNumber);
 		try {
-			user = userService.read(loginPersonnelNumber);
-			session.setAttribute("user", user);
+			userForUpdate = userService.read(loginPersonnelNumber);
+			session.setAttribute("userForUpdate", userForUpdate);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} can't be read", loginPersonnelNumber, e);
 		}

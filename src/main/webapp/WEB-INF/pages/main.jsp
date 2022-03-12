@@ -93,9 +93,10 @@
 			</c:choose>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
-					<input type="hidden" name="commandName" value="to do" /> <input
-						type="search" placeholder="${search_placeholder}"> <label
-						class="icon"> <span class="fas fa-search"> </span>
+					<input type="hidden" name="commandName"	value="search_by_cnc_program_name" />
+					<input type="search" name="searchInput" placeholder="${search_placeholder}" required>
+					<label class="icon">
+						<span class="fas fa-search"> </span>
 					</label>
 				</form>
 			</li>
@@ -201,7 +202,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="cncProgram" items="${allCncPrograms}">
+							<c:forEach var="cncProgram" items="${allCncPrograms}" begin="0"
+								end="6">
 								<tr>
 									<td>${cncProgram.getDetail().getName()}</td>
 									<td>${cncProgram.getNumber()}</td>

@@ -114,4 +114,16 @@ public class CncProgramServiceImpl implements CncProgramService {
 		return numberOfRecords;
 	}
 
+	@Override
+	public CncProgram searchCncProgram(String name) throws ServiceException {
+		CncProgram cncProgram = new CncProgram();
+		try {
+			cncProgram = cncProgramDao.find(name);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't find CNC program", e);
+			throw new ServiceException(e);
+		}
+		return cncProgram;
+	}
+
 }
