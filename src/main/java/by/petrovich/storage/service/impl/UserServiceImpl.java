@@ -5,6 +5,7 @@ import by.petrovich.storage.dao.DaoProvider;
 import by.petrovich.storage.dao.UserDao;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
+import by.petrovich.storage.hasher.impl.PasswordService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.UserService;
 import by.petrovich.storage.validator.impl.UserValidator;
@@ -12,12 +13,16 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LogManager.getLogger();
 	private final DaoProvider daoProvider = DaoProvider.getInstance();
 	private final UserDao userDao = daoProvider.getUserDao();
+	private final UserValidator userValidator = UserValidator.getInstance();
+	private final PasswordService passwordHasher = PasswordService.getInstance();
 
 	@Override
 	public User authorizate(User userFromAuthorizationForm) throws ServiceException {
@@ -39,24 +44,23 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void registrate(User userFromRegistrForm) throws ServiceException {
-		boolean isUserExists = false;
-		if (isValid(userFromRegistrForm)) {
-			try {
-				isUserExists = userDao.isUserExists(userFromRegistrForm.getLoginPersonnelNumber());
-			} catch (DaoException e2) {
-				logger.log(Level.ERROR, "user with getLoginPersonnelNumber: {} is existed in DB",
-						userFromRegistrForm.getLoginPersonnelNumber(), e2);
-				throw new ServiceException(e2);
-			}
+		String passwordHashed = null;
+		try {
+			passwordHashed = passwordHasher.generateHash(userFromRegistrForm.getPassword());
+		} catch (NoSuchAlgorithmException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (InvalidKeySpecException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
-		if (!isUserExists) {
-			try {
-				userFromRegistrForm.setUserRole(UserRole.GUEST);
-				userDao.create(userFromRegistrForm);
-			} catch (DaoException e) {
-				logger.log(Level.ERROR, "User can't be registred, user: {}", userFromRegistrForm, e);
-				throw new ServiceException("dfdf", e);
-			}
+		userFromRegistrForm.setPassword(passwordHashed);
+		userFromRegistrForm.setUserRole(UserRole.GUEST);
+		try {
+			userDao.create(userFromRegistrForm);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "User can't be registred, user: {}", userFromRegistrForm, e);
+			throw new ServiceException("dfdf", e);
 		}
 	}
 
@@ -70,16 +74,6 @@ public class UserServiceImpl implements UserService {
 				logger.log(Level.ERROR, "Can't update role. User: {}", user.toString(), e);
 			}
 		}
-	}
-
-	@Override
-	public boolean loginPasswordValidate(int loginPersonnelNumber, String password) throws ServiceException {
-		UserValidator userValidator = UserValidator.getInstance();
-		if (!userValidator.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber))
-				&& !userValidator.isPasswordValid(password)) {
-			logger.log(Level.ERROR, "login: {} and password: {} isn't valid", loginPersonnelNumber, password);// to do
-		}
-		return true;
 	}
 
 	@Override
@@ -119,7 +113,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean isValid(User userFromRegistrForm) {
-		UserValidator userValidator = UserValidator.getInstance();
 		boolean isUserValid = userValidator.isUserValid(userFromRegistrForm);
 		if (!isUserValid) {
 			logger.log(Level.ERROR, "User from registration's form isn't valid. User: {}",
@@ -129,18 +122,71 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isUserExist(User userFromRegistrForm) throws ServiceException {
-		boolean isUserExist = false;
+	public boolean isExist(User userDataForm) throws ServiceException {
+		boolean isExist = false;
 		try {
-			isUserExist = userDao.isUserExists(userFromRegistrForm.getLoginPersonnelNumber());
+			isExist = userDao.isUserExist(userDataForm.getLoginPersonnelNumber());
 		} catch (DaoException e) {
 			throw new ServiceException(String.format("Can't do isUserExist.", e));
 		}
-		if (isUserExist) {
+		if (isExist) {
 			logger.log(Level.INFO, "User with loginPersonnelNumber: {} is existed in DB.",
-					userFromRegistrForm.getLoginPersonnelNumber());
+					userDataForm.getLoginPersonnelNumber());
 		}
-		return isUserExist;
+		return isExist;
+	}
+
+	@Override
+	public boolean isUsersLoginAndIsPasswordMatch(User userFromAuthorizationForm) {
+		User userFromDB = null;
+		boolean isUsersLoginsAndPasswordsMatch = false;
+		boolean isLoginMatch = false;
+		boolean isPasswordMatch = false;
+		try {
+			userFromDB = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		isLoginMatch = isloginPersonnelNumberMatch(userFromAuthorizationForm.getLoginPersonnelNumber(),
+				userFromDB.getLoginPersonnelNumber());
+		isPasswordMatch = isPaswordMatch(userFromAuthorizationForm.getPassword(), userFromDB.getPassword());
+		if (isLoginMatch && isPasswordMatch) {
+			isUsersLoginsAndPasswordsMatch = true;
+		}
+		return isUsersLoginsAndPasswordsMatch;
+	}
+
+	private boolean isloginPersonnelNumberMatch(int loginPersonnelNumber, int loginPersonnelNumberMatch) {
+		boolean isloginPersonnelNumbersMatch = false;
+		if (loginPersonnelNumber == loginPersonnelNumberMatch) {
+			isloginPersonnelNumbersMatch = true;
+		}
+		return isloginPersonnelNumbersMatch;
+	}
+
+	private boolean isPaswordMatch(String password, String passwordMatch) {
+		String passwordHashed = null;
+		boolean isPasswordMatch = false;
+		try {
+			passwordHashed = passwordHasher.generateHash(password);
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (passwordHashed.equals(passwordMatch)) {
+			isPasswordMatch = true;
+		}
+		return isPasswordMatch;
+	}
+
+	@SuppressWarnings("unused")
+	private boolean loginPasswordValidate(int loginPersonnelNumber, String password) throws ServiceException {
+		if (!userValidator.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber))
+				&& !userValidator.isPasswordValid(password)) {
+			logger.log(Level.ERROR, "login: {} and password: {} isn't valid", loginPersonnelNumber, password);// to do
+		}
+		return true;
 	}
 
 }

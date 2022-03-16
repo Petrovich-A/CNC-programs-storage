@@ -22,29 +22,36 @@ public class AuthorizationCommand implements Command {
 	private final UserService userService = serviceProvider.getUserService();
 	private final String AUTHORIZATION_SUCCESSFUL = "Authorization is completed successfully!";
 	private final String AUTHORIZATION_FAILED = "Error: user authorization failed. Please reapeat authorization.";
-	private final String USER_IS_NOT_EXIST = "Login or password aren't correct. Try again.";
+	private final String USER_IS_NOT_EXIST = "User isn't exist with such login or password.";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(true);
 		User userFromAuthorizationForm = new User();
+		User userFromDB = new User();
+		boolean isUserExist = false;
+		boolean isUserLoginAndIsPasswordMatch = false;
 		userFromAuthorizationForm
 				.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));
 		userFromAuthorizationForm.setPassword(getParameterToCheck("password", request));
-		HttpSession session = request.getSession(true);
-		User user = new User();
-		boolean isUserExist = false;
 		try {
-			isUserExist = userService.isUserExist(userFromAuthorizationForm);
+			isUserExist = userService.isExist(userFromAuthorizationForm);
 		} catch (ServiceException e1) {
 			logger.log(Level.ERROR, "Can't check is user with LoginPersonnelNumber: {} exist in BD",
 					userFromAuthorizationForm.getLoginPersonnelNumber(), e1);
-			request.setAttribute("authorization_message", AUTHORIZATION_FAILED);
+			request.setAttribute("authorization_message", USER_IS_NOT_EXIST);
 			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
-		if (isUserExist) {
+		try {
+			isUserLoginAndIsPasswordMatch = userService.isUsersLoginAndIsPasswordMatch(userFromAuthorizationForm);
+		} catch (ServiceException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (isUserExist && isUserLoginAndIsPasswordMatch) {
 			try {
-				user = userService.authorizate(userFromAuthorizationForm);
-				session.setAttribute("user", user);
+				userFromDB = userService.authorizate(userFromAuthorizationForm);
+				session.setAttribute("user", userFromDB);
 				request.setAttribute("main_message", AUTHORIZATION_SUCCESSFUL);
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);
 			} catch (ServiceException e) {

@@ -2,7 +2,6 @@ package by.petrovich.storage.service;
 
 import java.util.List;
 
-import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.entity.User;
 
 public interface UserService {
@@ -18,10 +17,10 @@ public interface UserService {
 
 	User authorizate(User userFromAuthorForm) throws ServiceException;
 
-	boolean loginPasswordValidate(int loginPersonnelNumber, String password) throws ServiceException;
-
 	boolean isValid(User userFromRegistrForm);
 
-	boolean isUserExist(User userFromRegistrForm) throws ServiceException;
+	boolean isExist(User userFromRegistrForm) throws ServiceException;
+
+	public boolean isUsersLoginAndIsPasswordMatch(User userFromAuthorizationForm) throws ServiceException;
 
 }
