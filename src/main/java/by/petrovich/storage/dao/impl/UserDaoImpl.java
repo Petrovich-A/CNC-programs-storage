@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
 	private static final String SQL_READ = "SELECT login_personnel_number, password, employee_name, employee_surname, employee_patronymic, email,"
 			+ "create_time, role_name, position_name FROM users LEFT JOIN user_roles ON users.role_id = user_roles.role_id "
 			+ "LEFT JOIN employee_positions ON users.position_id = employee_positions.position_id WHERE login_personnel_number = ?";
-	private static final String SQL_IS_EXIST = "SELECT EXISTS(SELECT login_personnel_number FROM users WHERE login_personnel_number = ?)";
+	private static final String SQL_IS_EXIST_BY_LOGIN = "SELECT EXISTS(SELECT login_personnel_number FROM users WHERE login_personnel_number = ?)";
 
 	@Override
 	public List<User> readAll() throws DaoException {
@@ -109,10 +109,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean isUserExists(int loginPersonnelNumber) throws DaoException {
+	public boolean isUserExist(int loginPersonnelNumber) throws DaoException {
 		boolean isExist = false;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST,
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST_BY_LOGIN,
 						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -120,7 +120,8 @@ public class UserDaoImpl implements UserDao {
 				isExist = resultSet.getBoolean(1);
 			}
 		} catch (SQLException e) {
-			throw new DaoException(String.format("Can't do isExists. SQL_IS_EXIST: %s", isExist, e));
+			throw new DaoException(
+					String.format("Can't do isExist. SQL_IS_EXIST_BY_LOGIN: %s", SQL_IS_EXIST_BY_LOGIN, e));
 		}
 		logger.log(Level.INFO, "isExists: {}", isExist);
 		return isExist;
