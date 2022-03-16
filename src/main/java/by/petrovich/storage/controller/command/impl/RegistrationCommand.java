@@ -23,7 +23,6 @@ public class RegistrationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String VALIDATION_FAILED = "User validation is failed. Please, try to reapeat registration.";
 	private final String IS_USER_EXIST_FAILED = "User check is failed. Please, try to reapeat registration.";
 	private final String USER_IS_NOT_VALID = "The entered data is not validat. Please fill the registration form below with correct data.";
 	private final String REGISTRATION_FAILED = "Error: user registration failed. Please reapeat registration.";
@@ -41,7 +40,7 @@ public class RegistrationCommand implements Command {
 		}
 		boolean isUserExists = false;
 		try {
-			isUserExists = userService.isUserExist(userFromRegistrForm);
+			isUserExists = userService.isExist(userFromRegistrForm);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't check is user exist in BD.", e);
 			request.setAttribute("error_message", IS_USER_EXIST_FAILED);
