@@ -15,9 +15,9 @@ ___
 - [x] administrator can read user info, update, delete users 
 - [x] user can log in and log out
 - [x] user can save CNC Programs
+- [x] password hash
+- [x] pagination
 #### :two: To do list :clipboard:
-- [ ] hash password
-- [ ] pagination
 - [ ] filters
 
 ___
