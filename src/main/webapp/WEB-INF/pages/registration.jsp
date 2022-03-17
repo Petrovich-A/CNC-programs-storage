@@ -17,10 +17,10 @@
 	function confirmMatchPassword() {
 		var password = document.getElementById("passwordInput");
 		var passwordConfirm = document.getElementById("passwordConfirm");
-		if (password != passwordConfirm) {
-			alert("Passwords did not match");
-		} else {
+		if (password == passwordConfirm) {
 			alert("Passwords is norm");
+		} else {
+			alert("Passwords did not match");
 		}
 	}
 </script>
@@ -31,6 +31,7 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
+				<li><a href="Controller?commandName=go_to_authorization_page">LOG IN</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
@@ -124,7 +125,7 @@
 			<hr>
 			<h4>
 				Have an account already? <a
-					href="Controller?commandName=go_to_authorization_page">LogIn</a>
+					href="Controller?commandName=go_to_authorization_page">log in</a>
 			</h4>
 
 		</section>

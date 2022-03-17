@@ -80,24 +80,22 @@
 					test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
 					<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
 				</c:if>
+				<c:choose>
+					<c:when test="${sessionScope.user != null}">
+						<li><a
+							href="Controller?commandName=go_to_user_info&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
+						<li><a href="Controller?commandName=log_out">${log_out}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
+					</c:otherwise>
+				</c:choose>
 			</div>
-			<c:choose>
-				<c:when test="${sessionScope.user != null}">
-					<li><a
-						href="Controller?commandName=go_to_user_info&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
-					<li><a href="Controller?commandName=log_out">${log_out}</a></li>
-				</c:when>
-				<c:otherwise>
-					<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
-				</c:otherwise>
-			</c:choose>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
-					<input type="hidden" name="commandName"	value="search_by_cnc_program_name" />
+					<input type="hidden" name="commandName"	value="search_by_cnc_program_name" /> 
 					<input type="search" name="searchInput" placeholder="${search_placeholder}" required>
-					<label class="icon">
-						<span class="fas fa-search"> </span>
-					</label>
+					<label class="icon"> <span class="fas fa-search"> </span></label>
 				</form>
 			</li>
 		</ul>
@@ -115,9 +113,10 @@
 		</form>
 	</div>
 	<main>
-		<h2>${main_message}</h2>
 		<div class="programInput">
 			<h2>${to_save_program}</h2>
+			<hr>
+			<h2>${main_message}</h2>
 			<hr>
 			<h2>${save_program_message}</h2>
 			<form action="Controller" method="post">

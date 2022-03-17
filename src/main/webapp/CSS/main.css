@@ -7,8 +7,9 @@
 }
 
 nav {
-	background-color: #eeeeee;
+	background-color: white;
 	display: flex;
+	vertical-align: middle;
 	padding: 10px 20px 10px 20px;
 	border: 2px solid #000;
 	border-left: none;
@@ -24,6 +25,7 @@ nav ul {
 }
 
 nav ul li.logo {
+	color: #0762bc;
 	flex: 1;
 	font-size: 30px;
 	font-weight: 700;
@@ -42,7 +44,7 @@ nav ul div.items {
 
 nav ul div.items a {
 	text-decoration: none;
-	color: #2355f8;
+	color: #0762bc;
 	font-size: 24px;
 	font-weight: 600;
 	padding: 0px 12px;
