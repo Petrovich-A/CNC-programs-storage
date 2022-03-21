@@ -25,6 +25,7 @@ public class CommandProvider {
 		commands.put(CommandName.USER_UPDATE, new UserUpdate());
 		commands.put(CommandName.LOG_OUT, new LogOut());
 		commands.put(CommandName.SEARCH_BY_CNC_PROGRAM_NAME, new SearchByCncProgramName());
+		commands.put(CommandName.GO_TO_USERS_PROGRAM, new GoToUsersProgram());
 	}
 
 	public Command findCommand(String name) {

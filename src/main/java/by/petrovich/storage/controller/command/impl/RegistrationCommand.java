@@ -59,8 +59,8 @@ public class RegistrationCommand implements Command {
 				userService.registrate(userFromRegistrForm);
 				request.setAttribute("registration_message", REGISTRATION_SUCCESSFUL);
 				logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
-			} catch (ServiceException e2) {
-				logger.log(Level.ERROR, "User registration is failed. User: {} ", userFromRegistrForm.toString(), e2);
+			} catch (ServiceException e) {
+				logger.log(Level.ERROR, "User registration is failed. User: {} ", userFromRegistrForm.toString(), e);
 				request.setAttribute("error_message", REGISTRATION_FAILED);
 				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}

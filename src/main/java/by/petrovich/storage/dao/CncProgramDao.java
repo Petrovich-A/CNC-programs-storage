@@ -7,9 +7,11 @@ import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.entity.Detail;
 
 public interface CncProgramDao {
-	List<CncProgram> readAll(int offset, int numberOfRecords) throws DaoException;
+	List<CncProgram> readBatch(int offset, int numberOfRecords) throws DaoException;
 
-	List<CncProgram> showList() throws DaoException;
+	List<CncProgram> readBatchByDate() throws DaoException;
+
+	List<CncProgram> readBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws DaoException;
 
 	public int getNumberOfRecords() throws DaoException;
 
@@ -21,7 +23,7 @@ public interface CncProgramDao {
 
 	void delete(int id) throws DaoException;
 
-	CncProgram find(String name) throws DaoException;
+	CncProgram readBatchByProgramName(String name) throws DaoException;
 
 	void createDetail(Detail detail) throws DaoException;
 

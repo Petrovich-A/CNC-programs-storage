@@ -7,7 +7,7 @@ import by.petrovich.storage.entity.CncProgram;
 public interface CncProgramService {
 	void create(CncProgram cncProgram) throws ServiceException;
 
-	CncProgram read(int id) throws ServiceException;
+	CncProgram recieve(int id) throws ServiceException;
 
 	void delete(int id) throws ServiceException;
 
@@ -15,9 +15,11 @@ public interface CncProgramService {
 
 	boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException;
 
-	List<CncProgram> readAll(int offset, int numberOfRecords) throws ServiceException;
+	List<CncProgram> recieveBatch(int offset, int numberOfRecords) throws ServiceException;
 
-	List<CncProgram> showList() throws ServiceException;
+	List<CncProgram> recieveBatchByName() throws ServiceException;
+
+	List<CncProgram> recieveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException;
 
 	int getNumberOfRecords() throws ServiceException;
 

@@ -37,15 +37,15 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncProgram read(int id) throws ServiceException {
-		CncProgram cncProgramFromDao = null;
+	public CncProgram recieve(int id) throws ServiceException {
+		CncProgram cncProgram = null;
 		try {
-			cncProgramFromDao = cncProgramDao.read(id);
+			cncProgram = cncProgramDao.read(id);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't find CNC program in BD by id: {}", id, e);
 			throw new ServiceException(e);
 		}
-		return cncProgramFromDao;
+		return cncProgram;
 	}
 
 	@Override
@@ -79,27 +79,27 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> readAll(int offset, int numberOfRecords) throws ServiceException {
-		List<CncProgram> allCncPrograms = null;
+	public List<CncProgram> recieveBatch(int offset, int numberOfRecords) throws ServiceException {
+		List<CncProgram> cncPrograms = null;
 		try {
-			allCncPrograms = cncProgramDao.readAll(offset, numberOfRecords);
+			cncPrograms = cncProgramDao.readBatch(offset, numberOfRecords);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't find all CNC programs in BD", e);
 			throw new ServiceException(e);
 		}
-		return allCncPrograms;
+		return cncPrograms;
 	}
 
 	@Override
-	public List<CncProgram> showList() throws ServiceException {
-		List<CncProgram> allCncPrograms = null;
+	public List<CncProgram> recieveBatchByName() throws ServiceException {
+		List<CncProgram> cncPrograms = null;
 		try {
-			allCncPrograms = cncProgramDao.showList();
+			cncPrograms = cncProgramDao.readBatchByDate();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't find all CNC programs in BD", e);
 			throw new ServiceException(e);
 		}
-		return allCncPrograms;
+		return cncPrograms;
 	}
 
 	@Override
@@ -116,14 +116,26 @@ public class CncProgramServiceImpl implements CncProgramService {
 
 	@Override
 	public CncProgram searchCncProgram(String name) throws ServiceException {
-		CncProgram cncProgram = new CncProgram();
+		CncProgram cncProgram = null;
 		try {
-			cncProgram = cncProgramDao.find(name);
+			cncProgram = cncProgramDao.readBatchByProgramName(name);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't find CNC program", e);
 			throw new ServiceException(e);
 		}
 		return cncProgram;
+	}
+
+	@Override
+	public List<CncProgram> recieveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
+		List<CncProgram> cncPrograms = null;
+		try {
+			cncPrograms = cncProgramDao.readBatchByLoginPersonnelNumber(loginPersonnelNumber);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't recieve CNC program by login personnel number: {}", loginPersonnelNumber, e);
+			throw new ServiceException(e);
+		}
+		return cncPrograms;
 	}
 
 }

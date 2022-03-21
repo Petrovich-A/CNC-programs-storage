@@ -21,7 +21,7 @@ import java.util.List;
 
 public class CncProgramDaoImpl implements CncProgramDao {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_READ_ALL_WITH_LIMIT = "SELECT SQL_CALC_FOUND_ROWS program_id, program_number, operation_number, program_text,"
+	private static final String SQL_READ_WITH_LIMIT = "SELECT SQL_CALC_FOUND_ROWS program_id, program_number, operation_number, program_text,"
 			+ "cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,"
 			+ "cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model, cnc_machines.code_equipment "
 			+ "FROM cnc_programs "
@@ -50,7 +50,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "operation_number, program_file_extension, comment, active, detail_id WHERE program_id = ?";
 	private static final String SQL_DELETE = "DELETE FROM  program_id, program_text, program_name, create_time, operation_number, "
 			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE program_id = ?";
-	private static final String SQL_FIND_BY_NAME = "SELECT program_id, program_number, operation_number, program_text, "
+	private static final String SQL_READ_BY_NAME = "SELECT program_id, program_number, operation_number, program_text, "
 			+ "cnc_programs.create_time, comment, active, "
 			+ "cnc_programs.login_personnel_number, details.detail_id, details.detail_name, "
 			+ "cnc_machines.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment FROM cnc_programs "
@@ -60,43 +60,68 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "WHERE program_number = ?";
 	private static final String SQL_CREATE_DETAIL = "INSERT INTO details (detail_name) VALUES (?)";
 	private static final String SQL_CREATE_CNC_MACHINE = "INSERT INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
+	private static final String SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER = "SELECT program_id, program_number, operation_number, "
+			+ "program_text, create_time, comment, active, login_personnel_number, cnc_programs.detail_id, details.detail_name, "
+			+ "cnc_programs.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment "
+			+ "FROM cncprogramsstorage.cnc_programs "
+			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
+			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
+			+ "WHERE login_personnel_number = ?";
 
 	@Override
-	public List<CncProgram> readAll(int offset, int numberOfRecords) throws DaoException {
-		List<CncProgram> allCncPrograms = new ArrayList<>();
-		String sql_query = SQL_READ_ALL_WITH_LIMIT + " " + offset + ", " + numberOfRecords;
+	public List<CncProgram> readBatch(int offset, int numberOfRecords) throws DaoException {
+		List<CncProgram> cncPrograms = new ArrayList<>();
+		String sql_query = SQL_READ_WITH_LIMIT + " " + offset + ", " + numberOfRecords;
 		logger.log(Level.INFO, "Sring query building. sql_query: {}", sql_query);
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sql_query);
 				ResultSet resultSet = preparedStatement.executeQuery()) {
 			while (resultSet.next()) {
-				allCncPrograms.add(buildCncProgram(resultSet));
+				cncPrograms.add(buildCncProgram(resultSet));
 			}
 			logger.log(Level.INFO, "Reading all CNC programs from BD have done successfully. allCncPrograms: {} ",
-					allCncPrograms.toString());
+					cncPrograms.toString());
 		} catch (SQLException e) {
 			throw new DaoException(
-					String.format("can't read allCncPrograms with offset: {} and numberOfRecords: {} from DB", offset,
-							numberOfRecords, e));
+					String.format("can't read batchOfCncPrograms with offset: {} and numberOfRecords: {} from DB",
+							offset, numberOfRecords, e));
 		}
-		return allCncPrograms;
+		return cncPrograms;
 	}
 
 	@Override
-	public List<CncProgram> showList() throws DaoException {
-		List<CncProgram> allCncPrograms = new ArrayList<>();
+	public List<CncProgram> readBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws DaoException {
+		List<CncProgram> cncPrograms = new ArrayList<>();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection
+						.prepareStatement(SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER)) {
+			preparedStatement.setInt(1, loginPersonnelNumber);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				cncPrograms.add(buildCncProgram(resultSet));
+			}
+		} catch (SQLException e) {
+			throw new DaoException(
+					String.format("Can't read CNC program by login personnel number: {}.", loginPersonnelNumber));
+		}
+		return cncPrograms;
+	}
+
+	@Override
+	public List<CncProgram> readBatchByDate() throws DaoException {
+		List<CncProgram> cncPrograms = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_BY_DATE);
 				ResultSet resultSet = preparedStatement.executeQuery()) {
 			while (resultSet.next()) {
-				allCncPrograms.add(buildCncProgram(resultSet));
+				cncPrograms.add(buildCncProgram(resultSet));
 			}
 			logger.log(Level.INFO, "Reading all CNC programs from BD have done successfully. allCncPrograms: {} ",
-					allCncPrograms.toString());
+					cncPrograms.toString());
 		} catch (SQLException e) {
 			throw new DaoException(String.format("can't read allCncPrograms from DB", e));
 		}
-		return allCncPrograms;
+		return cncPrograms;
 	}
 
 	public int getNumberOfRecords() throws DaoException {
@@ -221,10 +246,10 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public CncProgram find(String name) throws DaoException {
+	public CncProgram readBatchByProgramName(String name) throws DaoException {
 		CncProgram cncProgram = null;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_NAME)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_BY_NAME)) {
 			preparedStatement.setString(1, name);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
