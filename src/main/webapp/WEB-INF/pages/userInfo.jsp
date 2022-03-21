@@ -8,23 +8,47 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/CSS/style.css"/>" />
 <head>
 <meta charset="UTF-8">
 <title>User info page</title>
 </head>
 <body>
-	<div class="header">
-		<div class="">
-			<div class="">
-				<h1>
-					CNC <span>programs storage</span>
-				</h1>
-			</div>
-			<ul class="navigation">
+	<nav>
+		<ul>
+			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
+			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-			</ul>
-		</div>
-	</div>
+				<li><a href="Controller?commandName=go_to_registration_page">REGISTRATION</a></li>
+				<li><a href="Controller?commandName=go_to_users_program">CNC
+						PROGRAMS</a></li>
+				<c:if
+					test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+					<li><a href="Controller?commandName=go_to_admin_page">ADMIN
+							PAGE</a></li>
+				</c:if>
+				<c:choose>
+					<c:when test="${sessionScope.user != null}">
+						<li><a
+							href="Controller?commandName=go_to_user_info&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
+						<li><a href="Controller?commandName=log_out">${log_out}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<li class="search-icon">
+				<form role="search" action="Controller" method="post">
+					<input type="hidden" name="commandName"
+						value="search_by_cnc_program_name" /> <input type="search"
+						name="searchInput" placeholder="${search_placeholder}" required>
+					<label class="icon"> <span class="fas fa-search"> </span></label>
+				</form>
+			</li>
+		</ul>
+	</nav>
 	<main>
 		<section class="user">
 			<h2>User information:</h2>

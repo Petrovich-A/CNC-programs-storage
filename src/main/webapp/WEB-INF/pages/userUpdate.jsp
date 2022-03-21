@@ -8,6 +8,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/CSS/style.css"/>" />
 <head>
 <meta charset="UTF-8">
 <title>User update page</title>
@@ -73,7 +75,8 @@
 								<tr>
 									<td>email</td>
 									<td><input type="email" name="email"
-										value="${userForUpdate.getEmail()}" required pattern="^\S+@\S+\.\S+$"></td>
+										value="${userForUpdate.getEmail()}" required
+										pattern="^\S+@\S+\.\S+$"></td>
 								</tr>
 
 								<tr>
@@ -94,6 +97,10 @@
 			</c:choose>
 		</section>
 	</main>
-	<ctg:footer />
+	<footer>
+		<div class="footer">
+			<ctg:footer />
+		</div>
+	</footer>
 </body>
 </html>

@@ -9,8 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css"
-	href="<c:url value="/CSS/main.css"/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/CSS/style.css"/>" />
 <title>Registration page</title>
 </head>
 <script type="text/javascript">

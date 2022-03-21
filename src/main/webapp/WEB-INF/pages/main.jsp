@@ -24,7 +24,7 @@
 	href="https://fonts.googleapis.com/css?family=Montserrat:400,500,800"
 	rel="stylesheet">
 <link rel="stylesheet" type="text/css"
-	href="<c:url value="/CSS/main.css"/>" />
+	href="<c:url value="/CSS/style.css"/>" />
 <meta charset="UTF-8">
 <title>Main page</title>
 <fmt:setLocale value="${sessionScope.local}" />
@@ -39,7 +39,6 @@
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <fmt:message bundle="${loc}" key="local.main.navigate.registration"
 	var="registration" />
-</head>
 <fmt:message bundle="${loc}" key="local.main.navigate.authorization"
 	var="authorization" />
 <fmt:message bundle="${loc}" key="local.main.navigate.admin_page"
@@ -69,6 +68,7 @@
 	var="creation_date" />
 <fmt:message bundle="${loc}" key="local.main.table.cnc_machine_model"
 	var="cnc_machine_model" />
+</head>
 <body>
 	<nav>
 		<ul>
@@ -93,8 +93,9 @@
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
-					<input type="hidden" name="commandName"	value="search_by_cnc_program_name" /> 
-					<input type="search" name="searchInput" placeholder="${search_placeholder}" required>
+					<input type="hidden" name="commandName"
+						value="search_by_cnc_program_name" /> <input type="search"
+						name="searchInput" placeholder="${search_placeholder}" required>
 					<label class="icon"> <span class="fas fa-search"> </span></label>
 				</form>
 			</li>

@@ -11,6 +11,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/CSS/style.css"/>" />
 <head>
 <meta charset="UTF-8">
 <title>Search CNC Program page</title>
@@ -81,6 +83,10 @@
 			</form>
 		</section>
 	</main>
-	<ctg:footer />
+	<footer>
+		<div class="footer">
+			<ctg:footer />
+		</div>
+	</footer>
 </body>
 </html>

@@ -7,24 +7,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/CSS/style.css"/>" />
 <head>
 <meta charset="UTF-8">
 <title>authorization page</title>
 </head>
 <body>
-	<div class="header">
-		<div class="">
-			<div class="">
-				<h1>
-					CNC <span>programs storage</span>
-				</h1>
-			</div>
-			<ul class="navigation">
+	<nav>
+		<ul>
+			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
+			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_registration_page">Registration</a></li>
-			</ul>
-		</div>
-	</div>
+				<li><a href="Controller?commandName=go_to_registration_page">REGISTRATION</a></li>
+			</div>
+			<li class="search-icon">
+				<form role="search" action="Controller" method="post">
+					<input type="hidden" name="commandName"
+						value="search_by_cnc_program_name" /> <input type="search"
+						name="searchInput" placeholder="${search_placeholder}" required>
+					<label class="icon"> <span class="fas fa-search"> </span></label>
+				</form>
+			</li>
+		</ul>
+	</nav>
 	<main>
 		<section id="news">
 			<h1>Please, enter password and login for authorization</h1>
@@ -51,11 +57,16 @@
 
 				<div class="button">
 					<input type="hidden" name="commandName" value="authorization" />
-					<button type="submit" class="">submit</button>
+					<button type="submit">submit</button>
+					<button type="reset">reset</button>
 				</div>
 			</form>
 		</section>
 	</main>
-	<ctg:footer />
+	<footer>
+		<div class="footer">
+			<ctg:footer />
+		</div>
+	</footer>
 </body>
 </html>

@@ -11,24 +11,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/CSS/style.css"/>" />
 <head>
 <meta charset="UTF-8">
 <title>Admin page</title>
 </head>
 <body>
-	<div class="header">
-		<div class="">
-			<div class="">
-				<h1>
-					CNC <span>programs storage</span>
-				</h1>
-			</div>
-			<ul class="navigation">
+	<nav>
+		<ul>
+			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
+			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
 				<li><a href="Controller?commandName=go_to_admin_users_page">USERS</a></li>
-			</ul>
-		</div>
-	</div>
+			</div>
+			<li class="search-icon">
+				<form role="search" action="Controller" method="post">
+					<input type="hidden" name="commandName"
+						value="search_by_cnc_program_name" /> <input type="search"
+						name="searchInput" placeholder="${search_placeholder}" required>
+					<label class="icon"> <span class="fas fa-search"> </span></label>
+				</form>
+			</li>
+		</ul>
+	</nav>
 	<main>
 		<section class="cncPrograms">
 			<h2>List of cncPrograms:</h2>
@@ -83,8 +89,7 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="">
-					<button type="submit" name="commandName" value="go_to_??"
-						class="btn btn-big btn-primary">Update</button>
+					<button type="submit" name="commandName" value="go_to_??">Update</button>
 				</div>
 			</form>
 
@@ -119,6 +124,10 @@
 
 		</section>
 	</main>
-	<ctg:footer />
+	<footer>
+		<div class="footer">
+			<ctg:footer />
+		</div>
+	</footer>
 </body>
 </html>
