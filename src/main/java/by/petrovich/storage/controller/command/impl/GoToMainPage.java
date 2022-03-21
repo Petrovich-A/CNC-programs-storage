@@ -30,7 +30,7 @@ public class GoToMainPage implements Command {
 		session.setAttribute("local", request.getParameter("local"));
 		List<CncProgram> allCncPrograms = new ArrayList<>();
 		try {
-			allCncPrograms = cncProgramService.showList();
+			allCncPrograms = cncProgramService.recieveBatchByName();
 			session.setAttribute("allCncPrograms", allCncPrograms);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "can't read allCncPrograms", e);
