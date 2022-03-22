@@ -11,6 +11,7 @@ public final class PathToPage {
 	public static final String ADMIN_USERS = "/WEB-INF/pages/adminUsers.jsp";
 	public static final String SEARCH_CNC_PROGRAM = "/WEB-INF/pages/searchCncProgram.jsp";
 	public static final String USERS_PROGRAM = "/WEB-INF/pages/usersProgram.jsp";
+	public static final String CNC_PROGRAM_VIEW = "/WEB-INF/pages/cncProgramView.jsp";
 
 	private PathToPage() {
 

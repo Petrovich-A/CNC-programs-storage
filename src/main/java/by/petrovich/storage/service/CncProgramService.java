@@ -7,6 +7,8 @@ import by.petrovich.storage.entity.CncProgram;
 public interface CncProgramService {
 	void create(CncProgram cncProgram) throws ServiceException;
 
+	CncProgram read(int id) throws ServiceException;
+
 	CncProgram recieve(int id) throws ServiceException;
 
 	void delete(int id) throws ServiceException;

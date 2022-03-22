@@ -18,68 +18,81 @@
 <title>User's program page</title>
 </head>
 <body>
-	<div class="header">
-		<div class="">
-			<div class="">
-				<h1>
-					CNC <span>programs storage</span>
-				</h1>
-			</div>
-			<ul class="navigation">
+	<nav>
+		<ul>
+			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
+			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
 				<li><a href="Controller?commandName=go_to_admin_users_page">USERS</a></li>
-			</ul>
-		</div>
-	</div>
+			</div>
+			<li class="search-icon">
+				<form role="search" action="Controller" method="post">
+					<input type="hidden" name="commandName"
+						value="search_by_cnc_program_name" /> <input type="search"
+						name="searchInput" placeholder="${search_placeholder}" required>
+					<label class="icon"> <span class="fas fa-search"> </span></label>
+				</form>
+			</li>
+		</ul>
+	</nav>
 	<main>
 		<section class="cncPrograms">
-			<h2>${cncProgram.getLoginPersonnelNumber()} user's CNC programs:</h2>
-			<c:choose>
-				<c:when
-					test="${cncPrograms.size() == 0 || cncPrograms.size() == null}">
-					<p class="mb-1">
-						<c:out value="No CNC programs are avaliable" />
-					</p>
-					<hr class="mb-1">
-				</c:when>
-				<c:otherwise>
-					<table class="">
-						<thead>
-							<tr>
-								<th></th>
-								<th>number</th>
-								<th>detail name</th>
-								<th>operation Number</th>
-								<th>Creation Date</th>
-								<th>Comment</th>
-								<th>is active</th>
-								
-								<th>cncMachine Model</th>
-								<th>cncMachine Code Equipment</th>
-							<tr />
-						</thead>
-						<tbody>
-							<c:forEach var="cncProgram" items="${cncPrograms}">
+			<h2>${cncProgram.getLoginPersonnelNumber()}user'sCNCprograms:</h2>
+			<form action="Controller" method="POST">
+
+				<c:choose>
+					<c:when
+						test="${cncPrograms.size() == 0 || cncPrograms.size() == null}">
+						<p class="mb-1">
+							<c:out value="No CNC programs are avaliable" />
+						</p>
+						<hr class="mb-1">
+					</c:when>
+					<c:otherwise>
+						<table class="">
+							<thead>
 								<tr>
-									<td><input class="" type="radio" name="id" required
-										value="${cncProgram.getId()}"></td>
-									<td>${cncProgram.getNumber()}</td>
-									<td>${cncProgram.getDetail().getName()}</td>
-									<td>${cncProgram.getOperationNumber()}</td>
-									<td>${cncProgram.getCreationDate()}</td>
-									<td>${cncProgram.getComment()}</td>
-									<td><c:choose>
-											<c:when test="${cncProgram.isActive()}">active</c:when>
-											<c:otherwise>archive</c:otherwise>
-										</c:choose></td>
-									<td>${cncProgram.getCncMachine().getModel()}</td>
-									<td>${cncProgram.getCncMachine().getCodeEquipment()}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</c:otherwise>
-			</c:choose>
+									<th></th>
+									<th>number</th>
+									<th>detail name</th>
+									<th>operation Number</th>
+									<th>Creation Date</th>
+									<th>Comment</th>
+									<th>is active</th>
+
+									<th>cncMachine Model</th>
+									<th>cncMachine Code Equipment</th>
+								<tr />
+							</thead>
+							<tbody>
+								<c:forEach var="cncProgram" items="${cncPrograms}">
+									<tr>
+										<td><input class="" type="radio" name="id" required
+											value="${cncProgram.getId()}"></td>
+										<td>${cncProgram.getNumber()}</td>
+										<td>${cncProgram.getDetail().getName()}</td>
+										<td>${cncProgram.getOperationNumber()}</td>
+										<td>${cncProgram.getCreationDate()}</td>
+										<td>${cncProgram.getComment()}</td>
+										<td><c:choose>
+												<c:when test="${cncProgram.isActive()}">active</c:when>
+												<c:otherwise>archive</c:otherwise>
+											</c:choose></td>
+										<td>${cncProgram.getCncMachine().getModel()}</td>
+										<td>${cncProgram.getCncMachine().getCodeEquipment()}</td>
+									</tr>
+
+
+								</c:forEach>
+							</tbody>
+						</table>
+					</c:otherwise>
+				</c:choose>
+				<div class="button">
+					<button type="submit" name="commandName"
+						value="go_to_cnc_program_view">View program</button>
+				</div>
+			</form>
 		</section>
 	</main>
 	<footer>

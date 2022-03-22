@@ -138,4 +138,16 @@ public class CncProgramServiceImpl implements CncProgramService {
 		return cncPrograms;
 	}
 
+	@Override
+	public CncProgram read(int id) throws ServiceException {
+		CncProgram cncProgram = new CncProgram();
+		try {
+			cncProgram = cncProgramDao.read(id);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't read CNC program by id: {}", id, e);
+			throw new ServiceException(e);
+		}
+		return cncProgram;
+	}
+
 }
