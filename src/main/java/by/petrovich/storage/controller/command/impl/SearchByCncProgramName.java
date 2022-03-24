@@ -39,7 +39,7 @@ public class SearchByCncProgramName implements Command {
 			request.setAttribute("error_message", SEARCH_BY_CNC_PROGRAM_NAME_FAILED);
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
-		return new Router(PathToPage.SEARCH_CNC_PROGRAM, RouterType.FORWARD);
+		return new Router(PathToPage.CNC_PROGRAM_VIEW, RouterType.FORWARD);
 	}
 
 }
