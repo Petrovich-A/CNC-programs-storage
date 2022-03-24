@@ -20,14 +20,8 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_registration_page">REGISTRATION</a></li>
 				<li><a href="Controller?commandName=go_to_users_program">CNC
 						PROGRAMS</a></li>
-				<c:if
-					test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
-					<li><a href="Controller?commandName=go_to_admin_page">ADMIN
-							PAGE</a></li>
-				</c:if>
 				<c:choose>
 					<c:when test="${sessionScope.user != null}">
 						<li><a
@@ -53,7 +47,7 @@
 		<section class="user">
 			<h2>User information:</h2>
 			<c:choose>
-				<c:when test="${userFromDao == null}">
+				<c:when test="${user == null}">
 					<p class="mb-1">
 						<c:out value="User isn't avaliable" />
 					</p>
@@ -64,35 +58,35 @@
 						<tbody>
 							<tr>
 								<td>login Personnel Number</td>
-								<td>${userFromDao.getLoginPersonnelNumber()}</td>
+								<td>${user.getLoginPersonnelNumber()}</td>
 							</tr>
 							<tr>
 								<td>Employee Name</td>
-								<td>${userFromDao.getEmployeeName()}</td>
+								<td>${user.getEmployeeName()}</td>
 							</tr>
 							<tr>
 								<td>Employee Surname</td>
-								<td>${userFromDao.getEmployeeSurname()}</td>
+								<td>${user.getEmployeeSurname()}</td>
 							</tr>
 							<tr>
 								<td>Employee Patronymic</td>
-								<td>${userFromDao.getEmployeePatronymic()}</td>
+								<td>${user.getEmployeePatronymic()}</td>
 							</tr>
 							<tr>
 								<td>employee Position</td>
-								<td>${userFromDao.getEmployeePosition()}</td>
+								<td>${user.getEmployeePosition()}</td>
 							</tr>
 							<tr>
 								<td>email</td>
-								<td>${userFromDao.getEmail()}</td>
+								<td>${user.getEmail()}</td>
 							</tr>
 							<tr>
 								<td>Creation Date</td>
-								<td>${userFromDao.getCreationDate()}</td>
+								<td>${user.getCreationDate()}</td>
 							</tr>
 							<tr>
 								<td>role name</td>
-								<td>${userFromDao.getUserRole()}</td>
+								<td>${user.getUserRole()}</td>
 							</tr>
 						</tbody>
 					</table>

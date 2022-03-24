@@ -23,7 +23,6 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_admin_users_page">USERS</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">

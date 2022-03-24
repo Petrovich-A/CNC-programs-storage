@@ -9,17 +9,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="<c:url value="/CSS/style.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/CSS/style.css"/>" />
 <title>Registration page</title>
 </head>
 <script type="text/javascript">
 	function confirmMatchPassword() {
 		var password = document.getElementById("passwordInput");
 		var passwordConfirm = document.getElementById("passwordConfirm");
-		if (password == passwordConfirm) {
-			alert("Passwords is norm");
-		} else {
+		if (password != passwordConfirm) {
 			alert("Passwords did not match");
+		} else {
+			alert("Passwords is norm");
 		}
 	}
 </script>
@@ -30,7 +31,8 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_authorization_page">LOG IN</a></li>
+				<li><a href="Controller?commandName=go_to_authorization_page">LOG
+						IN</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
