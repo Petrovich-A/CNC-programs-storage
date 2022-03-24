@@ -28,7 +28,7 @@ public class AuthorizationCommand implements Command {
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
 		User userFromAuthorizationForm = new User();
-		User userFromDB = new User();
+		User user = new User();
 		boolean isUserExist = false;
 		boolean isUserLoginAndIsPasswordMatch = false;
 		userFromAuthorizationForm
@@ -50,8 +50,8 @@ public class AuthorizationCommand implements Command {
 		}
 		if (isUserExist && isUserLoginAndIsPasswordMatch) {
 			try {
-				userFromDB = userService.authorizate(userFromAuthorizationForm);
-				session.setAttribute("user", userFromDB);
+				user = userService.authorizate(userFromAuthorizationForm);
+				session.setAttribute("user", user);
 				request.setAttribute("main_message", AUTHORIZATION_SUCCESSFUL);
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);
 			} catch (ServiceException e) {

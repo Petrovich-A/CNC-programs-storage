@@ -58,8 +58,8 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
 			+ "WHERE program_number = ?";
-	private static final String SQL_CREATE_DETAIL = "INSERT INTO details (detail_name) VALUES (?)";
-	private static final String SQL_CREATE_CNC_MACHINE = "INSERT INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
+	private static final String SQL_CREATE_DETAIL = "INSERT IGNORE INTO details (detail_name) VALUES (?)";
+	private static final String SQL_CREATE_CNC_MACHINE = "INSERT IGNORE INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
 	private static final String SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER = "SELECT program_id, program_number, operation_number, "
 			+ "program_text, create_time, comment, active, login_personnel_number, cnc_programs.detail_id, details.detail_name, "
 			+ "cnc_programs.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment "
