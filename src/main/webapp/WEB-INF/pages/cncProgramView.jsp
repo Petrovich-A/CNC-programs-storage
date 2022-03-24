@@ -59,6 +59,10 @@
 								<td>operation Number</td>
 								<td>${cncProgram.getOperationNumber()}</td>
 							<tr>
+							<tr>
+								<td>login</td>
+								<td>${cncProgram.getLoginPersonnelNumber()}</td>
+							<tr>
 								<td>Creation Date</td>
 								<td>${cncProgram.getCreationDate()}</td>
 							</tr>
