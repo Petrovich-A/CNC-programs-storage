@@ -126,8 +126,8 @@
 					<tr>
 						<td align="right" width="100">${number}</td>
 						<td><input type="text" name="number" required
-							pattern="[0-9]{3,20}"
-							title="Program number should only contain digitals. e.g. 24500411" /></td>
+							pattern="[0-9,-,_]{3,20}"
+							title="Program number have to contain digitals and symbols '-', '_'. e.g. 150_82002067" /></td>
 					</tr>
 					<tr>
 						<td align="right">${operation_number}</td>
