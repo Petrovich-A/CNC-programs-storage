@@ -16,7 +16,7 @@ public interface CncProgramService {
 	void update(CncProgram ñncProgram, int id) throws ServiceException;
 
 	boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException;
-
+	
 	List<CncProgram> recieveBatch(int offset, int numberOfRecords) throws ServiceException;
 
 	List<CncProgram> recieveBatchByName() throws ServiceException;

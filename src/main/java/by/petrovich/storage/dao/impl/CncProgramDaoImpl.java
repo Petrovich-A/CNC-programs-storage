@@ -21,8 +21,8 @@ import java.util.List;
 
 public class CncProgramDaoImpl implements CncProgramDao {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_READ_WITH_LIMIT = "SELECT SQL_CALC_FOUND_ROWS program_id, program_number, operation_number, program_text,"
-			+ "cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,"
+	private static final String SQL_READ_WITH_LIMIT = "SELECT SQL_CALC_FOUND_ROWS program_id, program_number, operation_number,"
+			+ " program_text, cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,"
 			+ "cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model, cnc_machines.code_equipment "
 			+ "FROM cnc_programs "
 			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
@@ -35,7 +35,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
-			+ "ORDER BY cnc_programs.create_time DESC";
+			+ "WHERE active = 1 " + "ORDER BY cnc_programs.create_time DESC";
 	private static final String SQL_FOUND_ROWS = "SELECT COUNT(*) FROM cnc_programs";
 	private static final String SQL_CREATE = "INSERT INTO cnc_programs(program_number, operation_number, program_text, create_time,"
 			+ " comment, active, login_personnel_number, detail_id, cnc_machine_id) VALUES(?,?,?,?,?,?,?,?,?)";
@@ -67,6 +67,11 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
 			+ "WHERE login_personnel_number = ?";
+	private static final String SQL_IS_DETAIL_EXIST_BY_NAME = "SELECT EXISTS( SELECT detail_name FROM details WHERE detail_name = ?)";
+	private static final String SQL_IS_CNC_MACHINE_EXIST_BY_MODEL = "SELECT EXISTS(SELECT model FROM cnc_machines WHERE model = ?)";
+	private static final String SQL_READ_DETAIL_BY_NAME = "SELECT detail_id, detail_name FROM details WHERE detail_name = ?";
+	private static final String SQL_READ_CNC_MACHINE_BY_MODEL = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines WHERE model = ?";
+	private static final String SQL_SET_CNC_PROGRAM_INACTIVE = "UPDATE cnc_programs SET active = 0 WHERE program_number = ? AND program_id > 0";
 
 	@Override
 	public List<CncProgram> readBatch(int offset, int numberOfRecords) throws DaoException {
@@ -141,6 +146,8 @@ public class CncProgramDaoImpl implements CncProgramDao {
 
 	@Override
 	public void create(CncProgram cncProgram) throws DaoException {
+		Detail detail = new Detail();
+		CncMachine cncMachine = new CncMachine();
 		int cncMachineId = 0;
 		int detailId = 0;
 		Connection connection = null;
@@ -149,23 +156,38 @@ public class CncProgramDaoImpl implements CncProgramDao {
 				PreparedStatement.RETURN_GENERATED_KEYS);
 				PreparedStatement preparedStatementCncMachine = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				PreparedStatement preparedStatementCncProgram = connection.prepareStatement(SQL_CREATE)) {
+				PreparedStatement preparedStatementCncProgram = connection.prepareStatement(SQL_CREATE);
+				PreparedStatement prepareStatementSetInactive = connection
+						.prepareStatement(SQL_SET_CNC_PROGRAM_INACTIVE)) {
 			connection.setAutoCommit(false);
-			preparedStatementDetail.setString(1, cncProgram.getDetail().getName());
-			preparedStatementDetail.executeUpdate();
-			try (ResultSet resultSetDetail = preparedStatementDetail.getGeneratedKeys()) {
-				if (resultSetDetail.next()) {
-					detailId = resultSetDetail.getInt(1);
+			if (!isDetailExist(cncProgram.getDetail().getName())) {
+				preparedStatementDetail.setString(1, cncProgram.getDetail().getName());
+				preparedStatementDetail.executeUpdate();
+				try (ResultSet resultSetDetail = preparedStatementDetail.getGeneratedKeys()) {
+					if (resultSetDetail.next()) {
+						detailId = resultSetDetail.getInt(1);
+					}
 				}
+			} else {
+				detail = readDetailByName(cncProgram.getDetail().getName());
+				detailId = detail.getId();
 			}
-			preparedStatementCncMachine.setString(1, cncProgram.getCncMachine().getModel());
-			preparedStatementCncMachine.setInt(2, cncProgram.getCncMachine().getCodeEquipment());
-			preparedStatementCncMachine.executeUpdate();
-			try (ResultSet resultSetCncMachine = preparedStatementCncMachine.getGeneratedKeys()) {
-				if (resultSetCncMachine.next()) {
-					cncMachineId = resultSetCncMachine.getInt(1);
+			if (!isCncMachineExist(cncProgram.getCncMachine().getModel())) {
+				preparedStatementCncMachine.setString(1, cncProgram.getCncMachine().getModel());
+				preparedStatementCncMachine.setInt(2, cncProgram.getCncMachine().getCodeEquipment());
+				preparedStatementCncMachine.executeUpdate();
+				try (ResultSet resultSetCncMachine = preparedStatementCncMachine.getGeneratedKeys()) {
+					if (resultSetCncMachine.next()) {
+						cncMachineId = resultSetCncMachine.getInt(1);
+					}
 				}
+			} else {
+				cncMachine = readCncMachineByModel(cncProgram.getCncMachine().getModel());
+				cncMachineId = cncMachine.getId();
 			}
+			prepareStatementSetInactive.setString(1, cncProgram.getNumber());
+			prepareStatementSetInactive.executeUpdate();
+			logger.log(Level.INFO, "CNC program with number: {} is inactivated", cncProgram.getNumber());
 			preparedStatementCncProgram.setString(1, cncProgram.getNumber());
 			preparedStatementCncProgram.setInt(2, cncProgram.getOperationNumber());
 			preparedStatementCncProgram.setString(3, cncProgram.getProgramText());
@@ -178,11 +200,10 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			preparedStatementCncProgram.executeUpdate();
 			logger.log(Level.INFO, "CNC program creating have done successfully", cncProgram.toString());
 			connection.commit();
-
 		} catch (SQLException e) {
 			rollBackCOnnection(connection);
 			throw new DaoException(String.format(
-					"transaction is failed. can't create cncProgram to DB. cncProgram: %s ", cncProgram.toString()), e);
+					"Transaction is failed. Can't create cncProgram in DB. cncProgram: %s ", cncProgram.toString()), e);
 		} finally {
 			try {
 				connection.setAutoCommit(true);
@@ -310,15 +331,39 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public Detail readDetail(int id) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+	public Detail readDetailByName(String name) throws DaoException {
+		Detail detail = new Detail();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_DETAIL_BY_NAME)) {
+			preparedStatement.setString(1, name);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				detail = buildDetail(resultSet);
+				logger.log(Level.INFO, "Detail is read", detail.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException();
+		}
+		return detail;
 	}
 
 	@Override
-	public CncMachine readCncMachine(int id) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+	public CncMachine readCncMachineByModel(String model) throws DaoException {
+		CncMachine cncMachine = new CncMachine();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_CNC_MACHINE_BY_MODEL)) {
+			preparedStatement.setString(1, model);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				cncMachine = buildCncMachine(resultSet);
+				logger.log(Level.INFO, "CNC machine is read", cncMachine.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException();
+		}
+		return cncMachine;
 	}
 
 	private CncProgram buildCncProgram(ResultSet resultSet) throws SQLException {
@@ -344,7 +389,6 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		detail.setName(resultSet.getString(ColumnName.DETAIL_NAME));
 		logger.log(Level.INFO, "detail build successfully, detail: {}", detail.toString());
 		return detail;
-
 	}
 
 	private CncMachine buildCncMachine(ResultSet resultSet) throws SQLException {
@@ -354,6 +398,42 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		cncMachine.setCodeEquipment(resultSet.getInt(ColumnName.CODE_EQUIPMENT));
 		logger.log(Level.INFO, "cncMachine build successfully, cncMachine: {}", cncMachine.toString());
 		return cncMachine;
+	}
+
+	private boolean isDetailExist(String name) throws DaoException {
+		boolean isExist = false;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_DETAIL_EXIST_BY_NAME)) {
+			preparedStatement.setString(1, name);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				isExist = resultSet.getBoolean(1);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Can't do sql query: %s", SQL_IS_DETAIL_EXIST_BY_NAME, e));
+		}
+		logger.log(Level.INFO, "isExist: {}", isExist);
+		return isExist;
+	}
+
+	private boolean isCncMachineExist(String model) throws DaoException {
+		boolean isExist = false;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_CNC_MACHINE_EXIST_BY_MODEL)) {
+			preparedStatement.setString(1, model);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				isExist = resultSet.getBoolean(1);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Can't do sql query: %s", SQL_IS_DETAIL_EXIST_BY_NAME, e));
+		}
+		logger.log(Level.INFO, "isExist: {}", isExist);
+		return isExist;
+	}
+
+	private void setInactiveWhenSimilarCncProgramExist(String number) throws DaoException {
+
 	}
 
 }
