@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -150,15 +151,11 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		CncMachine cncMachine = new CncMachine();
 		int cncMachineId = 0;
 		int detailId = 0;
-		Connection connection = null;
-		connection = ConnectionPool.getInstance().getConnection();
-		try (PreparedStatement preparedStatementDetail = connection.prepareStatement(SQL_CREATE_DETAIL,
-				PreparedStatement.RETURN_GENERATED_KEYS);
-				PreparedStatement preparedStatementCncMachine = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,
-						PreparedStatement.RETURN_GENERATED_KEYS);
+		Connection connection = ConnectionPool.getInstance().getConnection();
+		try (PreparedStatement preparedStatementDetail = connection.prepareStatement(SQL_CREATE_DETAIL,	RETURN_GENERATED_KEYS);
+				PreparedStatement preparedStatementCncMachine = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,	RETURN_GENERATED_KEYS);
 				PreparedStatement preparedStatementCncProgram = connection.prepareStatement(SQL_CREATE);
-				PreparedStatement prepareStatementSetInactive = connection
-						.prepareStatement(SQL_SET_CNC_PROGRAM_INACTIVE)) {
+				PreparedStatement prepareStatementSetInactive = connection.prepareStatement(SQL_SET_CNC_PROGRAM_INACTIVE)) {
 			connection.setAutoCommit(false);
 			if (!isDetailExist(cncProgram.getDetail().getName())) {
 				preparedStatementDetail.setString(1, cncProgram.getDetail().getName());
