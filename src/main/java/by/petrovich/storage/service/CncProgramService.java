@@ -9,14 +9,10 @@ public interface CncProgramService {
 
 	CncProgram read(int id) throws ServiceException;
 
-	CncProgram recieve(int id) throws ServiceException;
-
-	void delete(int id) throws ServiceException;
-
 	void update(CncProgram ñncProgram, int id) throws ServiceException;
 
 	boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException;
-	
+
 	List<CncProgram> recieveBatch(int offset, int numberOfRecords) throws ServiceException;
 
 	List<CncProgram> recieveBatchByName() throws ServiceException;

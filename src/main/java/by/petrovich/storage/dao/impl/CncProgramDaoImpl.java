@@ -47,10 +47,8 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
 			+ "WHERE program_id = ?";
-	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_id, program_text, program_name, create_time, "
-			+ "operation_number, program_file_extension, comment, active, detail_id WHERE program_id = ?";
-	private static final String SQL_DELETE = "DELETE FROM  program_id, program_text, program_name, create_time, operation_number, "
-			+ "program_file_extension, comment, active, detail_id FROM cnc_programs WHERE program_id = ?";
+	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_number = ?, operation_number = ?, comment = ?, "
+			+ "active = ? WHERE program_id = ?";
 	private static final String SQL_READ_BY_NAME = "SELECT program_id, program_number, operation_number, program_text, "
 			+ "cnc_programs.create_time, comment, active, "
 			+ "cnc_programs.login_personnel_number, details.detail_id, details.detail_name, "
@@ -140,7 +138,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			}
 		} catch (SQLException e) {
 			throw new DaoException(
-					String.format("can't get number of records from DB, numberOfRecords: {}", numberOfRecords, e));
+					String.format("can't get number of records from DB, numberOfRecords: %s", numberOfRecords, e));
 		}
 		return numberOfRecords;
 	}
@@ -152,10 +150,13 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		int cncMachineId = 0;
 		int detailId = 0;
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		try (PreparedStatement preparedStatementDetail = connection.prepareStatement(SQL_CREATE_DETAIL,	RETURN_GENERATED_KEYS);
-				PreparedStatement preparedStatementCncMachine = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,	RETURN_GENERATED_KEYS);
+		try (PreparedStatement preparedStatementDetail = connection.prepareStatement(SQL_CREATE_DETAIL,
+				RETURN_GENERATED_KEYS);
+				PreparedStatement preparedStatementCncMachine = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,
+						RETURN_GENERATED_KEYS);
 				PreparedStatement preparedStatementCncProgram = connection.prepareStatement(SQL_CREATE);
-				PreparedStatement prepareStatementSetInactive = connection.prepareStatement(SQL_SET_CNC_PROGRAM_INACTIVE)) {
+				PreparedStatement prepareStatementSetInactive = connection
+						.prepareStatement(SQL_SET_CNC_PROGRAM_INACTIVE)) {
 			connection.setAutoCommit(false);
 			if (!isDetailExist(cncProgram.getDetail().getName())) {
 				preparedStatementDetail.setString(1, cncProgram.getDetail().getName());
@@ -243,23 +244,16 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	public void update(CncProgram cncProgram, int id) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
-			preparedStatement.setInt(1, cncProgram.getId());
-			logger.log(Level.INFO, "cnc program is updated", cncProgram.toString());
+			preparedStatement.setString(1, cncProgram.getNumber());
+			preparedStatement.setInt(2, cncProgram.getOperationNumber());
+			preparedStatement.setString(3, cncProgram.getComment());
+			preparedStatement.setBoolean(4, cncProgram.isActive());
+			preparedStatement.setInt(5, id);
+			preparedStatement.executeUpdate();
+			logger.log(Level.INFO, "Updating CNC program succesfull with program id: {}", id);
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DaoException();
-		}
-	}
-
-	@Override
-	public void delete(int id) throws DaoException {
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
-			preparedStatement.setInt(1, id);
-			logger.log(Level.INFO, "cnc program with id {} is deleted", id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DaoException();
+			throw new DaoException(String.format("Can't update CNC program with id: %s, CNC program: %s.", id,
+					cncProgram.toString(), e));
 		}
 	}
 

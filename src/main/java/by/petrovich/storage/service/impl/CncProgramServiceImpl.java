@@ -37,25 +37,15 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncProgram recieve(int id) throws ServiceException {
-		CncProgram cncProgram = null;
+	public CncProgram read(int id) throws ServiceException {
+		CncProgram cncProgram = new CncProgram();
 		try {
 			cncProgram = cncProgramDao.read(id);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't find CNC program in BD by id: {}", id, e);
+			logger.log(Level.ERROR, "Can't read CNC program by id: {}", id, e);
 			throw new ServiceException(e);
 		}
 		return cncProgram;
-	}
-
-	@Override
-	public void delete(int id) throws ServiceException {
-		try {
-			cncProgramDao.delete(id);
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't delete CNC program with id: {}", id, e);
-			throw new ServiceException(e);
-		}
 	}
 
 	@Override
@@ -63,8 +53,8 @@ public class CncProgramServiceImpl implements CncProgramService {
 		try {
 			cncProgramDao.update(ñncProgram, id);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't update CNC program with id: {}, where" + " CNC program: {}", cncProgramDao,
-					id, e);
+			logger.log(Level.ERROR, "Can't update CNC program with id: {}, where" + " CNC program: {}", cncProgramDao,
+					id, ñncProgram.toString(), e);
 			throw new ServiceException(e);
 		}
 	}
@@ -136,18 +126,6 @@ public class CncProgramServiceImpl implements CncProgramService {
 			throw new ServiceException(e);
 		}
 		return cncPrograms;
-	}
-
-	@Override
-	public CncProgram read(int id) throws ServiceException {
-		CncProgram cncProgram = new CncProgram();
-		try {
-			cncProgram = cncProgramDao.read(id);
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "Can't read CNC program by id: {}", id, e);
-			throw new ServiceException(e);
-		}
-		return cncProgram;
 	}
 
 }

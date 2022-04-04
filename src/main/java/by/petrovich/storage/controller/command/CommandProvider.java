@@ -18,8 +18,10 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_UPDATE_USER_PAGE, new GoToUpdateUserPage());
 		commands.put(CommandName.GO_TO_ADMIN_USERS_PAGE, new GoToAdminUsersPage());
 		commands.put(CommandName.GO_TO_CNC_PROGRAM_VIEW, new GoToCncProgramView());
+		commands.put(CommandName.GO_TO_CNC_PROGRAM_UPDATE, new GoToCncProgramUpdate());
 
 		commands.put(CommandName.CNC_PROGRAM_SAVE, new CncProgramSave());
+		commands.put(CommandName.CNC_PROGRAM_UPDATE, new CncProgramUpdate());
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
 		commands.put(CommandName.AUTHORIZATION, new AuthorizationCommand());
 		commands.put(CommandName.CHANGE_LOCAL, new ChangeLocalCommand());
