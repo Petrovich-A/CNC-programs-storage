@@ -16,6 +16,22 @@
 <head>
 <meta charset="UTF-8">
 <title>CNC program view page</title>
+
+<style>
+.scrolling {
+	padding: 5px 0px 20px 20px;
+	height: 750px; /* высота нашего блока */
+	width: 900px; /* ширина нашего блока */
+	background: #fff; /* цвет фона, белый */
+	border: 1px solid #C1C1C1; /* размер и цвет границы блока */
+	overflow-x: scroll; /* прокрутка по горизонтали */
+	overflow-y: scroll; /* прокрутка по вертикали */
+	white-space: pre-line;
+	color: black;
+	font-weight: bold;
+}
+</style>
+-->
 </head>
 <body>
 	<nav>
@@ -46,22 +62,23 @@
 				</c:when>
 				<c:otherwise>
 					<table class="">
-						<thead>
-							<tr>
-								<td>number</td>
-								<td>${cncProgram.getNumber()}</td>
-							</tr>
-							<tr>
-								<td>detail name</td>
-								<td>${cncProgram.getDetail().getName()}</td>
-							</tr>
-							<tr>
-								<td>operation Number</td>
-								<td>${cncProgram.getOperationNumber()}</td>
-							<tr>
-							<tr>
-								<td>login</td>
-								<td>${cncProgram.getLoginPersonnelNumber()}</td>
+						<tr>
+							<td>number</td>
+							<td>${cncProgram.getNumber()}</td>
+						</tr>
+						<tr>
+							<td>detail name</td>
+							<td>${cncProgram.getDetail().getName()}</td>
+						</tr>
+						<tr>
+							<td>operation Number</td>
+							<td>${cncProgram.getOperationNumber()}</td>
+						<tr>
+						<tr>
+							<t d>login
+							</td>
+							<td>${cncProgram.getLoginPersonnelNumber()}</td>
+
 							<tr>
 								<td>Creation Date</td>
 								<td>${cncProgram.getCreationDate()}</td>
@@ -82,10 +99,14 @@
 								<td>${cncProgram.getCncMachine().getModel()}</td>
 							</tr>
 							<tr>
-								<td>CNC program</td>
-								<td style="white-space: pre-line;">${cncProgram.getProgramText()}</td>
+								<td>CNC program:</td>
+								<td>
+									<!-- <td style="white-space: pre-line;">${cncProgram.getProgramText()}</td>
+								<td style="white-space: pre-line;"><textarea
+										name="programText" cols="60" rows="20" class="form-control"
+										placeholder=${cncProgram.getProgramText()}></textarea></td> -->
+								</td>
 							</tr>
-						</thead>
 					</table>
 				</c:otherwise>
 			</c:choose>
@@ -94,6 +115,7 @@
 					???</button>
 			</div>
 		</section>
+		<div class="scrolling">${cncProgram.getProgramText()}</div>
 	</main>
 	<footer>
 		<div class="footer">

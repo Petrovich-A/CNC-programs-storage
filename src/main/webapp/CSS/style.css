@@ -139,6 +139,19 @@ section a {
 	font-size: 1.8em;
 }
 
+div.scrolling {
+	padding: 5px 0px 20px 20px;
+	height: 750px; /* высота нашего блока */
+	width: 900px; /* ширина нашего блока */
+	background: #fff; /* цвет фона, белый */
+	border: 1px solid #C1C1C1; /* размер и цвет границы блока */
+	overflow-x: scroll; /* прокрутка по горизонтали */
+	overflow-y: scroll; /* прокрутка по вертикали */
+	white-space: pre-line;
+	color: black;
+	font-weight: bold;
+}
+
 main {
 	display: flex;
 }
