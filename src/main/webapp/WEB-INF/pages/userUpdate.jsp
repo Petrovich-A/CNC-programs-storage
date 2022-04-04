@@ -8,6 +8,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="properties.local" var="loc" />
+<fmt:message bundle="${loc}" key="local.message" var="message" />
+<fmt:message bundle="${loc}" key="local.locbutton.search"
+	var="search_button" />
+<fmt:message bundle="${loc}" key="local.search_placeholder"
+	var="search_placeholder" />
+<fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/CSS/style.css"/>" />
 <head>
@@ -15,19 +23,23 @@
 <title>User update page</title>
 </head>
 <body>
-	<div class="header">
-		<div class="">
-			<div class="">
-				<h1>
-					CNC <span>programs storage</span>
-				</h1>
-			</div>
-			<ul class="navigation">
-				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
+	<nav>
+		<ul>
+			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
+			<div class="items">
+				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_admin_page">ADMIN</a></li>
-			</ul>
-		</div>
-	</div>
+			</div>
+			<li class="search-icon">
+				<form role="search" action="Controller" method="post">
+					<input type="hidden" name="commandName" value="to do" /> <input
+						type="search" placeholder="search..."> <label class="icon">
+						<span class="fas fa-search"> </span>
+					</label>
+				</form>
+			</li>
+		</ul>
+	</nav>
 	<main>
 		<section class="user">
 			<h2>User info:</h2>
@@ -43,23 +55,23 @@
 						<table class="">
 							<tbody>
 								<tr>
-									<td>loginPersonnelNumber</td>
+									<td align="right">loginPersonnelNumber</td>
 									<td>${userForUpdate.getLoginPersonnelNumber()}</td>
 								</tr>
 								<tr>
-									<td>EmployeeName</td>
+									<td align="right">EmployeeName</td>
 									<td><input name="employeeName" required
 										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
 										value="${userForUpdate.getEmployeeName()}"></td>
 								</tr>
 								<tr>
-									<td>EmployeeSurname</td>
+									<td align="right">EmployeeSurname</td>
 									<td><input name="employeeSurname" required
 										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
 										value="${userForUpdate.getEmployeeSurname()}"></td>
 								</tr>
 								<tr>
-									<td>EmployeePatronymic</td>
+									<td align="right">EmployeePatronymic</td>
 									<td><input name="employeePatronymic" required
 										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
 										value="${userForUpdate.getEmployeePatronymic()}"></td>
@@ -73,7 +85,7 @@
 									</select></td>
 								</tr>
 								<tr>
-									<td>email</td>
+									<td align="right">email</td>
 									<td><input type="email" name="email"
 										value="${userForUpdate.getEmail()}" required
 										pattern="^\S+@\S+\.\S+$"></td>

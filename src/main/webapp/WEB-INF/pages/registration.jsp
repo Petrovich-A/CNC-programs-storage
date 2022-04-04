@@ -7,6 +7,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="properties.local" var="loc" />
+<fmt:message bundle="${loc}" key="local.message" var="message" />
+<fmt:message bundle="${loc}" key="local.locbutton.search"
+	var="search_button" />
+<fmt:message bundle="${loc}" key="local.search_placeholder"
+	var="search_placeholder" />
+<fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
+<fmt:message bundle="${loc}" key="local.main.navigate.registration"
+	var="registration" />
+<fmt:message bundle="${loc}" key="local.main.navigate.authorization"
+	var="authorization" />
+<fmt:message bundle="${loc}" key="local.main.navigate.admin_page"
+	var="admin_page" />
+<fmt:message bundle="${loc}" key="local.main.navigate.log_out"
+	var="log_out" />
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
@@ -30,9 +46,8 @@
 		<ul>
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
-				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_authorization_page">LOG
-						IN</a></li>
+				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
+				<li><a href="Controller?commandName=go_to_authorization_page">${authorization}</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">

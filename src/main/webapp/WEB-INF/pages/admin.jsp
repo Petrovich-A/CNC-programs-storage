@@ -16,14 +16,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin page</title>
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="properties.local" var="loc" />
+<fmt:message bundle="${loc}" key="local.message" var="message" />
+<fmt:message bundle="${loc}" key="local.locbutton.search"
+	var="search_button" />
+<fmt:message bundle="${loc}" key="local.search_placeholder"
+	var="search_placeholder" />
+<fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
+<fmt:message bundle="${loc}" key="local.main.navigate.users" var="users" />
 </head>
 <body>
 	<nav>
 		<ul>
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
-				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_admin_users_page">USERS</a></li>
+				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
+				<li><a href="Controller?commandName=go_to_admin_users_page">${users}</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
@@ -89,7 +98,8 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="">
-					<button type="submit" name="commandName" value="go_to_??">Update</button>
+					<button type="submit" name="commandName"
+						value="go_to_cnc_program_update">Update</button>
 				</div>
 			</form>
 

@@ -16,15 +16,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin users page</title>
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="properties.local" var="loc" />
+<fmt:message bundle="${loc}" key="local.message" var="message" />
+<fmt:message bundle="${loc}" key="local.locbutton.search"
+	var="search_button" />
+<fmt:message bundle="${loc}" key="local.search_placeholder"
+	var="search_placeholder" />
+<fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
+<fmt:message bundle="${loc}" key="local.main.navigate.admin_page"
+	var="admin_page" />
 </head>
 <body>
 	<nav>
 		<ul>
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
-				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
-				<li><a href="Controller?commandName=go_to_admin_page">ADMIN
-						PAGE</a></li>
+				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
+				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
