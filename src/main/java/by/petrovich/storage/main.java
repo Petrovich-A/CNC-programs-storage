@@ -1,14 +1,14 @@
 package by.petrovich.storage;
 
-import java.util.regex.Pattern;
-
-import by.petrovich.storage.entity.EmployeePosition;
-import by.petrovich.storage.entity.User;
-import by.petrovich.storage.entity.UserRole;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 
 public class main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
 //	int ordinalNum = EmployeePosition.ENGINEERING_TECHNICIAN.ordinal();
 //	int ordinalNum1 = EmployeePosition.CNC_PROGRAMMER.ordinal()+1;
 //	ordinalNum++;
@@ -32,14 +32,27 @@ public class main {
 //		System.out.println(Pattern.matches(PASSWORD_PATTERN, passwordValid));
 //		user.getUserRole().equals(UserRole.USER);
 //		user.getUserRole() != UserRole.ADMINISTRATOR
-		User user = new User();
-		user.setUserRole(UserRole.ADMINISTRATOR);
-		
-		if (user.getUserRole().equals(UserRole.ADMINISTRATOR)) {
-			System.out.println(user.getUserRole());
-		} else {
-			System.out.println("non");
-		}
+//		User user = new User();
+//		user.setUserRole(UserRole.ADMINISTRATOR);
+//		
+//		if (user.getUserRole().equals(UserRole.ADMINISTRATOR)) {
+//			System.out.println(user.getUserRole());
+//		} else {
+//			System.out.println("non");
+//		}
+		String HASH_ALGORITHM = "PBKDF2WithHmacSHA1";
+		int ITERATIONS = 1000;
+		int HASH_BYTE_SIZE = 256;
+		String CONSTANT_SALT = "ZyOzB3buD3a7PZdNMqVLY5BLR1nhRMm6G+0DqYAFf0M=";
+		int SALT_LENGTH = 32;
+		String password = "wdf123wef*";
+		String passwordHashed = null;
+
+		SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(HASH_ALGORITHM);
+		PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray(), CONSTANT_SALT.getBytes(), ITERATIONS, HASH_BYTE_SIZE);
+		byte[] hash = secretKeyFactory.generateSecret(pbeKeySpec).getEncoded();
+		passwordHashed = Base64.getEncoder().encodeToString(hash);
+		System.out.println(passwordHashed);
 
 	}
 

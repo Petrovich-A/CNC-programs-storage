@@ -203,7 +203,7 @@
 						</thead>
 						<tbody>
 							<c:forEach var="cncProgram" items="${allCncPrograms}" begin="0"
-								end="6">
+								end="9">
 								<tr>
 									<td>${cncProgram.getDetail().getName()}</td>
 									<td>${cncProgram.getNumber()}</td>
