@@ -44,7 +44,7 @@ public class CncProgramUpdate implements Command {
 			request.setAttribute("cnc_program_update_message", CNC_PROGRAM_UPDATE_ERROR);
 			return new Router(PathToPage.CNC_PROGRAM_UPDATE, RouterType.FORWARD);
 		}
-		return new Router(PathToPage.AD, RouterType.FORWARD);
+		return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 	}
 
 	private CncProgram buildCncProgram(HttpServletRequest request) {
