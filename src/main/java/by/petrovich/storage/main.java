@@ -53,7 +53,7 @@ public class main {
 		byte[] hash = secretKeyFactory.generateSecret(pbeKeySpec).getEncoded();
 		passwordHashed = Base64.getEncoder().encodeToString(hash);
 		System.out.println(passwordHashed);
-
+ 
 	}
 
 }
