@@ -27,7 +27,7 @@ public class GoToAdminPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		int page = 1;
-		int recordsPerPage = 3;
+		int recordsPerPage = 7;
 		int numberOfPages = 0;
 		int numberOfRecords = 0;
 		HttpSession session = request.getSession(true);
