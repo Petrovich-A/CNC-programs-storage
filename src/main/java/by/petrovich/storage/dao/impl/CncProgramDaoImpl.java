@@ -69,8 +69,10 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_IS_DETAIL_EXIST_BY_NAME = "SELECT EXISTS( SELECT detail_name FROM details WHERE detail_name = ?)";
 	private static final String SQL_IS_CNC_MACHINE_EXIST_BY_MODEL = "SELECT EXISTS(SELECT model FROM cnc_machines WHERE model = ?)";
 	private static final String SQL_READ_DETAIL_BY_NAME = "SELECT detail_id, detail_name FROM details WHERE detail_name = ?";
-	private static final String SQL_READ_CNC_MACHINE_BY_MODEL = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines WHERE model = ?";
+	private static final String SQL_SEARCH_CNC_MACHINE_BY_MODEL = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines WHERE model = ?";
 	private static final String SQL_SET_CNC_PROGRAM_INACTIVE = "UPDATE cnc_programs SET active = 0 WHERE program_number = ? AND program_id > 0";
+	private static final String SQL_READ_DETAILS = "SELECT detail_id, detail_name FROM details ORDER BY detail_name";
+	private static final String SQL_READ_CNC_MACHINES = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines ORDER BY model";
 
 	@Override
 	public List<CncProgram> readBatch(int offset, int numberOfRecords) throws DaoException {
@@ -343,7 +345,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	public CncMachine readCncMachineByModel(String model) throws DaoException {
 		CncMachine cncMachine = new CncMachine();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_CNC_MACHINE_BY_MODEL)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_SEARCH_CNC_MACHINE_BY_MODEL)) {
 			preparedStatement.setString(1, model);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -423,8 +425,36 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		return isExist;
 	}
 
-	private void setInactiveWhenSimilarCncProgramExist(String number) throws DaoException {
+	@Override
+	public List<CncMachine> readCncMachine() throws DaoException {
+		List<CncMachine> cncMachines = new ArrayList<>();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_CNC_MACHINES);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
+			while (resultSet.next()) {
+				cncMachines.add(buildCncMachine(resultSet));
+			}
+			logger.log(Level.INFO, "Reading all CNC machines from BD have done successfully.");
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Can't read CNC machines from DB", e));
+		}
+		return cncMachines;
+	}
 
+	@Override
+	public List<Detail> readDetail() throws DaoException {
+		List<Detail> details = new ArrayList<>();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_DETAILS);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
+			while (resultSet.next()) {
+				details.add(buildDetail(resultSet));
+			}
+			logger.log(Level.INFO, "Reading all details from BD have done successfully.");
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Can't read details from DB", e));
+		}
+		return details;
 	}
 
 }

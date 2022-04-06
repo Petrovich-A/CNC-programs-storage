@@ -131,7 +131,14 @@
 				<td><a
 					href="Controller?commandName=go_to_admin_page&page=${currentPage + 1}">Next</a></td>
 			</c:if>
-
+			<form action="Controller" method="POST">
+				<div class="">
+					<button type="submit" name="commandName" value="go_to_details">View
+						details</button>
+					<button type="submit" name="commandName" value="go_to_cnc_machines">View
+						CNC machines</button>
+				</div>
+			</form>
 		</section>
 	</main>
 	<footer>

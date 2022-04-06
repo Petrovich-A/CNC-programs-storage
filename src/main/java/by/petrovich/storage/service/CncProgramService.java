@@ -2,7 +2,9 @@ package by.petrovich.storage.service;
 
 import java.util.List;
 
+import by.petrovich.storage.entity.CncMachine;
 import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.entity.Detail;
 
 public interface CncProgramService {
 	void create(CncProgram cncProgram) throws ServiceException;
@@ -22,5 +24,9 @@ public interface CncProgramService {
 	int getNumberOfRecords() throws ServiceException;
 
 	CncProgram searchCncProgram(String name) throws ServiceException;
+
+	List<CncMachine> readCncMachine() throws ServiceException;
+
+	List<Detail> readDetail() throws ServiceException;
 
 }

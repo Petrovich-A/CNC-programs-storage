@@ -1,5 +1,6 @@
 package by.petrovich.storage.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
@@ -9,7 +10,9 @@ import org.apache.logging.log4j.Logger;
 import by.petrovich.storage.dao.CncProgramDao;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.DaoProvider;
+import by.petrovich.storage.entity.CncMachine;
 import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.entity.Detail;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.validator.impl.CncProgramValidator;
@@ -126,6 +129,30 @@ public class CncProgramServiceImpl implements CncProgramService {
 			throw new ServiceException(e);
 		}
 		return cncPrograms;
+	}
+
+	@Override
+	public List<CncMachine> readCncMachine() throws ServiceException {
+		List<CncMachine> cncMachines = new ArrayList<>();
+		try {
+			cncMachines = cncProgramDao.readCncMachine();
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't recieve CNC machines", e);
+			throw new ServiceException(e);
+		}
+		return cncMachines;
+	}
+
+	@Override
+	public List<Detail> readDetail() throws ServiceException {
+		List<Detail> details = new ArrayList<>();
+		try {
+			details = cncProgramDao.readDetail();
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't recieve details", e);
+			throw new ServiceException(e);
+		}
+		return details;
 	}
 
 }

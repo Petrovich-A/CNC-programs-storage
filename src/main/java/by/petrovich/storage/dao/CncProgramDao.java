@@ -5,7 +5,6 @@ import java.util.List;
 import by.petrovich.storage.entity.CncMachine;
 import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.entity.Detail;
-import by.petrovich.storage.service.ServiceException;
 
 public interface CncProgramDao {
 	List<CncProgram> readBatch(int offset, int numberOfRecords) throws DaoException;
@@ -19,6 +18,10 @@ public interface CncProgramDao {
 	void create(CncProgram cncProgramFromMainForm) throws DaoException;
 
 	CncProgram read(int id) throws DaoException;
+
+	List<CncMachine> readCncMachine() throws DaoException;
+
+	List<Detail> readDetail() throws DaoException;
 
 	void update(CncProgram cncProgram, int id) throws DaoException;
 
