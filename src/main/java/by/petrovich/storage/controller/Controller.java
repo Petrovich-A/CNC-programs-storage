@@ -36,6 +36,7 @@ public class Controller extends HttpServlet {
 		switch (router.getRouterType()) {
 		case FORWARD:
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(router.getPagePath());
+			request.getSession(true).setAttribute("local", request.getParameter("local"));
 			requestDispatcher.forward(request, response);
 			break;
 
