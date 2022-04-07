@@ -1,7 +1,4 @@
-package by.petrovich.storage.controller.command.impl;
-
-import java.util.ArrayList;
-import java.util.List;
+package by.petrovich.storage.controller.command.impl.goTo;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -11,8 +8,7 @@ import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
-import by.petrovich.storage.entity.CncProgram;
-import by.petrovich.storage.entity.User;
+import by.petrovich.storage.entity.CncMachine;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
@@ -20,33 +16,33 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToUsersProgram implements Command {
+public class GoToCncMachineUpdatePage implements Command {
 	private static final Logger logger = LogManager.getLogger();
+	private static final String NO_CNC_MACHINE_ID = "No CNC machine id.";
+	private static final String CNC_MACHINE_NOT_READ = "CNC machine isn't read.";
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
-	private final String ERROR = "";
-	private final String ERROR_NO_USER = "No user in session";
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
-		List<CncProgram> cncPrograms = new ArrayList<>();
-		User user = new User();
-		user = (User) session.getAttribute("user");
-		if (user == null) {
-			request.setAttribute("error_message", ERROR_NO_USER);
+		CncMachine cncMachine = new CncMachine();
+		int id = Integer.parseInt(request.getParameter("cnc_machine_id"));
+		if (id == 0) {
+			request.setAttribute("error_message", NO_CNC_MACHINE_ID);
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		} else {
+			session.setAttribute("cnc_machine_id", id);
 			try {
-				cncPrograms = cncProgramService.recieveBatchByLoginPersonnelNumber(user.getLoginPersonnelNumber());
-				request.setAttribute("cncPrograms", cncPrograms);
+				cncMachine = cncProgramService.readCncMachineById(id);
+				request.setAttribute("cncMachine", cncMachine);
 			} catch (ServiceException e) {
-				logger.log(Level.ERROR, "Can't find user's CNC programs", e);
-				request.setAttribute("error_message", ERROR);
+				logger.log(Level.ERROR, "CNC machine with id: {} can't be read", id, e);
+				request.setAttribute("error_message", CNC_MACHINE_NOT_READ);
 				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}
+			return new Router(PathToPage.GO_TO_CNC_MACHINE_UPDATE_PAGE, RouterType.FORWARD);
 		}
-		return new Router(PathToPage.USERS_PROGRAM, RouterType.FORWARD);
 	}
 
 }

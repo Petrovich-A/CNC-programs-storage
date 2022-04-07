@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.command.impl;
+package by.petrovich.storage.controller.command.impl.goTo;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -8,33 +8,32 @@ import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
-import by.petrovich.storage.entity.User;
+import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
-import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToUserInfo implements Command {
+public class GoToCncProgramUpdate implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
-	private final UserService userService = serviceProvider.getUserService();
+	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
 
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
-		int loginPersonnelNumber = 0;
-		User userFromDao = new User();
 		HttpSession session = request.getSession(true);
-		if (request.getParameter("loginPersonnelNumber") != null)
-			loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
+		CncProgram cncProgram = new CncProgram();
+		int id = Integer.parseInt(request.getParameter("id"));
+		session.setAttribute("id", id);
 		try {
-			userFromDao = userService.read(loginPersonnelNumber);
+			cncProgram = cncProgramService.read(id);
+			session.setAttribute("cncProgram", cncProgram);
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);
+			logger.log(Level.ERROR, "CNC program with id: {} can't be read", id, e);
 		}
-		session.setAttribute("userFromDao", userFromDao);
-		return new Router(PathToPage.USER_INFO, RouterType.FORWARD);
+		return new Router(PathToPage.CNC_PROGRAM_UPDATE, RouterType.FORWARD);
 	}
 
 }

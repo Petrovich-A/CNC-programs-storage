@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.command.impl;
+package by.petrovich.storage.controller.command.impl.goTo;
 
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;

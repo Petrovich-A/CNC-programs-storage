@@ -1,4 +1,7 @@
-package by.petrovich.storage.controller.command.impl;
+package by.petrovich.storage.controller.command.impl.goTo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToUpdateUserPage implements Command {
+public class GoToAdminUsersPage implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
@@ -24,16 +27,15 @@ public class GoToUpdateUserPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
-		User userForUpdate = new User();
-		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
-		session.setAttribute("loginPersonnelNumber", loginPersonnelNumber);
+		List<User> allUsers = new ArrayList<>();
 		try {
-			userForUpdate = userService.read(loginPersonnelNumber);
-			session.setAttribute("userForUpdate", userForUpdate);
+			allUsers = userService.readAll();
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} can't be read", loginPersonnelNumber, e);
+			logger.log(Level.ERROR, "can't read allUsers", allUsers, e);
+			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
-		return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
+		session.setAttribute("allUsers", allUsers);
+		return new Router(PathToPage.ADMIN_USERS, RouterType.FORWARD);
 	}
 
 }

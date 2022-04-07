@@ -1,6 +1,21 @@
 package by.petrovich.storage.controller.command;
 
 import by.petrovich.storage.controller.command.impl.*;
+import by.petrovich.storage.controller.command.impl.goTo.GoToAdminPage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToAdminUsersPage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToAuthorizationPage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToCncMachineUpdatePage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToCncMachines;
+import by.petrovich.storage.controller.command.impl.goTo.GoToCncProgramUpdate;
+import by.petrovich.storage.controller.command.impl.goTo.GoToCncProgramView;
+import by.petrovich.storage.controller.command.impl.goTo.GoToDetailUpdatePage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToDetails;
+import by.petrovich.storage.controller.command.impl.goTo.GoToErrorPage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToMainPage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToRegistrationPage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToUpdateUserPage;
+import by.petrovich.storage.controller.command.impl.goTo.GoToUserInfo;
+import by.petrovich.storage.controller.command.impl.goTo.GoToUsersProgram;
 
 import java.util.HashMap;
 import java.util.Map;
