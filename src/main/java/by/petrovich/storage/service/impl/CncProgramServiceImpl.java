@@ -168,12 +168,34 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
+	public CncMachine readCncMachineById(int id) throws ServiceException {
+		CncMachine cncMachine = new CncMachine();
+		try {
+			cncMachine = cncProgramDao.readCncMachineById(id);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't read CNC machine", e);
+			throw new ServiceException(e);
+		}
+		return cncMachine;
+	}
+
+	@Override
 	public void updateDetail(Detail detail, int id) throws ServiceException {
 		try {
 			cncProgramDao.updateDetail(detail, id);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "Can't update CNC program with id: {}, where" + " CNC program: {}", cncProgramDao,
-					id, detail.toString(), e);
+			logger.log(Level.ERROR, "Can't update detail with id: {}, detail: {}.", id, detail.toString(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public void updateCncMachine(CncMachine cncMachine, int id) throws ServiceException {
+		try {
+			cncProgramDao.updateCncMachine(cncMachine, id);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't update CNC machine with id: {}, CNC machine: {},", id, cncMachine.toString(),
+					e);
 			throw new ServiceException(e);
 		}
 	}

@@ -15,6 +15,8 @@ public interface CncProgramService {
 
 	void updateDetail(Detail detail, int id) throws ServiceException;
 
+	void updateCncMachine(CncMachine cncMachine, int id) throws ServiceException;
+
 	boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException;
 
 	List<CncProgram> recieveBatch(int offset, int numberOfRecords) throws ServiceException;
@@ -32,5 +34,7 @@ public interface CncProgramService {
 	List<Detail> readDetail() throws ServiceException;
 
 	Detail readDetailById(int id) throws ServiceException;
+
+	CncMachine readCncMachineById(int id) throws ServiceException;
 
 }

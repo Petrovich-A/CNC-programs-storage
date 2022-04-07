@@ -49,7 +49,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "WHERE program_id = ?";
 	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_number = ?, operation_number = ?, comment = ?, "
 			+ "active = ? WHERE program_id = ?";
-	private static final String SQL_DETAIL_UPDATE = "UPDATE details SET detail_name = ? WHERE detail_id = ?";
+	private static final String SQL_UPDATE_DETAIL = "UPDATE details SET detail_name = ? WHERE detail_id = ?";
 	private static final String SQL_READ_BY_NAME = "SELECT program_id, program_number, operation_number, program_text, "
 			+ "cnc_programs.create_time, comment, active, "
 			+ "cnc_programs.login_personnel_number, details.detail_id, details.detail_name, "
@@ -71,10 +71,13 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_IS_CNC_MACHINE_EXIST_BY_MODEL = "SELECT EXISTS(SELECT model FROM cnc_machines WHERE model = ?)";
 	private static final String SQL_READ_DETAIL_BY_NAME = "SELECT detail_id, detail_name FROM details WHERE detail_name = ?";
 	private static final String SQL_READ_DETAIL_BY_ID = "SELECT detail_id, detail_name FROM details WHERE detail_id = ?";
+	private static final String SQL_READ_CNC_MACHINE_BY_ID = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines "
+			+ "WHERE cnc_machine_id = ? ORDER BY model";
 	private static final String SQL_SEARCH_CNC_MACHINE_BY_MODEL = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines WHERE model = ?";
 	private static final String SQL_SET_CNC_PROGRAM_INACTIVE = "UPDATE cnc_programs SET active = 0 WHERE program_number = ? AND program_id > 0";
 	private static final String SQL_READ_DETAILS = "SELECT detail_id, detail_name FROM details ORDER BY detail_name";
 	private static final String SQL_READ_CNC_MACHINES = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines ORDER BY model";
+	private static final String SQL_UPDATE_CNC_MACHINES = "UPDATE cnc_machines SET model = ?, code_equipment = ? WHERE cnc_machine_id = ?";
 
 	@Override
 	public List<CncProgram> readBatch(int offset, int numberOfRecords) throws DaoException {
@@ -217,15 +220,6 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		}
 	}
 
-	// to do???
-	private void rollBackCOnnection(Connection connection) throws DaoException {
-		try {
-			connection.rollback();
-		} catch (SQLException e) {
-			throw new DaoException(String.format("Do rollBack connection", e));
-		}
-	}
-
 	@Override
 	public CncProgram read(int id) throws DaoException {
 		CncProgram cncProgram = new CncProgram();
@@ -337,8 +331,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 				logger.log(Level.INFO, "Detail is read", detail.toString());
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DaoException();
+			throw new DaoException(String.format("can't save detail in DB. detail: %s", detail.toString(), e));
 		}
 		return detail;
 	}
@@ -379,72 +372,6 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		return cncMachine;
 	}
 
-	private CncProgram buildCncProgram(ResultSet resultSet) throws SQLException {
-		CncProgram cncProgram = new CncProgram();
-		cncProgram.setId(resultSet.getInt(ColumnName.PROGRAM_ID));
-		cncProgram.setNumber(resultSet.getString(ColumnName.PROGRAM_NUMBER));
-		cncProgram.setOperationNumber(resultSet.getInt(ColumnName.OPERATION_NUMBER));
-		cncProgram.setProgramText(resultSet.getString(ColumnName.PROGRAM_TEXT));
-		cncProgram.setCreationDate(resultSet.getTimestamp(ColumnName.create_time));
-		cncProgram.setComment(resultSet.getString(ColumnName.COMMENT));
-		cncProgram.setActive(resultSet.getBoolean(ColumnName.ACTIVE));
-		cncProgram.setLoginPersonnelNumber(resultSet.getInt(ColumnName.LOGIN_PERSONNEL_NUMBER));
-		cncProgram.setDetail(buildDetail(resultSet));
-		cncProgram.setCncMachine(buildCncMachine(resultSet));
-		cncProgram.getDetail().getId();
-		logger.log(Level.INFO, "cnc program is built successfully, cncProgram: {}", cncProgram.toString());
-		return cncProgram;
-	}
-
-	private Detail buildDetail(ResultSet resultSet) throws SQLException {
-		Detail detail = new Detail();
-		detail.setId(resultSet.getInt(ColumnName.DETAIL_ID));
-		detail.setName(resultSet.getString(ColumnName.DETAIL_NAME));
-		logger.log(Level.INFO, "detail build successfully, detail: {}", detail.toString());
-		return detail;
-	}
-
-	private CncMachine buildCncMachine(ResultSet resultSet) throws SQLException {
-		CncMachine cncMachine = new CncMachine();
-		cncMachine.setId(resultSet.getInt(ColumnName.CNC_MACHINE_ID));
-		cncMachine.setModel(resultSet.getString(ColumnName.MODEL));
-		cncMachine.setCodeEquipment(resultSet.getInt(ColumnName.CODE_EQUIPMENT));
-		logger.log(Level.INFO, "cncMachine build successfully, cncMachine: {}", cncMachine.toString());
-		return cncMachine;
-	}
-
-	private boolean isDetailExist(String name) throws DaoException {
-		boolean isExist = false;
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_DETAIL_EXIST_BY_NAME)) {
-			preparedStatement.setString(1, name);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				isExist = resultSet.getBoolean(1);
-			}
-		} catch (SQLException e) {
-			throw new DaoException(String.format("Can't do sql query: %s", SQL_IS_DETAIL_EXIST_BY_NAME, e));
-		}
-		logger.log(Level.INFO, "isExist: {}", isExist);
-		return isExist;
-	}
-
-	private boolean isCncMachineExist(String model) throws DaoException {
-		boolean isExist = false;
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_CNC_MACHINE_EXIST_BY_MODEL)) {
-			preparedStatement.setString(1, model);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				isExist = resultSet.getBoolean(1);
-			}
-		} catch (SQLException e) {
-			throw new DaoException(String.format("Can't do sql query: %s", SQL_IS_DETAIL_EXIST_BY_NAME, e));
-		}
-		logger.log(Level.INFO, "isExist: {}", isExist);
-		return isExist;
-	}
-
 	@Override
 	public List<CncMachine> readCncMachine() throws DaoException {
 		List<CncMachine> cncMachines = new ArrayList<>();
@@ -480,7 +407,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	@Override
 	public void updateDetail(Detail detail, int id) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DETAIL_UPDATE)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_DETAIL)) {
 			preparedStatement.setString(1, detail.getName());
 			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
@@ -491,4 +418,110 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		}
 	}
 
+	@Override
+	public void updateCncMachine(CncMachine cncMachine, int id) throws DaoException {
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_CNC_MACHINES)) {
+			preparedStatement.setString(1, cncMachine.getModel());
+			preparedStatement.setInt(2, cncMachine.getCodeEquipment());
+			preparedStatement.setInt(3, id);
+			preparedStatement.executeUpdate();
+			logger.log(Level.INFO, "Updating CNC machine succesfull with id: {}", id);
+		} catch (SQLException e) {
+			throw new DaoException(
+					String.format("Can't update CNC machine with id: %s, detail: %s.", id, cncMachine.toString(), e));
+		}
+	}
+
+	@Override
+	public CncMachine readCncMachineById(int id) throws DaoException {
+		CncMachine cncMachine = new CncMachine();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_CNC_MACHINE_BY_ID)) {
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				cncMachine = buildCncMachine(resultSet);
+				logger.log(Level.INFO, "CNC machine is read", cncMachine.toString());
+			}
+		} catch (SQLException e) {
+			throw new DaoException(
+					String.format("Can't read CNC machine in DB. CNC machine: %s", cncMachine.toString(), e));
+		}
+		return cncMachine;
+	}
+
+	private boolean isDetailExist(String name) throws DaoException {
+		boolean isExist = false;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_DETAIL_EXIST_BY_NAME)) {
+			preparedStatement.setString(1, name);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				isExist = resultSet.getBoolean(1);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Can't do sql query: %s", SQL_IS_DETAIL_EXIST_BY_NAME, e));
+		}
+		logger.log(Level.INFO, "isExist: {}", isExist);
+		return isExist;
+	}
+
+	private boolean isCncMachineExist(String model) throws DaoException {
+		boolean isExist = false;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_CNC_MACHINE_EXIST_BY_MODEL)) {
+			preparedStatement.setString(1, model);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				isExist = resultSet.getBoolean(1);
+			}
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Can't do sql query: %s", SQL_IS_DETAIL_EXIST_BY_NAME, e));
+		}
+		logger.log(Level.INFO, "isExist: {}", isExist);
+		return isExist;
+	}
+
+	private CncProgram buildCncProgram(ResultSet resultSet) throws SQLException {
+		CncProgram cncProgram = new CncProgram();
+		cncProgram.setId(resultSet.getInt(ColumnName.PROGRAM_ID));
+		cncProgram.setNumber(resultSet.getString(ColumnName.PROGRAM_NUMBER));
+		cncProgram.setOperationNumber(resultSet.getInt(ColumnName.OPERATION_NUMBER));
+		cncProgram.setProgramText(resultSet.getString(ColumnName.PROGRAM_TEXT));
+		cncProgram.setCreationDate(resultSet.getTimestamp(ColumnName.create_time));
+		cncProgram.setComment(resultSet.getString(ColumnName.COMMENT));
+		cncProgram.setActive(resultSet.getBoolean(ColumnName.ACTIVE));
+		cncProgram.setLoginPersonnelNumber(resultSet.getInt(ColumnName.LOGIN_PERSONNEL_NUMBER));
+		cncProgram.setDetail(buildDetail(resultSet));
+		cncProgram.setCncMachine(buildCncMachine(resultSet));
+		cncProgram.getDetail().getId();
+		logger.log(Level.INFO, "cnc program is built successfully, cncProgram: {}", cncProgram.toString());
+		return cncProgram;
+	}
+
+	private Detail buildDetail(ResultSet resultSet) throws SQLException {
+		Detail detail = new Detail();
+		detail.setId(resultSet.getInt(ColumnName.DETAIL_ID));
+		detail.setName(resultSet.getString(ColumnName.DETAIL_NAME));
+		logger.log(Level.INFO, "detail build successfully, detail: {}", detail.toString());
+		return detail;
+	}
+
+	private CncMachine buildCncMachine(ResultSet resultSet) throws SQLException {
+		CncMachine cncMachine = new CncMachine();
+		cncMachine.setId(resultSet.getInt(ColumnName.CNC_MACHINE_ID));
+		cncMachine.setModel(resultSet.getString(ColumnName.MODEL));
+		cncMachine.setCodeEquipment(resultSet.getInt(ColumnName.CODE_EQUIPMENT));
+		logger.log(Level.INFO, "cncMachine build successfully, cncMachine: {}", cncMachine.toString());
+		return cncMachine;
+	}
+
+	private void rollBackCOnnection(Connection connection) throws DaoException {
+		try {
+			connection.rollback();
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Do rollBack connection", e));
+		}
+	}
 }

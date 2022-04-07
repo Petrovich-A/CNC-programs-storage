@@ -48,6 +48,8 @@
 	<main>
 		<section class="users">
 			<h2>List of CNC machines:</h2>
+			<hr>
+			<h2>${admin_cnc_machines_message}</h2>
 			<form action="Controller" method="POST">
 				<c:choose>
 					<c:when
@@ -70,7 +72,7 @@
 							<tbody>
 								<c:forEach var="cncMachine" items="${cncMachines}">
 									<tr>
-										<td><input class="" type="radio" name="id"
+										<td><input class="" type="radio" name="cnc_machine_id"
 											required="required" value="${cncMachine.getId()}"></td>
 										<td>${cncMachine.getId()}</td>
 										<td>${cncMachine.getModel()}</td>
@@ -82,7 +84,7 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="button">
-					<button type="submit" name="commandName" value="">Update</button>
+					<button type="submit" name="commandName" value="go_to_cnc_machine_update_page">Update</button>
 				</div>
 			</form>
 		</section>

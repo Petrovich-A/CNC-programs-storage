@@ -155,7 +155,7 @@
 						<td align="right">${cnc_machine}</td>
 						<td><input type="text" name="cncMachine" required
 							pattern="[a-z,A-Z,а-я,А-Я,0-9,-]{2,20}"
-							title="CNC machine number should contain digitals, uppercase/lowcase letters and symbol '-'. e.g. LM70-AT" /></td>
+							title="CNC machine model should contain digitals, uppercase/lowcase letters and symbol '-'. e.g. LM70-AT" /></td>
 					</tr>
 					<tr>
 						<td align="right">${code_equipment}</td>

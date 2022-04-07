@@ -23,9 +23,11 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_DETAILS, new GoToDetails());
 		commands.put(CommandName.GO_TO_CNC_MACHINES, new GoToCncMachines());
 		commands.put(CommandName.GO_TO_DETAIL_UPDATE_PAGE, new GoToDetailUpdatePage());
+		commands.put(CommandName.GO_TO_CNC_MACHINE_UPDATE_PAGE, new GoToCncMachineUpdatePage());
 
 		commands.put(CommandName.CNC_PROGRAM_SAVE, new CncProgramSave());
 		commands.put(CommandName.CNC_PROGRAM_UPDATE, new CncProgramUpdate());
+		commands.put(CommandName.CNC_MACHINE_UPDATE, new CncMachineUpdate());
 		commands.put(CommandName.DETAIL_UPDATE, new DetailUpdate());
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
 		commands.put(CommandName.AUTHORIZATION, new AuthorizationCommand());
