@@ -110,10 +110,6 @@
 					</table>
 				</c:otherwise>
 			</c:choose>
-			<div class="button">
-				<button type="submit" name="commandName" value="go_to_update!!">update
-					???</button>
-			</div>
 		</section>
 		<div class="scrolling">${cncProgram.getProgramText()}</div>
 	</main>
