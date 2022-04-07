@@ -19,18 +19,20 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_ADMIN_USERS_PAGE, new GoToAdminUsersPage());
 		commands.put(CommandName.GO_TO_CNC_PROGRAM_VIEW, new GoToCncProgramView());
 		commands.put(CommandName.GO_TO_CNC_PROGRAM_UPDATE, new GoToCncProgramUpdate());
+		commands.put(CommandName.GO_TO_USERS_PROGRAM, new GoToUsersProgram());
+		commands.put(CommandName.GO_TO_DETAILS, new GoToDetails());
+		commands.put(CommandName.GO_TO_CNC_MACHINES, new GoToCncMachines());
+		commands.put(CommandName.GO_TO_DETAIL_UPDATE_PAGE, new GoToDetailUpdatePage());
 
 		commands.put(CommandName.CNC_PROGRAM_SAVE, new CncProgramSave());
 		commands.put(CommandName.CNC_PROGRAM_UPDATE, new CncProgramUpdate());
+		commands.put(CommandName.DETAIL_UPDATE, new DetailUpdate());
 		commands.put(CommandName.REGISTRATION, new RegistrationCommand());
 		commands.put(CommandName.AUTHORIZATION, new AuthorizationCommand());
 		commands.put(CommandName.CHANGE_LOCAL, new ChangeLocalCommand());
 		commands.put(CommandName.USER_UPDATE, new UserUpdate());
 		commands.put(CommandName.LOG_OUT, new LogOut());
 		commands.put(CommandName.SEARCH_BY_CNC_PROGRAM_NAME, new SearchByCncProgramName());
-		commands.put(CommandName.GO_TO_USERS_PROGRAM, new GoToUsersProgram());
-		commands.put(CommandName.GO_TO_DETAILS, new GoToDetails());
-		commands.put(CommandName.GO_TO_CNC_MACHINES, new GoToCncMachines());
 	}
 
 	public Command findCommand(String name) {

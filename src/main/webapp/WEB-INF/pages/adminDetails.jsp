@@ -48,6 +48,8 @@
 	<main>
 		<section class="users">
 			<h2>List of details:</h2>
+			<hr>
+			<h2>${admin_details_message}</h2>
 			<form action="Controller" method="POST">
 				<c:choose>
 					<c:when test="${details.size() == 0 || details.size() == null}">
@@ -68,7 +70,7 @@
 							<tbody>
 								<c:forEach var="detail" items="${details}">
 									<tr>
-										<td><input class="" type="radio" name="id"
+										<td><input class="" type="radio" name="detail_id"
 											required="required" value="${detail.getId()}"></td>
 										<td>${detail.getId()}</td>
 										<td>${detail.getName()}</td>
@@ -79,7 +81,8 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="button">
-					<button type="submit" name="commandName" value="">Update</button>
+					<button type="submit" name="commandName"
+						value="go_to_detail_update_page">Update</button>
 				</div>
 			</form>
 		</section>

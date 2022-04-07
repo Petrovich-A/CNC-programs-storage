@@ -27,7 +27,6 @@ public class GoToAdminUsersPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
-		session.setAttribute("local", request.getParameter("local"));
 		List<User> allUsers = new ArrayList<>();
 		try {
 			allUsers = userService.readAll();

@@ -22,7 +22,7 @@
 	href="<c:url value="/CSS/style.css"/>" />
 <head>
 <meta charset="UTF-8">
-<title>User update page</title>
+<title>Detail update page</title>
 </head>
 <body>
 	<nav>
@@ -34,7 +34,7 @@
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
-					<input type="hidden" name="commandName" value="to do" /> <input
+					<input type="hidden" name="commandName" value="" /> <input
 						type="search" placeholder="search..."> <label class="icon">
 						<span class="fas fa-search"> </span>
 					</label>
@@ -43,12 +43,14 @@
 		</ul>
 	</nav>
 	<main>
-		<section class="user">
-			<h2>User info:</h2>
+		<section class="detail">
+			<h2>Detail update:</h2>
+			<hr>
+			<h2>${detail_update_message}</h2>
 			<c:choose>
-				<c:when test="${userForUpdate == null}">
+				<c:when test="${detail == null}">
 					<p class="mb-1">
-						<c:out value="No user avaliable" />
+						<c:out value="No detail avaliable" />
 					</p>
 					<hr class="mb-1">
 				</c:when>
@@ -57,54 +59,19 @@
 						<table class="">
 							<tbody>
 								<tr>
-									<td align="right">loginPersonnelNumber</td>
-									<td>${userForUpdate.getLoginPersonnelNumber()}</td>
+									<td align="right">id</td>
+									<td>${detail.getId()}</td>
 								</tr>
 								<tr>
-									<td align="right">EmployeeName</td>
-									<td><input name="employeeName" required
-										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
-										value="${userForUpdate.getEmployeeName()}"></td>
-								</tr>
-								<tr>
-									<td align="right">EmployeeSurname</td>
-									<td><input name="employeeSurname" required
-										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
-										value="${userForUpdate.getEmployeeSurname()}"></td>
-								</tr>
-								<tr>
-									<td align="right">EmployeePatronymic</td>
-									<td><input name="employeePatronymic" required
-										pattern="[a-z,A-Z,а-я,А-Я]{3,40}"
-										value="${userForUpdate.getEmployeePatronymic()}"></td>
-								</tr>
-								<tr>
-									<td align="right">position</td>
-									<td><select name="employeePosition" required>
-											<option value="engineering_technician" selected>engineering
-												technologist</option>
-											<option value="cnc_programmer">CNC programmer</option>
-									</select></td>
-								</tr>
-								<tr>
-									<td align="right">email</td>
-									<td><input type="email" name="email"
-										value="${userForUpdate.getEmail()}" required
-										pattern="^\S+@\S+\.\S+$"></td>
-								</tr>
-
-								<tr>
-									<td align="right">user role</td>
-									<td><select name="userRole" required>
-											<option value="GUEST" selected>GUEST</option>
-											<option value="USER">USER</option>
-											<option value="ADMINISTRATOR">ADMINISTRATOR</option>
-									</select></td>
+									<td align="right">name</td>
+									<td><input name="name" required
+										pattern="[0-9,A-Z,-]{3,20}" value="${detail.getName()}"
+										title="Detail number should contain digitals, uppercase letters and symbol '-'. e.g. 7555H-1712412"></td>
 								</tr>
 							</tbody>
 						</table>
 						<div class="button">
-							<button type="submit" name="commandName" value="user_update">Update</button>
+							<button type="submit" name="commandName" value="detail_update">Update</button>
 						</div>
 					</form>
 				</c:otherwise>

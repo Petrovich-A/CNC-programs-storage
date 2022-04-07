@@ -155,4 +155,27 @@ public class CncProgramServiceImpl implements CncProgramService {
 		return details;
 	}
 
+	@Override
+	public Detail readDetailById(int id) throws ServiceException {
+		Detail detail = new Detail();
+		try {
+			detail = cncProgramDao.readDetailById(id);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't read detail", e);
+			throw new ServiceException(e);
+		}
+		return detail;
+	}
+
+	@Override
+	public void updateDetail(Detail detail, int id) throws ServiceException {
+		try {
+			cncProgramDao.updateDetail(detail, id);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't update CNC program with id: {}, where" + " CNC program: {}", cncProgramDao,
+					id, detail.toString(), e);
+			throw new ServiceException(e);
+		}
+	}
+
 }

@@ -49,6 +49,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "WHERE program_id = ?";
 	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_number = ?, operation_number = ?, comment = ?, "
 			+ "active = ? WHERE program_id = ?";
+	private static final String SQL_DETAIL_UPDATE = "UPDATE details SET detail_name = ? WHERE detail_id = ?";
 	private static final String SQL_READ_BY_NAME = "SELECT program_id, program_number, operation_number, program_text, "
 			+ "cnc_programs.create_time, comment, active, "
 			+ "cnc_programs.login_personnel_number, details.detail_id, details.detail_name, "
@@ -69,6 +70,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_IS_DETAIL_EXIST_BY_NAME = "SELECT EXISTS( SELECT detail_name FROM details WHERE detail_name = ?)";
 	private static final String SQL_IS_CNC_MACHINE_EXIST_BY_MODEL = "SELECT EXISTS(SELECT model FROM cnc_machines WHERE model = ?)";
 	private static final String SQL_READ_DETAIL_BY_NAME = "SELECT detail_id, detail_name FROM details WHERE detail_name = ?";
+	private static final String SQL_READ_DETAIL_BY_ID = "SELECT detail_id, detail_name FROM details WHERE detail_id = ?";
 	private static final String SQL_SEARCH_CNC_MACHINE_BY_MODEL = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines WHERE model = ?";
 	private static final String SQL_SET_CNC_PROGRAM_INACTIVE = "UPDATE cnc_programs SET active = 0 WHERE program_number = ? AND program_id > 0";
 	private static final String SQL_READ_DETAILS = "SELECT detail_id, detail_name FROM details ORDER BY detail_name";
@@ -324,6 +326,24 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
+	public Detail readDetailById(int id) throws DaoException {
+		Detail detail = new Detail();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_DETAIL_BY_ID)) {
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				detail = buildDetail(resultSet);
+				logger.log(Level.INFO, "Detail is read", detail.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException();
+		}
+		return detail;
+	}
+
+	@Override
 	public Detail readDetailByName(String name) throws DaoException {
 		Detail detail = new Detail();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -455,6 +475,20 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			throw new DaoException(String.format("Can't read details from DB", e));
 		}
 		return details;
+	}
+
+	@Override
+	public void updateDetail(Detail detail, int id) throws DaoException {
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_DETAIL_UPDATE)) {
+			preparedStatement.setString(1, detail.getName());
+			preparedStatement.setInt(2, id);
+			preparedStatement.executeUpdate();
+			logger.log(Level.INFO, "Updating detail succesfull with detail id: {}", id);
+		} catch (SQLException e) {
+			throw new DaoException(
+					String.format("Can't update detail with id: %s, detail: %s.", id, detail.toString(), e));
+		}
 	}
 
 }

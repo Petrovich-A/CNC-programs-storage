@@ -25,6 +25,8 @@ public interface CncProgramDao {
 
 	void update(CncProgram cncProgram, int id) throws DaoException;
 
+	void updateDetail(Detail detail, int id) throws DaoException;
+
 	CncProgram readBatchByProgramName(String name) throws DaoException;
 
 	void createDetail(Detail detail) throws DaoException;
@@ -36,5 +38,7 @@ public interface CncProgramDao {
 	Detail readDetailByName(String name) throws DaoException;
 
 	CncMachine readCncMachineByModel(String model) throws DaoException;
+
+	Detail readDetailById(int id) throws DaoException;
 
 }
