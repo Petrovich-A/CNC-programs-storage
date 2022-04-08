@@ -7,9 +7,9 @@ import java.util.List;
 public interface UserDao {
 	List<User> readAll() throws DaoException;
 
-	void create(User user) throws DaoException;
-
 	User read(int loginPersonnelNumber) throws DaoException;
+
+	void create(User user) throws DaoException;
 
 	void update(User user, int loginPersonnelNumber) throws DaoException;
 
