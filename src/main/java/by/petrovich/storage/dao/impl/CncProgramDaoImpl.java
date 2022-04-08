@@ -66,7 +66,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "FROM cncprogramsstorage.cnc_programs "
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
-			+ "WHERE login_personnel_number = ?";
+			+ "WHERE login_personnel_number = ? ORDER BY cnc_programs.create_time DESC ";
 	private static final String SQL_IS_DETAIL_EXIST_BY_NAME = "SELECT EXISTS( SELECT detail_name FROM details WHERE detail_name = ?)";
 	private static final String SQL_IS_CNC_MACHINE_EXIST_BY_MODEL = "SELECT EXISTS(SELECT model FROM cnc_machines WHERE model = ?)";
 	private static final String SQL_READ_DETAIL_BY_NAME = "SELECT detail_id, detail_name FROM details WHERE detail_name = ?";

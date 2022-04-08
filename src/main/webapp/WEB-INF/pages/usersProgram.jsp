@@ -44,7 +44,7 @@
 	</nav>
 	<main>
 		<section class="cncPrograms">
-			<h2>${cncProgram.getLoginPersonnelNumber()}user'sCNCprograms:</h2>
+			<h2>${user.getLoginPersonnelNumber()} user's CNC programs:</h2>
 			<form action="Controller" method="POST">
 
 				<c:choose>
@@ -88,8 +88,6 @@
 										<td>${cncProgram.getCncMachine().getModel()}</td>
 										<td>${cncProgram.getCncMachine().getCodeEquipment()}</td>
 									</tr>
-
-
 								</c:forEach>
 							</tbody>
 						</table>
