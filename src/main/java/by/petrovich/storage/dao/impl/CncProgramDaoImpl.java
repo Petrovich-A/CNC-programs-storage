@@ -135,6 +135,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		return cncPrograms;
 	}
 
+	@Override
 	public int getNumberOfRecords() throws DaoException {
 		int numberOfRecords = 0;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();

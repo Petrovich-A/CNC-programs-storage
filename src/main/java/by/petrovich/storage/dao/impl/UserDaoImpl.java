@@ -127,6 +127,19 @@ public class UserDaoImpl implements UserDao {
 		return isExist;
 	}
 
+	@Override
+	public void updateRole(User user) throws DaoException {
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ROLE)) {
+			preparedStatement.setInt(1, user.getUserRole().getOrdinalNumber());
+			preparedStatement.setInt(2, user.getLoginPersonnelNumber());
+			preparedStatement.executeUpdate();
+			logger.log(Level.INFO, "User's role is updated. user: {}", user.toString());
+		} catch (SQLException e) {
+			throw new DaoException(String.format("can't update user's role. User: %s ", user.toString(), e));
+		}
+	}
+
 	private User buildUser(ResultSet resultSet) throws SQLException {
 		User user = new User();
 		user.setLoginPersonnelNumber(resultSet.getInt(ColumnName.LOGIN_PERSONNEL_NUMBER));
@@ -140,19 +153,6 @@ public class UserDaoImpl implements UserDao {
 		user.setEmployeePosition(EmployeePosition.fromString(resultSet.getString(ColumnName.POSITION_NAME)));
 		logger.log(Level.INFO, "user from DB is built successfully: {}", user.toString());
 		return user;
-	}
-
-	@Override
-	public void updateRole(User user) throws DaoException {
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ROLE)) {
-			preparedStatement.setInt(1, user.getUserRole().getOrdinalNumber());
-			preparedStatement.setInt(2, user.getLoginPersonnelNumber());
-			preparedStatement.executeUpdate();
-			logger.log(Level.INFO, "User's role is updated. user: {}", user.toString());
-		} catch (SQLException e) {
-			throw new DaoException(String.format("can't update user's role. User: %s ", user.toString(), e));
-		}
 	}
 
 }
