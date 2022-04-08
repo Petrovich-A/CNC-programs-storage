@@ -11,8 +11,6 @@ public final class ColumnName {
 	public static final String EMPLOYEE_PATRONYMIC = "employee_patronymic";
 	public static final String EMAIL = "email";
 	public static final String CREATE_TIME = "create_time";
-//    public static final String ROLE_ID = "role_id";
-//    public static final String POSITION_ID = "position_id";
 	/*
 	 * user_roles
 	 */
@@ -33,9 +31,6 @@ public final class ColumnName {
 	public static final String create_time = "create_time";
 	public static final String COMMENT = "comment";
 	public static final String ACTIVE = "active";
-//    public static final String LOGIN_PERSONNEL_NUMBER = "login_personnel_number";
-//    public static final String DETAIL_ID = "detail_id";
-//    public static final String CNC_MACHINE_ID = "cnc_machine_id";
 	/*
 	 * cnc_machines
 	 */
