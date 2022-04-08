@@ -23,6 +23,8 @@
 	var="admin_page" />
 <fmt:message bundle="${loc}" key="local.main.navigate.log_out"
 	var="log_out" />
+<fmt:message bundle="${loc}" key="local.registration.h1.welcome"
+	var="welcome" />
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
@@ -51,17 +53,17 @@
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
-					<input type="hidden" name="commandName" value="to do" /> <input
-						type="search" placeholder="search..."> <label class="icon">
-						<span class="fas fa-search"> </span>
-					</label>
+					<input type="hidden" name="commandName"
+						value="search_by_cnc_program_name" /> <input type="search"
+						name="searchInput" placeholder="${search_placeholder}" required>
+					<label class="icon"> <span class="fas fa-search"> </span></label>
 				</form>
 			</li>
 		</ul>
 	</nav>
 	<main>
 		<section id="">
-			<h1>Welcome to CNC Program Storage account!</h1>
+			<h1>${welcome}</h1>
 			<hr>
 			<h3>${registration_message}</h3>
 			<hr>

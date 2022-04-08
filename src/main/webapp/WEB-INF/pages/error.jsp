@@ -16,6 +16,8 @@
 <fmt:setBundle basename="properties.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.message" var="message" />
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
+<fmt:message bundle="${loc}" key="local.locbutton.search"
+	var="search_button" />
 </head>
 <body>
 	<nav>

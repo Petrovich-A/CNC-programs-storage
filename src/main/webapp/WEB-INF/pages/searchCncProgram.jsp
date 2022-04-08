@@ -16,6 +16,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Search CNC Program page</title>
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="properties.local" var="loc" />
+<fmt:message bundle="${loc}" key="local.message" var="message" />
+<fmt:message bundle="${loc}" key="local.locbutton.search"
+	var="search_button" />
+<fmt:message bundle="${loc}" key="local.search_placeholder"
+	var="search_placeholder" />
+<fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 </head>
 <body>
 	<div class="header">
@@ -26,7 +34,7 @@
 				</h1>
 			</div>
 			<ul class="navigation">
-				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
+				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 			</ul>
 		</div>
 	</div>

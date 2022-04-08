@@ -34,10 +34,10 @@
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
-					<input type="hidden" name="commandName" value="" /> <input
-						type="search" placeholder="search..."> <label class="icon">
-						<span class="fas fa-search"> </span>
-					</label>
+					<input type="hidden" name="commandName"
+						value="search_by_cnc_program_name" /> <input type="search"
+						name="searchInput" placeholder="${search_placeholder}" required>
+					<label class="icon"> <span class="fas fa-search"> </span></label>
 				</form>
 			</li>
 		</ul>
@@ -77,7 +77,8 @@
 								</tr>
 						</table>
 						<div class="button">
-							<button type="submit" name="commandName" value="cnc_machine_update">Update</button>
+							<button type="submit" name="commandName"
+								value="cnc_machine_update">Update</button>
 						</div>
 					</form>
 				</c:otherwise>

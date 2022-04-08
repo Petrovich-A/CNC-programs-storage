@@ -16,7 +16,9 @@
 <head>
 <meta charset="UTF-8">
 <title>CNC program view page</title>
-
+<fmt:message bundle="${loc}" key="local.search_placeholder"
+	var="search_placeholder" />
+<fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <style>
 .scrolling {
 	padding: 5px 0px 20px 20px;
@@ -38,7 +40,7 @@
 		<ul>
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
-				<li><a href="Controller?commandName=go_to_main_page">HOME</a></li>
+				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
