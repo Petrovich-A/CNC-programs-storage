@@ -16,8 +16,10 @@
 <head>
 <meta charset="UTF-8">
 <title>CNC program view page</title>
-<fmt:message bundle="${loc}" key="local.search_placeholder"
-	var="search_placeholder" />
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="properties.local" var="loc" />
+<fmt:message bundle="${loc}" key="local.locbutton.search"
+	var="search_button" />
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <style>
 .scrolling {
