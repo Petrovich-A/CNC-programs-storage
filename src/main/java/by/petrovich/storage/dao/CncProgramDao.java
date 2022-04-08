@@ -23,9 +23,9 @@ public interface CncProgramDao {
 
 	void create(CncProgram cncProgramFromMainForm) throws DaoException;
 
-	void createDetail(Detail detail) throws DaoException;
+	int createDetail(Detail detail) throws DaoException;
 
-	void createCncMachine(CncMachine cncMachine) throws DaoException;
+	int createCncMachine(CncMachine cncMachine) throws DaoException;
 
 	CncProgram read(int id) throws DaoException;
 

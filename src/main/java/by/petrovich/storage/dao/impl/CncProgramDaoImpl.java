@@ -153,44 +153,15 @@ public class CncProgramDaoImpl implements CncProgramDao {
 
 	@Override
 	public void create(CncProgram cncProgram) throws DaoException {
-		Detail detail = new Detail();
-		CncMachine cncMachine = new CncMachine();
-		int cncMachineId = 0;
 		int detailId = 0;
+		int cncMachineId = 0;
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		try (PreparedStatement preparedStatementDetail = connection.prepareStatement(SQL_CREATE_DETAIL,
-				RETURN_GENERATED_KEYS);
-				PreparedStatement preparedStatementCncMachine = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,
-						RETURN_GENERATED_KEYS);
-				PreparedStatement preparedStatementCncProgram = connection.prepareStatement(SQL_CREATE);
+		detailId = createDetail(cncProgram.getDetail());
+		cncMachineId = createCncMachine(cncProgram.getCncMachine());
+		try (PreparedStatement preparedStatementCncProgram = connection.prepareStatement(SQL_CREATE);
 				PreparedStatement prepareStatementSetInactive = connection
 						.prepareStatement(SQL_SET_CNC_PROGRAM_INACTIVE)) {
 			connection.setAutoCommit(false);
-			if (!isDetailExist(cncProgram.getDetail().getName())) {
-				preparedStatementDetail.setString(1, cncProgram.getDetail().getName());
-				preparedStatementDetail.executeUpdate();
-				try (ResultSet resultSetDetail = preparedStatementDetail.getGeneratedKeys()) {
-					if (resultSetDetail.next()) {
-						detailId = resultSetDetail.getInt(1);
-					}
-				}
-			} else {
-				detail = readDetailByName(cncProgram.getDetail().getName());
-				detailId = detail.getId();
-			}
-			if (!isCncMachineExist(cncProgram.getCncMachine().getModel())) {
-				preparedStatementCncMachine.setString(1, cncProgram.getCncMachine().getModel());
-				preparedStatementCncMachine.setInt(2, cncProgram.getCncMachine().getCodeEquipment());
-				preparedStatementCncMachine.executeUpdate();
-				try (ResultSet resultSetCncMachine = preparedStatementCncMachine.getGeneratedKeys()) {
-					if (resultSetCncMachine.next()) {
-						cncMachineId = resultSetCncMachine.getInt(1);
-					}
-				}
-			} else {
-				cncMachine = readCncMachineByModel(cncProgram.getCncMachine().getModel());
-				cncMachineId = cncMachine.getId();
-			}
 			prepareStatementSetInactive.setString(1, cncProgram.getNumber());
 			prepareStatementSetInactive.executeUpdate();
 			logger.log(Level.INFO, "CNC program with number: {} is inactivated", cncProgram.getNumber());
@@ -208,17 +179,74 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			connection.commit();
 		} catch (SQLException e) {
 			rollBackCOnnection(connection);
-			throw new DaoException(String.format(
-					"Transaction is failed. Can't create cncProgram in DB. cncProgram: %s ", cncProgram.toString()), e);
+			throw new DaoException(
+					String.format("Transaction is failed. Can't create CNC program in DB. cncProgram: %s.",
+							cncProgram.toString()),
+					e);
 		} finally {
 			try {
 				connection.setAutoCommit(true);
 				connection.close();
 			} catch (SQLException e) {
-				logger.log(Level.ERROR, "Connection hasn't closed", cncProgram.toString());
+				logger.log(Level.ERROR, "Connection hasn't been closed", cncProgram.toString());
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public int createDetail(Detail detail) throws DaoException {
+		Detail detailFromDateBase = new Detail();
+		int detailId = 0;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_DETAIL,
+						RETURN_GENERATED_KEYS)) {
+			if (!isDetailExist(detail.getName())) {
+				preparedStatement.setString(1, detail.getName());
+				preparedStatement.executeUpdate();
+				logger.log(Level.INFO, "Detail creating has done sucesfully. detail: {}", detail.toString());
+				try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+					if (resultSet.next()) {
+						detailId = resultSet.getInt(1);
+					}
+				}
+			} else {
+				detailFromDateBase = readDetailByName(detail.getName());
+				detailId = detailFromDateBase.getId();
+			}
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Can't create datail in DB. detail: %s", detail.toString(), e));
+		}
+		return detailId;
+	}
+
+	@Override
+	public int createCncMachine(CncMachine cncMachine) throws DaoException {
+		CncMachine cncMachineFromDateBase = new CncMachine();
+		int cncMachineId = 0;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,
+						RETURN_GENERATED_KEYS)) {
+			if (!isCncMachineExist(cncMachine.getModel())) {
+				preparedStatement.setString(1, cncMachine.getModel());
+				preparedStatement.setInt(2, cncMachine.getCodeEquipment());
+				preparedStatement.executeUpdate();
+				logger.log(Level.INFO, "CNC machine creating  has done sucesfully. CNC machine: {}",
+						cncMachine.toString());
+				try (ResultSet resultSetCncMachine = preparedStatement.getGeneratedKeys()) {
+					if (resultSetCncMachine.next()) {
+						cncMachineId = resultSetCncMachine.getInt(1);
+					}
+				}
+			} else {
+				cncMachineFromDateBase = readCncMachineByModel(cncMachine.getModel());
+				cncMachineId = cncMachineFromDateBase.getId();
+			}
+		} catch (SQLException e) {
+			throw new DaoException(
+					String.format("Can't create CNC machine in DB. CNC machine: %s", cncMachine.toString(), e));
+		}
+		return cncMachineId;
 	}
 
 	@Override
@@ -294,30 +322,6 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			throw new DaoException();
 		}
 		return cncPrograms;
-	}
-
-	@Override
-	public void createDetail(Detail detail) throws DaoException {
-		try (Connection connection = ConnectionPool.getInstance().getConnection()) {
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_DETAIL);
-			preparedStatement.setString(2, detail.getName());
-			logger.log(Level.INFO, "create detail have done sucesfull. detail: {}", detail.toString());
-		} catch (SQLException e) {
-			throw new DaoException(String.format("can't save dateil in DB. detail: %s", detail.toString(), e));
-		}
-	}
-
-	@Override
-	public void createCncMachine(CncMachine cncMachine) throws DaoException {
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_CNC_MACHINE)) {
-			preparedStatement.setString(2, cncMachine.getModel());
-			preparedStatement.setInt(3, cncMachine.getCodeEquipment());
-			logger.log(Level.INFO, "create cncMachine have done sucesfull. cncMachine: {}", cncMachine.toString());
-		} catch (SQLException e) {
-			throw new DaoException(
-					String.format("can't save cncMachine in DB. cncMachine: %s", cncMachine.toString(), e));
-		}
 	}
 
 	@Override
