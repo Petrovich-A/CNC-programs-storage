@@ -34,7 +34,7 @@ public class UserUpdate implements Command {
 			userService.update(userFromUpdateForm, loginPersonnelNumber);
 			request.setAttribute("admin_users_message", UPDATE_USER_SUCCESSFUL);
 			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is updated", loginPersonnelNumber);
-			return new Router(PathToPage.ADMIN_USERS, RouterType.FORWARD);
+			return new Router(PathToPage.ADMIN_USERS, RouterType.REDIRECT);
 		} catch (ServiceException e) {
 			request.setAttribute("message", UPDATE_USER_FAILD);
 			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {}, user: {}", loginPersonnelNumber,

@@ -2,7 +2,7 @@ package by.petrovich.storage.controller.command;
 
 public class Router {
 	public enum RouterType {
-		FORWARD, REDIRECT
+		FORWARD, REDIRECT, ERROR
 	}
 
 	private String pagePath;

@@ -27,7 +27,7 @@ public class GoToMainPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
-		session.setAttribute("local", request.getParameter("local"));
+		session.setAttribute("path_to_page", PathToPage.MAIN);
 		List<CncProgram> allCncPrograms = new ArrayList<>();
 		try {
 			allCncPrograms = cncProgramService.recieveBatchByName();

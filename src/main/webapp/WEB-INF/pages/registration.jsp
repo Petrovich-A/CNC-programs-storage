@@ -10,6 +10,8 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="properties.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.message" var="message" />
+<fmt:message bundle="${loc}" key="local.locbutton.en" var="en_button" />
+<fmt:message bundle="${loc}" key="local.locbutton.ru" var="ru_button" />
 <fmt:message bundle="${loc}" key="local.locbutton.search"
 	var="search_button" />
 <fmt:message bundle="${loc}" key="local.search_placeholder"

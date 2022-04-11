@@ -17,7 +17,6 @@ import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 public class GoToAdminPage implements Command {
 	private static final Logger logger = LogManager.getLogger();
@@ -30,7 +29,6 @@ public class GoToAdminPage implements Command {
 		int recordsPerPage = 7;
 		int numberOfPages = 0;
 		int numberOfRecords = 0;
-		HttpSession session = request.getSession(true);
 		List<CncProgram> allCncPrograms = new ArrayList<>();
 		if (request.getParameter("page") != null)
 			page = Integer.parseInt(request.getParameter("page"));

@@ -20,14 +20,16 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LogManager.getLogger();
 	private static final String COMMAND_REQUEST_PARAM = "commandName";
-	private static final String COMMAND_REQUEST_ERROR = "Can't find required page.";
+	private static final String ERROR_MESSAGE = "Can't find required page.";
 	private final CommandProvider commandProvider = new CommandProvider();
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String commandName = request.getParameter(COMMAND_REQUEST_PARAM);
@@ -36,7 +38,6 @@ public class Controller extends HttpServlet {
 		switch (router.getRouterType()) {
 		case FORWARD:
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(router.getPagePath());
-			request.getSession(true).setAttribute("local", request.getParameter("local"));
 			requestDispatcher.forward(request, response);
 			break;
 
@@ -45,8 +46,8 @@ public class Controller extends HttpServlet {
 			break;
 
 		default:
-			logger.log(Level.ERROR, "Can't find required page.");
-			request.setAttribute("error_message", COMMAND_REQUEST_ERROR);
+			logger.log(Level.ERROR, COMMAND_REQUEST_PARAM);
+			request.setAttribute("error_message", ERROR_MESSAGE);
 			request.getRequestDispatcher(PathToPage.ERROR).forward(request, response);
 		}
 	}

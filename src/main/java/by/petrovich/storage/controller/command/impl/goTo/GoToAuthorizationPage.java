@@ -13,7 +13,6 @@ public class GoToAuthorizationPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
-		session.setAttribute("local", request.getParameter("local"));
 		return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 	}
 

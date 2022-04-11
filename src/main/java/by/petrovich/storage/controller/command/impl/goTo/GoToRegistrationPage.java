@@ -14,7 +14,7 @@ public class GoToRegistrationPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
-		session.setAttribute("registration_message", FILL_THE_FORM);
+		request.setAttribute("registration_message", FILL_THE_FORM);
 		return new Router(PathToPage.REGISTRATION, RouterType.FORWARD);
 	}
 
