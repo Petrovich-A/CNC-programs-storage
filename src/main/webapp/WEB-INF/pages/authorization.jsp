@@ -23,6 +23,28 @@
 	var="admin_page" />
 <fmt:message bundle="${loc}" key="local.main.navigate.log_out"
 	var="log_out" />
+<fmt:message bundle="${loc}" key="local.authorization.h1.please"
+	var="please" />
+<fmt:message bundle="${loc}"
+	key="local.authorization.form.personnel_number" var="personnel_number" />
+<fmt:message bundle="${loc}"
+	key="local.authorization.form.personnel_number_title"
+	var="personnel_number_title" />
+<fmt:message bundle="${loc}"
+	key="local.authorization.form.personnel_number_placeholder"
+	var="personnel_number_placeholder" />
+<fmt:message bundle="${loc}" key="local.authorization.form.password"
+	var="password" />
+<fmt:message bundle="${loc}"
+	key="local.authorization.form.password_title" var="password_title" />
+<fmt:message bundle="${loc}"
+	key="local.authorization.form.password_placeholder"
+	var="password_placeholder" />
+<fmt:message bundle="${loc}" key="local.authorization.button.submit"
+	var="submit" />
+<fmt:message bundle="${loc}" key="local.authorization.button.reset"
+	var="reset" />
+
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/CSS/style.css"/>" />
 <head>
@@ -49,32 +71,29 @@
 	</nav>
 	<main>
 		<section id="news">
-			<h1>Please, enter password and login for authorization</h1>
+			<h1>${please}</h1>
 			<h2>${authorization_message}</h2>
 			<form action="Controller" method="post">
 				<table class="authorizationInputTable">
 					<tr>
-						<td align="right">personnel number</td>
+						<td align="right">${personnel_number}</td>
 						<td><input type="text" name="loginPersonnelNumber" required
-							pattern="[0-9]{5}" placeholder="Input your loginPersonnelNumber"
-							title="loginPersonnelNumber should only contain digitals. e.g. 43510" />
-						</td>
+							pattern="[0-9]{5}" placeholder="${personnel_number_placeholder}"
+							title="${personnel_number_title}" /></td>
 					</tr>
 					<tr>
-						<td align="right">password</td>
+						<td align="right">${password}</td>
 						<td><input type="password" id="password-input"
 							name="password" required
 							pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,40}+$"
-							placeholder="Input your current password"
-							title="password should contain at least once lowcase and uppercase letters, at least once specail symbol, at least once digital." />
+							placeholder="${password_placeholder}" title="${password_title}" />
 						</td>
 					</tr>
 				</table>
-
 				<div class="button">
 					<input type="hidden" name="commandName" value="authorization" />
-					<button type="submit">submit</button>
-					<button type="reset">reset</button>
+					<button type="submit">${submit}</button>
+					<button type="reset">${reset}</button>
 				</div>
 			</form>
 		</section>
