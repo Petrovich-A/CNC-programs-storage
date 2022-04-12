@@ -13,7 +13,6 @@ import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class GoToCncProgramView implements Command {
 	private static final Logger logger = LogManager.getLogger();
@@ -22,7 +21,7 @@ public class GoToCncProgramView implements Command {
 	private final static String CANT_READ_CNC_PROGRAM = "Can't read CNC program by id: ";
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		int id = 0;
 		CncProgram cncProgram = new CncProgram();
 		if (request.getParameter("id") != null)

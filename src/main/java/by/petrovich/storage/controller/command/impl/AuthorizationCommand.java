@@ -13,7 +13,6 @@ import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class AuthorizationCommand implements Command {
@@ -25,7 +24,7 @@ public class AuthorizationCommand implements Command {
 	private final String USER_IS_NOT_EXIST = "User isn't exist with such login or password.";
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User userFromAuthorizationForm = new User();
 		User user = new User();

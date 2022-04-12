@@ -15,7 +15,6 @@ import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class UserUpdate implements Command {
@@ -26,7 +25,7 @@ public class UserUpdate implements Command {
 	private final UserService userService = serviceProvider.getUserService();
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User userFromUpdateForm = buildUser(request);
 		int loginPersonnelNumber = (Integer) session.getAttribute("loginPersonnelNumber");

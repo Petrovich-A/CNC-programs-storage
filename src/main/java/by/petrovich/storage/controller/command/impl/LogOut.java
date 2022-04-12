@@ -13,7 +13,6 @@ import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class LogOut implements Command {
@@ -23,7 +22,7 @@ public class LogOut implements Command {
 	private final String LOG_OUT_FAILED = "Error: user logout failed.";
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User user = new User();
 		user = (User) session.getAttribute("user");

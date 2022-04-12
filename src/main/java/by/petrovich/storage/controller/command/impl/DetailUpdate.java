@@ -13,7 +13,6 @@ import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class DetailUpdate implements Command {
@@ -25,7 +24,7 @@ public class DetailUpdate implements Command {
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		Detail detailFromUpdateForm = buildDetail(request);
 		int id = (Integer) session.getAttribute("detail_id");

@@ -13,7 +13,6 @@ import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class SearchByCncProgramName implements Command {
 	private static final Logger logger = LogManager.getLogger();
@@ -23,7 +22,7 @@ public class SearchByCncProgramName implements Command {
 	private final String NO_CNC_PROGRAM_FOUND = "No such CNC program in BD as: ";
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		String searchInput = request.getParameter("searchInput");
 		CncProgram cncProgram = new CncProgram();
 		try {

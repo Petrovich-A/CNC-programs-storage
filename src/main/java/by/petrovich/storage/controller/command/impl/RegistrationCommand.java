@@ -16,7 +16,6 @@ import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class RegistrationCommand implements Command {
@@ -29,7 +28,7 @@ public class RegistrationCommand implements Command {
 	private final String REGISTRATION_SUCCESSFUL = "Registration is completed successfully. Please log in.";
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User userFromRegistrForm = buildUser(request);
 		boolean isUserValid = isValid(userFromRegistrForm);

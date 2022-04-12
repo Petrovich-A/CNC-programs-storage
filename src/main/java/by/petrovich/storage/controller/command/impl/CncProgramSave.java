@@ -18,7 +18,6 @@ import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class CncProgramSave implements Command {
@@ -31,7 +30,7 @@ public class CncProgramSave implements Command {
 			+ "Plese try again or contact to the administrator.";
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		CncProgram cncProgramFromMainForm = buildCncProgram(request);
 		HttpSession session = request.getSession(true);
 		User user = new User();

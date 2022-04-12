@@ -17,7 +17,6 @@ import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class GoToUsersProgram implements Command {
@@ -28,7 +27,7 @@ public class GoToUsersProgram implements Command {
 	private final String ERROR_NO_USER = "No user in session";
 
 	@Override
-	public Router execute(HttpServletRequest request, HttpServletResponse response) {
+	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		List<CncProgram> cncPrograms = new ArrayList<>();
 		User user = new User();
