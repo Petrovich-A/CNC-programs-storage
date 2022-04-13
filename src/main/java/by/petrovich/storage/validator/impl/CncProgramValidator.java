@@ -11,12 +11,12 @@ import by.petrovich.storage.validator.CncProgramValidate;
 
 public class CncProgramValidator implements CncProgramValidate {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String NUMBER_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{1,20}+$";
-	private static final String OPERATION_NUMBER_PATTERN = "^[\\p{IsDigit}]{2,3}+$";
-	private static final String COMMENT_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}\\p{Space}]{0,100}+$";
-	private static final String DETAIL_NAME_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{3,20}+$";
-	private static final String CNC_MACHINE_MODEL_PATTERN = "^[\\p{IsAlphabetic}\\p{IsDigit}\\p{Punct}]{3,20}+$";
-	private static final String CNC_MACHINE_CODE_EQUIPMENT_PATTERN = "^[\\p{IsDigit}]{3}+$";
+	private static final String NUMBER_PATTERN = "^[\\d,?=.*-|_]{3,20}+$";
+	private static final String OPERATION_NUMBER_PATTERN = "^\\p{Digit}{2,3}+$";
+	private static final String DETAIL_NAME_PATTERN = "^[0-9,A-Z,-]{3,20}+$";
+	private static final String COMMENT_PATTERN = "^[\\w,\\s,à-ÿ,À-ß,!?@#$%^&+=.,;:_<>*()]{0,40}+$";
+	private static final String CNC_MACHINE_MODEL_PATTERN = "^[a-z,A-Z,à-ÿ,À-ß,0-9,-]{2,20}+$";
+	private static final String CNC_MACHINE_CODE_EQUIPMENT_PATTERN = "^[0-9]{2,5}+$";
 
 	private static CncProgramValidator instance;
 

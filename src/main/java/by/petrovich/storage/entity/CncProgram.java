@@ -4,185 +4,198 @@ import java.sql.Timestamp;
 import java.util.StringJoiner;
 
 public class CncProgram {
-    private int id;
-    private String number;
-    private int operationNumber;
-    private String programText;
-    private Timestamp creationDate;
-    private String comment;
-    private boolean isActive;
-    private Detail detail;
-    private CncMachine cncMachine;
-    private int loginPersonnelNumber;
+	private int id;
+	private String number;
+	private int operationNumber;
+	private String programText;
+	private Timestamp creationDate;
+	private String comment;
+	private boolean isActive;
+	private Detail detail;
+	private CncMachine cncMachine;
+	private int loginPersonnelNumber;
 
-    public CncProgram() {
-    }
+	public CncProgram() {
+	}
 
-    public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate, String comment, boolean isActive, Detail detail, CncMachine cncMachine, int loginPersonnelNumber) {
-        this.id = id;
-        this.number = number;
-        this.operationNumber = operationNumber;
-        this.programText = programText;
-        this.creationDate = creationDate;
-        this.comment = comment;
-        this.isActive = isActive;
-        this.detail = detail;
-        this.cncMachine = cncMachine;
-        this.loginPersonnelNumber = loginPersonnelNumber;
-    }
+	public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate,
+			String comment, boolean isActive, Detail detail, CncMachine cncMachine, int loginPersonnelNumber) {
+		this.id = id;
+		this.number = number;
+		this.operationNumber = operationNumber;
+		this.programText = programText;
+		this.creationDate = creationDate;
+		this.comment = comment;
+		this.isActive = isActive;
+		this.detail = detail;
+		this.cncMachine = cncMachine;
+		this.loginPersonnelNumber = loginPersonnelNumber;
+	}
 
-    public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate, String comment, boolean isActive) {
-        this.id = id;
-        this.number = number;
-        this.operationNumber = operationNumber;
-        this.programText = programText;
-        this.creationDate = creationDate;
-        this.comment = comment;
-        this.isActive = isActive;
-    }
+	public CncProgram(String number, int operationNumber, String comment, Detail detail, CncMachine cncMachine) {
+		this.number = number;
+		this.operationNumber = operationNumber;
+		this.comment = comment;
+		this.detail = detail;
+		this.cncMachine = cncMachine;
+	}
 
-    public CncProgram(String number, int operationNumber, String programText, Timestamp creationDate, String comment, boolean isActive,
-                      Detail detail, CncMachine cncMachine, int loginPersonnelNumber) {
-        this.number = number;
-        this.operationNumber = operationNumber;
-        this.programText = programText;
-        this.creationDate = creationDate;
-        this.comment = comment;
-        this.isActive = isActive;
-        this.detail = detail;
-        this.cncMachine = cncMachine;
-        this.loginPersonnelNumber = loginPersonnelNumber;
-    }
+	public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate,
+			String comment, boolean isActive) {
+		this.id = id;
+		this.number = number;
+		this.operationNumber = operationNumber;
+		this.programText = programText;
+		this.creationDate = creationDate;
+		this.comment = comment;
+		this.isActive = isActive;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public CncProgram(String number, int operationNumber, String programText, Timestamp creationDate, String comment,
+			boolean isActive, Detail detail, CncMachine cncMachine, int loginPersonnelNumber) {
+		this.number = number;
+		this.operationNumber = operationNumber;
+		this.programText = programText;
+		this.creationDate = creationDate;
+		this.comment = comment;
+		this.isActive = isActive;
+		this.detail = detail;
+		this.cncMachine = cncMachine;
+		this.loginPersonnelNumber = loginPersonnelNumber;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public String getNumber() {
-        return number;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
+	public String getNumber() {
+		return number;
+	}
 
-    public int getOperationNumber() {
-        return operationNumber;
-    }
+	public void setNumber(String number) {
+		this.number = number;
+	}
 
-    public void setOperationNumber(int operationNumber) {
-        this.operationNumber = operationNumber;
-    }
+	public int getOperationNumber() {
+		return operationNumber;
+	}
 
-    public String getProgramText() {
-        return programText;
-    }
+	public void setOperationNumber(int operationNumber) {
+		this.operationNumber = operationNumber;
+	}
 
-    public void setProgramText(String programText) {
-        this.programText = programText;
-    }
+	public String getProgramText() {
+		return programText;
+	}
 
-    public Timestamp getCreationDate() {
-        return creationDate;
-    }
+	public void setProgramText(String programText) {
+		this.programText = programText;
+	}
 
-    public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
-    }
+	public Timestamp getCreationDate() {
+		return creationDate;
+	}
 
-    public String getComment() {
-        return comment;
-    }
+	public void setCreationDate(Timestamp creationDate) {
+		this.creationDate = creationDate;
+	}
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+	public String getComment() {
+		return comment;
+	}
 
-    public boolean isActive() {
-        return isActive;
-    }
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
+	public boolean isActive() {
+		return isActive;
+	}
 
-    public Detail getDetail() {
-        return detail;
-    }
+	public void setActive(boolean active) {
+		isActive = active;
+	}
 
-    public void setDetail(Detail detail) {
-        this.detail = detail;
-    }
+	public Detail getDetail() {
+		return detail;
+	}
 
-    public CncMachine getCncMachine() {
-        return cncMachine;
-    }
+	public void setDetail(Detail detail) {
+		this.detail = detail;
+	}
 
-    public void setCncMachine(CncMachine cncMachine) {
-        this.cncMachine = cncMachine;
-    }
+	public CncMachine getCncMachine() {
+		return cncMachine;
+	}
 
-    public int getLoginPersonnelNumber() {
-        return loginPersonnelNumber;
-    }
+	public void setCncMachine(CncMachine cncMachine) {
+		this.cncMachine = cncMachine;
+	}
 
-    public void setLoginPersonnelNumber(int loginPersonnelNumber) {
-        this.loginPersonnelNumber = loginPersonnelNumber;
-    }
+	public int getLoginPersonnelNumber() {
+		return loginPersonnelNumber;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public void setLoginPersonnelNumber(int loginPersonnelNumber) {
+		this.loginPersonnelNumber = loginPersonnelNumber;
+	}
 
-        CncProgram that = (CncProgram) o;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        if (getId() != that.getId()) return false;
-        if (getOperationNumber() != that.getOperationNumber()) return false;
-        if (isActive() != that.isActive()) return false;
-        if (getLoginPersonnelNumber() != that.getLoginPersonnelNumber()) return false;
-        if (getNumber() != null ? !getNumber().equals(that.getNumber()) : that.getNumber() != null) return false;
-        if (getProgramText() != null ? !getProgramText().equals(that.getProgramText()) : that.getProgramText() != null)
-            return false;
-        if (getCreationDate() != null ? !getCreationDate().equals(that.getCreationDate()) : that.getCreationDate() != null)
-            return false;
-        if (getComment() != null ? !getComment().equals(that.getComment()) : that.getComment() != null) return false;
-        if (getDetail() != null ? !getDetail().equals(that.getDetail()) : that.getDetail() != null) return false;
-        return getCncMachine() != null ? getCncMachine().equals(that.getCncMachine()) : that.getCncMachine() == null;
-    }
+		CncProgram that = (CncProgram) o;
 
-    @Override
-    public int hashCode() {
-        int result = getId();
-        result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
-        result = 31 * result + getOperationNumber();
-        result = 31 * result + (getProgramText() != null ? getProgramText().hashCode() : 0);
-        result = 31 * result + (getCreationDate() != null ? getCreationDate().hashCode() : 0);
-        result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
-        result = 31 * result + (isActive() ? 1 : 0);
-        result = 31 * result + (getDetail() != null ? getDetail().hashCode() : 0);
-        result = 31 * result + (getCncMachine() != null ? getCncMachine().hashCode() : 0);
-        result = 31 * result + getLoginPersonnelNumber();
-        return result;
-    }
+		if (getId() != that.getId())
+			return false;
+		if (getOperationNumber() != that.getOperationNumber())
+			return false;
+		if (isActive() != that.isActive())
+			return false;
+		if (getLoginPersonnelNumber() != that.getLoginPersonnelNumber())
+			return false;
+		if (getNumber() != null ? !getNumber().equals(that.getNumber()) : that.getNumber() != null)
+			return false;
+		if (getProgramText() != null ? !getProgramText().equals(that.getProgramText()) : that.getProgramText() != null)
+			return false;
+		if (getCreationDate() != null ? !getCreationDate().equals(that.getCreationDate())
+				: that.getCreationDate() != null)
+			return false;
+		if (getComment() != null ? !getComment().equals(that.getComment()) : that.getComment() != null)
+			return false;
+		if (getDetail() != null ? !getDetail().equals(that.getDetail()) : that.getDetail() != null)
+			return false;
+		return getCncMachine() != null ? getCncMachine().equals(that.getCncMachine()) : that.getCncMachine() == null;
+	}
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", CncProgram.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("number='" + number + "'")
-                .add("operationNumber=" + operationNumber)
-                .add("programText='" + programText + "'")
-                .add("creationDate=" + creationDate)
-                .add("comment='" + comment + "'")
-                .add("isActive=" + isActive)
-                .add("detail=" + detail)
-                .add("cncMachine=" + cncMachine)
-                .add("loginPersonnelNumber=" + loginPersonnelNumber)
-                .toString();
-    }
+	@Override
+	public int hashCode() {
+		int result = getId();
+		result = 31 * result + (getNumber() != null ? getNumber().hashCode() : 0);
+		result = 31 * result + getOperationNumber();
+		result = 31 * result + (getProgramText() != null ? getProgramText().hashCode() : 0);
+		result = 31 * result + (getCreationDate() != null ? getCreationDate().hashCode() : 0);
+		result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
+		result = 31 * result + (isActive() ? 1 : 0);
+		result = 31 * result + (getDetail() != null ? getDetail().hashCode() : 0);
+		result = 31 * result + (getCncMachine() != null ? getCncMachine().hashCode() : 0);
+		result = 31 * result + getLoginPersonnelNumber();
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return new StringJoiner(", ", CncProgram.class.getSimpleName() + "[", "]").add("id=" + id)
+				.add("number='" + number + "'").add("operationNumber=" + operationNumber)
+				.add("programText='" + programText + "'").add("creationDate=" + creationDate)
+				.add("comment='" + comment + "'").add("isActive=" + isActive).add("detail=" + detail)
+				.add("cncMachine=" + cncMachine).add("loginPersonnelNumber=" + loginPersonnelNumber).toString();
+	}
 }
