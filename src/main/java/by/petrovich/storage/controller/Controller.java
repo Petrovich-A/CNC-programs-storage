@@ -21,7 +21,7 @@ public class Controller extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String COMMAND_REQUEST_PARAM = "commandName";
 	private static final String ERROR_MESSAGE = "Can't find required page.";
-	private final CommandProvider commandProvider = new CommandProvider();
+	private final CommandProvider commandProvider = CommandProvider.getInstamce();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -22,8 +22,9 @@ import java.util.Map;
 
 public class CommandProvider {
 	private Map<CommandName, Command> commands = new HashMap<>();
+	private static CommandProvider instance;
 
-	public CommandProvider() {
+	private CommandProvider() {
 		commands.put(CommandName.GO_TO_MAIN_PAGE, new GoToMainPage());
 		commands.put(CommandName.GO_TO_REGISTRATION_PAGE, new GoToRegistrationPage());
 		commands.put(CommandName.GO_TO_AUTHORIZATION_PAGE, new GoToAuthorizationPage());
@@ -50,6 +51,13 @@ public class CommandProvider {
 		commands.put(CommandName.USER_UPDATE, new UserUpdate());
 		commands.put(CommandName.LOG_OUT, new LogOut());
 		commands.put(CommandName.SEARCH_BY_CNC_PROGRAM_NAME, new SearchByCncProgramName());
+	}
+
+	public synchronized static CommandProvider getInstamce() {
+		if (instance == null) {
+			instance = new CommandProvider();
+		}
+		return instance;
 	}
 
 	public Command findCommand(String name) {
