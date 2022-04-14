@@ -47,20 +47,20 @@ public class UserServiceImpl implements UserService {
 		String passwordHashed = null;
 		try {
 			passwordHashed = passwordHasher.generateHash(userFromRegistrForm.getPassword());
-		} catch (NoSuchAlgorithmException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (InvalidKeySpecException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			logger.log(Level.ERROR, "Can't find algorithm for password hashing.", e);
+			throw new ServiceException(e);
+		} catch (InvalidKeySpecException e) {
+			logger.log(Level.ERROR, "Can't find valid key for password hashing.", e);
+			throw new ServiceException(e);
 		}
 		userFromRegistrForm.setPassword(passwordHashed);
 		userFromRegistrForm.setUserRole(UserRole.GUEST);
 		try {
 			userDao.create(userFromRegistrForm);
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "User can't be registred, user: {}", userFromRegistrForm, e);
-			throw new ServiceException("dfdf", e);
+		} catch (DaoException e2) {
+			logger.log(Level.ERROR, "User can't be registred, user: {}", userFromRegistrForm, e2);
+			throw new ServiceException(e2);
 		}
 	}
 
