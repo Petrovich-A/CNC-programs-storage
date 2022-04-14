@@ -14,6 +14,7 @@ public class CncProgramValidator implements CncProgramValidate {
 	private static final String NUMBER_PATTERN = "^[\\d,?=.*-|_]{3,20}+$";
 	private static final String OPERATION_NUMBER_PATTERN = "^\\p{Digit}{2,3}+$";
 	private static final String DETAIL_NAME_PATTERN = "^[0-9,A-Z,-]{3,20}+$";
+	private static final String PROGRAM_TEXT_PATTERN = ".{1,20000}";
 	private static final String COMMENT_PATTERN = "^[\\w,\\s,à-ÿ,À-ß,!?@#$%^&+=.,;:_<>*()]{0,40}+$";
 	private static final String CNC_MACHINE_MODEL_PATTERN = "^[a-z,A-Z,à-ÿ,À-ß,0-9,-]{2,20}+$";
 	private static final String CNC_MACHINE_CODE_EQUIPMENT_PATTERN = "^[0-9]{2,5}+$";
@@ -32,9 +33,10 @@ public class CncProgramValidator implements CncProgramValidate {
 
 	@Override
 	public boolean isCncProgramValid(CncProgram cncProgram) {
-		return isNumberValid(cncProgram.getNumber()) && isOperationNumberValid(String.valueOf(cncProgram.getOperationNumber()))
-				&& isCommentValid(cncProgram.getComment()) && isDetailValid(cncProgram.getDetail())
-				&& isCncMachineValid(cncProgram.getCncMachine());
+		return isNumberValid(cncProgram.getNumber())
+				&& isOperationNumberValid(String.valueOf(cncProgram.getOperationNumber()))
+				&& isProgramTextValid(cncProgram.getProgramText()) && isCommentValid(cncProgram.getComment())
+				&& isDetailValid(cncProgram.getDetail()) && isCncMachineValid(cncProgram.getCncMachine());
 	}
 
 	@Override
@@ -62,6 +64,15 @@ public class CncProgramValidator implements CncProgramValidate {
 		boolean isValid = operationNumber.matches(OPERATION_NUMBER_PATTERN);
 		if (!isValid) {
 			logger.log(Level.ERROR, "isn't valid number: {}", operationNumber);
+		}
+		return isValid;
+	}
+
+	@Override
+	public boolean isProgramTextValid(String programText) {
+		boolean isValid = programText.matches(PROGRAM_TEXT_PATTERN);
+		if (!isValid) {
+			logger.log(Level.ERROR, "isn't valid program text: {}", programText);
 		}
 		return isValid;
 	}

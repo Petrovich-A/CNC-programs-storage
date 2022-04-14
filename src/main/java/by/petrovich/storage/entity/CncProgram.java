@@ -32,9 +32,12 @@ public class CncProgram {
 		this.loginPersonnelNumber = loginPersonnelNumber;
 	}
 
-	public CncProgram(String number, int operationNumber, String comment, Detail detail, CncMachine cncMachine) {
+	public CncProgram(String number, int operationNumber, String programText, String comment, Detail detail,
+			CncMachine cncMachine) {
+		super();
 		this.number = number;
 		this.operationNumber = operationNumber;
+		this.programText = programText;
 		this.comment = comment;
 		this.detail = detail;
 		this.cncMachine = cncMachine;

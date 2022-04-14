@@ -14,6 +14,8 @@ public interface CncProgramValidate {
 	boolean isNumberValid(String number);
 
 	boolean isOperationNumberValid(String operationNumber);
+	
+	boolean isProgramTextValid(String programText);
 
 	boolean isCommentValid(String comment);
 
