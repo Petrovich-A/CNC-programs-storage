@@ -4,20 +4,26 @@ README.md# :bowtie: EPAM EXTERNAL JAVA TRAINING.
 >## CNC PROGRAMS STORAGE :v:
 
 #### :white_check_mark: This Java web application allows to store CNC machines programs (CNC means computer numerical control :nut_and_bolt:). CNC programs are different formats simple text files included text as combination of latin symbols and digitals :floppy_disk:. 
-Put another way, application is an archive for storing files with some text information. In order to save program a certain division employee of the enterprise have to register on the portal. After registration, user be able to submit the program to the archive using the HTML-form. 
+#### Put another way, application is an archive for storing files with some text information. In order to save program a certain division employee of the enterprise have to register on the portal. After registration, user be able to submit the program to the archive using the HTML-form. 
 ___
 #### :white_check_mark: As a best practice, an application is built using the Layered architecture (Model View Controller pattern), Data Access Object (DAO) and other most common basic patterns. The project is designed applying Eclipse IDE for Java Enterprise Edition Platform and Apache Tomcat to run the Servlet and JSP. The subject area information is stored in the MySQL relational database.
 
 #### :one: realized: :ok_hand:
-- [x] implemented database access technology using JDBC with custom connection pool :lock:
+- [x] implemented database access technology using JDBC with custom connection pool :notebook_with_decorative_cover:
+- [x] while processing emerging exceptional situations, as well as positive scenarios, their logs are kept in. The application is used Log4J2 as a logger. :bookmark_tabs:
 - [x] custom tag for HTML footer :copyright:
 - [x] localizing web applications (eng :us:, rus :ru:) 
-- [x] password hash :closed_lock_with_key:
+- [x] password is hashed with salt :closed_lock_with_key:
 - [x] pagination :scroll:
 - [x] filters :eyes:
+- [x] implemented protection against cross-site scripting (xss) :lock:
 #### :two: To do list :clipboard:
 - [ ] searching for several entity
 - [ ] inner builder
+- [ ] implement more unit test coverage
+- [ ] implement program text renumbering
+- [ ] change password
+- [ ] sending email when registration successful
 #### :traffic_light: There are three roles:
 ___
 :baby: Guest can:
