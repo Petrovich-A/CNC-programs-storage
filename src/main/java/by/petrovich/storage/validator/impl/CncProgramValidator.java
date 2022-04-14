@@ -14,7 +14,7 @@ public class CncProgramValidator implements CncProgramValidate {
 	private static final String NUMBER_PATTERN = "^[\\d,?=.*-|_]{3,20}+$";
 	private static final String OPERATION_NUMBER_PATTERN = "^\\p{Digit}{2,3}+$";
 	private static final String DETAIL_NAME_PATTERN = "^[0-9,A-Z,-]{3,20}+$";
-	private static final String PROGRAM_TEXT_PATTERN = ".{1,20000}";
+	private static final String PROGRAM_TEXT_PATTERN = "([\\s\\S]*){1,25000}";
 	private static final String COMMENT_PATTERN = "^[\\w,\\s,à-ÿ,À-ß,!?@#$%^&+=.,;:_<>*()]{0,40}+$";
 	private static final String CNC_MACHINE_MODEL_PATTERN = "^[a-z,A-Z,à-ÿ,À-ß,0-9,-]{2,20}+$";
 	private static final String CNC_MACHINE_CODE_EQUIPMENT_PATTERN = "^[0-9]{2,5}+$";
