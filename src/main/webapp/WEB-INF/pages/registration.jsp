@@ -74,8 +74,8 @@
 	key="local.registration.form.password_title" var="password_title" />
 <fmt:message bundle="${loc}" key="local.registration.form.password_description" var="password_description" />
 <fmt:message bundle="${loc}" key="local.registration.form.confirm_password" var="confirm_password" />
-<fmt:message bundle="${loc}" key="local.registration.button.submit" var="submit" />
-<fmt:message bundle="${loc}" key="local.registration.button.reset" var="reset" />
+<fmt:message bundle="${loc}" key="local.button.submit" var="submit" />
+<fmt:message bundle="${loc}" key="local.button.reset" var="reset" />
 <fmt:message bundle="${loc}" key="local.registration.h4.have_account" var="have_account" />
 <fmt:message bundle="${loc}" key="local.registration.h4.log_in" var="log_in" />
 <head>

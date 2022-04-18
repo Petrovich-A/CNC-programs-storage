@@ -62,11 +62,11 @@
 <fmt:message bundle="${loc}" key="local.main.button.reset" var="reset" />
 <fmt:message bundle="${loc}" key="local.main.message.program_list"
 	var="program_list" />
-<fmt:message bundle="${loc}" key="local.main.table.personnel_number"
+<fmt:message bundle="${loc}" key="local.table.list.programs.personnel_number"
 	var="personnel_number" />
-<fmt:message bundle="${loc}" key="local.main.table.creation_date"
+<fmt:message bundle="${loc}" key="local.table.list.programs.creation_date"
 	var="creation_date" />
-<fmt:message bundle="${loc}" key="local.main.table.cnc_machine_model"
+<fmt:message bundle="${loc}" key="local.table.list.programs.cnc_machine_model"
 	var="cnc_machine_model" />
 </head>
 <body>

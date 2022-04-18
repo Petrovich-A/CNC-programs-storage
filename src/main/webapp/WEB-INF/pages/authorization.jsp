@@ -40,9 +40,9 @@
 <fmt:message bundle="${loc}"
 	key="local.authorization.form.password_placeholder"
 	var="password_placeholder" />
-<fmt:message bundle="${loc}" key="local.authorization.button.submit"
+<fmt:message bundle="${loc}" key="local.button.submit"
 	var="submit" />
-<fmt:message bundle="${loc}" key="local.authorization.button.reset"
+<fmt:message bundle="${loc}" key="local.button.reset"
 	var="reset" />
 
 <link rel="stylesheet" type="text/css"
