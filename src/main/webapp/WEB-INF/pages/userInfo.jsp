@@ -21,6 +21,15 @@
 <fmt:message bundle="${loc}" key="local.search_placeholder"
 	var="search_placeholder" />
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
+<fmt:message bundle="${loc}" key="local.user.info.message.information" var="information" />
+<fmt:message bundle="${loc}" key="local.registration.form.personnel_number" var="personnel_number" />
+<fmt:message bundle="${loc}" key="local.registration.form.employee_name" var="employee_name" />
+<fmt:message bundle="${loc}" key="local.registration.form.employee_surname" var="employee_surname" />
+<fmt:message bundle="${loc}" key="local.registration.form.employee_patronymic" var="employee_patronymic" />
+<fmt:message bundle="${loc}" key="local.registration.form.position" var="position" />
+<fmt:message bundle="${loc}" key="local.registration.form.email" var="email" />
+<fmt:message bundle="${loc}" key="local.user.info.form.creation_date" var="creation_date" />
+<fmt:message bundle="${loc}" key="local.user.info.form.role" var="role" />
 </head>
 <body>
 	<nav>
@@ -53,7 +62,7 @@
 	</nav>
 	<main>
 		<section class="user">
-			<h2>User information:</h2>
+			<h2>${information}</h2>
 			<c:choose>
 				<c:when test="${user == null}">
 					<p class="mb-1">
@@ -65,35 +74,35 @@
 					<table class="">
 						<tbody>
 							<tr>
-								<td>login Personnel Number</td>
+								<td>${personnel_number}</td>
 								<td>${user.getLoginPersonnelNumber()}</td>
 							</tr>
 							<tr>
-								<td>Employee Name</td>
+								<td>${employee_name}</td>
 								<td>${user.getEmployeeName()}</td>
 							</tr>
 							<tr>
-								<td>Employee Surname</td>
+								<td>${employee_surname}</td>
 								<td>${user.getEmployeeSurname()}</td>
 							</tr>
 							<tr>
-								<td>Employee Patronymic</td>
+								<td>${employee_patronymic}</td>
 								<td>${user.getEmployeePatronymic()}</td>
 							</tr>
 							<tr>
-								<td>employee Position</td>
+								<td>${position}</td>
 								<td>${user.getEmployeePosition()}</td>
 							</tr>
 							<tr>
-								<td>email</td>
+								<td>${email}</td>
 								<td>${user.getEmail()}</td>
 							</tr>
 							<tr>
-								<td>Creation Date</td>
+								<td>${creation_date}</td>
 								<td>${user.getCreationDate()}</td>
 							</tr>
 							<tr>
-								<td>role name</td>
+								<td>${role}</td>
 								<td>${user.getUserRole()}</td>
 							</tr>
 						</tbody>
