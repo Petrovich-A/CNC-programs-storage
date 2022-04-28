@@ -30,6 +30,9 @@
 <fmt:message bundle="${loc}" key="local.registration.form.email" var="email" />
 <fmt:message bundle="${loc}" key="local.user.info.form.creation_date" var="creation_date" />
 <fmt:message bundle="${loc}" key="local.user.info.form.role" var="role" />
+<fmt:message bundle="${loc}" key="local.navigate.details" var="details" />
+<fmt:message bundle="${loc}" key="local.navigate.cnc_programs" var="cnc_programs" />
+<fmt:message bundle="${loc}" key="local.navigate.cnc_machines" var="cnc_machines" />
 </head>
 <body>
 	<nav>
@@ -37,8 +40,9 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
-				<li><a href="Controller?commandName=go_to_users_program">CNC
-						PROGRAMS</a></li>
+				<li><a href="Controller?commandName=go_to_users_program">${cnc_programs}</a></li>
+				<li><a href="Controller?commandName=go_to_details">${details}</a></li>
+				<li><a href="Controller?commandName=go_to_cnc_machines">${cnc_machines}</a></li>
 				<c:choose>
 					<c:when test="${sessionScope.user != null}">
 						<li><a

@@ -25,22 +25,32 @@
 	var="search_placeholder" />
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <fmt:message bundle="${loc}" key="local.main.navigate.users" var="users" />
-<fmt:message bundle="${loc}" key="local.admin.message.list_programs" var="list_programs" />
-<fmt:message bundle="${loc}" key="local.admin.table.program_id" var="program_id" />
-<fmt:message bundle="${loc}" key="local.admin.table.number_program" var="number_program" />
-<fmt:message bundle="${loc}" key="local.admin.table.operation_number" var="operation_number" />
-<fmt:message bundle="${loc}" key="local.admin.table.creation_date" var="creation_date" />
-<fmt:message bundle="${loc}" key="local.admin.table.comment" var="comment" />
+<fmt:message bundle="${loc}" key="local.navigate.details" var="details" />
+<fmt:message bundle="${loc}" key="local.admin.message.list_programs"
+	var="list_programs" />
+<fmt:message bundle="${loc}" key="local.admin.table.program_id"
+	var="program_id" />
+<fmt:message bundle="${loc}" key="local.admin.table.number_program"
+	var="number_program" />
+<fmt:message bundle="${loc}" key="local.admin.table.operation_number"
+	var="operation_number" />
+<fmt:message bundle="${loc}" key="local.admin.table.creation_date"
+	var="creation_date" />
+<fmt:message bundle="${loc}" key="local.admin.table.comment"
+	var="comment" />
 <fmt:message bundle="${loc}" key="local.admin.table.active" var="active" />
-<fmt:message bundle="${loc}" key="local.admin.table.personnel_number" var="personnel_number" />
-<fmt:message bundle="${loc}" key="local.admin.table.detail_id" var="detail_id" />
+<fmt:message bundle="${loc}" key="local.admin.table.personnel_number"
+	var="personnel_number" />
+<fmt:message bundle="${loc}" key="local.admin.table.detail_id"
+	var="detail_id" />
 <fmt:message bundle="${loc}" key="local.admin.table.detail" var="detail" />
-<fmt:message bundle="${loc}" key="local.admin.table.cnc_machine" var="cnc_machine" />
-<fmt:message bundle="${loc}" key="local.admin.table.model_cnc_machine" var="model_cnc_machine" />
+<fmt:message bundle="${loc}" key="local.admin.table.cnc_machine"
+	var="cnc_machine" />
+<fmt:message bundle="${loc}" key="local.admin.table.model_cnc_machine"
+	var="model_cnc_machine" />
 <fmt:message bundle="${loc}" key="local.button.update" var="update" />
-<fmt:message bundle="${loc}" key="local.button.details" var="details" />
-<fmt:message bundle="${loc}" key="local.button.cnc_machines" var="cnc_machines" />
-
+<fmt:message bundle="${loc}" key="local.navigate.cnc_machines"
+	var="cnc_machines" />
 
 </head>
 <body>
@@ -50,6 +60,8 @@
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_admin_users_page">${users}</a></li>
+				<li><a href="Controller?commandName=go_to_details">${details}</a></li>
+				<li><a href="Controller?commandName=go_to_cnc_machines">${cnc_machines}</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
@@ -148,12 +160,6 @@
 				<td><a
 					href="Controller?commandName=go_to_admin_page&page=${currentPage + 1}">Next</a></td>
 			</c:if>
-			<form action="Controller" method="POST">
-				<div class="">
-					<button type="submit" name="commandName" value="go_to_details">${details}</button>
-					<button type="submit" name="commandName" value="go_to_cnc_machines">${cnc_machines}</button>
-				</div>
-			</form>
 		</section>
 	</main>
 	<footer>
