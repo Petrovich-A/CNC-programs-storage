@@ -26,6 +26,7 @@
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
 <fmt:message bundle="${loc}" key="local.main.navigate.admin_page"
 	var="admin_page" />
+<fmt:message bundle="${loc}" key="local.button.update" var="update" />
 </head>
 <body>
 	<nav>
@@ -33,7 +34,10 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
-				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
+				<c:if
+					test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+					<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
+				</c:if>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
@@ -63,17 +67,24 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th>id</th>
+									<c:if
+										test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+										<th>id</th>
+									</c:if>
 									<th>name</th>
 								<tr />
 							</thead>
 							<tbody>
 								<c:forEach var="detail" items="${details}">
 									<tr>
-										<td><input class="" type="radio" name="detail_id"
-											required="required" value="${detail.getId()}"></td>
-										<td>${detail.getId()}</td>
-										<td>${detail.getName()}</td>
+										<c:if
+											test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+											<td><input class="" type="radio" name="detail_id"
+												required="required" value="${detail.getId()}"></td>
+											<td>${detail.getId()}</td>
+										</c:if>
+										<td><a
+											href="Controller?commandName=go_to_details_cnc_programs&detail_name=${detail.getName()}">${detail.getName()}</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -81,8 +92,11 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="button">
-					<button type="submit" name="commandName"
-						value="go_to_detail_update_page">Update</button>
+					<c:if
+						test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+						<button type="submit" name="commandName"
+							value="go_to_detail_update_page">${update}</button>
+					</c:if>
 				</div>
 			</form>
 		</section>

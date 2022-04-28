@@ -28,6 +28,7 @@ public class CncProgramDaoImplTest {
 	private static final int OFFSET = 10;
 	private static final int NUMBER_OF_RECORDS = 7;
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	private static final int LOGIN_PERSONNEL_NUMBER = 42105;
 
 	@Mock
 	private CncProgramDaoImpl cncProgramDaoImplMock;
@@ -40,6 +41,9 @@ public class CncProgramDaoImplTest {
 	private CncProgram expectedUpdatedCncProgram;
 	private Detail detail;
 	private CncMachine cncMachine;
+	private int expectedNumberOfRecords;
+	private int firstNumberOfRecords;
+	private int secondNumberOfRecords;
 
 	@Before
 	public void setUp() {
@@ -60,22 +64,18 @@ public class CncProgramDaoImplTest {
 				+ "N016G00X24000Z3850\r\n" + "N017G01X25495F100\r\n" + "N018X24700Z3453F30\r\n" + "N019G00Z15000M09\r\n"
 				+ "N020X94000Z35000H00M05\r\n" + "N021M30\r\n" + "%", timestamp, "пересдал", true, detail, cncMachine,
 				42900);
-		secondCncProgram = new CncProgram(154, "7519-3103089-20", 050, "%\r\n"
-				+ "N001G50X90000Z48000T01S11\r\n"
-				+ "N002G00X41700Z20000H01M08\r\n"
-				+ "N003G99Z5200M04\r\n"
-				+ "N004G01Z1200F35\r\n"
-				+ "N005G00X42000Z4650 \r\n"
-				+ "N006G01X37500\r\n"
-				+ "N007G00X41800Z4800 \r\n"
-				+ "N008G01Z4430F200 \r\n"
-				+ "N009X37500F35\r\n"
-				+ "N010G00X41800Z4500 \r\n"
-				+ "N011G01Z4220F200 \r\n"
-				+ "N012X37500F35\r\n"
-				+ "N013G00X41060Z4300", timestamp, "поменял режимы рез.", true, detail, cncMachine,
-				31457);
+		secondCncProgram = new CncProgram(154, "7519-3103089-20", 050,
+				"%\r\n" + "N001G50X90000Z48000T01S11\r\n" + "N002G00X41700Z20000H01M08\r\n" + "N003G99Z5200M04\r\n"
+						+ "N004G01Z1200F35\r\n" + "N005G00X42000Z4650 \r\n" + "N006G01X37500\r\n"
+						+ "N007G00X41800Z4800 \r\n" + "N008G01Z4430F200 \r\n" + "N009X37500F35\r\n"
+						+ "N010G00X41800Z4500 \r\n" + "N011G01Z4220F200 \r\n" + "N012X37500F35\r\n"
+						+ "N013G00X41060Z4300",
+				timestamp, "поменял режимы рез.", true, detail, cncMachine, 31457);
 		expectedCncPrograms = List.of(firstCncProgram, secondCncProgram);
+		expectedNumberOfRecords = 7;
+		firstNumberOfRecords = 7;
+		secondNumberOfRecords = 15;
+
 	}
 
 	/**
@@ -94,8 +94,11 @@ public class CncProgramDaoImplTest {
 	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatchByLoginPersonnelNumber(int)}.
 	 */
 	@Test
-	public void testReadBatchByLoginPersonnelNumber() {
-		fail("Not yet implemented");
+	public void testReadBatchByLoginPersonnelNumber() throws DaoException {
+		when(cncProgramDaoImplMock.readBatchByLoginPersonnelNumber(LOGIN_PERSONNEL_NUMBER))
+				.thenReturn(expectedCncPrograms);
+		List<CncProgram> actual = cncProgramDaoImplMock.readBatchByLoginPersonnelNumber(LOGIN_PERSONNEL_NUMBER);
+		assertThat(actual).containsExactly(firstCncProgram, secondCncProgram);
 	}
 
 	/**
@@ -103,8 +106,10 @@ public class CncProgramDaoImplTest {
 	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatchByDate()}.
 	 */
 	@Test
-	public void testReadBatchByDate() {
-		fail("Not yet implemented");
+	public void testReadBatchByDate() throws DaoException {
+		when(cncProgramDaoImplMock.readBatchByDate()).thenReturn(expectedCncPrograms);
+		List<CncProgram> actual = cncProgramDaoImplMock.readBatchByDate();
+		assertThat(actual).containsExactly(firstCncProgram, secondCncProgram);
 	}
 
 	/**
@@ -112,8 +117,9 @@ public class CncProgramDaoImplTest {
 	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#getNumberOfRecords()}.
 	 */
 	@Test
-	public void testGetNumberOfRecords() {
-		fail("Not yet implemented");
+	public void testGetNumberOfRecords() throws DaoException {
+		when(cncProgramDaoImplMock.getNumberOfRecords()).thenReturn(expectedNumberOfRecords);
+		int actual = cncProgramDaoImplMock.getNumberOfRecords();
 	}
 
 	/**

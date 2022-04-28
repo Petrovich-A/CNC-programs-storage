@@ -10,6 +10,7 @@ import by.petrovich.storage.controller.command.impl.goTo.GoToCncProgramUpdate;
 import by.petrovich.storage.controller.command.impl.goTo.GoToCncProgramView;
 import by.petrovich.storage.controller.command.impl.goTo.GoToDetailUpdatePage;
 import by.petrovich.storage.controller.command.impl.goTo.GoToDetails;
+import by.petrovich.storage.controller.command.impl.goTo.GoToDetailsCncPrograms;
 import by.petrovich.storage.controller.command.impl.goTo.GoToErrorPage;
 import by.petrovich.storage.controller.command.impl.goTo.GoToMainPage;
 import by.petrovich.storage.controller.command.impl.goTo.GoToRegistrationPage;
@@ -40,6 +41,7 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_CNC_MACHINES, new GoToCncMachines());
 		commands.put(CommandName.GO_TO_DETAIL_UPDATE_PAGE, new GoToDetailUpdatePage());
 		commands.put(CommandName.GO_TO_CNC_MACHINE_UPDATE_PAGE, new GoToCncMachineUpdatePage());
+		commands.put(CommandName.GO_TO_DETAILS_CNC_PROGRAMS, new GoToDetailsCncPrograms());
 
 		commands.put(CommandName.CNC_PROGRAM_SAVE, new CncProgramSave());
 		commands.put(CommandName.CNC_PROGRAM_UPDATE, new CncProgramUpdate());

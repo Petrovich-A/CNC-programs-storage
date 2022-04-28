@@ -89,7 +89,19 @@ public class CncProgramServiceImpl implements CncProgramService {
 		try {
 			cncPrograms = cncProgramDao.readBatchByDate();
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "Can't find all CNC programs in BD", e);
+			logger.log(Level.ERROR, "Can't find all CNC programs.", e);
+			throw new ServiceException(e);
+		}
+		return cncPrograms;
+	}
+
+	@Override
+	public List<CncProgram> recieveBatchByDetailName(String name) throws ServiceException {
+		List<CncProgram> cncPrograms = null;
+		try {
+			cncPrograms = cncProgramDao.readBatchByDetailName(name);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't find CNC programs by detail name.", e);
 			throw new ServiceException(e);
 		}
 		return cncPrograms;

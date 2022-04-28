@@ -11,6 +11,8 @@ public interface CncProgramDao {
 
 	List<CncProgram> readBatchByDate() throws DaoException;
 
+	List<CncProgram> readBatchByDetailName(String name) throws DaoException;
+
 	List<CncProgram> readBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws DaoException;
 
 	List<CncMachine> readCncMachine() throws DaoException;

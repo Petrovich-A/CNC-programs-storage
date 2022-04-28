@@ -33,7 +33,10 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
-				<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
+				<c:if
+					test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+					<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
+				</c:if>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
@@ -84,7 +87,8 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="button">
-					<button type="submit" name="commandName" value="go_to_cnc_machine_update_page">Update</button>
+					<button type="submit" name="commandName"
+						value="go_to_cnc_machine_update_page">Update</button>
 				</div>
 			</form>
 		</section>

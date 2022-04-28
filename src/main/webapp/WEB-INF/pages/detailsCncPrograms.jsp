@@ -15,7 +15,7 @@
 	href="<c:url value="/CSS/style.css"/>" />
 <head>
 <meta charset="UTF-8">
-<title>User's program page</title>
+<title>Details CNC programs</title>
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="properties.local" var="loc" />
 <fmt:message bundle="${loc}" key="local.message" var="message" />
@@ -24,6 +24,35 @@
 <fmt:message bundle="${loc}" key="local.search_placeholder"
 	var="search_placeholder" />
 <fmt:message bundle="${loc}" key="local.main.navigate.home" var="home" />
+<fmt:message bundle="${loc}" key="local.main.navigate.users" var="users" />
+<fmt:message bundle="${loc}" key="local.admin.message.list_programs"
+	var="list_programs" />
+<fmt:message bundle="${loc}" key="local.admin.table.program_id"
+	var="program_id" />
+<fmt:message bundle="${loc}" key="local.admin.table.number_program"
+	var="number_program" />
+<fmt:message bundle="${loc}" key="local.admin.table.operation_number"
+	var="operation_number" />
+<fmt:message bundle="${loc}" key="local.admin.table.creation_date"
+	var="creation_date" />
+<fmt:message bundle="${loc}" key="local.admin.table.comment"
+	var="comment" />
+<fmt:message bundle="${loc}" key="local.admin.table.active" var="active" />
+<fmt:message bundle="${loc}" key="local.admin.table.personnel_number"
+	var="personnel_number" />
+<fmt:message bundle="${loc}" key="local.admin.table.detail_id"
+	var="detail_id" />
+<fmt:message bundle="${loc}" key="local.admin.table.detail" var="detail" />
+<fmt:message bundle="${loc}" key="local.admin.table.cnc_machine"
+	var="cnc_machine" />
+<fmt:message bundle="${loc}" key="local.admin.table.model_cnc_machine"
+	var="model_cnc_machine" />
+<fmt:message bundle="${loc}" key="local.button.update" var="update" />
+<fmt:message bundle="${loc}" key="local.button.details" var="details" />
+<fmt:message bundle="${loc}" key="local.button.cnc_machines"
+	var="cnc_machines" />
+
+
 </head>
 <body>
 	<nav>
@@ -44,12 +73,11 @@
 	</nav>
 	<main>
 		<section class="cncPrograms">
-			<h2>${user.getLoginPersonnelNumber()} user's CNC programs:</h2>
+			<h2>${list_programs}</h2>
 			<form action="Controller" method="POST">
-
 				<c:choose>
 					<c:when
-						test="${cncPrograms.size() == 0 || cncPrograms.size() == null}">
+						test="${cncProgramsByDetail.size() == 0 || cncProgramsByDetail.size() == null}">
 						<p class="mb-1">
 							<c:out value="No CNC programs are avaliable" />
 						</p>
@@ -59,24 +87,25 @@
 						<table class="">
 							<thead>
 								<tr>
-									<th></th>
-									<th>number</th>
-									<th>detail name</th>
-									<th>operation Number</th>
-									<th>Creation Date</th>
-									<th>Comment</th>
-									<th>is active</th>
-									<th>cncMachine Model</th>
-									<th>cncMachine Code Equipment</th>
+									<th>${program_id}</th>
+									<th>${number_program}</th>
+									<th>${operation_number}</th>
+									<th>${creation_date}</th>
+									<th>${comment}</th>
+									<th>${active}</th>
+									<th>${personnel_number}</th>
+									<th>${detail_id}</th>
+									<th>${detail}</th>
+									<th>${cnc_machine}</th>
+									<th>${model_cnc_machine}</th>
 								<tr />
 							</thead>
 							<tbody>
-								<c:forEach var="cncProgram" items="${cncPrograms}">
+								<c:forEach var="cncProgram" items="${cncProgramsByDetail}">
 									<tr>
 										<td><input class="" type="radio" name="id" required
 											value="${cncProgram.getId()}"></td>
 										<td>${cncProgram.getNumber()}</td>
-										<td>${cncProgram.getDetail().getName()}</td>
 										<td>${cncProgram.getOperationNumber()}</td>
 										<td>${cncProgram.getCreationDate()}</td>
 										<td>${cncProgram.getComment()}</td>
@@ -84,6 +113,9 @@
 												<c:when test="${cncProgram.isActive()}">active</c:when>
 												<c:otherwise>archive</c:otherwise>
 											</c:choose></td>
+										<td>${cncProgram.getLoginPersonnelNumber()}</td>
+										<td>${cncProgram.getDetail().getId()}</td>
+										<td>${cncProgram.getDetail().getName()}</td>
 										<td>${cncProgram.getCncMachine().getModel()}</td>
 										<td>${cncProgram.getCncMachine().getCodeEquipment()}</td>
 									</tr>
@@ -92,6 +124,13 @@
 						</table>
 					</c:otherwise>
 				</c:choose>
+				<div class="">
+					<c:if
+						test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+						<button type="submit" name="commandName"
+							value="go_to_cnc_program_update">${update}</button>
+					</c:if>
+				</div>
 				<div class="button">
 					<button type="submit" name="commandName"
 						value="go_to_cnc_program_view">View program</button>

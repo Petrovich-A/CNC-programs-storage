@@ -23,6 +23,8 @@ public interface CncProgramService {
 
 	List<CncProgram> recieveBatchByName() throws ServiceException;
 
+	List<CncProgram> recieveBatchByDetailName(String name) throws ServiceException;
+
 	List<CncProgram> recieveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException;
 
 	int getNumberOfRecords() throws ServiceException;

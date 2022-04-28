@@ -58,6 +58,13 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
 			+ "WHERE program_number = ?";
+	private static final String SQL_READ_BY_DETAIL_NAME = "SELECT program_id, program_number, operation_number, program_text, "
+			+ "create_time, comment, active, login_personnel_number, cnc_programs.detail_id, details.detail_name, "
+			+ "cnc_machines.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment "
+			+ "FROM cncprogramsstorage.cnc_programs "
+			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
+			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
+			+ "WHERE detail_name=?";
 	private static final String SQL_CREATE_DETAIL = "INSERT IGNORE INTO details (detail_name) VALUES (?)";
 	private static final String SQL_CREATE_CNC_MACHINE = "INSERT IGNORE INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
 	private static final String SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER = "SELECT program_id, program_number, operation_number, "
@@ -130,7 +137,26 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			logger.log(Level.INFO, "Reading all CNC programs from BD have done successfully. allCncPrograms: {} ",
 					cncPrograms.toString());
 		} catch (SQLException e) {
-			throw new DaoException(String.format("can't read allCncPrograms from DB", e));
+			throw new DaoException(String.format("Can't read all CNC programs from DB", e));
+		}
+		return cncPrograms;
+	}
+
+	@Override
+	public List<CncProgram> readBatchByDetailName(String name) throws DaoException {
+		List<CncProgram> cncPrograms = new ArrayList<>();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_BY_DETAIL_NAME)) {
+			preparedStatement.setString(1, name);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				cncPrograms.add(buildCncProgram(resultSet));
+			}
+			logger.log(Level.INFO,
+					"Reading CNC programs from BD by detail name have done successfully. cncPrograms: {} ",
+					cncPrograms.toString());
+		} catch (SQLException e) {
+			throw new DaoException(String.format("Can't read CNC Programs from DB by detail name. Name: {}.", name, e));
 		}
 		return cncPrograms;
 	}
@@ -231,7 +257,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 				preparedStatement.setString(1, cncMachine.getModel());
 				preparedStatement.setInt(2, cncMachine.getCodeEquipment());
 				preparedStatement.executeUpdate();
-				logger.log(Level.INFO, "CNC machine creating  has done sucesfully. CNC machine: {}",
+				logger.log(Level.INFO, "CNC machine creating has done sucesfully. CNC machine: {}",
 						cncMachine.toString());
 				try (ResultSet resultSetCncMachine = preparedStatement.getGeneratedKeys()) {
 					if (resultSetCncMachine.next()) {
@@ -529,4 +555,5 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			throw new DaoException(String.format("Do rollBack connection", e));
 		}
 	}
+
 }
