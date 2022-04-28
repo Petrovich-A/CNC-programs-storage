@@ -94,7 +94,8 @@ nav ul .search-icon .icon span {
 
 body {
 	background-image: linear-gradient(rgba(0, 0, 0, 1.2), rgba(0, 0, 0, 0)),
-		url(../images/background_1_CNC_Machines_In_Manufacturing.jpg);
+		url(../images/background_1_CNC_Machines_In_Manufacturing.jpg),
+		url(../images/background_2_CNC_Machines_In_Manufacturing.png);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
