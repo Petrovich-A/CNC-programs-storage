@@ -5,6 +5,7 @@
 <%@ taglib uri="customtags" prefix="ctg"%>
 <%@ page import="by.petrovich.storage.entity.User"%>
 <%@ page import="by.petrovich.storage.entity.CncProgram"%>
+<%@ page import="by.petrovich.storage.entity.UserRole"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <!DOCTYPE html>
@@ -34,8 +35,7 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
-				<c:if
-					test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+				<c:if test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
 					<li><a href="Controller?commandName=go_to_admin_page">${admin_page}</a></li>
 				</c:if>
 			</div>
@@ -92,10 +92,8 @@
 					</c:otherwise>
 				</c:choose>
 				<div class="button">
-					<c:if
-						test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
-						<button type="submit" name="commandName"
-							value="go_to_detail_update_page">${update}</button>
+					<c:if test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
+						<button type="submit" name="commandName" value="go_to_detail_update_page">${update}</button>
 					</c:if>
 				</div>
 			</form>
