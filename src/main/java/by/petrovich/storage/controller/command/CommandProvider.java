@@ -52,7 +52,7 @@ public class CommandProvider {
 		commands.put(CommandName.CHANGE_LOCAL, new ChangeLocalCommand());
 		commands.put(CommandName.USER_UPDATE, new UserUpdate());
 		commands.put(CommandName.LOG_OUT, new LogOut());
-		commands.put(CommandName.SEARCH_BY_CNC_PROGRAM_NAME, new SearchByCncProgramName());
+		commands.put(CommandName.SEARCH, new Search());
 	}
 
 	public synchronized static CommandProvider getInstamce() {
