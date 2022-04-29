@@ -11,7 +11,7 @@ README.md# :bowtie: EPAM EXTERNAL JAVA TRAINING.
 <a name="description"></a>
 ## Project's description
 
-#### :one: This Java web application allows to store CNC machines programs (CNC means computer numerical control :nut_and_bolt:). CNC programs are different formats simple text files included text as combination of latin symbols and digitals :floppy_disk: like this:
+#### :one: This Java web application allows to store CNC machines programs (CNC means computer numerical control :nut_and_bolt:). CNC programs are different formats simple text files included text as combination of latin symbols and digitals like this: :pushpin:
 ```
 %
 N1 ;DNETAL 75581-3537072 PLITA SOEDINIT.
@@ -65,14 +65,14 @@ N39 Z=0.5 M8
 - :white_check_mark: pagination :scroll:
 - :white_check_mark: filters :eyes:
 - :white_check_mark: implemented protection against cross-site scripting (xss) :lock:
+- :white_check_mark: searching to several entities :flashlight:
 ## To do: :clipboard:
-- [ ] searching for several entity
 - [ ] inner builder
 - [ ] implement more unit test coverage
 - [ ] implement program text renumbering
 - [ ] change password
 - [ ] sending email when registration successful
-### :traffic_light: There are three roles:
+### :vertical_traffic_light: There are three roles:
 ___
 :baby: **Guest** can:
 * register
