@@ -33,7 +33,7 @@ public class GoToDetailsCncPrograms implements Command {
 			request.setAttribute("error_message", NO_CNC_PROGRAMS);
 			detailName = request.getParameter("detail_name");
 		try {
-			cncProgramsByDetail = cncProgramService.recieveBatchByDetailName(detailName);
+			cncProgramsByDetail = cncProgramService.receiveBatchByDetailName(detailName);
 			session.setAttribute("cncProgramsByDetail", cncProgramsByDetail);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't find CNC programs by detail name. Detail name: {}.", detailName, e);

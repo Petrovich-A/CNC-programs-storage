@@ -27,7 +27,7 @@ public class GoToCncProgramView implements Command {
 		if (request.getParameter("id") != null)
 			id = Integer.parseInt(request.getParameter("id"));
 		try {
-			cncProgram = cncProgramService.read(id);
+			cncProgram = cncProgramService.receiveCncProgramById(id);
 			request.setAttribute("cncProgram", cncProgram);
 		} catch (ServiceException e) {
 			request.setAttribute("error_message", CANT_READ_CNC_PROGRAM + id);

@@ -27,7 +27,7 @@ public class GoToCncProgramUpdate implements Command {
 		int id = Integer.parseInt(request.getParameter("id"));
 		session.setAttribute("id", id);
 		try {
-			cncProgram = cncProgramService.read(id);
+			cncProgram = cncProgramService.receiveCncProgramById(id);
 			session.setAttribute("cncProgram", cncProgram);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "CNC program with id: {} can't be read", id, e);

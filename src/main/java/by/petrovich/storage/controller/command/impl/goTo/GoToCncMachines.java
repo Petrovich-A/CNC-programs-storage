@@ -26,7 +26,7 @@ public class GoToCncMachines implements Command {
 	public Router execute(HttpServletRequest request) {
 		List<CncMachine> cncMachines = new ArrayList<>();
 		try {
-			cncMachines = cncProgramService.readCncMachine();
+			cncMachines = cncProgramService.receiveCncMachine();
 			request.setAttribute("cncMachines", cncMachines);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't read CNC machines", e);

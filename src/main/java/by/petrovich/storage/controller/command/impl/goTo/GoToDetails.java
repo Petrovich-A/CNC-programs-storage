@@ -28,7 +28,7 @@ public class GoToDetails implements Command {
 		HttpSession session = request.getSession(true);
 		List<Detail> details = new ArrayList<>();
 		try {
-			details = cncProgramService.readDetail();
+			details = cncProgramService.receiveDetail();
 			session.setAttribute("details", details);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't read details", e);

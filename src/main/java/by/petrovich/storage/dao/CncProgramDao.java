@@ -31,7 +31,7 @@ public interface CncProgramDao {
 
 	CncProgram read(int id) throws DaoException;
 
-	CncProgram readBatchByProgramName(String name) throws DaoException;
+	CncProgram readCncProgramByName(String name) throws DaoException;
 
 	Detail readDetailByName(String name) throws DaoException;
 

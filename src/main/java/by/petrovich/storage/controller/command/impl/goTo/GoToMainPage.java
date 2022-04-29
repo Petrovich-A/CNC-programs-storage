@@ -29,7 +29,7 @@ public class GoToMainPage implements Command {
 		session.setAttribute("path_to_page", PathToPage.MAIN);
 		List<CncProgram> allCncPrograms = new ArrayList<>();
 		try {
-			allCncPrograms = cncProgramService.recieveBatchByName();
+			allCncPrograms = cncProgramService.receiveBatchByName();
 			session.setAttribute("allCncPrograms", allCncPrograms);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "can't read allCncPrograms", e);

@@ -37,7 +37,7 @@ public class GoToUsersProgram implements Command {
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		} else {
 			try {
-				cncPrograms = cncProgramService.recieveBatchByLoginPersonnelNumber(user.getLoginPersonnelNumber());
+				cncPrograms = cncProgramService.receiveBatchByLoginPersonnelNumber(user.getLoginPersonnelNumber());
 				request.setAttribute("cncPrograms", cncPrograms);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "Can't find user's CNC programs", e);

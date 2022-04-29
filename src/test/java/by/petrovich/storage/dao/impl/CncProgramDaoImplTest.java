@@ -169,7 +169,7 @@ public class CncProgramDaoImplTest {
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatchByProgramName(java.lang.String)}.
+	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readCncProgramByName(java.lang.String)}.
 	 */
 	@Test
 	public void testReadBatchByProgramName() {

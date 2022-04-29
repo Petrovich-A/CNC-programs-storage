@@ -32,8 +32,8 @@ public class GoToAdminPage implements Command {
 		if (request.getParameter("page") != null)
 			page = Integer.parseInt(request.getParameter("page"));
 		try {
-			allCncPrograms = cncProgramService.recieveBatch((page - 1) * recordsPerPage, recordsPerPage);
-			numberOfRecords = cncProgramService.getNumberOfRecords();
+			allCncPrograms = cncProgramService.receiveBatch((page - 1) * recordsPerPage, recordsPerPage);
+			numberOfRecords = cncProgramService.receiveNumberOfRecords();
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "can't read allCncPrograms", e);
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);

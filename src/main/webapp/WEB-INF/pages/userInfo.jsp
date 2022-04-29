@@ -44,7 +44,7 @@
 				<li><a href="Controller?commandName=go_to_details">${details}</a></li>
 				<li><a href="Controller?commandName=go_to_cnc_machines">${cnc_machines}</a></li>
 				<c:choose>
-					<c:when test="${sessionScope.user != null}">
+					<c:when test="${user != null}">
 						<li><a
 							href="Controller?commandName=go_to_user_info&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
 						<li><a href="Controller?commandName=log_out">${log_out}</a></li>
@@ -57,7 +57,7 @@
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
 					<input type="hidden" name="commandName"
-						value="search_by_cnc_program_name" /> <input type="search"
+						value="search" /> <input type="search"
 						name="searchInput" placeholder="${search_placeholder}" required>
 					<label class="icon"> <span class="fas fa-search"> </span></label>
 				</form>

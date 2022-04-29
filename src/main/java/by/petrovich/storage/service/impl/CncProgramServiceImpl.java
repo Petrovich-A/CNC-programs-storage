@@ -24,7 +24,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	private final CncProgramValidator cncProgramValidator = CncProgramValidator.getInstance();
 
 	@Override
-	public void create(CncProgram cncProgramFromMainForm) throws ServiceException {
+	public void createCncProgram(CncProgram cncProgramFromMainForm) throws ServiceException {
 		boolean isCncProgramValid = false;
 		isCncProgramValid = cncProgramValidator.isCncProgramValid(cncProgramFromMainForm);
 		if (isCncProgramValid) {
@@ -40,7 +40,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncProgram read(int id) throws ServiceException {
+	public CncProgram receiveCncProgramById(int id) throws ServiceException {
 		CncProgram cncProgram = new CncProgram();
 		try {
 			cncProgram = cncProgramDao.read(id);
@@ -72,7 +72,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> recieveBatch(int offset, int numberOfRecords) throws ServiceException {
+	public List<CncProgram> receiveBatch(int offset, int numberOfRecords) throws ServiceException {
 		List<CncProgram> cncPrograms = null;
 		try {
 			cncPrograms = cncProgramDao.readBatch(offset, numberOfRecords);
@@ -84,7 +84,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> recieveBatchByName() throws ServiceException {
+	public List<CncProgram> receiveBatchByName() throws ServiceException {
 		List<CncProgram> cncPrograms = null;
 		try {
 			cncPrograms = cncProgramDao.readBatchByDate();
@@ -96,7 +96,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> recieveBatchByDetailName(String name) throws ServiceException {
+	public List<CncProgram> receiveBatchByDetailName(String name) throws ServiceException {
 		List<CncProgram> cncPrograms = null;
 		try {
 			cncPrograms = cncProgramDao.readBatchByDetailName(name);
@@ -108,7 +108,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public int getNumberOfRecords() throws ServiceException {
+	public int receiveNumberOfRecords() throws ServiceException {
 		int numberOfRecords = 0;
 		try {
 			numberOfRecords = cncProgramDao.getNumberOfRecords();
@@ -120,10 +120,10 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncProgram searchCncProgram(String name) throws ServiceException {
-		CncProgram cncProgram = null;
+	public CncProgram receiveCncProgram(String name) throws ServiceException {
+		CncProgram cncProgram;
 		try {
-			cncProgram = cncProgramDao.readBatchByProgramName(name);
+			cncProgram = cncProgramDao.readCncProgramByName(name);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't find CNC program", e);
 			throw new ServiceException(e);
@@ -132,7 +132,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> recieveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
+	public List<CncProgram> receiveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
 		List<CncProgram> cncPrograms = null;
 		try {
 			cncPrograms = cncProgramDao.readBatchByLoginPersonnelNumber(loginPersonnelNumber);
@@ -144,7 +144,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncMachine> readCncMachine() throws ServiceException {
+	public List<CncMachine> receiveCncMachine() throws ServiceException {
 		List<CncMachine> cncMachines = new ArrayList<>();
 		try {
 			cncMachines = cncProgramDao.readCncMachine();
@@ -156,7 +156,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<Detail> readDetail() throws ServiceException {
+	public List<Detail> receiveDetail() throws ServiceException {
 		List<Detail> details = new ArrayList<>();
 		try {
 			details = cncProgramDao.readDetail();
@@ -168,7 +168,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public Detail readDetailById(int id) throws ServiceException {
+	public Detail receiveDetail(int id) throws ServiceException {
 		Detail detail = new Detail();
 		try {
 			detail = cncProgramDao.readDetailById(id);
@@ -180,7 +180,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncMachine readCncMachineById(int id) throws ServiceException {
+	public CncMachine receiveCncMachine(int id) throws ServiceException {
 		CncMachine cncMachine = new CncMachine();
 		try {
 			cncMachine = cncProgramDao.readCncMachineById(id);

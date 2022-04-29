@@ -29,6 +29,13 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id LIMIT";
+	private static final String SQL_READ_BY_ID = "SELECT program_id, program_number, operation_number, program_text, cnc_programs.create_time,"
+			+ " comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id, cnc_programs.cnc_machine_id, details.detail_name, "
+			+ "cnc_machines.model, cnc_machines.code_equipment FROM cnc_programs "
+			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
+			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
+			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
+			+ "WHERE program_id = ?";
 	private static final String SQL_READ_BY_DATE = "SELECT program_id, program_number, operation_number, program_text,"
 			+ "cnc_programs.create_time, comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,"
 			+ "cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model, cnc_machines.code_equipment "
@@ -37,19 +44,6 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
 			+ "WHERE active = 1 " + "ORDER BY cnc_programs.create_time DESC";
-	private static final String SQL_FOUND_ROWS = "SELECT COUNT(*) FROM cnc_programs";
-	private static final String SQL_CREATE = "INSERT INTO cnc_programs(program_number, operation_number, program_text, create_time,"
-			+ " comment, active, login_personnel_number, detail_id, cnc_machine_id) VALUES(?,?,?,?,?,?,?,?,?)";
-	private static final String SQL_READ = "SELECT program_id, program_number, operation_number, program_text, cnc_programs.create_time,"
-			+ " comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id, cnc_programs.cnc_machine_id, details.detail_name, "
-			+ "cnc_machines.model, cnc_machines.code_equipment FROM cnc_programs "
-			+ "LEFT JOIN users ON users.login_personnel_number = cnc_programs.login_personnel_number "
-			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
-			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
-			+ "WHERE program_id = ?";
-	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_number = ?, operation_number = ?, comment = ?, "
-			+ "active = ? WHERE program_id = ?";
-	private static final String SQL_UPDATE_DETAIL = "UPDATE details SET detail_name = ? WHERE detail_id = ?";
 	private static final String SQL_READ_BY_NAME = "SELECT program_id, program_number, operation_number, program_text, "
 			+ "cnc_programs.create_time, comment, active, "
 			+ "cnc_programs.login_personnel_number, details.detail_id, details.detail_name, "
@@ -65,26 +59,32 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
 			+ "WHERE detail_name=?";
-	private static final String SQL_CREATE_DETAIL = "INSERT IGNORE INTO details (detail_name) VALUES (?)";
-	private static final String SQL_CREATE_CNC_MACHINE = "INSERT IGNORE INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
-	private static final String SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER = "SELECT program_id, program_number, operation_number, "
+	private static final String SQL_READ_BY_LOGIN_PERSONNEL_NUMBER = "SELECT program_id, program_number, operation_number, "
 			+ "program_text, create_time, comment, active, login_personnel_number, cnc_programs.detail_id, details.detail_name, "
 			+ "cnc_programs.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment "
 			+ "FROM cncprogramsstorage.cnc_programs "
 			+ "LEFT JOIN details ON details.detail_id = cnc_programs.detail_id "
 			+ "LEFT JOIN cnc_machines ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
 			+ "WHERE login_personnel_number = ? ORDER BY cnc_programs.create_time DESC ";
-	private static final String SQL_IS_DETAIL_EXIST_BY_NAME = "SELECT EXISTS( SELECT detail_name FROM details WHERE detail_name = ?)";
-	private static final String SQL_IS_CNC_MACHINE_EXIST_BY_MODEL = "SELECT EXISTS(SELECT model FROM cnc_machines WHERE model = ?)";
-	private static final String SQL_READ_DETAIL_BY_NAME = "SELECT detail_id, detail_name FROM details WHERE detail_name = ?";
-	private static final String SQL_READ_DETAIL_BY_ID = "SELECT detail_id, detail_name FROM details WHERE detail_id = ?";
-	private static final String SQL_READ_CNC_MACHINE_BY_ID = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines "
-			+ "WHERE cnc_machine_id = ? ORDER BY model";
-	private static final String SQL_SEARCH_CNC_MACHINE_BY_MODEL = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines WHERE model = ?";
-	private static final String SQL_SET_CNC_PROGRAM_INACTIVE = "UPDATE cnc_programs SET active = 0 WHERE program_number = ? AND program_id > 0";
 	private static final String SQL_READ_DETAILS = "SELECT detail_id, detail_name FROM details ORDER BY detail_name";
 	private static final String SQL_READ_CNC_MACHINES = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines ORDER BY model";
+	private static final String SQL_READ_CNC_MACHINE_BY_MODEL = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines WHERE model = ?";
+	private static final String SQL_READ_CNC_MACHINE_BY_ID = "SELECT cnc_machine_id, model, code_equipment FROM cnc_machines "
+			+ "WHERE cnc_machine_id = ? ORDER BY model";
+	private static final String SQL_READ_DETAIL_BY_NAME = "SELECT detail_id, detail_name FROM details WHERE detail_name = ?";
+	private static final String SQL_READ_DETAIL_BY_ID = "SELECT detail_id, detail_name FROM details WHERE detail_id = ?";
+	private static final String SQL_FOUND_ROWS = "SELECT COUNT(*) FROM cnc_programs";
+	private static final String SQL_CREATE = "INSERT INTO cnc_programs(program_number, operation_number, program_text, create_time,"
+			+ " comment, active, login_personnel_number, detail_id, cnc_machine_id) VALUES(?,?,?,?,?,?,?,?,?)";
+	private static final String SQL_CREATE_DETAIL = "INSERT IGNORE INTO details (detail_name) VALUES (?)";
+	private static final String SQL_CREATE_CNC_MACHINE = "INSERT IGNORE INTO cnc_machines (model, code_equipment) VALUES (?, ?)";
+	private static final String SQL_IS_DETAIL_EXIST_BY_NAME = "SELECT EXISTS( SELECT detail_name FROM details WHERE detail_name = ?)";
+	private static final String SQL_IS_CNC_MACHINE_EXIST_BY_MODEL = "SELECT EXISTS(SELECT model FROM cnc_machines WHERE model = ?)";
+	private static final String SQL_UPDATE = "UPDATE cnc_programs SET program_number = ?, operation_number = ?, comment = ?, "
+			+ "active = ? WHERE program_id = ?";
+	private static final String SQL_UPDATE_DETAIL = "UPDATE details SET detail_name = ? WHERE detail_id = ?";
 	private static final String SQL_UPDATE_CNC_MACHINES = "UPDATE cnc_machines SET model = ?, code_equipment = ? WHERE cnc_machine_id = ?";
+	private static final String SQL_SET_CNC_PROGRAM_INACTIVE = "UPDATE cnc_programs SET active = 0 WHERE program_number = ? AND program_id > 0";
 
 	@Override
 	public List<CncProgram> readBatch(int offset, int numberOfRecords) throws DaoException {
@@ -111,8 +111,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	public List<CncProgram> readBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws DaoException {
 		List<CncProgram> cncPrograms = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection
-						.prepareStatement(SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_BY_LOGIN_PERSONNEL_NUMBER)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -248,7 +247,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 
 	@Override
 	public int createCncMachine(CncMachine cncMachine) throws DaoException {
-		CncMachine cncMachineFromDateBase = new CncMachine();
+		CncMachine cncMachineFromDateBase = null;
 		int cncMachineId = 0;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_CNC_MACHINE,
@@ -279,7 +278,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	public CncProgram read(int id) throws DaoException {
 		CncProgram cncProgram = new CncProgram();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_BY_ID)) {
 			preparedStatement.setInt(1, id);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -311,7 +310,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public CncProgram readBatchByProgramName(String name) throws DaoException {
+	public CncProgram readCncProgramByName(String name) throws DaoException {
 		CncProgram cncProgram = null;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_BY_NAME)) {
@@ -389,7 +388,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	public CncMachine readCncMachineByModel(String model) throws DaoException {
 		CncMachine cncMachine = new CncMachine();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(SQL_SEARCH_CNC_MACHINE_BY_MODEL)) {
+				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_CNC_MACHINE_BY_MODEL)) {
 			preparedStatement.setString(1, model);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {

@@ -27,6 +27,6 @@ public enum CommandName {
 	CHANGE_LOCAL,
 	USER_UPDATE,
 	LOG_OUT,
-	SEARCH_BY_CNC_PROGRAM_NAME
+	SEARCH
 	
 }
