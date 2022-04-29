@@ -68,7 +68,7 @@
 		<section class="user">
 			<h2>${information}</h2>
 			<c:choose>
-				<c:when test="${user == null}">
+				<c:when test="${userFromDao == null}">
 					<p class="mb-1">
 						<c:out value="User isn't avaliable" />
 					</p>
@@ -79,35 +79,35 @@
 						<tbody>
 							<tr>
 								<td>${personnel_number}</td>
-								<td>${user.getLoginPersonnelNumber()}</td>
+								<td>${userFromDao.getLoginPersonnelNumber()}</td>
 							</tr>
 							<tr>
 								<td>${employee_name}</td>
-								<td>${user.getEmployeeName()}</td>
+								<td>${userFromDao.getEmployeeName()}</td>
 							</tr>
 							<tr>
 								<td>${employee_surname}</td>
-								<td>${user.getEmployeeSurname()}</td>
+								<td>${userFromDaoFromDao.getEmployeeSurname()}</td>
 							</tr>
 							<tr>
 								<td>${employee_patronymic}</td>
-								<td>${user.getEmployeePatronymic()}</td>
+								<td>${userFromDao.getEmployeePatronymic()}</td>
 							</tr>
 							<tr>
 								<td>${position}</td>
-								<td>${user.getEmployeePosition()}</td>
+								<td>${userFromDao.getEmployeePosition()}</td>
 							</tr>
 							<tr>
 								<td>${email}</td>
-								<td>${user.getEmail()}</td>
+								<td>${userFromDao.getEmail()}</td>
 							</tr>
 							<tr>
 								<td>${creation_date}</td>
-								<td>${user.getCreationDate()}</td>
+								<td>${userFromDao.getCreationDate()}</td>
 							</tr>
 							<tr>
 								<td>${role}</td>
-								<td>${user.getUserRole()}</td>
+								<td>${userFromDao.getUserRole()}</td>
 							</tr>
 						</tbody>
 					</table>
