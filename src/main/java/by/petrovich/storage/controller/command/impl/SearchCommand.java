@@ -6,8 +6,13 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static by.petrovich.storage.controller.command.PathToPage.MAIN;
+import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAILS_CNC_PROGRAMS;
+import static by.petrovich.storage.controller.command.PathToPage.CNC_PROGRAM_VIEW;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR;
+import static by.petrovich.storage.controller.command.PathToPage.USER_INFO;
+
 import by.petrovich.storage.controller.command.Command;
-import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.CncProgram;
@@ -30,47 +35,41 @@ public class Search implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		String searchData = request.getParameter("searchInput");
-		CncProgram cncProgram;
 		try {
-			cncProgram = cncProgramService.receiveCncProgram(searchData);
-			boolean isSearchDataNumeric = isNumeric(searchData);
+			CncProgram cncProgram = cncProgramService.receiveCncProgram(searchData);
 			if (cncProgram != null) {
-				request.setAttribute("cncProgram", cncProgram);
 				logger.log(Level.INFO, "Find CNC program by CNC program's name: {}", searchData);
-				return new Router(PathToPage.CNC_PROGRAM_VIEW, RouterType.FORWARD);
-			} else {
-				List<CncProgram> cncProgramsByDetail = cncProgramService.receiveBatchByDetailName(searchData);
-				if (cncProgramsByDetail != null && !cncProgramsByDetail.isEmpty()) {
-					request.setAttribute("cncPrograms", cncProgramsByDetail);
-					logger.log(Level.INFO, "Find some CNC programs by detail's name: {}", searchData);
-					return new Router(PathToPage.GO_TO_DETAILS_CNC_PROGRAMS, RouterType.FORWARD);
-				} else {
-					if (isSearchDataNumeric) {
-						User user = userService.read(Integer.valueOf(searchData));
-						if (user != null) {
-							request.setAttribute("userFromDao", user);
-							logger.log(Level.INFO, "Find user by login personel number: {}", searchData);
-							return new Router(PathToPage.USER_INFO, RouterType.FORWARD);
-						}else {
-							request.setAttribute("main_message", SEARCH_RESULTS_NOT_FOUND + searchData);
-							return new Router(PathToPage.MAIN, RouterType.FORWARD);
-						}
-					} else {
-						request.setAttribute("main_message", SEARCH_RESULTS_NOT_FOUND + searchData);
-						return new Router(PathToPage.MAIN, RouterType.FORWARD);
-					}
+				return createRouterWithAttribute(request, CNC_PROGRAM_VIEW, "cncProgram", cncProgram);
+			}
+			List<CncProgram> cncProgramsByDetail = cncProgramService.receiveBatchByDetailName(searchData);
+			if (!cncProgramsByDetail.isEmpty()) {
+				logger.log(Level.INFO, "Find some CNC programs by detail's name: {}", searchData);
+				return createRouterWithAttribute(request, GO_TO_DETAILS_CNC_PROGRAMS, "cncPrograms",
+						cncProgramsByDetail);
+			}
+			if (isNumeric(searchData)) {
+				User user = userService.readUserByloginPersonnelNumber(Integer.valueOf(searchData));
+				if (user != null) {
+					logger.log(Level.INFO, "Find user by login personel number: {}", searchData);
+					return createRouterWithAttribute(request, USER_INFO, "userFromDao", user);
 				}
 			}
+			return createRouterWithAttribute(request, MAIN, "main_message", SEARCH_RESULTS_NOT_FOUND + searchData);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't execute search query.", e);
 			request.setAttribute("error_message", SEARCHING_IS_FAILED);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			return new Router(ERROR, RouterType.FORWARD);
 		}
-
 	}
 
 	private boolean isNumeric(String stringData) {
 		return stringData != null && stringData.matches(REG_EX_DIGIT);
+	}
+
+	private static Router createRouterWithAttribute(HttpServletRequest request, String pathToPage, String attributeName,
+			Object attribute) {
+		request.setAttribute(attributeName, attribute);
+		return new Router(pathToPage, RouterType.FORWARD);
 	}
 
 }
