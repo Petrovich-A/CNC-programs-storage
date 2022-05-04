@@ -28,7 +28,7 @@ public class GoToUserInfo implements Command {
 		if (request.getParameter("loginPersonnelNumber") != null)
 			loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		try {
-			userFromDao = userService.read(loginPersonnelNumber);
+			userFromDao = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);
 		}

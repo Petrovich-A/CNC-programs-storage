@@ -27,7 +27,7 @@ public class GoToUpdateUserPage implements Command {
 		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		session.setAttribute("loginPersonnelNumber", loginPersonnelNumber);
 		try {
-			userForUpdate = userService.read(loginPersonnelNumber);
+			userForUpdate = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
 			session.setAttribute("userForUpdate", userForUpdate);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} can't be read", loginPersonnelNumber, e);

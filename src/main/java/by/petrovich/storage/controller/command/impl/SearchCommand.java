@@ -23,7 +23,7 @@ import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class Search implements Command {
+public class SearchCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();

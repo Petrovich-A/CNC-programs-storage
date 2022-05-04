@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User read(int loginPersonnelNumber) throws ServiceException {
+	public User readUserByloginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
 		User userFromDao = null;
 		try {
 			userFromDao = userDao.read(loginPersonnelNumber);
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> readAll() throws ServiceException {
+	public List<User> readAllUsers() throws ServiceException {
 		List<User> allUsers = null;
 		try {
 			allUsers = userDao.readAll();

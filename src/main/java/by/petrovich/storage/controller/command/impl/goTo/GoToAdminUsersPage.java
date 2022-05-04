@@ -28,7 +28,7 @@ public class GoToAdminUsersPage implements Command {
 		HttpSession session = request.getSession(true);
 		List<User> allUsers = new ArrayList<>();
 		try {
-			allUsers = userService.readAll();
+			allUsers = userService.readAllUsers();
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "can't read allUsers", allUsers, e);
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
