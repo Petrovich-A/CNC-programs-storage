@@ -15,7 +15,7 @@ import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class CncProgramUpdate implements Command {
+public class CncProgramUpdateCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String CNC_PROGRAM_UPDATE_SUCCESSFUL = "CNC program update successful";
 	private static final String CNC_PROGRAM_UPDATE_ERROR_SESSION = "Session doesn't contain CNC program id for updating.";

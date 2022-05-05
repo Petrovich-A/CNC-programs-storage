@@ -17,7 +17,7 @@ import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class UserUpdate implements Command {
+public class UserUpdateCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String UPDATE_USER_SUCCESSFUL = "User updating is successful";
 	private static final String UPDATE_USER_FAILD = "User updating is faild";

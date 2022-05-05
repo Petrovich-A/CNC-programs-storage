@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.command.impl;
+package by.petrovich.storage.controller.command.impl.goTo;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -15,32 +15,25 @@ import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class LogOut implements Command {
+public class GoToUserInfoPage implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
-	private final String LOG_OUT_FAILED = "Error: user logout failed.";
 
 	@Override
 	public Router execute(HttpServletRequest request) {
+		int loginPersonnelNumber = 0;
+		User userFromDao = new User();
 		HttpSession session = request.getSession(true);
-		User user = new User();
-		user = (User) session.getAttribute("user");
-		if (user == null) {
-			logger.log(Level.ERROR, "HttpSession hasn't contain user");
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
-		} else {
-			try {
-				userService.logOut(user);
-			} catch (ServiceException e) {
-				session.setAttribute("error_message", LOG_OUT_FAILED);
-				logger.log(Level.ERROR, "Can't log out", e);
-				return new Router(PathToPage.ERROR, RouterType.FORWARD);
-			}
+		if (request.getParameter("loginPersonnelNumber") != null)
+			loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
+		try {
+			userFromDao = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
+		} catch (ServiceException e) {
+			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);
 		}
-		session.removeAttribute("user");
-		logger.log(Level.INFO, "user has been deleted from httpSession");
-		return new Router(PathToPage.MAIN, RouterType.FORWARD);
+		session.setAttribute("userFromDao", userFromDao);
+		return new Router(PathToPage.USER_INFO, RouterType.FORWARD);
 	}
 
 }

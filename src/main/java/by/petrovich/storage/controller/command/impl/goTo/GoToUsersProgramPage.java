@@ -1,5 +1,8 @@
 package by.petrovich.storage.controller.command.impl.goTo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,32 +12,40 @@ import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
-public class GoToCncProgramView implements Command {
+public class GoToUsersProgramPage implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
-	private final static String CANT_READ_CNC_PROGRAM = "Can't read CNC program by id: ";
+	private final String ERROR = "";
+	private final String ERROR_NO_USER = "No user in session";
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		int id = 0;
-		CncProgram cncProgram = new CncProgram();
-		if (request.getParameter("id") != null)
-			id = Integer.parseInt(request.getParameter("id"));
-		try {
-			cncProgram = cncProgramService.receiveCncProgramById(id);
-			request.setAttribute("cncProgram", cncProgram);
-		} catch (ServiceException e) {
-			request.setAttribute("error_message", CANT_READ_CNC_PROGRAM + id);
-			logger.log(Level.ERROR, "Can't read CNC program by id {}", id, e);
+		HttpSession session = request.getSession(true);
+		List<CncProgram> cncPrograms = new ArrayList<>();
+		User user = new User();
+		user = (User) session.getAttribute("user");
+		if (user == null) {
+			request.setAttribute("error_message", ERROR_NO_USER);
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+		} else {
+			try {
+				cncPrograms = cncProgramService.receiveBatchByLoginPersonnelNumber(user.getLoginPersonnelNumber());
+				request.setAttribute("cncPrograms", cncPrograms);
+			} catch (ServiceException e) {
+				logger.log(Level.ERROR, "Can't find user's CNC programs", e);
+				request.setAttribute("error_message", ERROR);
+				return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			}
 		}
-		return new Router(PathToPage.CNC_PROGRAM_VIEW, RouterType.FORWARD);
+		return new Router(PathToPage.USERS_PROGRAM, RouterType.FORWARD);
 	}
 
 }
