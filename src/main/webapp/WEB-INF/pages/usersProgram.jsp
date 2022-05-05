@@ -94,7 +94,7 @@
 				</c:choose>
 				<div class="button">
 					<button type="submit" name="commandName"
-						value="go_to_cnc_program_view">View program</button>
+						value="go_to_cnc_program_view_page">View program</button>
 				</div>
 			</form>
 		</section>

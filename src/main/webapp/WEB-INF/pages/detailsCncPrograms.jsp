@@ -128,12 +128,12 @@
 					<c:if
 						test="${sessionScope.user.getUserRole() eq UserRole.ADMINISTRATOR}">
 						<button type="submit" name="commandName"
-							value="go_to_cnc_program_update">${update}</button>
+							value="go_to_cnc_program_update_page">${update}</button>
 					</c:if>
 				</div>
 				<div class="button">
 					<button type="submit" name="commandName"
-						value="go_to_cnc_program_view">View program</button>
+						value="go_to_cnc_program_view_page">View program</button>
 				</div>
 			</form>
 		</section>

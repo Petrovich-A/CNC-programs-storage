@@ -84,7 +84,7 @@
 											<td>${detail.getId()}</td>
 										</c:if>
 										<td><a
-											href="Controller?commandName=go_to_details_cnc_programs&detail_name=${detail.getName()}">${detail.getName()}</a></td>
+											href="Controller?commandName=go_to_details_cnc_programs_page&detail_name=${detail.getName()}">${detail.getName()}</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>

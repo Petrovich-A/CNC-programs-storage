@@ -40,13 +40,13 @@
 			<li class="logo">CNC <span>PROGRAMS STORAGE</span></li>
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
-				<li><a href="Controller?commandName=go_to_users_program">${cnc_programs}</a></li>
-				<li><a href="Controller?commandName=go_to_details">${details}</a></li>
-				<li><a href="Controller?commandName=go_to_cnc_machines">${cnc_machines}</a></li>
+				<li><a href="Controller?commandName=go_to_users_program_page">${cnc_programs}</a></li>
+				<li><a href="Controller?commandName=go_to_details_page">${details}</a></li>
+				<li><a href="Controller?commandName=go_to_cnc_machines_page">${cnc_machines}</a></li>
 				<c:choose>
 					<c:when test="${user != null}">
 						<li><a
-							href="Controller?commandName=go_to_user_info&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
+							href="Controller?commandName=go_to_user_info_page&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
 						<li><a href="Controller?commandName=log_out">${log_out}</a></li>
 					</c:when>
 					<c:otherwise>

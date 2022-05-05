@@ -93,7 +93,7 @@
 				<div class="button">
 					<button type="submit" name="commandName"
 						value="go_to_update_user_page">Update</button>
-					<button type="submit" name="commandName" value="go_to_user_info">User
+					<button type="submit" name="commandName" value="go_to_user_info_page">User
 						info</button>
 				</div>
 			</form>

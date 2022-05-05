@@ -60,8 +60,8 @@
 			<div class="items">
 				<li><a href="Controller?commandName=go_to_main_page">${home}</a></li>
 				<li><a href="Controller?commandName=go_to_admin_users_page">${users}</a></li>
-				<li><a href="Controller?commandName=go_to_details">${details}</a></li>
-				<li><a href="Controller?commandName=go_to_cnc_machines">${cnc_machines}</a></li>
+				<li><a href="Controller?commandName=go_to_details_page">${details}</a></li>
+				<li><a href="Controller?commandName=go_to_cnc_machines_page">${cnc_machines}</a></li>
 			</div>
 			<li class="search-icon">
 				<form role="search" action="Controller" method="post">
