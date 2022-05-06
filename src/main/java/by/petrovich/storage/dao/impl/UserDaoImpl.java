@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
@@ -71,22 +72,22 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User read(int loginPersonnelNumber) throws DaoException {
-		User userFromDao = new User();
+	public Optional<User> read(int loginPersonnelNumber) throws DaoException {
+		Optional<User> userOptional = Optional.empty();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ)) {
 			preparedStatement.setInt(1, loginPersonnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				userFromDao = buildUser(resultSet);
+				User user = buildUser(resultSet);
+				userOptional = Optional.of(user);
 			}
-			logger.log(Level.INFO, "User reading from BD have done successfully. userFromDao: {}",
-					userFromDao.toString());
 		} catch (SQLException e) {
 			throw new DaoException(
-					String.format("can't read user with loginPersonnelNumber: %s from DB", loginPersonnelNumber, e));
+					String.format("Ñan't read user with loginPersonnelNumber: %s from DB", loginPersonnelNumber, e));
 		}
-		return userFromDao;
+		logger.log(Level.INFO, "User reading from BD have done successfully. userFromDao: {}", userOptional.toString());
+		return userOptional;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl.goTo;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,8 +28,10 @@ public class GoToUpdateUserPage implements Command {
 		User userForUpdate = new User();
 		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
 		session.setAttribute("loginPersonnelNumber", loginPersonnelNumber);
+		Optional<User> userOptional = Optional.empty();
 		try {
-			userForUpdate = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
+			userOptional = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
+			userForUpdate = userOptional.get();
 			session.setAttribute("userForUpdate", userForUpdate);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} can't be read", loginPersonnelNumber, e);

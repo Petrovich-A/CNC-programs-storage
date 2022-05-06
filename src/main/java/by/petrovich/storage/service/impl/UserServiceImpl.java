@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LogManager.getLogger();
@@ -25,21 +26,23 @@ public class UserServiceImpl implements UserService {
 	private final PasswordService passwordHasher = PasswordService.getInstance();
 
 	@Override
-	public User authorizate(User userFromAuthorizationForm) throws ServiceException {
-		User userFromDao = null;
+	public Optional<User> authorizate(User userFromAuthorizationForm) throws ServiceException {
+		Optional<User> userOptional = Optional.empty();
 		try {
-			userFromDao = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
-			if (userFromDao.getUserRole() != UserRole.ADMINISTRATOR) {
-				userFromDao.setUserRole(UserRole.USER);
+			userOptional = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
+			User user = userOptional.get();
+			if (user.getUserRole() != UserRole.ADMINISTRATOR) {
+				user.setUserRole(UserRole.USER);
+				userDao.updateRole(user);
 			}
-			userDao.updateRole(userFromDao);
-			logger.log(Level.INFO, "user is authorized. user: {}", userFromDao.toString());
+			userOptional = Optional.of(user);
+			logger.log(Level.INFO, "user is authorized. user: {}", user.toString());
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "user with LoginPersonnelNumber: {} can't be authorizate",
 					userFromAuthorizationForm.getLoginPersonnelNumber(), e);
 			throw new ServiceException(e);
 		}
-		return userFromDao;
+		return userOptional;
 	}
 
 	@Override
@@ -77,15 +80,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User readUserByloginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
-		User userFromDao = null;
+	public Optional<User> readUserByloginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
+		Optional<User> userOptional = Optional.empty();
 		try {
-			userFromDao = userDao.read(loginPersonnelNumber);
+			userOptional = userDao.read(loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't find user by loginPersonnelNumber: {}", loginPersonnelNumber, e);
 			throw new ServiceException(e);
 		}
-		return userFromDao;
+		return userOptional;
 	}
 
 	@Override
@@ -138,12 +141,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean isUsersLoginAndIsPasswordMatch(User userFromAuthorizationForm) {
-		User userFromDB = null;
+		Optional<User> userOptional = Optional.empty();
 		boolean isUsersLoginsAndPasswordsMatch = false;
 		boolean isLoginMatch = false;
 		boolean isPasswordMatch = false;
+		User userFromDB = null;
 		try {
-			userFromDB = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
+			userOptional = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
+			userFromDB = userOptional.get();
 		} catch (DaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

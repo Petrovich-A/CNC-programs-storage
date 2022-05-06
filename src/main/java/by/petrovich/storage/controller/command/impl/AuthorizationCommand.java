@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,9 +49,11 @@ public class AuthorizationCommand implements Command {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		Optional<User> userOptional = Optional.empty();
 		if (isUserExist && isUserLoginAndIsPasswordMatch) {
 			try {
-				user = userService.authorizate(userFromAuthorizationForm);
+				userOptional = userService.authorizate(userFromAuthorizationForm);
+				user = userOptional.get();
 				session.setAttribute("user", user);
 				request.setAttribute("main_message", AUTHORIZATION_SUCCESSFUL);
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);

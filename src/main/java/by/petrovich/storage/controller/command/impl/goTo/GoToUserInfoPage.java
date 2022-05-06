@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl.goTo;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,10 +27,13 @@ public class GoToUserInfoPage implements Command {
 		int loginPersonnelNumber = 0;
 		User userFromDao = new User();
 		HttpSession session = request.getSession(true);
-		if (request.getParameter("loginPersonnelNumber") != null)
+		if (request.getParameter("loginPersonnelNumber") != null) {
 			loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
+		}
+		Optional<User> userOptional = Optional.empty();
 		try {
-			userFromDao = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
+			userOptional = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
+			userFromDao = userOptional.get();
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);
 		}

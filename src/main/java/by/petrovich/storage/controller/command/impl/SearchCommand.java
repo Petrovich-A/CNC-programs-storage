@@ -1,6 +1,7 @@
 package by.petrovich.storage.controller.command.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -47,8 +48,10 @@ public class SearchCommand implements Command {
 				return createRouterWithAttribute(request, GO_TO_DETAILS_CNC_PROGRAMS, "cncPrograms",
 						cncProgramsByDetail);
 			}
+			Optional<User> userOptional = Optional.empty();
 			if (isNumeric(searchData)) {
-				User user = userService.readUserByloginPersonnelNumber(Integer.valueOf(searchData));
+				userOptional = userService.readUserByloginPersonnelNumber(Integer.valueOf(searchData));
+				User user = userOptional.get();
 				if (user != null) {
 					logger.log(Level.INFO, "Find user by login personel number: {}", searchData);
 					return createRouterWithAttribute(request, USER_INFO, "userFromDao", user);

@@ -48,10 +48,20 @@
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.27" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
     <orderEntry type="library" name="Maven: jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0" level="project" />
-    <orderEntry type="library" name="Maven: jakarta.servlet:jakarta.servlet-api:5.0.0" level="project" />
     <orderEntry type="library" name="Maven: jakarta.el:jakarta.el-api:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: jakarta.xml.bind:jakarta.xml.bind-api:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.sun.activation:jakarta.activation:2.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.powermock:powermock-module-testng:2.0.9" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.powermock:powermock-core:2.0.9" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.powermock:powermock-reflect:2.0.9" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.javassist:javassist:3.27.0-GA" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.powermock:powermock-module-testng-common:2.0.9" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.testng:testng:7.4.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.beust:jcommander:1.78" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.webjars:jquery:3.5.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.22.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: jakarta.servlet:jakarta.servlet-api:5.0.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.0.0" level="project" />
   </component>
 </module>
