@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CncProgramDaoImpl implements CncProgramDao {
 	private static final Logger logger = LogManager.getLogger();
@@ -395,21 +396,21 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public CncProgram read(int id) throws DaoException {
-		CncProgram cncProgram = new CncProgram();
+	public Optional<CncProgram> readCncProgramById(int id) throws DaoException {
+		Optional<CncProgram> cncProgramOptional = Optional.empty();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_CNC_PROGRAM_BY_ID)) {
 			preparedStatement.setInt(1, id);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				cncProgram = buildCncProgram(resultSet);
-				logger.log(Level.INFO, "cnc program is read", cncProgram.toString());
+				CncProgram cncProgram = buildCncProgram(resultSet);
+				cncProgramOptional = Optional.of(cncProgram);
+				logger.log(Level.INFO, "CNC program is read", cncProgram.toString());
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DaoException();
+			throw new DaoException(String.format("Ñan't read CNC program by id: %s from DB", id, e));
 		}
-		return cncProgram;
+		return cncProgramOptional;
 	}
 
 	@Override

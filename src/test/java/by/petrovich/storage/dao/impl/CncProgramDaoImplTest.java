@@ -151,7 +151,7 @@ public class CncProgramDaoImplTest {
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#read(int)}.
+	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readCncProgramById(int)}.
 	 */
 	@Test
 	public void testRead() {

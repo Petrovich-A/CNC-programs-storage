@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl.goTo;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,10 +26,13 @@ public class GoToCncProgramViewPage implements Command {
 	public Router execute(HttpServletRequest request) {
 		int id = 0;
 		CncProgram cncProgram = new CncProgram();
-		if (request.getParameter("id") != null)
+		if (request.getParameter("id") != null) {
 			id = Integer.parseInt(request.getParameter("id"));
+		}
+		Optional<CncProgram> cncProgramOptional = Optional.empty();
 		try {
-			cncProgram = cncProgramService.receiveCncProgramById(id);
+			cncProgramOptional = cncProgramService.receiveCncProgramById(id);
+			cncProgram = cncProgramOptional.get();
 			request.setAttribute("cncProgram", cncProgram);
 		} catch (ServiceException e) {
 			request.setAttribute("error_message", CANT_READ_CNC_PROGRAM + id);

@@ -2,6 +2,7 @@ package by.petrovich.storage.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -40,15 +41,15 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncProgram receiveCncProgramById(int id) throws ServiceException {
-		CncProgram cncProgram = new CncProgram();
+	public Optional<CncProgram> receiveCncProgramById(int id) throws ServiceException {
+		Optional<CncProgram> cncProgramOptional = Optional.empty();
 		try {
-			cncProgram = cncProgramDao.read(id);
+			cncProgramOptional = cncProgramDao.readCncProgramById(id);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't read CNC program by id: {}", id, e);
 			throw new ServiceException(e);
 		}
-		return cncProgram;
+		return cncProgramOptional;
 	}
 
 	@Override

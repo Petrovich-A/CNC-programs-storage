@@ -1,6 +1,7 @@
 package by.petrovich.storage.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import by.petrovich.storage.entity.CncMachine;
 import by.petrovich.storage.entity.CncProgram;
@@ -29,7 +30,7 @@ public interface CncProgramDao {
 
 	int createCncMachine(CncMachine cncMachine) throws DaoException;
 
-	CncProgram read(int id) throws DaoException;
+	Optional<CncProgram> readCncProgramById(int id) throws DaoException;
 
 	CncProgram readCncProgramByName(String name) throws DaoException;
 
