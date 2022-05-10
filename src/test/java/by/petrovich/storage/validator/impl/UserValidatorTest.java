@@ -3,12 +3,12 @@ package by.petrovich.storage.validator.impl;
 import org.junit.Assert;
 import org.junit.Test;
 
+import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.EmployeePosition;
-import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 
 public class UserValidatorTest {
-	UserValidator userValidator = UserValidator.getInstance();
+	RegistrationUserInfoValidator registrationUserInfoValidator = RegistrationUserInfoValidator.getInstance();
 	private int loginPersonnelNumber = 52914;
 	private int loginPersonnelNumber1 = 2914;
 	private String passwordWithoutPunct = "efweferg2324";
@@ -24,49 +24,57 @@ public class UserValidatorTest {
 	private String email = "ivanov@mail.by";
 	private UserRole userRole = UserRole.USER;
 
-	User userActual = new User(65484, "efwsef23%", "Иван", "Иванов", "Рудольфович", EmployeePosition.CNC_PROGRAMMER,
-			"ivanov@mail.ru");
-	User userActual1 = new User(12345, "nmverg24#%", "John", "Smith", "Smitovich",
-			EmployeePosition.ENGINEERING_TECHNICIAN, "america@usa.com");
-	User userActual2 = new User(54218, "easfav97!", "Слесарев", "Николай", "Иванович",
-			EmployeePosition.CNC_PROGRAMMER, "bigBoss@gov.no");
-	User userActualWithRole = new User(84576, "swgvf234$%", "Ролевой", "Роман", "Иванович",
-			EmployeePosition.CNC_PROGRAMMER, "withRole@sm.com");
-	User userActual3 = new User(84566, "vwkop5651%", "Сунь", "Лин", "Иванович", EmployeePosition.CNC_PROGRAMMER,
-			"lisymn@sm.com");
+	RegistrationUserInfo registrationUserInfoActual = new RegistrationUserInfo.RegistrationUserInfoBuilder()
+			.withPersonnelNumber(65484).withEmployeeName("Иван").withEmployeeSurname("Иванов")
+			.withEmployeePatronymic("Рудольфович").withEmployeePosition(EmployeePosition.CNC_PROGRAMMER)
+			.withPassword("efwsef23%").withEmail("ivanov@mail.ru").build();
+
+	RegistrationUserInfo registrationUserInfoActual1 = new RegistrationUserInfo.RegistrationUserInfoBuilder()
+			.withPersonnelNumber(12345).withEmployeeName("John").withEmployeeSurname("Smith")
+			.withEmployeePatronymic("Smitovich").withEmployeePosition(EmployeePosition.ENGINEERING_TECHNICIAN)
+			.withPassword("nmverg24#%").withEmail("america@usa.com").build();
+
+	RegistrationUserInfo registrationUserInfoActual2 = new RegistrationUserInfo.RegistrationUserInfoBuilder()
+			.withPersonnelNumber(54218).withEmployeeName("Слесарев").withEmployeeSurname("Николай")
+			.withEmployeePatronymic("Иванович").withEmployeePosition(EmployeePosition.CNC_PROGRAMMER)
+			.withPassword("easfav97!").withEmail("bigBoss@gov.no").build();
+
+	RegistrationUserInfo registrationUserInfoActualWithRole = new RegistrationUserInfo.RegistrationUserInfoBuilder()
+			.withPersonnelNumber(84576).withEmployeeName("Ролевой").withEmployeeSurname("Роман")
+			.withEmployeePatronymic("Романович").withEmployeePosition(EmployeePosition.CNC_PROGRAMMER)
+			.withPassword("swgvf234$%").withEmail("withRole@sm.com").build();
 
 	@Test
 	public void IsUserValidWhenUserValidReturnTrue() {
-		boolean actual = userValidator.isUserValid(userActual);
-		boolean actual1 = userValidator.isUserValid(userActual1);
-		boolean actual2 = userValidator.isUserValid(userActual2);
-		boolean actualWithRole = userValidator.isUserValid(userActualWithRole);
-		boolean actual3 = userValidator.isUserValid(userActual3);
+		boolean actual = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfoActual);
+		boolean actual1 = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfoActual1);
+		boolean actual2 = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfoActual2);
+		boolean actualWithRole = registrationUserInfoValidator
+				.isRegistrationUserInfoValid(registrationUserInfoActualWithRole);
 		Assert.assertTrue("test", actual);
 		Assert.assertTrue("test1", actual1);
 		Assert.assertTrue("test2", actual2);
 		Assert.assertTrue("testWithRole", actualWithRole);
-		Assert.assertTrue("actual3", actual3);
 	}
 
 	@Test
 	public void isLoginPersonnelNumberValid() {
-		boolean actualLoginPersonnelNumber = userValidator
-				.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber));
+		boolean actualLoginPersonnelNumber = registrationUserInfoValidator
+				.isPersonnelNumberValid(String.valueOf(loginPersonnelNumber));
 		Assert.assertTrue("isUserValid", actualLoginPersonnelNumber);
-		boolean actualLoginPersonnelNumber1 = userValidator
-				.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber1));
+		boolean actualLoginPersonnelNumber1 = registrationUserInfoValidator
+				.isPersonnelNumberValid(String.valueOf(loginPersonnelNumber1));
 		Assert.assertFalse("isUserValid", actualLoginPersonnelNumber1);
 	}
 
 	@Test
 	public void isPasswordValid() {
-		boolean actualPassword = userValidator.isPasswordValid(passwordWithoutPunct);
-		boolean actualPassword1 = userValidator.isPasswordValid(passwordWithoutDigit);
-		boolean actualPassword2 = userValidator.isPasswordValid(passwordWithoutAlpha);
-		boolean actualPassword3 = userValidator.isPasswordValid(passwordLess);
-		boolean actualPassword4 = userValidator.isPasswordValid(passwordMore);
-		boolean actualPassword5 = userValidator.isPasswordValid(passwordValid);
+		boolean actualPassword = registrationUserInfoValidator.isPasswordValid(passwordWithoutPunct);
+		boolean actualPassword1 = registrationUserInfoValidator.isPasswordValid(passwordWithoutDigit);
+		boolean actualPassword2 = registrationUserInfoValidator.isPasswordValid(passwordWithoutAlpha);
+		boolean actualPassword3 = registrationUserInfoValidator.isPasswordValid(passwordLess);
+		boolean actualPassword4 = registrationUserInfoValidator.isPasswordValid(passwordMore);
+		boolean actualPassword5 = registrationUserInfoValidator.isPasswordValid(passwordValid);
 		Assert.assertFalse("", actualPassword);
 		Assert.assertFalse("", actualPassword1);
 		Assert.assertFalse("", actualPassword2);
@@ -77,31 +85,32 @@ public class UserValidatorTest {
 
 	@Test
 	public void isEmployeeNameValid() {
-		boolean actualEmployeeName = userValidator.isEmployeeNameValid(employeeName);
+		boolean actualEmployeeName = registrationUserInfoValidator.isEmployeeNameValid(employeeName);
 		Assert.assertTrue("isEmployeeNameValid", actualEmployeeName);
 	}
 
 	@Test
 	public void isEmployeeSurnameValid() {
-		boolean actualEmployeeSurname = userValidator.isEmployeeSurnameValid(employeeSurname);
+		boolean actualEmployeeSurname = registrationUserInfoValidator.isEmployeeSurnameValid(employeeSurname);
 		Assert.assertTrue("isEmployeeSurnameValid", actualEmployeeSurname);
 	}
 
 	@Test
 	public void isEmployeePatronymicValid() {
-		boolean actualEmployeePatronymic = userValidator.isEmployeePatronymicValid(employeePatronymic);
+		boolean actualEmployeePatronymic = registrationUserInfoValidator.isEmployeePatronymicValid(employeePatronymic);
 		Assert.assertTrue("isEmployeePatronymicValid", actualEmployeePatronymic);
 	}
 
 	@Test
 	public void isEmployeePositionValid() {
-		boolean actualEmployeePosition = userValidator.isEmployeePositionValid(employeePosition.toString());
+		boolean actualEmployeePosition = registrationUserInfoValidator
+				.isEmployeePositionValid(employeePosition.toString());
 		Assert.assertTrue("isEmployeePositionValid", actualEmployeePosition);
 	}
 
 	@Test
 	public void isEmailValid() {
-		boolean actualEmail = userValidator.isEmailValid(email);
+		boolean actualEmail = registrationUserInfoValidator.isEmailValid(email);
 		Assert.assertTrue("isEmailValid", actualEmail);
 	}
 }

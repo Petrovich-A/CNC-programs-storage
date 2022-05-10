@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class User {
-	private int loginPersonnelNumber;
+	private int personnelNumber;
 	private String password;
 	private String employeeName;
 	private String employeeSurname;
@@ -19,14 +19,14 @@ public class User {
 
 	public User(int loginPersonnelNumber, String password) {
 		super();
-		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.personnelNumber = loginPersonnelNumber;
 		this.password = password;
 	}
 
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate,
 			UserRole userRole) {
-		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.personnelNumber = loginPersonnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
 		this.employeeSurname = employeeSurname;
@@ -40,7 +40,7 @@ public class User {
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email) {
 		super();
-		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.personnelNumber = loginPersonnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
 		this.employeeSurname = employeeSurname;
@@ -51,7 +51,7 @@ public class User {
 
 	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate) {
-		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.personnelNumber = loginPersonnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
 		this.employeeSurname = employeeSurname;
@@ -62,11 +62,11 @@ public class User {
 	}
 
 	public int getLoginPersonnelNumber() {
-		return loginPersonnelNumber;
+		return personnelNumber;
 	}
 
 	public void setLoginPersonnelNumber(int loginPersonnelNumber) {
-		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.personnelNumber = loginPersonnelNumber;
 	}
 
 	public String getPassword() {
@@ -140,7 +140,7 @@ public class User {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		User user = (User) o;
-		return loginPersonnelNumber == user.loginPersonnelNumber && Objects.equals(password, user.password)
+		return personnelNumber == user.personnelNumber && Objects.equals(password, user.password)
 				&& Objects.equals(employeeName, user.employeeName)
 				&& Objects.equals(employeeSurname, user.employeeSurname)
 				&& Objects.equals(employeePatronymic, user.employeePatronymic)
@@ -150,14 +150,14 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(loginPersonnelNumber, password, employeeName, employeeSurname, employeePatronymic,
+		return Objects.hash(personnelNumber, password, employeeName, employeeSurname, employeePatronymic,
 				employeePosition, email, creationDate, userRole);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("User [loginPersonnelNumber=").append(loginPersonnelNumber).append(", password=")
+		builder.append("User [loginPersonnelNumber=").append(personnelNumber).append(", password=")
 				.append(password).append(", employeeName=").append(employeeName).append(", employeeSurname=")
 				.append(employeeSurname).append(", employeePatronymic=").append(employeePatronymic)
 				.append(", employeePosition=").append(employeePosition).append(", email=").append(email)

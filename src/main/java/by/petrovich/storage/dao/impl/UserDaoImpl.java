@@ -1,17 +1,14 @@
 package by.petrovich.storage.dao.impl;
 
-import static by.petrovich.storage.dao.ColumnName.*;
-
-import by.petrovich.storage.dao.DaoException;
-import by.petrovich.storage.dao.UserDao;
-import by.petrovich.storage.dao.connection.ConnectionPool;
-import by.petrovich.storage.entity.EmployeePosition;
-import by.petrovich.storage.entity.User;
-import by.petrovich.storage.entity.UserRole;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import static by.petrovich.storage.dao.ColumnName.CREATE_TIME;
+import static by.petrovich.storage.dao.ColumnName.EMAIL;
+import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_NAME;
+import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_PATRONYMIC;
+import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_SURNAME;
+import static by.petrovich.storage.dao.ColumnName.LOGIN_PERSONNEL_NUMBER;
+import static by.petrovich.storage.dao.ColumnName.PASSWORD;
+import static by.petrovich.storage.dao.ColumnName.POSITION_NAME;
+import static by.petrovich.storage.dao.ColumnName.ROLE_NAME;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +17,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import by.petrovich.storage.controller.entity.RegistrationUserInfo;
+import by.petrovich.storage.dao.DaoException;
+import by.petrovich.storage.dao.UserDao;
+import by.petrovich.storage.dao.connection.ConnectionPool;
+import by.petrovich.storage.entity.EmployeePosition;
+import by.petrovich.storage.entity.User;
+import by.petrovich.storage.entity.UserRole;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
@@ -79,31 +88,33 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void create(User user) throws DaoException {
+	public void create(RegistrationUserInfo registrationUserInfo) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_USER)) {
-			preparedStatement.setInt(1, user.getLoginPersonnelNumber());
-			preparedStatement.setString(2, user.getPassword());
-			preparedStatement.setString(3, user.getEmployeeName());
-			preparedStatement.setString(4, user.getEmployeeSurname());
-			preparedStatement.setString(5, user.getEmployeePatronymic());
-			preparedStatement.setString(6, user.getEmail());
-			preparedStatement.setTimestamp(7, user.getCreationDate());
-			preparedStatement.setInt(8, user.getUserRole().getOrdinalNumber());
-			preparedStatement.setInt(9, user.getEmployeePosition().getOrdinalNumber());
+			preparedStatement.setInt(1, registrationUserInfo.getPersonnelNumber());
+			preparedStatement.setString(2, registrationUserInfo.getPassword());
+			preparedStatement.setString(3, registrationUserInfo.getEmployeeName());
+			preparedStatement.setString(4, registrationUserInfo.getEmployeeSurname());
+			preparedStatement.setString(5, registrationUserInfo.getEmployeePatronymic());
+			preparedStatement.setString(6, registrationUserInfo.getEmail());
+			preparedStatement.setTimestamp(7, registrationUserInfo.get—reationDate());
+			preparedStatement.setInt(8, registrationUserInfo.getUserRole().getOrdinalNumber());
+			preparedStatement.setInt(9, registrationUserInfo.getEmployeePosition().getOrdinalNumber());
 			preparedStatement.executeUpdate();
-			logger.log(Level.INFO, "User creating from BD have done successfully. user: {} ", user.toString());
+			logger.log(Level.INFO, "User creating from BD have done successfully. user: {} ",
+					registrationUserInfo.toString());
 		} catch (SQLException e) {
-			throw new DaoException(String.format("can't create user to DB. user: %s ", user.toString()), e);
+			throw new DaoException(String.format("can't create user to DB. user: %s ", registrationUserInfo.toString()),
+					e);
 		}
 	}
 
 	@Override
-	public Optional<User> read(int loginPersonnelNumber) throws DaoException {
+	public Optional<User> read(int personnelNumber) throws DaoException {
 		Optional<User> userOptional = Optional.empty();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_USER)) {
-			preparedStatement.setInt(1, loginPersonnelNumber);
+			preparedStatement.setInt(1, personnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				User user = buildUser(resultSet);
@@ -111,7 +122,7 @@ public class UserDaoImpl implements UserDao {
 			}
 		} catch (SQLException e) {
 			throw new DaoException(
-					String.format("—an't read user with loginPersonnelNumber: %s from DB", loginPersonnelNumber, e));
+					String.format("—an't read user with loginPersonnelNumber: %s from DB", personnelNumber, e));
 		}
 		logger.log(Level.INFO, "User reading from BD have done successfully. userFromDao: {}", userOptional.toString());
 		return userOptional;

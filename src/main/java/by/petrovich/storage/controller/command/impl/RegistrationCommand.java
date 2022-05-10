@@ -10,8 +10,8 @@ import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
+import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.EmployeePosition;
-import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
@@ -30,8 +30,8 @@ public class RegistrationCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		User userFromRegistrForm = buildUser(request);
-		boolean isUserValid = isValid(userFromRegistrForm);
+		RegistrationUserInfo registrationUserInfo = buildRegistrationUserInfo(request);
+		boolean isUserValid = isValid(registrationUserInfo);
 		if (!isUserValid) {
 			request.setAttribute("registration_message", USER_IS_NOT_VALID);
 			logger.log(Level.INFO, "User isn't valid.");
@@ -39,7 +39,7 @@ public class RegistrationCommand implements Command {
 		}
 		boolean isUserExists = false;
 		try {
-			isUserExists = userService.isExist(userFromRegistrForm);
+			isUserExists = userService.isExist(registrationUserInfo.getPersonnelNumber());
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't check is user exist in BD.", e);
 			request.setAttribute("error_message", IS_USER_EXIST_FAILED);
@@ -47,19 +47,19 @@ public class RegistrationCommand implements Command {
 		}
 		if (isUserExists) {
 			request.setAttribute("registration_message",
-					"User with login personnel number: " + userFromRegistrForm.getLoginPersonnelNumber()
-							+ " has existed in BD yet. Please fill the registration form below with another loggin.");
-			logger.log(Level.INFO, "User with loginPersonnelNumber: {} is exist in DB.",
-					userFromRegistrForm.getLoginPersonnelNumber());
+					"User with personnel number: " + registrationUserInfo.getPersonnelNumber()
+							+ " has existed in BD yet. Please fill the registration form below with another login.");
+			logger.log(Level.INFO, "User with personnel number: {} is exist in DB.",
+					registrationUserInfo.getPersonnelNumber());
 			return new Router(PathToPage.REGISTRATION, RouterType.FORWARD);
 		}
 		if (!isUserExists && isUserValid) {
 			try {
-				userService.registrate(userFromRegistrForm);
+				userService.registrate(registrationUserInfo);
 				request.setAttribute("registration_message", REGISTRATION_SUCCESSFUL);
-				logger.log(Level.INFO, "userFromRegistrForm: {}", userFromRegistrForm.toString());
+				logger.log(Level.INFO, "userFromRegistrForm: {}", registrationUserInfo.toString());
 			} catch (ServiceException e) {
-				logger.log(Level.ERROR, "User registration is failed. User: {} ", userFromRegistrForm.toString(), e);
+				logger.log(Level.ERROR, "User registration is failed. User: {} ", registrationUserInfo.toString(), e);
 				request.setAttribute("error_message", REGISTRATION_FAILED);
 				return new Router(PathToPage.ERROR, RouterType.FORWARD);
 			}
@@ -70,24 +70,23 @@ public class RegistrationCommand implements Command {
 		return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 	}
 
-	private boolean isValid(User user) {
-		boolean isValid = userService.isValid(user);
+	private boolean isValid(RegistrationUserInfo registrationUserInfo) {
+		boolean isValid = userService.isValid(registrationUserInfo);
 		return isValid;
 	}
 
-	private User buildUser(HttpServletRequest request) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		User user = new User();
-		user.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));
-		user.setPassword(getParameterToCheck("password", request));
-		user.setEmployeeName(getParameterToCheck("employeeName", request));
-		user.setEmployeeSurname(getParameterToCheck("employeeSurname", request));
-		user.setEmployeePatronymic(getParameterToCheck("employeePatronymic", request));
-		user.setEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)));
-		user.setEmail(getParameterToCheck("email", request));
-		user.setCreationDate(timestamp);
-		logger.log(Level.INFO, "User is built. User: {}", user.toString());
-		return user;
+	private RegistrationUserInfo buildRegistrationUserInfo(HttpServletRequest request) {
+		RegistrationUserInfo registrationUserInfo = new RegistrationUserInfo.RegistrationUserInfoBuilder()
+				.withPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)))
+				.withEmployeeName(getParameterToCheck("employeeName", request))
+				.withEmployeeSurname(getParameterToCheck("employeeSurname", request))
+				.withEmployeePatronymic(getParameterToCheck("employeePatronymic", request))
+				.withEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)))
+				.withEmail(getParameterToCheck("email", request)).withPassword(getParameterToCheck("password", request))
+				.withConfirmPassword(getParameterToCheck("passwordConfirm", request))
+				.withTimestamp(new Timestamp(System.currentTimeMillis())).build();
+		logger.log(Level.INFO, "RegistrationUserInfo is built. User: {}", registrationUserInfo.toString());
+		return registrationUserInfo;
 	}
 
 	private String getParameterToCheck(String name, HttpServletRequest request) {

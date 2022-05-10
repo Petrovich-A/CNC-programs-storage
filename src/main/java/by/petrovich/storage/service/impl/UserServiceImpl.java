@@ -1,5 +1,15 @@
 package by.petrovich.storage.service.impl;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.DaoProvider;
 import by.petrovich.storage.dao.UserDao;
@@ -8,48 +18,40 @@ import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.hasher.impl.PasswordService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.UserService;
-import by.petrovich.storage.validator.impl.UserValidator;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-import java.util.Optional;
+import by.petrovich.storage.validator.impl.RegistrationUserInfoValidator;
 
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LogManager.getLogger();
 	private final DaoProvider daoProvider = DaoProvider.getInstance();
 	private final UserDao userDao = daoProvider.getUserDao();
-	private final UserValidator userValidator = UserValidator.getInstance();
+	private final RegistrationUserInfoValidator registrationUserInfoValidator = RegistrationUserInfoValidator
+			.getInstance();
 	private final PasswordService passwordHasher = PasswordService.getInstance();
 
 	@Override
-	public Optional<User> authorizate(User userFromAuthorizationForm) throws ServiceException {
+	public Optional<User> authorizate(int login, String password) throws ServiceException {
 		Optional<User> userOptional = Optional.empty();
 		try {
-			userOptional = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
+			userOptional = userDao.read(login);
 			User user = userOptional.get();
 			if (user.getUserRole() != UserRole.ADMINISTRATOR) {
 				user.setUserRole(UserRole.USER);
+				userOptional = Optional.of(user);
 				userDao.updateRole(user);
 			}
-			userOptional = Optional.of(user);
-			logger.log(Level.INFO, "user is authorized. user: {}", user.toString());
+			logger.log(Level.INFO, "User is authorized. user: {}", user.toString());
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "user with LoginPersonnelNumber: {} can't be authorizate",
-					userFromAuthorizationForm.getLoginPersonnelNumber(), e);
+			logger.log(Level.ERROR, "User with login: {} can't be authorizate", login, e);
 			throw new ServiceException(e);
 		}
 		return userOptional;
 	}
 
 	@Override
-	public void registrate(User userFromRegistrForm) throws ServiceException {
+	public void registrate(RegistrationUserInfo registrationUserInfo) throws ServiceException {
 		String passwordHashed = null;
 		try {
-			passwordHashed = passwordHasher.generateHash(userFromRegistrForm.getPassword());
+			passwordHashed = passwordHasher.generateHash(registrationUserInfo.getPassword());
 		} catch (NoSuchAlgorithmException e) {
 			logger.log(Level.ERROR, "Can't find algorithm for password hashing.", e);
 			throw new ServiceException(e);
@@ -57,12 +59,12 @@ public class UserServiceImpl implements UserService {
 			logger.log(Level.ERROR, "Can't find valid key for password hashing.", e);
 			throw new ServiceException(e);
 		}
-		userFromRegistrForm.setPassword(passwordHashed);
-		userFromRegistrForm.setUserRole(UserRole.GUEST);
+//		registrationUserInfo.setPassword(passwordHashed);
+		registrationUserInfo.setUserRole(UserRole.GUEST);
 		try {
-			userDao.create(userFromRegistrForm);
+			userDao.create(registrationUserInfo);
 		} catch (DaoException e2) {
-			logger.log(Level.ERROR, "User can't be registred, user: {}", userFromRegistrForm, e2);
+			logger.log(Level.ERROR, "User can't be registred, user: {}", registrationUserInfo, e2);
 			throw new ServiceException(e2);
 		}
 	}
@@ -92,12 +94,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void update(User userFromUpdateForm, int loginPersonnelNumber) throws ServiceException {
+	public void update(User user, int loginPersonnelNumber) throws ServiceException {
 		try {
-			userDao.update(userFromUpdateForm, loginPersonnelNumber);
+			userDao.update(user, loginPersonnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't update user: {} with loginPersonnelNumber: {}", userFromUpdateForm,
-					loginPersonnelNumber, e);
+			logger.log(Level.ERROR, "can't update user: {} with loginPersonnelNumber: {}", user, loginPersonnelNumber,
+					e);
 			throw new ServiceException(e);
 		}
 	}
@@ -115,47 +117,47 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isValid(User userFromRegistrForm) {
-		boolean isUserValid = userValidator.isUserValid(userFromRegistrForm);
-		if (!isUserValid) {
-			logger.log(Level.ERROR, "User from registration's form isn't valid. User: {}",
-					userFromRegistrForm.toString());
+	public boolean isValid(RegistrationUserInfo registrationUserInfo) {
+		boolean isValid = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfo);
+		if (!isValid) {
+			logger.log(Level.ERROR,
+					"Registration user info from registration's form isn't valid. RegistrationUserInfo: {}",
+					registrationUserInfo.toString());
 		}
-		return isUserValid;
+		return isValid;
 	}
 
 	@Override
-	public boolean isExist(User userDataForm) throws ServiceException {
+	public boolean isExist(int personnelNumber) throws ServiceException {
 		boolean isExist = false;
 		try {
-			isExist = userDao.isUserExist(userDataForm.getLoginPersonnelNumber());
+			isExist = userDao.isUserExist(personnelNumber);
+			if (isExist) {
+				logger.log(Level.INFO, "User with loginPersonnelNumber: {} is existed in DB.", personnelNumber);
+			}
 		} catch (DaoException e) {
 			throw new ServiceException(String.format("Can't do isUserExist.", e));
-		}
-		if (isExist) {
-			logger.log(Level.INFO, "User with loginPersonnelNumber: {} is existed in DB.",
-					userDataForm.getLoginPersonnelNumber());
 		}
 		return isExist;
 	}
 
 	@Override
-	public boolean isUsersLoginAndIsPasswordMatch(User userFromAuthorizationForm) {
+	public boolean isRegistrationUserInfoLoginAndPasswordMatchWtihUser(int login, String password)
+			throws ServiceException {
 		Optional<User> userOptional = Optional.empty();
 		boolean isUsersLoginsAndPasswordsMatch = false;
 		boolean isLoginMatch = false;
 		boolean isPasswordMatch = false;
-		User userFromDB = null;
+		User user = new User();
 		try {
-			userOptional = userDao.read(userFromAuthorizationForm.getLoginPersonnelNumber());
-			userFromDB = userOptional.get();
+			userOptional = userDao.read(login);
+			user = userOptional.get();
 		} catch (DaoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.ERROR, "Can't read user with personnel number: {}", login, e);
+			throw new ServiceException(e);
 		}
-		isLoginMatch = isloginPersonnelNumberMatch(userFromAuthorizationForm.getLoginPersonnelNumber(),
-				userFromDB.getLoginPersonnelNumber());
-		isPasswordMatch = isPaswordMatch(userFromAuthorizationForm.getPassword(), userFromDB.getPassword());
+		isLoginMatch = isloginPersonnelNumberMatch(user.getLoginPersonnelNumber(), login);
+		isPasswordMatch = isPaswordMatch(user.getPassword(), password);
 		if (isLoginMatch && isPasswordMatch) {
 			isUsersLoginsAndPasswordsMatch = true;
 		}
@@ -185,11 +187,10 @@ public class UserServiceImpl implements UserService {
 		return isPasswordMatch;
 	}
 
-	@SuppressWarnings("unused")
-	private boolean loginPasswordValidate(int loginPersonnelNumber, String password) throws ServiceException {
-		if (!userValidator.isLoginPersonnelNumberValid(String.valueOf(loginPersonnelNumber))
-				&& !userValidator.isPasswordValid(password)) {
-			logger.log(Level.ERROR, "login: {} and password: {} isn't valid", loginPersonnelNumber, password);// to do
+	private boolean isLoginAndPasswordValid(int login, String password) throws ServiceException {
+		if (!registrationUserInfoValidator.isPersonnelNumberValid(String.valueOf(login))
+				&& !registrationUserInfoValidator.isPasswordValid(password)) {
+			logger.log(Level.ERROR, "login: {} and password: {} isn't valid", login, password);// to do
 		}
 		return true;
 	}

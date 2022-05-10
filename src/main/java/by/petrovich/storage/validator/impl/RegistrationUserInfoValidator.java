@@ -6,11 +6,11 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.EmployeePosition;
-import by.petrovich.storage.entity.User;
-import by.petrovich.storage.validator.UserValidate;
+import by.petrovich.storage.validator.RegistrationUserInfoValidate;
 
-public class UserValidator implements UserValidate {
+public class RegistrationUserInfoValidator implements RegistrationUserInfoValidate {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String LOGIN_PERSONNEL_NUMBER_PATTERN = "^\\p{Digit}{5,5}+$";
 	private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z,A-Z])(?=.*[!?@#$%^&+=,;:_*()]).{8,40}$";
@@ -19,33 +19,36 @@ public class UserValidator implements UserValidate {
 	private static final String EMPLOYEE_PATRONYMIC_PATTERN = "^[\\p{IsAlphabetic}]{3,30}+$";
 	private static final String EMAIL_PATTERN = "^\\S+@\\S+\\.\\S+$";
 
-	private static UserValidator instance;
+	private static RegistrationUserInfoValidator instance;
 
-	private UserValidator() {
+	private RegistrationUserInfoValidator() {
 
 	}
 
-	public static UserValidator getInstance() {
+	public static RegistrationUserInfoValidator getInstance() {
 		if (instance == null) {
-			instance = new UserValidator();
+			instance = new RegistrationUserInfoValidator();
 		}
 		return instance;
 	}
 
 	@Override
-	public boolean isUserValid(User user) {
-		return isLoginPersonnelNumberValid(String.valueOf(user.getLoginPersonnelNumber()))
-				&& isPasswordValid(user.getPassword()) && isEmployeeNameValid(user.getEmployeeName())
-				&& isEmployeeSurnameValid(user.getEmployeeSurname())
-				&& isEmployeePatronymicValid(user.getEmployeePatronymic())
-				&& isEmployeePositionValid((user.getEmployeePosition().toString())) && isEmailValid(user.getEmail());
+	public boolean isRegistrationUserInfoValid(RegistrationUserInfo registrationUserInfo) {
+		return isPersonnelNumberValid(String.valueOf(registrationUserInfo.getPersonnelNumber()))
+				&& isPasswordValid(registrationUserInfo.getPassword())
+				&& isEmployeeNameValid(registrationUserInfo.getEmployeeName())
+				&& isEmployeeSurnameValid(registrationUserInfo.getEmployeeSurname())
+				&& isEmployeePatronymicValid(registrationUserInfo.getEmployeePatronymic())
+				&& isEmployeePositionValid((registrationUserInfo.getEmployeePosition().toString()))
+				&& isEmailValid(registrationUserInfo.getEmail())
+				&& isPasswordConfirm(registrationUserInfo.getPassword(), registrationUserInfo.getConfirmPassword());
 	}
 
 	@Override
-	public boolean isLoginPersonnelNumberValid(String loginPersonnelNumber) {
-		boolean isValid = Pattern.matches(LOGIN_PERSONNEL_NUMBER_PATTERN, loginPersonnelNumber);
+	public boolean isPersonnelNumberValid(String personnelNumber) {
+		boolean isValid = Pattern.matches(LOGIN_PERSONNEL_NUMBER_PATTERN, personnelNumber);
 		if (!isValid) {
-			logger.log(Level.ERROR, "loginPersonnelNumber: {} is not valid", loginPersonnelNumber);
+			logger.log(Level.ERROR, "loginPersonnelNumber: {} is not valid", personnelNumber);
 		}
 		return isValid;
 	}
@@ -107,6 +110,15 @@ public class UserValidator implements UserValidate {
 			logger.log(Level.ERROR, "email: {} is not valid: ", email);
 		}
 		return isValid;
+	}
+
+	@Override
+	public boolean isPasswordConfirm(String password, String passwordConfirm) {
+		boolean isPasswordConfirm = password.equals(passwordConfirm);
+		if (!isPasswordConfirm) {
+			logger.log(Level.ERROR, "passwords: {} don't confirm: ", password, passwordConfirm);
+		}
+		return isPasswordConfirm;
 	}
 
 }

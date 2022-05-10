@@ -28,23 +28,20 @@ public class AuthorizationCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		User userFromAuthorizationForm = new User();
-		User user = new User();
+		int login = Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request));
+		String password = getParameterToCheck("password", request);
 		boolean isUserExist = false;
 		boolean isUserLoginAndIsPasswordMatch = false;
-		userFromAuthorizationForm
-				.setLoginPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)));
-		userFromAuthorizationForm.setPassword(getParameterToCheck("password", request));
 		try {
-			isUserExist = userService.isExist(userFromAuthorizationForm);
+			isUserExist = userService.isExist(login);
 		} catch (ServiceException e1) {
-			logger.log(Level.ERROR, "Can't check is user with LoginPersonnelNumber: {} exist in BD",
-					userFromAuthorizationForm.getLoginPersonnelNumber(), e1);
+			logger.log(Level.ERROR, "Can't check is user with LoginPersonnelNumber: {} exist in BD", login, e1);
 			request.setAttribute("authorization_message", USER_IS_NOT_EXIST);
 			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
 		try {
-			isUserLoginAndIsPasswordMatch = userService.isUsersLoginAndIsPasswordMatch(userFromAuthorizationForm);
+			isUserLoginAndIsPasswordMatch = userService.isRegistrationUserInfoLoginAndPasswordMatchWtihUser(login,
+					password);
 		} catch (ServiceException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -52,8 +49,8 @@ public class AuthorizationCommand implements Command {
 		Optional<User> userOptional = Optional.empty();
 		if (isUserExist && isUserLoginAndIsPasswordMatch) {
 			try {
-				userOptional = userService.authorizate(userFromAuthorizationForm);
-				user = userOptional.get();
+				userOptional = userService.authorizate(login, password);
+				User user = userOptional.get();
 				session.setAttribute("user", user);
 				request.setAttribute("main_message", AUTHORIZATION_SUCCESSFUL);
 				return new Router(PathToPage.MAIN, RouterType.FORWARD);
