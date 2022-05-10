@@ -7,15 +7,15 @@ import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.User;
 
 public interface UserDao {
-	List<User> readAll() throws DaoException;
+	List<User> readAllUsers() throws DaoException;
 
-	Optional<User> read(int loginPersonnelNumber) throws DaoException;
+	Optional<User> readUserByPersonnelNumber(int personnelNumber) throws DaoException;
 
-	void create(RegistrationUserInfo registrationUserInfo) throws DaoException;
+	void createUser(RegistrationUserInfo registrationUserInfo) throws DaoException;
 
 	void update(User user, int loginPersonnelNumber) throws DaoException;
 
-	void updateRole(User user) throws DaoException;
+	void updateUserRole(User user) throws DaoException;
 
 	boolean isUserExist(int personnelNumber) throws DaoException;
 }

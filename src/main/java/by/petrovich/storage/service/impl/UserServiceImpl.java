@@ -29,15 +29,15 @@ public class UserServiceImpl implements UserService {
 	private final PasswordService passwordHasher = PasswordService.getInstance();
 
 	@Override
-	public Optional<User> authorizate(int login, String password) throws ServiceException {
+	public Optional<User> authorizateUser(int login, String password) throws ServiceException {
 		Optional<User> userOptional = Optional.empty();
 		try {
-			userOptional = userDao.read(login);
+			userOptional = userDao.readUserByPersonnelNumber(login);
 			User user = userOptional.get();
 			if (user.getUserRole() != UserRole.ADMINISTRATOR) {
 				user.setUserRole(UserRole.USER);
 				userOptional = Optional.of(user);
-				userDao.updateRole(user);
+				userDao.updateUserRole(user);
 			}
 			logger.log(Level.INFO, "User is authorized. user: {}", user.toString());
 		} catch (DaoException e) {
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void registrate(RegistrationUserInfo registrationUserInfo) throws ServiceException {
+	public void registrateUser(RegistrationUserInfo registrationUserInfo) throws ServiceException {
 		String passwordHashed = null;
 		try {
 			passwordHashed = passwordHasher.generateHash(registrationUserInfo.getPassword());
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 //		registrationUserInfo.setPassword(passwordHashed);
 		registrationUserInfo.setUserRole(UserRole.GUEST);
 		try {
-			userDao.create(registrationUserInfo);
+			userDao.createUser(registrationUserInfo);
 		} catch (DaoException e2) {
 			logger.log(Level.ERROR, "User can't be registred, user: {}", registrationUserInfo, e2);
 			throw new ServiceException(e2);
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 		if (user.getUserRole() != UserRole.ADMINISTRATOR) {
 			user.setUserRole(UserRole.GUEST);
 			try {
-				userDao.updateRole(user);
+				userDao.updateUserRole(user);
 			} catch (DaoException e) {
 				logger.log(Level.ERROR, "Can't update role. User: {}", user.toString(), e);
 			}
@@ -82,10 +82,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> readUserByloginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
+	public Optional<User> readUserByPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
 		Optional<User> userOptional = Optional.empty();
 		try {
-			userOptional = userDao.read(loginPersonnelNumber);
+			userOptional = userDao.readUserByPersonnelNumber(loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't find user by loginPersonnelNumber: {}", loginPersonnelNumber, e);
 			throw new ServiceException(e);
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 	public List<User> readAllUsers() throws ServiceException {
 		List<User> allUsers = null;
 		try {
-			allUsers = userDao.readAll();
+			allUsers = userDao.readAllUsers();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "can't read all users", e);
 			throw new ServiceException(e);
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isExist(int personnelNumber) throws ServiceException {
+	public boolean isUserExist(int personnelNumber) throws ServiceException {
 		boolean isExist = false;
 		try {
 			isExist = userDao.isUserExist(personnelNumber);
@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isRegistrationUserInfoLoginAndPasswordMatchWtihUser(int login, String password)
+	public boolean isLoginAndPasswordMatch(int login, String password)
 			throws ServiceException {
 		Optional<User> userOptional = Optional.empty();
 		boolean isUsersLoginsAndPasswordsMatch = false;
@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
 		boolean isPasswordMatch = false;
 		User user = new User();
 		try {
-			userOptional = userDao.read(login);
+			userOptional = userDao.readUserByPersonnelNumber(login);
 			user = userOptional.get();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't read user with personnel number: {}", login, e);

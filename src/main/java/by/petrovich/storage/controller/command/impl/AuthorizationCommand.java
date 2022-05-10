@@ -33,14 +33,14 @@ public class AuthorizationCommand implements Command {
 		boolean isUserExist = false;
 		boolean isUserLoginAndIsPasswordMatch = false;
 		try {
-			isUserExist = userService.isExist(login);
+			isUserExist = userService.isUserExist(login);
 		} catch (ServiceException e1) {
 			logger.log(Level.ERROR, "Can't check is user with LoginPersonnelNumber: {} exist in BD", login, e1);
 			request.setAttribute("authorization_message", USER_IS_NOT_EXIST);
 			return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
 		}
 		try {
-			isUserLoginAndIsPasswordMatch = userService.isRegistrationUserInfoLoginAndPasswordMatchWtihUser(login,
+			isUserLoginAndIsPasswordMatch = userService.isLoginAndPasswordMatch(login,
 					password);
 		} catch (ServiceException e1) {
 			// TODO Auto-generated catch block
@@ -49,7 +49,7 @@ public class AuthorizationCommand implements Command {
 		Optional<User> userOptional = Optional.empty();
 		if (isUserExist && isUserLoginAndIsPasswordMatch) {
 			try {
-				userOptional = userService.authorizate(login, password);
+				userOptional = userService.authorizateUser(login, password);
 				User user = userOptional.get();
 				session.setAttribute("user", user);
 				request.setAttribute("main_message", AUTHORIZATION_SUCCESSFUL);

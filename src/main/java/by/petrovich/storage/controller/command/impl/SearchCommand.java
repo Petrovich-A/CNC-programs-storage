@@ -37,7 +37,7 @@ public class SearchCommand implements Command {
 	public Router execute(HttpServletRequest request) {
 		String searchData = request.getParameter("searchInput");
 		try {
-			CncProgram cncProgram = cncProgramService.receiveCncProgram(searchData);
+			CncProgram cncProgram = cncProgramService.readCncProgramByName(searchData);
 			if (cncProgram != null) {
 				logger.log(Level.INFO, "Find CNC program by CNC program's name: {}", searchData);
 				return createRouterWithAttribute(request, CNC_PROGRAM_VIEW, "cncProgram", cncProgram);
@@ -50,7 +50,7 @@ public class SearchCommand implements Command {
 			}
 			Optional<User> userOptional = Optional.empty();
 			if (isNumeric(searchData)) {
-				userOptional = userService.readUserByloginPersonnelNumber(Integer.valueOf(searchData));
+				userOptional = userService.readUserByPersonnelNumber(Integer.valueOf(searchData));
 				User user = userOptional.get();
 				if (user != null) {
 					logger.log(Level.INFO, "Find user by login personel number: {}", searchData);

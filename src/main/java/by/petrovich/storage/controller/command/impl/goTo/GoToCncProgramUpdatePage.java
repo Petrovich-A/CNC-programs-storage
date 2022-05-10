@@ -30,7 +30,7 @@ public class GoToCncProgramUpdatePage implements Command {
 		session.setAttribute("id", id);
 		Optional<CncProgram> cncProgramOptional = Optional.empty();
 		try {
-			cncProgramOptional = cncProgramService.receiveCncProgramById(id);
+			cncProgramOptional = cncProgramService.readCncProgramById(id);
 			cncProgram = cncProgramOptional.get();
 			session.setAttribute("cncProgram", cncProgram);
 		} catch (ServiceException e) {

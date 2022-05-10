@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
 			""";
 
 	@Override
-	public List<User> readAll() throws DaoException {
+	public List<User> readAllUsers() throws DaoException {
 		List<User> allUsers = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_ALL_USERS);
@@ -88,7 +88,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void create(RegistrationUserInfo registrationUserInfo) throws DaoException {
+	public void createUser(RegistrationUserInfo registrationUserInfo) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_USER)) {
 			preparedStatement.setInt(1, registrationUserInfo.getPersonnelNumber());
@@ -110,7 +110,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public Optional<User> read(int personnelNumber) throws DaoException {
+	public Optional<User> readUserByPersonnelNumber(int personnelNumber) throws DaoException {
 		Optional<User> userOptional = Optional.empty();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_USER)) {
@@ -167,7 +167,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updateRole(User user) throws DaoException {
+	public void updateUserRole(User user) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_ROLE)) {
 			preparedStatement.setInt(1, user.getUserRole().getOrdinalNumber());

@@ -39,7 +39,7 @@ public class RegistrationCommand implements Command {
 		}
 		boolean isUserExists = false;
 		try {
-			isUserExists = userService.isExist(registrationUserInfo.getPersonnelNumber());
+			isUserExists = userService.isUserExist(registrationUserInfo.getPersonnelNumber());
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't check is user exist in BD.", e);
 			request.setAttribute("error_message", IS_USER_EXIST_FAILED);
@@ -55,7 +55,7 @@ public class RegistrationCommand implements Command {
 		}
 		if (!isUserExists && isUserValid) {
 			try {
-				userService.registrate(registrationUserInfo);
+				userService.registrateUser(registrationUserInfo);
 				request.setAttribute("registration_message", REGISTRATION_SUCCESSFUL);
 				logger.log(Level.INFO, "userFromRegistrForm: {}", registrationUserInfo.toString());
 			} catch (ServiceException e) {

@@ -32,7 +32,7 @@ public class GoToUserInfoPage implements Command {
 		}
 		Optional<User> userOptional = Optional.empty();
 		try {
-			userOptional = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
+			userOptional = userService.readUserByPersonnelNumber(loginPersonnelNumber);
 			userFromDao = userOptional.get();
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);

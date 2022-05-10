@@ -33,7 +33,7 @@ public class GoToDetailUpdatePage implements Command {
 		} else {
 			session.setAttribute("detail_id", id);
 			try {
-				detail = cncProgramService.receiveDetail(id);
+				detail = cncProgramService.readDetailById(id);
 				request.setAttribute("detail", detail);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "Detail with id: {} can't be read", id, e);

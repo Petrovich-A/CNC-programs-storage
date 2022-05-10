@@ -33,7 +33,7 @@ public class GoToCncMachineUpdatePage implements Command {
 		} else {
 			session.setAttribute("cnc_machine_id", id);
 			try {
-				cncMachine = cncProgramService.receiveCncMachine(id);
+				cncMachine = cncProgramService.readCncMachine(id);
 				request.setAttribute("cncMachine", cncMachine);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "CNC machine with id: {} can't be read", id, e);

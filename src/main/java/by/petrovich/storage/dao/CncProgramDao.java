@@ -12,27 +12,27 @@ public interface CncProgramDao {
 
 	List<CncProgram> readBatchByDate() throws DaoException;
 
+	List<Detail> readDetail() throws DaoException;
+
 	List<CncProgram> readBatchByDetailName(String name) throws DaoException;
 
-	List<CncProgram> readBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws DaoException;
+	List<CncProgram> readBatchByPersonnelNumber(int personnelNumber) throws DaoException;
 
-	List<CncMachine> readCncMachine() throws DaoException;
-
-	List<Detail> readDetail() throws DaoException;
+	List<CncMachine> readAllCncMachines() throws DaoException;
 
 	List<CncProgram> findAmountOfRows(int startRow, int amountOfRows) throws DaoException;
 
-	int getNumberOfRecords() throws DaoException;
+	CncProgram readCncProgramByName(String name) throws DaoException;
 
-	void create(CncProgram cncProgramFromMainForm) throws DaoException;
+	Optional<CncProgram> readCncProgramById(int id) throws DaoException;
+
+	int receiveNumberOfRecords() throws DaoException;
+
+	void createCncProgram(CncProgram cncProgramFromMainForm) throws DaoException;
 
 	int createDetail(Detail detail) throws DaoException;
 
 	int createCncMachine(CncMachine cncMachine) throws DaoException;
-
-	Optional<CncProgram> readCncProgramById(int id) throws DaoException;
-
-	CncProgram readCncProgramByName(String name) throws DaoException;
 
 	Detail readDetailByName(String name) throws DaoException;
 
@@ -42,7 +42,7 @@ public interface CncProgramDao {
 
 	CncMachine readCncMachineById(int id) throws DaoException;
 
-	void update(CncProgram cncProgram, int id) throws DaoException;
+	void updateCncProgram(CncProgram cncProgram, int id) throws DaoException;
 
 	void updateDetail(Detail detail, int id) throws DaoException;
 

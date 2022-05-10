@@ -8,11 +8,21 @@ import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.entity.Detail;
 
 public interface CncProgramService {
+	Optional<CncProgram> readCncProgramById(int id) throws ServiceException;
+
+	List<Detail> readDetail() throws ServiceException;
+
+	CncProgram readCncProgramByName(String name) throws ServiceException;
+
+	Detail readDetailById(int id) throws ServiceException;
+
+	CncMachine readCncMachine(int id) throws ServiceException;
+
+	List<CncMachine> readAllCncMachines() throws ServiceException;
+
 	void createCncProgram(CncProgram cncProgram) throws ServiceException;
 
-	Optional<CncProgram> receiveCncProgramById(int id) throws ServiceException;
-
-	void update(CncProgram ñncProgram, int id) throws ServiceException;
+	void updateCncProgram(CncProgram ñncProgram, int id) throws ServiceException;
 
 	void updateDetail(Detail detail, int id) throws ServiceException;
 
@@ -29,15 +39,4 @@ public interface CncProgramService {
 	List<CncProgram> receiveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException;
 
 	int receiveNumberOfRecords() throws ServiceException;
-
-	CncProgram receiveCncProgram(String name) throws ServiceException;
-
-	List<CncMachine> receiveCncMachine() throws ServiceException;
-
-	List<Detail> receiveDetail() throws ServiceException;
-
-	Detail receiveDetail(int id) throws ServiceException;
-
-	CncMachine receiveCncMachine(int id) throws ServiceException;
-
 }

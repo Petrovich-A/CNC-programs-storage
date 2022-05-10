@@ -9,20 +9,20 @@ import by.petrovich.storage.entity.User;
 public interface UserService {
 	List<User> readAllUsers() throws ServiceException;
 
-	Optional<User> readUserByloginPersonnelNumber(int loginPersonnelNumber) throws ServiceException;
+	Optional<User> readUserByPersonnelNumber(int loginPersonnelNumber) throws ServiceException;
 
 	void update(User user, int loginPersonnelNumber) throws ServiceException;
 
-	void registrate(RegistrationUserInfo registrationUserInfo) throws ServiceException;
+	void registrateUser(RegistrationUserInfo registrationUserInfo) throws ServiceException;
 
 	void logOut(User user) throws ServiceException;
 
-	Optional<User> authorizate(int login, String password) throws ServiceException;
+	Optional<User> authorizateUser(int login, String password) throws ServiceException;
 
-	boolean isExist(int personnelNumber) throws ServiceException;
+	boolean isUserExist(int personnelNumber) throws ServiceException;
 
 	boolean isValid(RegistrationUserInfo registrationUserInfo);
 
-	boolean isRegistrationUserInfoLoginAndPasswordMatchWtihUser(int login, String password) throws ServiceException;
+	boolean isLoginAndPasswordMatch(int login, String password) throws ServiceException;
 
 }

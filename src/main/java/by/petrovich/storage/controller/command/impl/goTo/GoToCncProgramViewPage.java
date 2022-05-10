@@ -31,7 +31,7 @@ public class GoToCncProgramViewPage implements Command {
 		}
 		Optional<CncProgram> cncProgramOptional = Optional.empty();
 		try {
-			cncProgramOptional = cncProgramService.receiveCncProgramById(id);
+			cncProgramOptional = cncProgramService.readCncProgramById(id);
 			cncProgram = cncProgramOptional.get();
 			request.setAttribute("cncProgram", cncProgram);
 		} catch (ServiceException e) {

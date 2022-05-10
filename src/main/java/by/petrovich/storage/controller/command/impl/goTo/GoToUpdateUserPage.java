@@ -30,7 +30,7 @@ public class GoToUpdateUserPage implements Command {
 		session.setAttribute("loginPersonnelNumber", loginPersonnelNumber);
 		Optional<User> userOptional = Optional.empty();
 		try {
-			userOptional = userService.readUserByloginPersonnelNumber(loginPersonnelNumber);
+			userOptional = userService.readUserByPersonnelNumber(loginPersonnelNumber);
 			userForUpdate = userOptional.get();
 			session.setAttribute("userForUpdate", userForUpdate);
 		} catch (ServiceException e) {

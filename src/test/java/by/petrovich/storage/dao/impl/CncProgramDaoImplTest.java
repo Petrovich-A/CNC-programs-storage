@@ -91,13 +91,13 @@ public class CncProgramDaoImplTest {
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatchByLoginPersonnelNumber(int)}.
+	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatchByPersonnelNumber(int)}.
 	 */
 	@Test
 	public void testReadBatchByLoginPersonnelNumber() throws DaoException {
-		when(cncProgramDaoImplMock.readBatchByLoginPersonnelNumber(LOGIN_PERSONNEL_NUMBER))
+		when(cncProgramDaoImplMock.readBatchByPersonnelNumber(LOGIN_PERSONNEL_NUMBER))
 				.thenReturn(expectedCncPrograms);
-		List<CncProgram> actual = cncProgramDaoImplMock.readBatchByLoginPersonnelNumber(LOGIN_PERSONNEL_NUMBER);
+		List<CncProgram> actual = cncProgramDaoImplMock.readBatchByPersonnelNumber(LOGIN_PERSONNEL_NUMBER);
 		assertThat(actual).containsExactly(firstCncProgram, secondCncProgram);
 	}
 
@@ -114,17 +114,17 @@ public class CncProgramDaoImplTest {
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#getNumberOfRecords()}.
+	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#receiveNumberOfRecords()}.
 	 */
 	@Test
 	public void testGetNumberOfRecords() throws DaoException {
-		when(cncProgramDaoImplMock.getNumberOfRecords()).thenReturn(expectedNumberOfRecords);
-		int actual = cncProgramDaoImplMock.getNumberOfRecords();
+		when(cncProgramDaoImplMock.receiveNumberOfRecords()).thenReturn(expectedNumberOfRecords);
+		int actual = cncProgramDaoImplMock.receiveNumberOfRecords();
 	}
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#create(by.petrovich.storage.entity.CncProgram)}.
+	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#createCncProgram(by.petrovich.storage.entity.CncProgram)}.
 	 */
 	@Test
 	public void testCreate() {
@@ -160,7 +160,7 @@ public class CncProgramDaoImplTest {
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#update(by.petrovich.storage.entity.CncProgram, int)}.
+	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#updateCncProgram(by.petrovich.storage.entity.CncProgram, int)}.
 	 */
 	@Test
 	public void testUpdate() {
@@ -214,7 +214,7 @@ public class CncProgramDaoImplTest {
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readCncMachine()}.
+	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readAllCncMachines()}.
 	 */
 	@Test
 	public void testReadCncMachine() {

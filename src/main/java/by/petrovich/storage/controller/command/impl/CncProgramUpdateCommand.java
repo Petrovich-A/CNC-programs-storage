@@ -36,7 +36,7 @@ public class CncProgramUpdateCommand implements Command {
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
 		try {
-			cncProgramService.update(cncProgram, id);
+			cncProgramService.updateCncProgram(cncProgram, id);
 			request.setAttribute("cnc_program_update_message", CNC_PROGRAM_UPDATE_SUCCESSFUL);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't update CNC program with id {}", id, e);

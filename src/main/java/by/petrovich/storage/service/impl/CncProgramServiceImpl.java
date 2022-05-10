@@ -31,7 +31,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 		if (isCncProgramValid) {
 			cncProgramFromMainForm.setActive(true);
 			try {
-				cncProgramDao.create(cncProgramFromMainForm);
+				cncProgramDao.createCncProgram(cncProgramFromMainForm);
 			} catch (DaoException e) {
 				logger.log(Level.ERROR, "can't create CNC program. cncProgramFromMainForm: {}",
 						cncProgramFromMainForm.toString(), e);
@@ -41,7 +41,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public Optional<CncProgram> receiveCncProgramById(int id) throws ServiceException {
+	public Optional<CncProgram> readCncProgramById(int id) throws ServiceException {
 		Optional<CncProgram> cncProgramOptional = Optional.empty();
 		try {
 			cncProgramOptional = cncProgramDao.readCncProgramById(id);
@@ -53,9 +53,9 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public void update(CncProgram ñncProgram, int id) throws ServiceException {
+	public void updateCncProgram(CncProgram ñncProgram, int id) throws ServiceException {
 		try {
-			cncProgramDao.update(ñncProgram, id);
+			cncProgramDao.updateCncProgram(ñncProgram, id);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't update CNC program with id: {}, where" + " CNC program: {}", cncProgramDao,
 					id, ñncProgram.toString(), e);
@@ -112,7 +112,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	public int receiveNumberOfRecords() throws ServiceException {
 		int numberOfRecords = 0;
 		try {
-			numberOfRecords = cncProgramDao.getNumberOfRecords();
+			numberOfRecords = cncProgramDao.receiveNumberOfRecords();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't getNumberOfRecords programs in BD", e);
 			throw new ServiceException(e);
@@ -121,7 +121,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncProgram receiveCncProgram(String name) throws ServiceException {
+	public CncProgram readCncProgramByName(String name) throws ServiceException {
 		CncProgram cncProgram;
 		try {
 			cncProgram = cncProgramDao.readCncProgramByName(name);
@@ -136,7 +136,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	public List<CncProgram> receiveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
 		List<CncProgram> cncPrograms = null;
 		try {
-			cncPrograms = cncProgramDao.readBatchByLoginPersonnelNumber(loginPersonnelNumber);
+			cncPrograms = cncProgramDao.readBatchByPersonnelNumber(loginPersonnelNumber);
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't recieve CNC program by login personnel number: {}", loginPersonnelNumber, e);
 			throw new ServiceException(e);
@@ -145,10 +145,10 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncMachine> receiveCncMachine() throws ServiceException {
+	public List<CncMachine> readAllCncMachines() throws ServiceException {
 		List<CncMachine> cncMachines = new ArrayList<>();
 		try {
-			cncMachines = cncProgramDao.readCncMachine();
+			cncMachines = cncProgramDao.readAllCncMachines();
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "Can't recieve CNC machines", e);
 			throw new ServiceException(e);
@@ -157,7 +157,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<Detail> receiveDetail() throws ServiceException {
+	public List<Detail> readDetail() throws ServiceException {
 		List<Detail> details = new ArrayList<>();
 		try {
 			details = cncProgramDao.readDetail();
@@ -169,7 +169,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public Detail receiveDetail(int id) throws ServiceException {
+	public Detail readDetailById(int id) throws ServiceException {
 		Detail detail = new Detail();
 		try {
 			detail = cncProgramDao.readDetailById(id);
@@ -181,7 +181,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public CncMachine receiveCncMachine(int id) throws ServiceException {
+	public CncMachine readCncMachine(int id) throws ServiceException {
 		CncMachine cncMachine = new CncMachine();
 		try {
 			cncMachine = cncProgramDao.readCncMachineById(id);

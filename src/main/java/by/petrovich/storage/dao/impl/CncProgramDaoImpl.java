@@ -227,7 +227,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public List<CncProgram> readBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws DaoException {
+	public List<CncProgram> readBatchByPersonnelNumber(int loginPersonnelNumber) throws DaoException {
 		List<CncProgram> cncPrograms = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection
@@ -282,7 +282,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public int getNumberOfRecords() throws DaoException {
+	public int receiveNumberOfRecords() throws DaoException {
 		int numberOfRecords = 0;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_FOUND_ROWS);
@@ -298,7 +298,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public void create(CncProgram cncProgram) throws DaoException {
+	public void createCncProgram(CncProgram cncProgram) throws DaoException {
 		int detailId = 0;
 		int cncMachineId = 0;
 		Connection connection = ConnectionPool.getInstance().getConnection();
@@ -414,7 +414,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public void update(CncProgram cncProgram, int id) throws DaoException {
+	public void updateCncProgram(CncProgram cncProgram, int id) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_CNC_PROGRAM)) {
 			preparedStatement.setString(1, cncProgram.getNumber());
@@ -528,7 +528,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public List<CncMachine> readCncMachine() throws DaoException {
+	public List<CncMachine> readAllCncMachines() throws DaoException {
 		List<CncMachine> cncMachines = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_READ_CNC_MACHINES);
