@@ -1,5 +1,11 @@
 package by.petrovich.storage.controller.command.impl;
 
+import static by.petrovich.storage.controller.command.PathToPage.CNC_PROGRAM_VIEW;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR;
+import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAILS_CNC_PROGRAMS;
+import static by.petrovich.storage.controller.command.PathToPage.MAIN;
+import static by.petrovich.storage.controller.command.PathToPage.USER_INFO;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -7,13 +13,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static by.petrovich.storage.controller.command.PathToPage.MAIN;
-import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAILS_CNC_PROGRAMS;
-import static by.petrovich.storage.controller.command.PathToPage.CNC_PROGRAM_VIEW;
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
-import static by.petrovich.storage.controller.command.PathToPage.USER_INFO;
-
-import by.petrovich.storage.controller.command.Command;
+import by.petrovich.storage.controller.command.AbstractCommand;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.CncProgram;
@@ -24,7 +24,7 @@ import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class SearchCommand implements Command {
+public class SearchCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
@@ -67,12 +67,6 @@ public class SearchCommand implements Command {
 
 	private boolean isNumeric(String stringData) {
 		return stringData != null && stringData.matches(REG_EX_DIGIT);
-	}
-
-	private static Router createRouterWithAttribute(HttpServletRequest request, String pathToPage, String attributeName,
-			Object attribute) {
-		request.setAttribute(attributeName, attribute);
-		return new Router(pathToPage, RouterType.FORWARD);
 	}
 
 }

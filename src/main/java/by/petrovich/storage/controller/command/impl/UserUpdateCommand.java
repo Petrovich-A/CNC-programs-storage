@@ -4,8 +4,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.petrovich.storage.controller.command.Command;
-import by.petrovich.storage.controller.command.PathToPage;
+import static by.petrovich.storage.controller.command.PathToPage.ADMIN_USERS;
+import static by.petrovich.storage.controller.command.PathToPage.USER_UPDATE;
+
+import by.petrovich.storage.controller.command.AbstractCommand;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.EmployeePosition;
@@ -17,7 +19,7 @@ import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class UserUpdateCommand implements Command {
+public class UserUpdateCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String UPDATE_USER_SUCCESSFUL = "User updating is successful";
 	private static final String UPDATE_USER_FAILD = "User updating is faild";
@@ -33,12 +35,12 @@ public class UserUpdateCommand implements Command {
 			userService.update(userFromUpdateForm, loginPersonnelNumber);
 			request.setAttribute("admin_users_message", UPDATE_USER_SUCCESSFUL);
 			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is updated", loginPersonnelNumber);
-			return new Router(PathToPage.ADMIN_USERS, RouterType.REDIRECT);
+			return new Router(ADMIN_USERS, RouterType.REDIRECT);
 		} catch (ServiceException e) {
 			request.setAttribute("message", UPDATE_USER_FAILD);
 			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {}, user: {}", loginPersonnelNumber,
 					userFromUpdateForm.toString(), e);
-			return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
+			return new Router(USER_UPDATE, RouterType.FORWARD);
 		}
 	}
 
@@ -50,17 +52,8 @@ public class UserUpdateCommand implements Command {
 		user.setEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)));
 		user.setUserRole(UserRole.fromString(getParameterToCheck("userRole", request)));
 		user.setEmail(getParameterToCheck("email", request));
-		logger.log(Level.INFO, "buildUser: {}", user.toString());
+		logger.log(Level.INFO, "User is built. User: {}", user.toString());
 		return user;
-	}
-
-	private String getParameterToCheck(String name, HttpServletRequest request) {
-		final String parameter = request.getParameter(name);
-		if (parameter == null) {
-			logger.log(Level.ERROR, "request have no parameter with name: {}" + name);
-			throw new IllegalArgumentException("request have no parameter with name: {}" + name);
-		}
-		return parameter;
 	}
 
 }

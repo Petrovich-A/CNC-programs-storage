@@ -1,11 +1,14 @@
 package by.petrovich.storage.controller.command.impl;
 
+import static by.petrovich.storage.controller.command.PathToPage.ERROR;
+import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAILS;
+import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAIL_UPDATE_PAGE;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.petrovich.storage.controller.command.Command;
-import by.petrovich.storage.controller.command.PathToPage;
+import by.petrovich.storage.controller.command.AbstractCommand;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.Detail;
@@ -15,7 +18,7 @@ import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class DetailUpdateCommand implements Command {
+public class DetailUpdateCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String NO_DETAIL_ID = "No detail id.";
 	private static final String DETAIL_UPDATE_SUCCESSFUL = "Detail updating is successful.";
@@ -30,18 +33,18 @@ public class DetailUpdateCommand implements Command {
 		int id = (Integer) session.getAttribute("detail_id");
 		if (id == 0) {
 			request.setAttribute("error_message", NO_DETAIL_ID);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			return new Router(ERROR, RouterType.FORWARD);
 		} else {
 			try {
 				cncProgramService.updateDetail(detailFromUpdateForm, id);
-				request.setAttribute("admin_details_message", DETAIL_UPDATE_SUCCESSFUL);
 				logger.log(Level.INFO, "Detail with id: {} is updated.", id);
-				return new Router(PathToPage.GO_TO_DETAILS, RouterType.FORWARD);
+				return createRouterWithAttribute(request, GO_TO_DETAILS, "admin_details_message",
+						DETAIL_UPDATE_SUCCESSFUL);
 			} catch (ServiceException e) {
-				request.setAttribute("detail_update_message", DETAIL_UPDATE_FAILD);
 				logger.log(Level.ERROR, "Can't update detail with id: {}, detail: {}", id,
 						detailFromUpdateForm.toString(), e);
-				return new Router(PathToPage.GO_TO_DETAIL_UPDATE_PAGE, RouterType.FORWARD);
+				return createRouterWithAttribute(request, GO_TO_DETAIL_UPDATE_PAGE, "detail_update_message",
+						DETAIL_UPDATE_FAILD);
 			}
 		}
 	}
@@ -50,14 +53,6 @@ public class DetailUpdateCommand implements Command {
 		Detail detail = new Detail();
 		detail.setName(getParameterToCheck("name", request));
 		return detail;
-	}
-
-	private String getParameterToCheck(String name, HttpServletRequest request) {
-		final String parameter = request.getParameter(name);
-		if (parameter == null) {
-			throw new IllegalArgumentException("Request doesn't have parameter with name: {}" + name);
-		}
-		return parameter;
 	}
 
 }
