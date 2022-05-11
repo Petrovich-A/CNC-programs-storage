@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_READ_ALL_USERS = """
 			SELECT
-				login_personnel_number, password, employee_name, employee_surname,
+				personnel_number, password, employee_name, employee_surname,
 				employee_patronymic, email, create_time, role_name, position_name
 			FROM users
 				LEFT JOIN user_roles ON users.role_id = user_roles.role_id
@@ -43,7 +43,7 @@ public class UserDaoImpl implements UserDao {
 			""";
 	private static final String SQL_CREATE_USER = """
 			INSERT INTO users
-				(login_personnel_number, password, employee_name,employee_surname,
+				(personnel_number, password, employee_name,employee_surname,
 				employee_patronymic, email, create_time, role_id, position_id)
 					VALUES(?,?,?,?,?,?,?,?,?)
 			""";
@@ -51,24 +51,24 @@ public class UserDaoImpl implements UserDao {
 			UPDATE users
 				SET employee_name = ?, employee_surname = ?, employee_patronymic = ?,
 			email = ?, role_id = ?, position_id = ?
-				WHERE login_personnel_number = ?
+				WHERE personnel_number = ?
 			""";
 	private static final String SQL_UPDATE_USER_ROLE = """
 			UPDATE users SET role_id = ?
-				WHERE login_personnel_number = ?
+				WHERE personnel_number = ?
 			""";
 	private static final String SQL_READ_USER = """
 			SELECT
-				login_personnel_number, password, employee_name, employee_surname,
+				personnel_number, password, employee_name, employee_surname,
 				employee_patronymic, email, create_time, role_name, position_name
 					FROM users
 						LEFT JOIN user_roles ON users.role_id = user_roles.role_id
 						LEFT JOIN employee_positions ON users.position_id = employee_positions.position_id
-							WHERE login_personnel_number = ?
+							WHERE personnel_number = ?
 			""";
 	private static final String SQL_IS_EXIST_BY_LOGIN = """
 			SELECT EXISTS
-				(SELECT login_personnel_number FROM users WHERE login_personnel_number = ?)
+				(SELECT personnel_number FROM users WHERE personnel_number = ?)
 			""";
 
 	@Override

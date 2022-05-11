@@ -28,12 +28,12 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			SELECT
 				SQL_CALC_FOUND_ROWS program_id, program_number, operation_number,
 				program_text, cnc_programs.create_time, comment, active,
-				cnc_programs.login_personnel_number, cnc_programs.detail_id,
+				cnc_programs.personnel_number, cnc_programs.detail_id,
 				cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model,
 				cnc_machines.code_equipment
 					FROM cnc_programs
 						LEFT JOIN users
-							ON users.login_personnel_number = cnc_programs.login_personnel_number
+							ON users.personnel_number = cnc_programs.personnel_number
 						LEFT JOIN details
 							ON details.detail_id = cnc_programs.detail_id
 						LEFT JOIN cnc_machines
@@ -43,11 +43,11 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_READ_CNC_PROGRAM_BY_ID = """
 			SELECT
 				program_id, program_number, operation_number, program_text, cnc_programs.create_time,
-				comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,
+				comment, active, cnc_programs.personnel_number, cnc_programs.detail_id,
 				cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model,
 				cnc_machines.code_equipment FROM cnc_programs
 					LEFT JOIN users
-						ON users.login_personnel_number = cnc_programs.login_personnel_number
+						ON users.personnel_number = cnc_programs.personnel_number
 					LEFT JOIN details
 						ON details.detail_id = cnc_programs.detail_id
 					LEFT JOIN cnc_machines
@@ -57,16 +57,16 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_READ_CNC_PROGRAM_BY_DATE = """
 			SELECT
 				program_id, program_number, operation_number, program_text, cnc_programs.create_time,
-				comment, active, cnc_programs.login_personnel_number, cnc_programs.detail_id,
+				comment, active, cnc_programs.personnel_number, cnc_programs.detail_id,
 				cnc_programs.cnc_machine_id, details.detail_name, cnc_machines.model,
 				cnc_machines.code_equipment
 					FROM cnc_programs
 					LEFT JOIN users
-						ON users.login_personnel_number = cnc_programs.login_personnel_number
+						ON users.personnel_number = cnc_programs.personnel_number
 					LEFT JOIN details
 						ON details.detail_id = cnc_programs.detail_id
 					LEFT JOIN cnc_machines
-						ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id "
+						ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id
 						WHERE active = 1
 						ORDER BY cnc_programs.create_time
 						DESC
@@ -74,11 +74,11 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_READ_CNC_PROGRAM_BY_NAME = """
 			SELECT
 				program_id, program_number, operation_number, program_text, cnc_programs.create_time,
-				comment, active, cnc_programs.login_personnel_number, details.detail_id,
+				comment, active, cnc_programs.personnel_number, details.detail_id,
 				details.detail_name, cnc_machines.cnc_machine_id, cnc_machines.model,
 				cnc_machines.code_equipment FROM cnc_programs
 					LEFT JOIN users
-						ON users.login_personnel_number = cnc_programs.login_personnel_number
+						ON users.personnel_number = cnc_programs.personnel_number
 					LEFT JOIN details
 						ON details.detail_id = cnc_programs.detail_id
 					LEFT JOIN cnc_machines
@@ -88,7 +88,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_READ_CNC_PROGRAM_BY_DETAIL_NAME = """
 			SELECT
 				program_id, program_number, operation_number, program_text, create_time, comment,
-				active, login_personnel_number, cnc_programs.detail_id, details.detail_name,
+				active, personnel_number, cnc_programs.detail_id, details.detail_name,
 				cnc_machines.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment
 					FROM cncprogramsstorage.cnc_programs
 					LEFT JOIN details
@@ -97,17 +97,17 @@ public class CncProgramDaoImpl implements CncProgramDao {
 						ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id
 							WHERE detail_name=?
 			""";
-	private static final String SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER = """
+	private static final String SQL_READ_CNC_PROGRAM_BY_PERSONNEL_NUMBER = """
 			SELECT
 				program_id, program_number, operation_number, program_text, create_time, comment,
-				active, login_personnel_number, cnc_programs.detail_id, details.detail_name,
+				active, personnel_number, cnc_programs.detail_id, details.detail_name,
 				cnc_programs.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment
 					FROM cncprogramsstorage.cnc_programs "
 						LEFT JOIN details
 							ON details.detail_id = cnc_programs.detail_id
 						LEFT JOIN cnc_machines
 							ON cnc_machines.cnc_machine_id = cnc_programs.cnc_machine_id
-								WHERE login_personnel_number = ?
+								WHERE personnel_number = ?
 								ORDER BY cnc_programs.create_time
 								 DESC
 			""";
@@ -156,7 +156,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	private static final String SQL_CREATE_CNC_PROGRAMS = """
 			INSERT INTO
 				cnc_programs(program_number, operation_number, program_text, create_time, comment, active,
-				login_personnel_number, detail_id, cnc_machine_id)
+				personnel_number, detail_id, cnc_machine_id)
 					VALUES(?,?,?,?,?,?,?,?,?)
 			""";
 	private static final String SQL_CREATE_DETAIL = """
@@ -231,15 +231,14 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		List<CncProgram> cncPrograms = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection
-						.prepareStatement(SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER)) {
+						.prepareStatement(SQL_READ_CNC_PROGRAM_BY_PERSONNEL_NUMBER)) {
 			preparedStatement.setInt(1, personnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				cncPrograms.add(buildCncProgram(resultSet));
 			}
 		} catch (SQLException e) {
-			throw new DaoException(
-					String.format("Can't read CNC program by personnel number: {}.", personnelNumber));
+			throw new DaoException(String.format("Can't read CNC program by personnel number: {}.", personnelNumber));
 		}
 		return cncPrograms;
 	}

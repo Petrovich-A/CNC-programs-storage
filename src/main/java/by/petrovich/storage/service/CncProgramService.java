@@ -32,7 +32,7 @@ public interface CncProgramService {
 
 	List<CncProgram> receiveBatch(int offset, int numberOfRecords) throws ServiceException;
 
-	List<CncProgram> receiveBatchByName() throws ServiceException;
+	List<CncProgram> receiveBatchByDate() throws ServiceException;
 
 	List<CncProgram> receiveBatchByDetailName(String name) throws ServiceException;
 

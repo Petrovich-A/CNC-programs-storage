@@ -85,7 +85,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> receiveBatchByName() throws ServiceException {
+	public List<CncProgram> receiveBatchByDate() throws ServiceException {
 		List<CncProgram> cncPrograms = null;
 		try {
 			cncPrograms = cncProgramDao.readBatchByDate();
