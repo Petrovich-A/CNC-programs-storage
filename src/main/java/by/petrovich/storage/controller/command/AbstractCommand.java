@@ -17,6 +17,30 @@ import jakarta.servlet.http.HttpServletRequest;
 public abstract class AbstractCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
+	/**
+	 * The method returns a router type which contains the redirect type and the
+	 * path to page as a string. Also, an attribute setting to the request plus an
+	 * object type instance is setting.
+	 * 
+	 * @param request       Http Servlet Request
+	 * @param pathToPage    is an URL as string to requested JSP page
+	 * @param attributeName name of setting attribute as string
+	 * @param attribute     an object type instance
+	 * @return an router type object
+	 */
+	protected Router createRouterWithAttribute(HttpServletRequest request, String pathToPage, String attributeName,
+			Object attribute) {
+		request.setAttribute(attributeName, attribute);
+		return new Router(pathToPage, RouterType.FORWARD);
+	}
+
+	/**
+	 * The method checks if the parameter coming from the request is null
+	 * 
+	 * @param parameter String parameter from request
+	 * @param request   Http Servlet Request
+	 * @return String type parameter coming from request
+	 */
 	protected String getParameterToCheck(String parameter, HttpServletRequest request) {
 		final String parameterFromRequest = request.getParameter(parameter);
 		if (parameterFromRequest == null || parameterFromRequest.equals("")) {
@@ -26,9 +50,4 @@ public abstract class AbstractCommand implements Command {
 		return parameterFromRequest;
 	}
 
-	protected Router createRouterWithAttribute(HttpServletRequest request, String pathToPage, String attributeName,
-			Object attribute) {
-		request.setAttribute(attributeName, attribute);
-		return new Router(pathToPage, RouterType.FORWARD);
-	}
 }
