@@ -44,7 +44,7 @@ public class CncProgramSaveCommand extends AbstractCommand {
 		} else {
 			try {
 				logger.log(Level.INFO, "Cnc program from main form is received", cncProgramFromMainForm.toString());
-				cncProgramFromMainForm.setLoginPersonnelNumber(user.getLoginPersonnelNumber());
+				cncProgramFromMainForm.setPersonnelNumber(user.getPersonnelNumber());
 				cncProgramService.createCncProgram(cncProgramFromMainForm);
 				session.setAttribute("main_message", CNC_PROGRAM_SAVE_SUCCESSFUL);
 				return new Router(MAIN, RouterType.FORWARD);

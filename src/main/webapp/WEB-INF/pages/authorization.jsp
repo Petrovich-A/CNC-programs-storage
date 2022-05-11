@@ -77,7 +77,7 @@
 				<table class="authorizationInputTable">
 					<tr>
 						<td align="right">${personnel_number}</td>
-						<td><input type="text" name="loginPersonnelNumber" required
+						<td><input type="text" name="personnelNumber" required
 							pattern="[0-9]{5}" placeholder="${personnel_number_placeholder}"
 							title="${personnel_number_title}" /></td>
 					</tr>

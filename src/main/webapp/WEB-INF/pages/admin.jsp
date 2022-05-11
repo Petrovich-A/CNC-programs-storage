@@ -115,7 +115,7 @@
 												<c:when test="${cncProgram.isActive()}">active</c:when>
 												<c:otherwise>archive</c:otherwise>
 											</c:choose></td>
-										<td>${cncProgram.getLoginPersonnelNumber()}</td>
+										<td>${cncProgram.getPersonnelNumber()}</td>
 										<td>${cncProgram.getDetail().getId()}</td>
 										<td>${cncProgram.getDetail().getName()}</td>
 										<td>${cncProgram.getCncMachine().getModel()}</td>

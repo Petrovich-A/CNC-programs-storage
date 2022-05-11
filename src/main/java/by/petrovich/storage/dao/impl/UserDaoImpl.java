@@ -5,7 +5,7 @@ import static by.petrovich.storage.dao.ColumnName.EMAIL;
 import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_NAME;
 import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_PATRONYMIC;
 import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_SURNAME;
-import static by.petrovich.storage.dao.ColumnName.LOGIN_PERSONNEL_NUMBER;
+import static by.petrovich.storage.dao.ColumnName.PERSONNEL_NUMBER;
 import static by.petrovich.storage.dao.ColumnName.PASSWORD;
 import static by.petrovich.storage.dao.ColumnName.POSITION_NAME;
 import static by.petrovich.storage.dao.ColumnName.ROLE_NAME;
@@ -122,14 +122,14 @@ public class UserDaoImpl implements UserDao {
 			}
 		} catch (SQLException e) {
 			throw new DaoException(
-					String.format("Ñan't read user with loginPersonnelNumber: %s from DB", personnelNumber, e));
+					String.format("Ñan't read user with personnelNumber: %s from DB", personnelNumber, e));
 		}
 		logger.log(Level.INFO, "User reading from BD have done successfully. userFromDao: {}", userOptional.toString());
 		return userOptional;
 	}
 
 	@Override
-	public void update(User user, int loginPersonnelNumber) throws DaoException {
+	public void update(User user, int personnelNumber) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER)) {
 			preparedStatement.setString(1, user.getEmployeeName());
@@ -138,22 +138,22 @@ public class UserDaoImpl implements UserDao {
 			preparedStatement.setString(4, user.getEmail());
 			preparedStatement.setInt(5, user.getUserRole().getOrdinalNumber());
 			preparedStatement.setInt(6, user.getEmployeePosition().getOrdinalNumber());
-			preparedStatement.setInt(7, loginPersonnelNumber);
+			preparedStatement.setInt(7, personnelNumber);
 			preparedStatement.executeUpdate();
 			logger.log(Level.INFO, "user is updated. user: {}", user.toString());
 		} catch (SQLException e) {
-			throw new DaoException(String.format("can't update user with loginPersonnelNumber: %s in DB. User: %s ",
-					loginPersonnelNumber, user.toString(), e));
+			throw new DaoException(String.format("can't update user with personnelNumber: %s in DB. User: %s ",
+					personnelNumber, user.toString(), e));
 		}
 	}
 
 	@Override
-	public boolean isUserExist(int loginPersonnelNumber) throws DaoException {
+	public boolean isUserExist(int personnelNumber) throws DaoException {
 		boolean isExist = false;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_EXIST_BY_LOGIN,
 						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-			preparedStatement.setInt(1, loginPersonnelNumber);
+			preparedStatement.setInt(1, personnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				isExist = resultSet.getBoolean(1);
@@ -171,7 +171,7 @@ public class UserDaoImpl implements UserDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_ROLE)) {
 			preparedStatement.setInt(1, user.getUserRole().getOrdinalNumber());
-			preparedStatement.setInt(2, user.getLoginPersonnelNumber());
+			preparedStatement.setInt(2, user.getPersonnelNumber());
 			preparedStatement.executeUpdate();
 			logger.log(Level.INFO, "User's role is updated. user: {}", user.toString());
 		} catch (SQLException e) {
@@ -181,7 +181,7 @@ public class UserDaoImpl implements UserDao {
 
 	private User buildUser(ResultSet resultSet) throws SQLException {
 		User user = new User();
-		user.setLoginPersonnelNumber(resultSet.getInt(LOGIN_PERSONNEL_NUMBER));
+		user.setPersonnelNumber(resultSet.getInt(PERSONNEL_NUMBER));
 		user.setPassword(resultSet.getString(PASSWORD));
 		user.setEmployeeName(resultSet.getString(EMPLOYEE_NAME));
 		user.setEmployeeSurname(resultSet.getString(EMPLOYEE_SURNAME));

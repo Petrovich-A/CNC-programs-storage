@@ -227,19 +227,19 @@ public class CncProgramDaoImpl implements CncProgramDao {
 	}
 
 	@Override
-	public List<CncProgram> readBatchByPersonnelNumber(int loginPersonnelNumber) throws DaoException {
+	public List<CncProgram> readBatchByPersonnelNumber(int personnelNumber) throws DaoException {
 		List<CncProgram> cncPrograms = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection
 						.prepareStatement(SQL_READ_CNC_PROGRAM_BY_LOGIN_PERSONNEL_NUMBER)) {
-			preparedStatement.setInt(1, loginPersonnelNumber);
+			preparedStatement.setInt(1, personnelNumber);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				cncPrograms.add(buildCncProgram(resultSet));
 			}
 		} catch (SQLException e) {
 			throw new DaoException(
-					String.format("Can't read CNC program by login personnel number: {}.", loginPersonnelNumber));
+					String.format("Can't read CNC program by personnel number: {}.", personnelNumber));
 		}
 		return cncPrograms;
 	}
@@ -317,7 +317,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			preparedStatementCncProgram.setTimestamp(4, cncProgram.getCreationDate());
 			preparedStatementCncProgram.setString(5, cncProgram.getComment());
 			preparedStatementCncProgram.setBoolean(6, cncProgram.isActive());
-			preparedStatementCncProgram.setInt(7, cncProgram.getLoginPersonnelNumber());
+			preparedStatementCncProgram.setInt(7, cncProgram.getPersonnelNumber());
 			preparedStatementCncProgram.setInt(8, detailId);
 			preparedStatementCncProgram.setInt(9, cncMachineId);
 			preparedStatementCncProgram.executeUpdate();
@@ -647,7 +647,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 		cncProgram.setCreationDate(resultSet.getTimestamp(create_time));
 		cncProgram.setComment(resultSet.getString(COMMENT));
 		cncProgram.setActive(resultSet.getBoolean(ACTIVE));
-		cncProgram.setLoginPersonnelNumber(resultSet.getInt(LOGIN_PERSONNEL_NUMBER));
+		cncProgram.setPersonnelNumber(resultSet.getInt(PERSONNEL_NUMBER));
 		cncProgram.setDetail(buildDetail(resultSet));
 		cncProgram.setCncMachine(buildCncMachine(resultSet));
 		cncProgram.getDetail().getId();

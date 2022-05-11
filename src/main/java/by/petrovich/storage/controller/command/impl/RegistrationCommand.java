@@ -78,7 +78,7 @@ public class RegistrationCommand extends AbstractCommand {
 
 	private RegistrationUserInfo buildRegistrationUserInfo(HttpServletRequest request) {
 		RegistrationUserInfo registrationUserInfo = new RegistrationUserInfo.RegistrationUserInfoBuilder()
-				.withPersonnelNumber(Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request)))
+				.withPersonnelNumber(Integer.parseInt(getParameterToCheck("personnelNumber", request)))
 				.withEmployeeName(getParameterToCheck("employeeName", request))
 				.withEmployeeSurname(getParameterToCheck("employeeSurname", request))
 				.withEmployeePatronymic(getParameterToCheck("employeePatronymic", request))

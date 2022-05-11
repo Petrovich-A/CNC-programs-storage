@@ -30,15 +30,15 @@ public class UserUpdateCommand extends AbstractCommand {
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User userFromUpdateForm = buildUser(request);
-		int loginPersonnelNumber = (Integer) session.getAttribute("loginPersonnelNumber");
+		int personnelNumber = (Integer) session.getAttribute("personnelNumber");
 		try {
-			userService.update(userFromUpdateForm, loginPersonnelNumber);
+			userService.update(userFromUpdateForm, personnelNumber);
 			request.setAttribute("admin_users_message", UPDATE_USER_SUCCESSFUL);
-			logger.log(Level.INFO, "user with loginPersonnelNumber: {} is updated", loginPersonnelNumber);
+			logger.log(Level.INFO, "user with personnelNumber: {} is updated", personnelNumber);
 			return new Router(ADMIN_USERS, RouterType.REDIRECT);
 		} catch (ServiceException e) {
 			request.setAttribute("message", UPDATE_USER_FAILD);
-			logger.log(Level.ERROR, "can't update user with loginPersonnelNumber: {}, user: {}", loginPersonnelNumber,
+			logger.log(Level.ERROR, "can't update user with personnelNumber: {}, user: {}", personnelNumber,
 					userFromUpdateForm.toString(), e);
 			return new Router(USER_UPDATE, RouterType.FORWARD);
 		}

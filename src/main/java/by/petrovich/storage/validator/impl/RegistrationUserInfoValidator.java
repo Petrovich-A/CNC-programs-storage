@@ -48,7 +48,7 @@ public class RegistrationUserInfoValidator implements RegistrationUserInfoValida
 	public boolean isPersonnelNumberValid(String personnelNumber) {
 		boolean isValid = Pattern.matches(LOGIN_PERSONNEL_NUMBER_PATTERN, personnelNumber);
 		if (!isValid) {
-			logger.log(Level.ERROR, "loginPersonnelNumber: {} is not valid", personnelNumber);
+			logger.log(Level.ERROR, "PersonnelNumber: {} is not valid", personnelNumber);
 		}
 		return isValid;
 	}

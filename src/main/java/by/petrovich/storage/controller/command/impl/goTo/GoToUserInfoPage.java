@@ -24,15 +24,15 @@ public class GoToUserInfoPage implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		int loginPersonnelNumber = 0;
+		int personnelNumber = 0;
 		User userFromDao = new User();
 		HttpSession session = request.getSession(true);
-		if (request.getParameter("loginPersonnelNumber") != null) {
-			loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
+		if (request.getParameter("personnelNumber") != null) {
+			personnelNumber = Integer.parseInt(request.getParameter("personnelNumber"));
 		}
 		Optional<User> userOptional = Optional.empty();
 		try {
-			userOptional = userService.readUserByPersonnelNumber(loginPersonnelNumber);
+			userOptional = userService.readUserByPersonnelNumber(personnelNumber);
 			userFromDao = userOptional.get();
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);

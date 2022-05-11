@@ -36,7 +36,7 @@ public interface CncProgramService {
 
 	List<CncProgram> receiveBatchByDetailName(String name) throws ServiceException;
 
-	List<CncProgram> receiveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException;
+	List<CncProgram> receiveBatchByPersonnelNumber(int personnelNumber) throws ServiceException;
 
 	int receiveNumberOfRecords() throws ServiceException;
 }

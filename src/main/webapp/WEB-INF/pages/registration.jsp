@@ -126,8 +126,8 @@
 					cellspacing="12px">
 					<tr>
 						<td align="right">${personnel_number}</td>
-						<td><input type="text" id="loginPersonnelNumber"
-							name="loginPersonnelNumber" required pattern="[0-9]{5}"
+						<td><input type="text" id="personnelNumber"
+							name="personnelNumber" required pattern="[0-9]{5}"
 							title="${personnel_number_title}" /></td>
 						<td>${personnel_number_description}</td>
 					</tr>

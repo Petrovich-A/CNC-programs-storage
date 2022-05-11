@@ -9,9 +9,9 @@ import by.petrovich.storage.entity.User;
 public interface UserService {
 	List<User> readAllUsers() throws ServiceException;
 
-	Optional<User> readUserByPersonnelNumber(int loginPersonnelNumber) throws ServiceException;
+	Optional<User> readUserByPersonnelNumber(int personnelNumber) throws ServiceException;
 
-	void update(User user, int loginPersonnelNumber) throws ServiceException;
+	void update(User user, int personnelNumber) throws ServiceException;
 
 	void registrateUser(RegistrationUserInfo registrationUserInfo) throws ServiceException;
 

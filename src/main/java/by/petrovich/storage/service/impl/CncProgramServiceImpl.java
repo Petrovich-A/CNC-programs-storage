@@ -133,12 +133,12 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public List<CncProgram> receiveBatchByLoginPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
+	public List<CncProgram> receiveBatchByPersonnelNumber(int personnelNumber) throws ServiceException {
 		List<CncProgram> cncPrograms = null;
 		try {
-			cncPrograms = cncProgramDao.readBatchByPersonnelNumber(loginPersonnelNumber);
+			cncPrograms = cncProgramDao.readBatchByPersonnelNumber(personnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "Can't recieve CNC program by login personnel number: {}", loginPersonnelNumber, e);
+			logger.log(Level.ERROR, "Can't recieve CNC program by personnel number: {}", personnelNumber, e);
 			throw new ServiceException(e);
 		}
 		return cncPrograms;

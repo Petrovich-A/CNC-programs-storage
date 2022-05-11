@@ -27,7 +27,7 @@ public class AuthorizationCommand extends AbstractCommand {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		int login = Integer.parseInt(getParameterToCheck("loginPersonnelNumber", request));
+		int login = Integer.parseInt(getParameterToCheck("personnelNumber", request));
 		String password = getParameterToCheck("password", request);
 		try {
 			boolean isUserExist = userService.isUserExist(login);

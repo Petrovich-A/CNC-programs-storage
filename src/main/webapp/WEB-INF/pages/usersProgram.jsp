@@ -44,7 +44,7 @@
 	</nav>
 	<main>
 		<section class="cncPrograms">
-			<h2>${user.getLoginPersonnelNumber()} user's CNC programs:</h2>
+			<h2>${user.getPersonnelNumber()} user's CNC programs:</h2>
 			<form action="Controller" method="POST">
 
 				<c:choose>

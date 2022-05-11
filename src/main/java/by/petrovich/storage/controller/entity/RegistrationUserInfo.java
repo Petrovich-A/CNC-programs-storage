@@ -120,7 +120,7 @@ public class RegistrationUserInfo {
 		private Timestamp timestamp;
 
 		/**
-		 * @param personnelNumber the loginPersonnelNumber to set
+		 * @param personnelNumber the personnelNumber to set
 		 */
 		public RegistrationUserInfoBuilder withPersonnelNumber(int personnelNumber) {
 			this.personnelNumber = personnelNumber;

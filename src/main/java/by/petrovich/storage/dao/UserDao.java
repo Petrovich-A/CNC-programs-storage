@@ -13,7 +13,7 @@ public interface UserDao {
 
 	void createUser(RegistrationUserInfo registrationUserInfo) throws DaoException;
 
-	void update(User user, int loginPersonnelNumber) throws DaoException;
+	void update(User user, int personnelNumber) throws DaoException;
 
 	void updateUserRole(User user) throws DaoException;
 

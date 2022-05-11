@@ -17,16 +17,16 @@ public class User {
 	public User() {
 	}
 
-	public User(int loginPersonnelNumber, String password) {
+	public User(int personnelNumber, String password) {
 		super();
-		this.personnelNumber = loginPersonnelNumber;
+		this.personnelNumber = personnelNumber;
 		this.password = password;
 	}
 
-	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
+	public User(int personnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate,
 			UserRole userRole) {
-		this.personnelNumber = loginPersonnelNumber;
+		this.personnelNumber = personnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
 		this.employeeSurname = employeeSurname;
@@ -37,10 +37,10 @@ public class User {
 		this.userRole = userRole;
 	}
 
-	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
+	public User(int personnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email) {
 		super();
-		this.personnelNumber = loginPersonnelNumber;
+		this.personnelNumber = personnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
 		this.employeeSurname = employeeSurname;
@@ -49,9 +49,9 @@ public class User {
 		this.email = email;
 	}
 
-	public User(int loginPersonnelNumber, String password, String employeeName, String employeeSurname,
+	public User(int personnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate) {
-		this.personnelNumber = loginPersonnelNumber;
+		this.personnelNumber = personnelNumber;
 		this.password = password;
 		this.employeeName = employeeName;
 		this.employeeSurname = employeeSurname;
@@ -61,12 +61,12 @@ public class User {
 		this.creationDate = creationDate;
 	}
 
-	public int getLoginPersonnelNumber() {
+	public int getPersonnelNumber() {
 		return personnelNumber;
 	}
 
-	public void setLoginPersonnelNumber(int loginPersonnelNumber) {
-		this.personnelNumber = loginPersonnelNumber;
+	public void setPersonnelNumber(int personnelNumber) {
+		this.personnelNumber = personnelNumber;
 	}
 
 	public String getPassword() {
@@ -157,7 +157,7 @@ public class User {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("User [loginPersonnelNumber=").append(personnelNumber).append(", password=")
+		builder.append("User [personnelNumber=").append(personnelNumber).append(", password=")
 				.append(password).append(", employeeName=").append(employeeName).append(", employeeSurname=")
 				.append(employeeSurname).append(", employeePatronymic=").append(employeePatronymic)
 				.append(", employeePosition=").append(employeePosition).append(", email=").append(email)

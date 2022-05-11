@@ -26,15 +26,15 @@ public class GoToUpdateUserPage implements Command {
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User userForUpdate = new User();
-		int loginPersonnelNumber = Integer.parseInt(request.getParameter("loginPersonnelNumber"));
-		session.setAttribute("loginPersonnelNumber", loginPersonnelNumber);
+		int personnelNumber = Integer.parseInt(request.getParameter("personnelNumber"));
+		session.setAttribute("personnelNumber", personnelNumber);
 		Optional<User> userOptional = Optional.empty();
 		try {
-			userOptional = userService.readUserByPersonnelNumber(loginPersonnelNumber);
+			userOptional = userService.readUserByPersonnelNumber(personnelNumber);
 			userForUpdate = userOptional.get();
 			session.setAttribute("userForUpdate", userForUpdate);
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "user with loginPersonnelNumber: {} can't be read", loginPersonnelNumber, e);
+			logger.log(Level.ERROR, "User with personnelNumber: {} can't be read", personnelNumber, e);
 		}
 		return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
 	}

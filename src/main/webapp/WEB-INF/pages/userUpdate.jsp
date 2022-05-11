@@ -57,8 +57,8 @@
 						<table class="">
 							<tbody>
 								<tr>
-									<td align="right">loginPersonnelNumber</td>
-									<td>${userForUpdate.getLoginPersonnelNumber()}</td>
+									<td align="right">personnelNumber</td>
+									<td>${userForUpdate.getPersonnelNumber()}</td>
 								</tr>
 								<tr>
 									<td align="right">EmployeeName</td>

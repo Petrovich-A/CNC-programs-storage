@@ -13,13 +13,13 @@ public class CncProgram {
 	private boolean isActive;
 	private Detail detail;
 	private CncMachine cncMachine;
-	private int loginPersonnelNumber;
+	private int personnelNumber;
 
 	public CncProgram() {
 	}
 
 	public CncProgram(int id, String number, int operationNumber, String programText, Timestamp creationDate,
-			String comment, boolean isActive, Detail detail, CncMachine cncMachine, int loginPersonnelNumber) {
+			String comment, boolean isActive, Detail detail, CncMachine cncMachine, int personnelNumber) {
 		this.id = id;
 		this.number = number;
 		this.operationNumber = operationNumber;
@@ -29,7 +29,7 @@ public class CncProgram {
 		this.isActive = isActive;
 		this.detail = detail;
 		this.cncMachine = cncMachine;
-		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.personnelNumber = personnelNumber;
 	}
 
 	public CncProgram(String number, int operationNumber, String programText, String comment, Detail detail,
@@ -55,7 +55,7 @@ public class CncProgram {
 	}
 
 	public CncProgram(String number, int operationNumber, String programText, Timestamp creationDate, String comment,
-			boolean isActive, Detail detail, CncMachine cncMachine, int loginPersonnelNumber) {
+			boolean isActive, Detail detail, CncMachine cncMachine, int personnelNumber) {
 		this.number = number;
 		this.operationNumber = operationNumber;
 		this.programText = programText;
@@ -64,7 +64,7 @@ public class CncProgram {
 		this.isActive = isActive;
 		this.detail = detail;
 		this.cncMachine = cncMachine;
-		this.loginPersonnelNumber = loginPersonnelNumber;
+		this.personnelNumber = personnelNumber;
 	}
 
 	public int getId() {
@@ -139,12 +139,12 @@ public class CncProgram {
 		this.cncMachine = cncMachine;
 	}
 
-	public int getLoginPersonnelNumber() {
-		return loginPersonnelNumber;
+	public int getPersonnelNumber() {
+		return personnelNumber;
 	}
 
-	public void setLoginPersonnelNumber(int loginPersonnelNumber) {
-		this.loginPersonnelNumber = loginPersonnelNumber;
+	public void setPersonnelNumber(int personnelNumber) {
+		this.personnelNumber = personnelNumber;
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class CncProgram {
 			return false;
 		if (isActive() != that.isActive())
 			return false;
-		if (getLoginPersonnelNumber() != that.getLoginPersonnelNumber())
+		if (getPersonnelNumber() != that.getPersonnelNumber())
 			return false;
 		if (getNumber() != null ? !getNumber().equals(that.getNumber()) : that.getNumber() != null)
 			return false;
@@ -189,7 +189,7 @@ public class CncProgram {
 		result = 31 * result + (isActive() ? 1 : 0);
 		result = 31 * result + (getDetail() != null ? getDetail().hashCode() : 0);
 		result = 31 * result + (getCncMachine() != null ? getCncMachine().hashCode() : 0);
-		result = 31 * result + getLoginPersonnelNumber();
+		result = 31 * result + getPersonnelNumber();
 		return result;
 	}
 
@@ -199,6 +199,6 @@ public class CncProgram {
 				.add("number='" + number + "'").add("operationNumber=" + operationNumber)
 				.add("programText='" + programText + "'").add("creationDate=" + creationDate)
 				.add("comment='" + comment + "'").add("isActive=" + isActive).add("detail=" + detail)
-				.add("cncMachine=" + cncMachine).add("loginPersonnelNumber=" + loginPersonnelNumber).toString();
+				.add("cncMachine=" + cncMachine).add("personnelNumber=" + personnelNumber).toString();
 	}
 }

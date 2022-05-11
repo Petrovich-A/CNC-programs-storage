@@ -46,7 +46,7 @@
 				<c:choose>
 					<c:when test="${user != null}">
 						<li><a
-							href="Controller?commandName=go_to_user_info_page&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
+							href="Controller?commandName=go_to_user_info_page&personnelNumber=${user.getPersonnelNumber()}">${user.getPersonnelNumber()}</a></li>
 						<li><a href="Controller?commandName=log_out">${log_out}</a></li>
 					</c:when>
 					<c:otherwise>
@@ -79,7 +79,7 @@
 						<tbody>
 							<tr>
 								<td>${personnel_number}</td>
-								<td>${userFromDao.getLoginPersonnelNumber()}</td>
+								<td>${userFromDao.getPersonnelNumber()}</td>
 							</tr>
 							<tr>
 								<td>${employee_name}</td>

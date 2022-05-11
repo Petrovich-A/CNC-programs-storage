@@ -81,7 +81,7 @@
 						<tr>
 							<t d>login
 							</td>
-							<td>${cncProgram.getLoginPersonnelNumber()}</td>
+							<td>${cncProgram.getPersonnelNumber()}</td>
 
 							<tr>
 								<td>Creation Date</td>

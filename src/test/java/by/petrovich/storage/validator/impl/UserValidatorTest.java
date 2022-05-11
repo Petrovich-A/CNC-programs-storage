@@ -9,8 +9,8 @@ import by.petrovich.storage.entity.UserRole;
 
 public class UserValidatorTest {
 	RegistrationUserInfoValidator registrationUserInfoValidator = RegistrationUserInfoValidator.getInstance();
-	private int loginPersonnelNumber = 52914;
-	private int loginPersonnelNumber1 = 2914;
+	private int personnelNumber = 52914;
+	private int personnelNumber1 = 2914;
 	private String passwordWithoutPunct = "efweferg2324";
 	private String passwordWithoutDigit = "!!dgergergw";
 	private String passwordWithoutAlpha = "2325%42123!";
@@ -58,13 +58,13 @@ public class UserValidatorTest {
 	}
 
 	@Test
-	public void isLoginPersonnelNumberValid() {
-		boolean actualLoginPersonnelNumber = registrationUserInfoValidator
-				.isPersonnelNumberValid(String.valueOf(loginPersonnelNumber));
-		Assert.assertTrue("isUserValid", actualLoginPersonnelNumber);
-		boolean actualLoginPersonnelNumber1 = registrationUserInfoValidator
-				.isPersonnelNumberValid(String.valueOf(loginPersonnelNumber1));
-		Assert.assertFalse("isUserValid", actualLoginPersonnelNumber1);
+	public void isPersonnelNumberValid() {
+		boolean actualPersonnelNumber = registrationUserInfoValidator
+				.isPersonnelNumberValid(String.valueOf(personnelNumber));
+		Assert.assertTrue("isUserValid", actualPersonnelNumber);
+		boolean actualPersonnelNumber1 = registrationUserInfoValidator
+				.isPersonnelNumberValid(String.valueOf(personnelNumber1));
+		Assert.assertFalse("isUserValid", actualPersonnelNumber1);
 	}
 
 	@Test

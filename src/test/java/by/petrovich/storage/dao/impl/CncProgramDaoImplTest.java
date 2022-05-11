@@ -28,7 +28,7 @@ public class CncProgramDaoImplTest {
 	private static final int OFFSET = 10;
 	private static final int NUMBER_OF_RECORDS = 7;
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	private static final int LOGIN_PERSONNEL_NUMBER = 42105;
+	private static final int PERSONNEL_NUMBER = 42105;
 
 	@Mock
 	private CncProgramDaoImpl cncProgramDaoImplMock;
@@ -94,10 +94,10 @@ public class CncProgramDaoImplTest {
 	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatchByPersonnelNumber(int)}.
 	 */
 	@Test
-	public void testReadBatchByLoginPersonnelNumber() throws DaoException {
-		when(cncProgramDaoImplMock.readBatchByPersonnelNumber(LOGIN_PERSONNEL_NUMBER))
+	public void testReadBatchByPersonnelNumber() throws DaoException {
+		when(cncProgramDaoImplMock.readBatchByPersonnelNumber(PERSONNEL_NUMBER))
 				.thenReturn(expectedCncPrograms);
-		List<CncProgram> actual = cncProgramDaoImplMock.readBatchByPersonnelNumber(LOGIN_PERSONNEL_NUMBER);
+		List<CncProgram> actual = cncProgramDaoImplMock.readBatchByPersonnelNumber(PERSONNEL_NUMBER);
 		assertThat(actual).containsExactly(firstCncProgram, secondCncProgram);
 	}
 

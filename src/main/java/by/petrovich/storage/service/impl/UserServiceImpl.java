@@ -82,23 +82,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> readUserByPersonnelNumber(int loginPersonnelNumber) throws ServiceException {
+	public Optional<User> readUserByPersonnelNumber(int personnelNumber) throws ServiceException {
 		Optional<User> userOptional = Optional.empty();
 		try {
-			userOptional = userDao.readUserByPersonnelNumber(loginPersonnelNumber);
+			userOptional = userDao.readUserByPersonnelNumber(personnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't find user by loginPersonnelNumber: {}", loginPersonnelNumber, e);
+			logger.log(Level.ERROR, "can't find user by personnelNumber: {}", personnelNumber, e);
 			throw new ServiceException(e);
 		}
 		return userOptional;
 	}
 
 	@Override
-	public void update(User user, int loginPersonnelNumber) throws ServiceException {
+	public void update(User user, int personnelNumber) throws ServiceException {
 		try {
-			userDao.update(user, loginPersonnelNumber);
+			userDao.update(user, personnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't update user: {} with loginPersonnelNumber: {}", user, loginPersonnelNumber,
+			logger.log(Level.ERROR, "can't update user: {} with personnelNumber: {}", user, personnelNumber,
 					e);
 			throw new ServiceException(e);
 		}
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			isExist = userDao.isUserExist(personnelNumber);
 			if (isExist) {
-				logger.log(Level.INFO, "User with loginPersonnelNumber: {} is existed in DB.", personnelNumber);
+				logger.log(Level.INFO, "User with personnelNumber: {} is existed in DB.", personnelNumber);
 			}
 		} catch (DaoException e) {
 			throw new ServiceException(String.format("Can't do isUserExist.", e));
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
 			logger.log(Level.ERROR, "Can't read user with personnel number: {}", login, e);
 			throw new ServiceException(e);
 		}
-		isLoginMatch = isloginPersonnelNumberMatch(user.getLoginPersonnelNumber(), login);
+		isLoginMatch = isPersonnelNumberMatch(user.getPersonnelNumber(), login);
 		isPasswordMatch = isPaswordMatch(user.getPassword(), password);
 		if (isLoginMatch && isPasswordMatch) {
 			isUsersLoginsAndPasswordsMatch = true;
@@ -164,12 +164,12 @@ public class UserServiceImpl implements UserService {
 		return isUsersLoginsAndPasswordsMatch;
 	}
 
-	private boolean isloginPersonnelNumberMatch(int loginPersonnelNumber, int loginPersonnelNumberMatch) {
-		boolean isloginPersonnelNumbersMatch = false;
-		if (loginPersonnelNumber == loginPersonnelNumberMatch) {
-			isloginPersonnelNumbersMatch = true;
+	private boolean isPersonnelNumberMatch(int personnelNumber, int personnelNumberMatch) {
+		boolean isPersonnelNumbersMatch = false;
+		if (personnelNumber == personnelNumberMatch) {
+			isPersonnelNumbersMatch = true;
 		}
-		return isloginPersonnelNumbersMatch;
+		return isPersonnelNumbersMatch;
 	}
 
 	private boolean isPaswordMatch(String password, String passwordMatch) {

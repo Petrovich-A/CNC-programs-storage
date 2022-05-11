@@ -61,7 +61,7 @@
 						<table class="">
 							<thead>
 								<tr>
-									<th>loginPersonnelNumber</th>
+									<th>personnelNumber</th>
 									<th>EmployeeName</th>
 									<th>getEmployeeSurname</th>
 									<th>getEmployeePatronymic</th>
@@ -75,8 +75,8 @@
 								<c:forEach var="user" items="${allUsers}">
 									<tr>
 										<td><input class="" type="radio"
-											name="loginPersonnelNumber" required="required"
-											value="${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</td>
+											name="personnelNumber" required="required"
+											value="${user.getPersonnelNumber()}">${user.getPersonnelNumber()}</td>
 										<td>${user.getEmployeeName()}</td>
 										<td>${user.getEmployeeSurname()}</td>
 										<td>${user.getEmployeePatronymic()}</td>

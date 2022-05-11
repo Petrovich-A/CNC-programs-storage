@@ -83,7 +83,7 @@
 				<c:choose>
 					<c:when test="${sessionScope.user != null}">
 						<li><a
-							href="Controller?commandName=go_to_user_info_page&loginPersonnelNumber=${user.getLoginPersonnelNumber()}">${user.getLoginPersonnelNumber()}</a></li>
+							href="Controller?commandName=go_to_user_info_page&personnelNumber=${user.getPersonnelNumber()}">${user.getPersonnelNumber()}</a></li>
 						<li><a href="Controller?commandName=log_out">${log_out}</a></li>
 					</c:when>
 					<c:otherwise>
@@ -208,7 +208,7 @@
 									<td>${cncProgram.getDetail().getName()}</td>
 									<td>${cncProgram.getNumber()}</td>
 									<td>${cncProgram.getCncMachine().getModel()}</td>
-									<td>${cncProgram.getLoginPersonnelNumber()}</td>
+									<td>${cncProgram.getPersonnelNumber()}</td>
 									<td>${cncProgram.getCreationDate()}</td>
 								</tr>
 							</c:forEach>
