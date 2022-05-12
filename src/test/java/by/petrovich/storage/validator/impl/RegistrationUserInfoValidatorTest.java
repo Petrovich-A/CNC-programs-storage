@@ -24,30 +24,36 @@ public class RegistrationUserInfoValidatorTest {
 	private String employeePatronymic = "Иванович";
 	private EmployeePosition employeePosition = EmployeePosition.CNC_PROGRAMMER;
 	private String email = "ivanov@mail.by";
-	private UserRole userRole = UserRole.USER;
 	private RegistrationUserInfo registrationUserInfoValid = new RegistrationUserInfo.RegistrationUserInfoBuilder()
 			.withPersonnelNumber(65000).withEmployeeName("Иван").withEmployeeSurname("Иванов")
 			.withEmployeePatronymic("Рудольфович").withEmployeePosition(EmployeePosition.CNC_PROGRAMMER)
 			.withEmail("ivanov@mail.ru").withPassword("efwsef23%").withConfirmPassword("efwsef23%").build();
-	private RegistrationUserInfo registrationUserInfoActual1 = new RegistrationUserInfo.RegistrationUserInfoBuilder()
+	private RegistrationUserInfo registrationUserInfoInvalidPassword = new RegistrationUserInfo.RegistrationUserInfoBuilder()
 			.withPersonnelNumber(12000).withEmployeeName("John").withEmployeeSurname("Smith")
 			.withEmployeePatronymic("Smitovich").withEmployeePosition(EmployeePosition.ENGINEERING_TECHNICIAN)
-			.withEmail("america@usa.com").withPassword("nmverg24#%").withConfirmPassword("nmverg24#%").build();
-	private RegistrationUserInfo registrationUserInfoActual2 = new RegistrationUserInfo.RegistrationUserInfoBuilder()
-			.withPersonnelNumber(54200).withEmployeeName("Слесарев").withEmployeeSurname("Николай")
+			.withEmail("america@usa.com").withPassword("nmverg24").withConfirmPassword("nmverg24").build();
+	private RegistrationUserInfo registrationUserInfoInvalidPersonnelNumber = new RegistrationUserInfo.RegistrationUserInfoBuilder()
+			.withPersonnelNumber(100).withEmployeeName("Слесарев").withEmployeeSurname("Николай")
 			.withEmployeePatronymic("Иванович").withEmployeePosition(EmployeePosition.CNC_PROGRAMMER)
 			.withEmail("bigBoss@gov.no").withPassword("easfav97!").withConfirmPassword("easfav97!").build();
-	private RegistrationUserInfo registrationUserInfoActualWithRole = new RegistrationUserInfo.RegistrationUserInfoBuilder()
+	private RegistrationUserInfo registrationUserInfoWithRole = new RegistrationUserInfo.RegistrationUserInfoBuilder()
 			.withPersonnelNumber(12400).withEmployeeName("Ролевой").withEmployeeSurname("Роман")
 			.withEmployeePatronymic("Романович").withEmployeePosition(EmployeePosition.CNC_PROGRAMMER)
 			.withEmail("withRole@sm.com").withPassword("swgvf234$%").withConfirmPassword("swgvf234$%")
-			.withUserRole(userRole).build();
+			.withUserRole(UserRole.GUEST).build();
 
 	@Test
 	public void isUserValidWhenUserValidReturnTrue() {
 		boolean actual = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfoValid);
-		System.out.println(registrationUserInfoValid.toString());
+		boolean actual1 = registrationUserInfoValidator
+				.isRegistrationUserInfoValid(registrationUserInfoInvalidPassword);
+		boolean actual2 = registrationUserInfoValidator
+				.isRegistrationUserInfoValid(registrationUserInfoInvalidPersonnelNumber);
+		boolean actual3 = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfoWithRole);
 		Assert.assertTrue("test", actual);
+		Assert.assertFalse("test", actual1);
+		Assert.assertFalse("test", actual2);
+		Assert.assertTrue("test", actual3);
 	}
 
 	@Test
