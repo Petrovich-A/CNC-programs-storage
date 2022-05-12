@@ -64,7 +64,7 @@ public class CncProgramServiceImpl implements CncProgramService {
 	}
 
 	@Override
-	public boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException {
+	public boolean isCncProgramValid(CncProgram cncProgram) throws ServiceException {
 		CncProgramValidator cncProgramValidator = CncProgramValidator.getInstance();
 		if (!cncProgramValidator.isCncProgramValid(cncProgram)) {
 			logger.log(Level.ERROR, "CNC program from main form isn't valid. cncProgram: {} ", cncProgram.toString());

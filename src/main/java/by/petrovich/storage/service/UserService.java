@@ -23,6 +23,10 @@ public interface UserService {
 
 	boolean isValid(RegistrationUserInfo registrationUserInfo);
 
-	boolean isLoginAndPasswordMatch(int login, String password) throws ServiceException;
+	boolean isLoginAndPasswordMatchWithDateBaseData(int login, String password) throws ServiceException;
+
+	boolean isLoginAndPasswordValid(int login, String password) throws ServiceException;
+
+	boolean isPasswordsMatch(String password, String confirmPassword) throws ServiceException;
 
 }

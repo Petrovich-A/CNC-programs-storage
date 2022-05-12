@@ -36,10 +36,10 @@ public class UserDaoImpl implements UserDao {
 			SELECT
 				personnel_number, password, employee_name, employee_surname,
 				employee_patronymic, email, create_time, role_name, position_name
-			FROM users
-				LEFT JOIN user_roles ON users.role_id = user_roles.role_id
-				LEFT JOIN employee_positions
-					ON users.position_id = employee_positions.position_id
+					FROM users
+						LEFT JOIN user_roles ON users.role_id = user_roles.role_id
+						LEFT JOIN employee_positions
+							ON users.position_id = employee_positions.position_id
 			""";
 	private static final String SQL_CREATE_USER = """
 			INSERT INTO users

@@ -8,27 +8,17 @@ import by.petrovich.storage.entity.CncProgram;
 import by.petrovich.storage.entity.Detail;
 
 public interface CncProgramService {
+	List<Detail> readDetail() throws ServiceException;
+
 	Optional<CncProgram> readCncProgramById(int id) throws ServiceException;
 
-	List<Detail> readDetail() throws ServiceException;
+	List<CncMachine> readAllCncMachines() throws ServiceException;
 
 	CncProgram readCncProgramByName(String name) throws ServiceException;
 
 	Detail readDetailById(int id) throws ServiceException;
 
 	CncMachine readCncMachine(int id) throws ServiceException;
-
-	List<CncMachine> readAllCncMachines() throws ServiceException;
-
-	void createCncProgram(CncProgram cncProgram) throws ServiceException;
-
-	void updateCncProgram(CncProgram ñncProgram, int id) throws ServiceException;
-
-	void updateDetail(Detail detail, int id) throws ServiceException;
-
-	void updateCncMachine(CncMachine cncMachine, int id) throws ServiceException;
-
-	boolean cncProgramValidate(CncProgram cncProgram) throws ServiceException;
 
 	List<CncProgram> receiveBatch(int offset, int numberOfRecords) throws ServiceException;
 
@@ -39,4 +29,15 @@ public interface CncProgramService {
 	List<CncProgram> receiveBatchByPersonnelNumber(int personnelNumber) throws ServiceException;
 
 	int receiveNumberOfRecords() throws ServiceException;
+
+	void createCncProgram(CncProgram cncProgram) throws ServiceException;
+
+	void updateCncProgram(CncProgram ñncProgram, int id) throws ServiceException;
+
+	void updateDetail(Detail detail, int id) throws ServiceException;
+
+	void updateCncMachine(CncMachine cncMachine, int id) throws ServiceException;
+
+	boolean isCncProgramValid(CncProgram cncProgram) throws ServiceException;
+
 }
