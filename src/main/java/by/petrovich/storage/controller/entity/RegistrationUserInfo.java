@@ -81,6 +81,13 @@ public class RegistrationUserInfo {
 	}
 
 	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
 	 * @return the userRole
 	 */
 	public UserRole getUserRole() {
@@ -108,22 +115,53 @@ public class RegistrationUserInfo {
 		this.ÒreationDate = ÒreationDate;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("RegistrationUserInfo [personnelNumber=").append(personnelNumber).append(", employeeName=")
+				.append(employeeName).append(", employeeSurname=").append(employeeSurname)
+				.append(", employeePatronymic=").append(employeePatronymic).append(", employeePosition=")
+				.append(employeePosition).append(", email=").append(email).append(", password=").append(password)
+				.append(", confirmPassword=").append(confirmPassword).append(", userRole=").append(userRole)
+				.append(", ÒreationDate=").append(ÒreationDate).append("]");
+		return builder.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(confirmPassword, email, employeeName, employeePatronymic, employeePosition, employeeSurname,
+				password, personnelNumber, userRole, ÒreationDate);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RegistrationUserInfo other = (RegistrationUserInfo) obj;
+		return Objects.equals(confirmPassword, other.confirmPassword) && Objects.equals(email, other.email)
+				&& Objects.equals(employeeName, other.employeeName)
+				&& Objects.equals(employeePatronymic, other.employeePatronymic)
+				&& employeePosition == other.employeePosition && Objects.equals(employeeSurname, other.employeeSurname)
+				&& Objects.equals(password, other.password) && personnelNumber == other.personnelNumber
+				&& userRole == other.userRole && Objects.equals(ÒreationDate, other.ÒreationDate);
+	}
+
 	public static class RegistrationUserInfoBuilder {
-		private int personnelNumber;
-		private String employeeName;
-		private String employeeSurname;
-		private String employeePatronymic;
-		private EmployeePosition employeePosition;
-		private String email;
-		private String password;
-		private String confirmPassword;
-		private Timestamp timestamp;
+		private RegistrationUserInfo newRegistrationUserInfo;
+
+		public RegistrationUserInfoBuilder() {
+			newRegistrationUserInfo = new RegistrationUserInfo();
+		}
 
 		/**
 		 * @param personnelNumber the personnelNumber to set
 		 */
 		public RegistrationUserInfoBuilder withPersonnelNumber(int personnelNumber) {
-			this.personnelNumber = personnelNumber;
+			newRegistrationUserInfo.personnelNumber = personnelNumber;
 			return this;
 		}
 
@@ -131,7 +169,7 @@ public class RegistrationUserInfo {
 		 * @param employeeName the employeeName to set
 		 */
 		public RegistrationUserInfoBuilder withEmployeeName(String employeeName) {
-			this.employeeName = employeeName;
+			newRegistrationUserInfo.employeeName = employeeName;
 			return this;
 		}
 
@@ -139,7 +177,7 @@ public class RegistrationUserInfo {
 		 * @param employeeSurname the employeeSurname to set
 		 */
 		public RegistrationUserInfoBuilder withEmployeeSurname(String employeeSurname) {
-			this.employeeSurname = employeeSurname;
+			newRegistrationUserInfo.employeeSurname = employeeSurname;
 			return this;
 		}
 
@@ -147,7 +185,7 @@ public class RegistrationUserInfo {
 		 * @param employeePatronymic the employeePatronymic to set
 		 */
 		public RegistrationUserInfoBuilder withEmployeePatronymic(String employeePatronymic) {
-			this.employeePatronymic = employeePatronymic;
+			newRegistrationUserInfo.employeePatronymic = employeePatronymic;
 			return this;
 		}
 
@@ -155,7 +193,7 @@ public class RegistrationUserInfo {
 		 * @param employeePosition the employeePosition to set
 		 */
 		public RegistrationUserInfoBuilder withEmployeePosition(EmployeePosition employeePosition) {
-			this.employeePosition = employeePosition;
+			newRegistrationUserInfo.employeePosition = employeePosition;
 			return this;
 		}
 
@@ -163,7 +201,7 @@ public class RegistrationUserInfo {
 		 * @param email the email to set
 		 */
 		public RegistrationUserInfoBuilder withEmail(String email) {
-			this.email = email;
+			newRegistrationUserInfo.email = email;
 			return this;
 		}
 
@@ -171,7 +209,7 @@ public class RegistrationUserInfo {
 		 * @param password the password to set
 		 */
 		public RegistrationUserInfoBuilder withPassword(String password) {
-			this.password = password;
+			newRegistrationUserInfo.password = password;
 			return this;
 		}
 
@@ -179,57 +217,36 @@ public class RegistrationUserInfo {
 		 * @param confirmPassword the confirmPassword to set
 		 */
 		public RegistrationUserInfoBuilder withConfirmPassword(String confirmPassword) {
-			this.confirmPassword = confirmPassword;
+			newRegistrationUserInfo.confirmPassword = confirmPassword;
 			return this;
 		}
 
 		/**
-		 * @param timestamp the timestamp to set
+		 * @param userRole the userRole to set
 		 */
-		public RegistrationUserInfoBuilder withTimestamp(Timestamp timestamp) {
-			this.timestamp = timestamp;
+		public RegistrationUserInfoBuilder withUserRole(UserRole userRole) {
+			newRegistrationUserInfo.userRole = userRole;
+			return this;
+		}
+
+		/**
+		 * @param ÒreationDate the ÒreationDate to set
+		 */
+		public RegistrationUserInfoBuilder with—reationDate(Timestamp ÒreationDate) {
+			newRegistrationUserInfo.ÒreationDate = ÒreationDate;
 			return this;
 		}
 
 		public RegistrationUserInfo build() {
-			RegistrationUserInfo registrationUserInfo = new RegistrationUserInfo();
-			return registrationUserInfo;
+			return newRegistrationUserInfo;
 		}
 
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
-			builder.append("RegistrationUserInfoBuilder [personnelNumber=").append(personnelNumber)
-					.append(", employeeName=").append(employeeName).append(", employeeSurname=").append(employeeSurname)
-					.append(", employeePatronymic=").append(employeePatronymic).append(", employeePosition=")
-					.append(employeePosition).append(", email=").append(email).append(", password=").append(password)
-					.append(", confirmPassword=").append(confirmPassword).append(", timestamp=").append(timestamp)
+			builder.append("RegistrationUserInfoBuilder [newRegistrationUserInfo=").append(newRegistrationUserInfo)
 					.append("]");
 			return builder.toString();
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(confirmPassword, email, employeeName, employeePatronymic, employeePosition,
-					employeeSurname, password, personnelNumber, timestamp);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			RegistrationUserInfoBuilder other = (RegistrationUserInfoBuilder) obj;
-			return Objects.equals(confirmPassword, other.confirmPassword) && Objects.equals(email, other.email)
-					&& Objects.equals(employeeName, other.employeeName)
-					&& Objects.equals(employeePatronymic, other.employeePatronymic)
-					&& employeePosition == other.employeePosition
-					&& Objects.equals(employeeSurname, other.employeeSurname)
-					&& Objects.equals(password, other.password) && personnelNumber == other.personnelNumber
-					&& Objects.equals(timestamp, other.timestamp);
 		}
 
 	}
