@@ -23,7 +23,7 @@ public class AuthorizationCommand extends AbstractCommand {
 	private final UserService userService = serviceProvider.getUserService();
 	private final String AUTHORIZATION_SUCCESSFUL = "Authorization is completed successfully!";
 	private final String AUTHORIZATION_FAILED = "Error: user authorization failed.";
-	private final String WRONG = "Something went wrong. Please try to reapeat authorization again.";
+	private final String WRONG_INPUT_DATA = "Something went wrong. Please try to reapeat authorization again.";
 
 	@Override
 	public Router execute(HttpServletRequest request) {
@@ -31,15 +31,20 @@ public class AuthorizationCommand extends AbstractCommand {
 		String password = getParameterToCheck("password", request);
 		try {
 			boolean isUserExist = userService.isUserExist(login);
-			boolean isUserLoginAndPasswordMatch = false;
+			boolean isLoginAndPasswordMatchWithDateBaseData = false;
+			boolean isLoginAndPasswordValid = false;
 			if (isUserExist) {
-				isUserLoginAndPasswordMatch = userService.isLoginAndPasswordMatch(login, password);
+				isLoginAndPasswordMatchWithDateBaseData = userService.isLoginAndPasswordMatchWithDateBaseData(login,
+						password);
+				if (isLoginAndPasswordMatchWithDateBaseData) {
+					isLoginAndPasswordValid = userService.isLoginAndPasswordValid(login, password);
+				}
 			}
-			if (isUserExist && isUserLoginAndPasswordMatch) {
-				return authorize(request, login, password);
+			if (isUserExist && isLoginAndPasswordMatchWithDateBaseData && isLoginAndPasswordValid) {
+				return authorizate(request, login, password);
 			} else {
-				logger.log(Level.INFO, "Authorization failed");
-				return createRouterWithAttribute(request, AUTHORIZATION, "authorization_message", WRONG);
+				logger.log(Level.INFO, "Wrong input data");
+				return createRouterWithAttribute(request, AUTHORIZATION, "authorization_message", WRONG_INPUT_DATA);
 			}
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "User authorization with personnel number: {} is faild", login, e);
@@ -47,7 +52,7 @@ public class AuthorizationCommand extends AbstractCommand {
 		}
 	}
 
-	private Router authorize(HttpServletRequest request, int login, String password) throws ServiceException {
+	private Router authorizate(HttpServletRequest request, int login, String password) throws ServiceException {
 		HttpSession session = request.getSession(true);
 		User user = userService.authorizateUser(login, password).get();
 		session.setAttribute("user", user);
