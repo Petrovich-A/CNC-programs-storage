@@ -19,6 +19,6 @@ public interface RegistrationUserInfoValidate {
 
 	boolean isPasswordValid(String password);
 
-	boolean isPasswordConfirm(String password, String passwordConfirm);
+	boolean isPasswordConfirmValid(String passwordConfirm);
 
 }

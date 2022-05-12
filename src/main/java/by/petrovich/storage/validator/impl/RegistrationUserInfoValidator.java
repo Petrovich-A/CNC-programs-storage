@@ -35,13 +35,13 @@ public class RegistrationUserInfoValidator implements RegistrationUserInfoValida
 	@Override
 	public boolean isRegistrationUserInfoValid(RegistrationUserInfo registrationUserInfo) {
 		return isPersonnelNumberValid(String.valueOf(registrationUserInfo.getPersonnelNumber()))
-				&& isPasswordValid(registrationUserInfo.getPassword())
 				&& isEmployeeNameValid(registrationUserInfo.getEmployeeName())
 				&& isEmployeeSurnameValid(registrationUserInfo.getEmployeeSurname())
 				&& isEmployeePatronymicValid(registrationUserInfo.getEmployeePatronymic())
 				&& isEmployeePositionValid((registrationUserInfo.getEmployeePosition().toString()))
 				&& isEmailValid(registrationUserInfo.getEmail())
-				&& isPasswordConfirm(registrationUserInfo.getPassword(), registrationUserInfo.getConfirmPassword());
+				&& isPasswordValid(registrationUserInfo.getPassword())
+				&& isPasswordConfirmValid(registrationUserInfo.getConfirmPassword());
 	}
 
 	@Override
@@ -113,12 +113,12 @@ public class RegistrationUserInfoValidator implements RegistrationUserInfoValida
 	}
 
 	@Override
-	public boolean isPasswordConfirm(String password, String passwordConfirm) {
-		boolean isPasswordConfirm = password.equals(passwordConfirm);
-		if (!isPasswordConfirm) {
-			logger.log(Level.ERROR, "passwords: {} don't confirm: ", password, passwordConfirm);
+	public boolean isPasswordConfirmValid(String passwordConfirm) {
+		boolean isValid = passwordConfirm.matches(PASSWORD_PATTERN);
+		if (!isValid) {
+			logger.log(Level.ERROR, "passwordConfirm: {} is not valid", passwordConfirm);
 		}
-		return isPasswordConfirm;
+		return isValid;
 	}
 
 }
