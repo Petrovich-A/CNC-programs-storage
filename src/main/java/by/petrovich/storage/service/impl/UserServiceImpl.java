@@ -29,6 +29,30 @@ public class UserServiceImpl implements UserService {
 	private final PasswordService passwordHasher = PasswordService.getInstance();
 
 	@Override
+	public List<User> readAllUsers() throws ServiceException {
+		List<User> allUsers = null;
+		try {
+			allUsers = userDao.readAllUsers();
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "can't read all users", e);
+			throw new ServiceException(e);
+		}
+		return allUsers;
+	}
+
+	@Override
+	public Optional<User> readUserByPersonnelNumber(int personnelNumber) throws ServiceException {
+		Optional<User> userOptional = Optional.empty();
+		try {
+			userOptional = userDao.readUserByPersonnelNumber(personnelNumber);
+		} catch (DaoException e) {
+			logger.log(Level.ERROR, "can't find user by personnelNumber: {}", personnelNumber, e);
+			throw new ServiceException(e);
+		}
+		return userOptional;
+	}
+
+	@Override
 	public Optional<User> authorizateUser(int login, String password) throws ServiceException {
 		Optional<User> userOptional = Optional.empty();
 		try {
@@ -59,7 +83,7 @@ public class UserServiceImpl implements UserService {
 			logger.log(Level.ERROR, "Can't find valid key for password hashing.", e);
 			throw new ServiceException(e);
 		}
-//		registrationUserInfo.setPassword(passwordHashed);
+		registrationUserInfo.setPassword(passwordHashed);
 		registrationUserInfo.setUserRole(UserRole.GUEST);
 		try {
 			userDao.createUser(registrationUserInfo);
@@ -82,38 +106,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<User> readUserByPersonnelNumber(int personnelNumber) throws ServiceException {
-		Optional<User> userOptional = Optional.empty();
-		try {
-			userOptional = userDao.readUserByPersonnelNumber(personnelNumber);
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't find user by personnelNumber: {}", personnelNumber, e);
-			throw new ServiceException(e);
-		}
-		return userOptional;
-	}
-
-	@Override
 	public void update(User user, int personnelNumber) throws ServiceException {
 		try {
 			userDao.update(user, personnelNumber);
 		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't update user: {} with personnelNumber: {}", user, personnelNumber,
-					e);
+			logger.log(Level.ERROR, "can't update user: {} with personnelNumber: {}", user, personnelNumber, e);
 			throw new ServiceException(e);
 		}
-	}
-
-	@Override
-	public List<User> readAllUsers() throws ServiceException {
-		List<User> allUsers = null;
-		try {
-			allUsers = userDao.readAllUsers();
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "can't read all users", e);
-			throw new ServiceException(e);
-		}
-		return allUsers;
 	}
 
 	@Override
@@ -136,63 +135,63 @@ public class UserServiceImpl implements UserService {
 				logger.log(Level.INFO, "User with personnelNumber: {} is existed in DB.", personnelNumber);
 			}
 		} catch (DaoException e) {
+			logger.log(Level.ERROR, "Can't check is exist user with personnel number: {}", personnelNumber, e);
 			throw new ServiceException(String.format("Can't do isUserExist.", e));
 		}
 		return isExist;
 	}
 
 	@Override
-	public boolean isLoginAndPasswordMatch(int login, String password)
-			throws ServiceException {
+	public boolean isLoginAndPasswordMatchWithDateBaseData(int login, String password) throws ServiceException {
 		Optional<User> userOptional = Optional.empty();
-		boolean isUsersLoginsAndPasswordsMatch = false;
-		boolean isLoginMatch = false;
-		boolean isPasswordMatch = false;
+		boolean isMatch = false;
+		boolean isLoginsMatch = false;
+		boolean isPasswordsMatch = false;
+		String hashedPassword = null;
 		User user = new User();
 		try {
 			userOptional = userDao.readUserByPersonnelNumber(login);
 			user = userOptional.get();
-		} catch (DaoException e) {
-			logger.log(Level.ERROR, "Can't read user with personnel number: {}", login, e);
+			hashedPassword = passwordHasher.generateHash(password);
+			isPasswordsMatch = isPasswordsMatch(hashedPassword, user.getPassword());
+			isLoginsMatch = isLoginsMatch(login, user.getPersonnelNumber());
+			if (isPasswordsMatch && isLoginsMatch) {
+				isMatch = true;
+			}
+		} catch (DaoException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+			logger.log(Level.ERROR, "Can't check login and password matching with date base. Login: {}", login, e);
 			throw new ServiceException(e);
 		}
-		isLoginMatch = isPersonnelNumberMatch(user.getPersonnelNumber(), login);
-		isPasswordMatch = isPaswordMatch(user.getPassword(), password);
-		if (isLoginMatch && isPasswordMatch) {
-			isUsersLoginsAndPasswordsMatch = true;
-		}
-		return isUsersLoginsAndPasswordsMatch;
+		return isMatch;
 	}
 
-	private boolean isPersonnelNumberMatch(int personnelNumber, int personnelNumberMatch) {
-		boolean isPersonnelNumbersMatch = false;
-		if (personnelNumber == personnelNumberMatch) {
-			isPersonnelNumbersMatch = true;
+	@Override
+	public boolean isPasswordsMatch(String password, String confirmPassword) {
+		boolean isMatch = false;
+		if (password.equals(confirmPassword)) {
+			isMatch = true;
 		}
-		return isPersonnelNumbersMatch;
+		return isMatch;
 	}
 
-	private boolean isPaswordMatch(String password, String passwordMatch) {
-		String passwordHashed = null;
-		boolean isPasswordMatch = false;
-		try {
-			passwordHashed = passwordHasher.generateHash(password);
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	@Override
+	public boolean isLoginAndPasswordValid(int login, String password) throws ServiceException {
+		boolean isLoginValid = registrationUserInfoValidator.isPersonnelNumberValid(String.valueOf(login));
+		boolean isPasswordValid = registrationUserInfoValidator.isPasswordValid(password);
+		boolean isValid = false;
+		if (isLoginValid && isPasswordValid) {
+			logger.log(Level.INFO, "Login: {} or password aren't valid. isValid: {}.", login, isValid);
+			isValid = true;
 		}
-		if (passwordHashed.equals(passwordMatch)) {
-			isPasswordMatch = true;
-		}
-		return isPasswordMatch;
+		return isValid;
 	}
 
-	private boolean isLoginAndPasswordValid(int login, String password) throws ServiceException {
-		if (!registrationUserInfoValidator.isPersonnelNumberValid(String.valueOf(login))
-				&& !registrationUserInfoValidator.isPasswordValid(password)) {
-			logger.log(Level.ERROR, "login: {} and password: {} isn't valid", login, password);// to do
+	private boolean isLoginsMatch(int login, int confirmLogin) {
+		boolean isMatch = false;
+		if (login == confirmLogin) {
+			isMatch = true;
 		}
-		return true;
+		return isMatch;
 	}
 
 }
