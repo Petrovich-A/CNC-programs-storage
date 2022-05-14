@@ -128,7 +128,7 @@
 				</c:choose>
 				<div class="">
 					<button type="submit" name="commandName"
-						value="go_to_cnc_program_update">${update}</button>
+						value="go_to_cnc_program_update_page">${update}</button>
 				</div>
 			</form>
 
