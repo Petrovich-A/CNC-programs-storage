@@ -1,15 +1,14 @@
 package by.petrovich.storage.controller.command.impl;
 
+import static by.petrovich.storage.controller.command.PathToPage.ADMIN_USERS;
+import static by.petrovich.storage.controller.command.PathToPage.USER_UPDATE;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static by.petrovich.storage.controller.command.PathToPage.ADMIN_USERS;
-import static by.petrovich.storage.controller.command.PathToPage.USER_UPDATE;
-
 import by.petrovich.storage.controller.command.AbstractCommand;
 import by.petrovich.storage.controller.command.Router;
-import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.EmployeePosition;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
@@ -21,8 +20,8 @@ import jakarta.servlet.http.HttpSession;
 
 public class UserUpdateCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String UPDATE_USER_SUCCESSFUL = "User updating is successful";
-	private static final String UPDATE_USER_FAILD = "User updating is faild";
+	private static final String UPDATE_USER_SUCCESSFUL = "User updating is successful.";
+	private static final String UPDATE_USER_FAILD = "User updating is faild.";
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final UserService userService = serviceProvider.getUserService();
 
@@ -30,17 +29,16 @@ public class UserUpdateCommand extends AbstractCommand {
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User userFromUpdateForm = buildUser(request);
-		int personnelNumber = (Integer) session.getAttribute("personnelNumber");
+		User userFromSession = (User) getParametrToCheck("user", session);
+		int personnelNumber = userFromSession.getPersonnelNumber();
 		try {
 			userService.update(userFromUpdateForm, personnelNumber);
-			request.setAttribute("admin_users_message", UPDATE_USER_SUCCESSFUL);
-			logger.log(Level.INFO, "user with personnelNumber: {} is updated", personnelNumber);
-			return new Router(ADMIN_USERS, RouterType.REDIRECT);
+			logger.log(Level.INFO, "User with personnel number: {} is updated.", personnelNumber);
+			return createRouterWithAttribute(request, ADMIN_USERS, "admin_users_message", UPDATE_USER_SUCCESSFUL);
 		} catch (ServiceException e) {
-			request.setAttribute("message", UPDATE_USER_FAILD);
-			logger.log(Level.ERROR, "can't update user with personnelNumber: {}, user: {}", personnelNumber,
+			logger.log(Level.ERROR, "Can't update user with personnelNumber: {}, user: {}.", personnelNumber,
 					userFromUpdateForm.toString(), e);
-			return new Router(USER_UPDATE, RouterType.FORWARD);
+			return createRouterWithAttribute(request, USER_UPDATE, "error_message", UPDATE_USER_FAILD);
 		}
 	}
 
@@ -54,6 +52,15 @@ public class UserUpdateCommand extends AbstractCommand {
 		user.setEmail(getParameterToCheck("email", request));
 		logger.log(Level.INFO, "User is built. User: {}", user.toString());
 		return user;
+	}
+
+	private Object getParametrToCheck(String parameter, HttpSession session) {
+		Object object = session.getAttribute(parameter);
+		if (object.equals(null)) {
+			logger.log(Level.ERROR, "Session contains null: {}.", object);
+			throw new IllegalArgumentException("Session contains parameter eaqual null: {}." + object);
+		}
+		return object;
 	}
 
 }
