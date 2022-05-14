@@ -87,7 +87,7 @@
 							</tr>
 							<tr>
 								<td>${employee_surname}</td>
-								<td>${userFromDaoFromDao.getEmployeeSurname()}</td>
+								<td>${userFromDao.getEmployeeSurname()}</td>
 							</tr>
 							<tr>
 								<td>${employee_patronymic}</td>

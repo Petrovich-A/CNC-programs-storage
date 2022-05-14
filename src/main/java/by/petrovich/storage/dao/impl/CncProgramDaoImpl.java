@@ -102,7 +102,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 				program_id, program_number, operation_number, program_text, create_time, comment,
 				active, personnel_number, cnc_programs.detail_id, details.detail_name,
 				cnc_programs.cnc_machine_id, cnc_machines.model, cnc_machines.code_equipment
-					FROM cncprogramsstorage.cnc_programs "
+					FROM cncprogramsstorage.cnc_programs
 						LEFT JOIN details
 							ON details.detail_id = cnc_programs.detail_id
 						LEFT JOIN cnc_machines
@@ -121,7 +121,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			SELECT
 				cnc_machine_id, model, code_equipment
 					FROM cnc_machines
-						ORDER BY model"
+						ORDER BY model
 			""";
 	private static final String SQL_READ_CNC_MACHINE_BY_MODEL = """
 			SELECT
@@ -173,7 +173,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			SELECT EXISTS
 				(SELECT detail_name
 					FROM details
-						WHERE detail_name = ?)"
+						WHERE detail_name = ?)
 			""";
 	private static final String SQL_IS_CNC_MACHINE_EXIST_BY_MODEL = """
 			SELECT EXISTS
@@ -537,7 +537,7 @@ public class CncProgramDaoImpl implements CncProgramDao {
 			}
 			logger.log(Level.INFO, "Reading all CNC machines from BD have done successfully.");
 		} catch (SQLException e) {
-			throw new DaoException(String.format("Can't read CNC machines from DB", e));
+			throw new DaoException(String.format("Can't read CNC machines from DB.", e));
 		}
 		return cncMachines;
 	}
