@@ -1,4 +1,4 @@
-package by.petrovich.storage.filter;
+package by.petrovich.storage.controller.filter;
 
 import java.io.IOException;
 

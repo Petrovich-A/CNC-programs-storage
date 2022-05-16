@@ -1,4 +1,4 @@
-package by.petrovich.storage.filter;
+package by.petrovich.storage.controller.filter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
