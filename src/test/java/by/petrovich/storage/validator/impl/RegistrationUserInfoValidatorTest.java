@@ -3,8 +3,8 @@ package by.petrovich.storage.validator.impl;
 import org.junit.Assert;
 import org.junit.Test;
 
-import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.EmployeePosition;
+import by.petrovich.storage.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.UserRole;
 
 public class RegistrationUserInfoValidatorTest {

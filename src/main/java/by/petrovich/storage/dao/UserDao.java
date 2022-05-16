@@ -3,7 +3,7 @@ package by.petrovich.storage.dao;
 import java.util.List;
 import java.util.Optional;
 
-import by.petrovich.storage.controller.entity.RegistrationUserInfo;
+import by.petrovich.storage.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.User;
 
 public interface UserDao {

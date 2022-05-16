@@ -12,8 +12,8 @@ import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.controller.command.AbstractCommand;
 import by.petrovich.storage.controller.command.Router;
-import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.EmployeePosition;
+import by.petrovich.storage.entity.RegistrationUserInfo;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;

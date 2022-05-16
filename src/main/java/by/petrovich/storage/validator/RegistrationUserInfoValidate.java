@@ -1,6 +1,6 @@
 package by.petrovich.storage.validator;
 
-import by.petrovich.storage.controller.entity.RegistrationUserInfo;
+import by.petrovich.storage.entity.RegistrationUserInfo;
 
 public interface RegistrationUserInfoValidate {
 	boolean isRegistrationUserInfoValid(RegistrationUserInfo registrationUserInfo);

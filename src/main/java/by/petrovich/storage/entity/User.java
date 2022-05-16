@@ -24,20 +24,6 @@ public class User {
 	}
 
 	public User(int personnelNumber, String password, String employeeName, String employeeSurname,
-			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate,
-			UserRole userRole) {
-		this.personnelNumber = personnelNumber;
-		this.password = password;
-		this.employeeName = employeeName;
-		this.employeeSurname = employeeSurname;
-		this.employeePatronymic = employeePatronymic;
-		this.employeePosition = employeePosition;
-		this.email = email;
-		this.creationDate = creationDate;
-		this.userRole = userRole;
-	}
-
-	public User(int personnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email) {
 		super();
 		this.personnelNumber = personnelNumber;
@@ -59,6 +45,32 @@ public class User {
 		this.employeePosition = employeePosition;
 		this.email = email;
 		this.creationDate = creationDate;
+	}
+
+	/**
+	 * @param personnelNumber
+	 * @param password
+	 * @param employeeName
+	 * @param employeeSurname
+	 * @param employeePatronymic
+	 * @param employeePosition
+	 * @param email
+	 * @param creationDate
+	 * @param userRole
+	 */
+	public User(int personnelNumber, String password, String employeeName, String employeeSurname,
+			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate,
+			UserRole userRole) {
+		super();
+		this.personnelNumber = personnelNumber;
+		this.password = password;
+		this.employeeName = employeeName;
+		this.employeeSurname = employeeSurname;
+		this.employeePatronymic = employeePatronymic;
+		this.employeePosition = employeePosition;
+		this.email = email;
+		this.creationDate = creationDate;
+		this.userRole = userRole;
 	}
 
 	public int getPersonnelNumber() {
@@ -157,11 +169,11 @@ public class User {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("User [personnelNumber=").append(personnelNumber).append(", password=")
-				.append(password).append(", employeeName=").append(employeeName).append(", employeeSurname=")
-				.append(employeeSurname).append(", employeePatronymic=").append(employeePatronymic)
-				.append(", employeePosition=").append(employeePosition).append(", email=").append(email)
-				.append(", creationDate=").append(creationDate).append(", userRole=").append(userRole).append("]");
+		builder.append("User [personnelNumber=").append(personnelNumber).append(", password=").append(password)
+				.append(", employeeName=").append(employeeName).append(", employeeSurname=").append(employeeSurname)
+				.append(", employeePatronymic=").append(employeePatronymic).append(", employeePosition=")
+				.append(employeePosition).append(", email=").append(email).append(", creationDate=")
+				.append(creationDate).append(", userRole=").append(userRole).append("]");
 		return builder.toString();
 	}
 

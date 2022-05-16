@@ -9,10 +9,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.dao.DaoException;
 import by.petrovich.storage.dao.DaoProvider;
 import by.petrovich.storage.dao.UserDao;
+import by.petrovich.storage.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.hasher.impl.PasswordService;

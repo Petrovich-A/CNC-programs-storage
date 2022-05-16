@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.EmployeePosition;
+import by.petrovich.storage.entity.RegistrationUserInfo;
 import by.petrovich.storage.validator.RegistrationUserInfoValidate;
 
 public class RegistrationUserInfoValidator implements RegistrationUserInfoValidate {

@@ -1,10 +1,7 @@
-package by.petrovich.storage.controller.entity;
+package by.petrovich.storage.entity;
 
 import java.sql.Timestamp;
 import java.util.Objects;
-
-import by.petrovich.storage.entity.EmployeePosition;
-import by.petrovich.storage.entity.UserRole;
 
 public class RegistrationUserInfo {
 	private int personnelNumber;

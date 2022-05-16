@@ -13,8 +13,8 @@ import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Test;
 
-import by.petrovich.storage.controller.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.EmployeePosition;
+import by.petrovich.storage.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.entity.UserRole;
 import by.petrovich.storage.service.ServiceException;
@@ -138,7 +138,7 @@ public class UserServiceImplTest {
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.service.impl.UserServiceImpl#registrateUser(by.petrovich.storage.controller.entity.RegistrationUserInfo)}.
+	 * {@link by.petrovich.storage.service.impl.UserServiceImpl#registrateUser(by.petrovich.storage.entity.RegistrationUserInfo)}.
 	 */
 	@Test
 	public void testRegistrateUser() throws ServiceException {
@@ -165,7 +165,7 @@ public class UserServiceImplTest {
 
 	/**
 	 * Test method for
-	 * {@link by.petrovich.storage.service.impl.UserServiceImpl#isValid(by.petrovich.storage.controller.entity.RegistrationUserInfo)}.
+	 * {@link by.petrovich.storage.service.impl.UserServiceImpl#isValid(by.petrovich.storage.entity.RegistrationUserInfo)}.
 	 */
 	@Test
 	public void isValidReturnTrueWhenRegistrationUserInfoValid() throws ServiceException {
