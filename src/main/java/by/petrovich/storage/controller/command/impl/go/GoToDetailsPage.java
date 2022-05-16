@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.command.impl.goTo;
+package by.petrovich.storage.controller.command.impl.go;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +11,14 @@ import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
-import by.petrovich.storage.entity.CncProgram;
+import by.petrovich.storage.entity.Detail;
 import by.petrovich.storage.service.CncProgramService;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToMainPage implements Command {
+public class GoToDetailsPage implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
@@ -26,16 +26,14 @@ public class GoToMainPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		session.setAttribute("path_to_page", PathToPage.MAIN);
-		List<CncProgram> allCncPrograms = new ArrayList<>();
+		List<Detail> details = new ArrayList<>();
 		try {
-			allCncPrograms = cncProgramService.receiveBatchByDate();
-			session.setAttribute("allCncPrograms", allCncPrograms);
+			details = cncProgramService.readDetail();
+			session.setAttribute("details", details);
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "can't read allCncPrograms", e);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			logger.log(Level.ERROR, "Can't read details", e);
 		}
-		return new Router(PathToPage.MAIN, RouterType.FORWARD);
+		return new Router(PathToPage.GO_TO_DETAILS, RouterType.FORWARD);
 	}
 
 }

@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.command.impl.goTo;
+package by.petrovich.storage.controller.command.impl.go;
 
 import java.util.Optional;
 
@@ -10,35 +10,35 @@ import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
-import by.petrovich.storage.entity.CncProgram;
-import by.petrovich.storage.service.CncProgramService;
+import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
+import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToCncProgramUpdatePage implements Command {
+public class GoToUpdateUserPage implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
-	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
+	private final UserService userService = serviceProvider.getUserService();
 
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		CncProgram cncProgram = new CncProgram();
-		int id = Integer.parseInt(request.getParameter("id"));
-		session.setAttribute("id", id);
-		Optional<CncProgram> cncProgramOptional = Optional.empty();
+		User userForUpdate = new User();
+		int personnelNumber = Integer.parseInt(request.getParameter("personnelNumber"));
+		session.setAttribute("personnelNumber", personnelNumber);
+		Optional<User> userOptional = Optional.empty();
 		try {
-			cncProgramOptional = cncProgramService.readCncProgramById(id);
-			if (cncProgramOptional.isPresent()) {
-				cncProgram = cncProgramOptional.get();
-				session.setAttribute("cncProgram", cncProgram);
+			userOptional = userService.readUserByPersonnelNumber(personnelNumber);
+			if (userOptional.isPresent()) {
+				userForUpdate = userOptional.get();
+				session.setAttribute("userForUpdate", userForUpdate);
 			}
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "CNC program with id: {} can't be read", id, e);
+			logger.log(Level.ERROR, "User with personnelNumber: {} can't be read", personnelNumber, e);
 		}
-		return new Router(PathToPage.CNC_PROGRAM_UPDATE, RouterType.FORWARD);
+		return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
 	}
 
 }

@@ -1,6 +1,7 @@
-package by.petrovich.storage.controller.command.impl.goTo;
+package by.petrovich.storage.controller.command.impl.go;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -16,32 +17,32 @@ import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class GoToCncProgramViewPage implements Command {
+public class GoToAdminPage implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
-	private final static String CANT_READ_CNC_PROGRAM = "Can't read CNC program by id: ";
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		int id = 0;
-		CncProgram cncProgram = new CncProgram();
-		if (request.getParameter("id") != null) {
-			id = Integer.parseInt(request.getParameter("id"));
-		}
-		Optional<CncProgram> cncProgramOptional = Optional.empty();
+		int page = 1;
+		int recordsPerPage = 7;
+		int numberOfPages = 0;
+		int numberOfRecords = 0;
+		List<CncProgram> allCncPrograms = new ArrayList<>();
+		if (request.getParameter("page") != null)
+			page = Integer.parseInt(request.getParameter("page"));
 		try {
-			cncProgramOptional = cncProgramService.readCncProgramById(id);
-			if (cncProgramOptional.isPresent()) {
-				cncProgram = cncProgramOptional.get();
-				request.setAttribute("cncProgram", cncProgram);
-			}
+			allCncPrograms = cncProgramService.receiveBatch((page - 1) * recordsPerPage, recordsPerPage);
+			numberOfRecords = cncProgramService.receiveNumberOfRecords();
 		} catch (ServiceException e) {
-			request.setAttribute("error_message", CANT_READ_CNC_PROGRAM + id);
-			logger.log(Level.ERROR, "Can't read CNC program by id {}", id, e);
+			logger.log(Level.ERROR, "can't read allCncPrograms", e);
 			return new Router(PathToPage.ERROR, RouterType.FORWARD);
 		}
-		return new Router(PathToPage.CNC_PROGRAM_VIEW, RouterType.FORWARD);
+		numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
+		request.setAttribute("allCncPrograms", allCncPrograms);
+		request.setAttribute("numberOfPages", numberOfPages);
+		request.setAttribute("currentPage", page);
+		return new Router(PathToPage.ADMIN, RouterType.FORWARD);
 	}
 
 }

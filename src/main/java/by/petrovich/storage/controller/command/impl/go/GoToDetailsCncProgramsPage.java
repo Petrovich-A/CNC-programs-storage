@@ -1,4 +1,4 @@
-package by.petrovich.storage.controller.command.impl.goTo;
+package by.petrovich.storage.controller.command.impl.go;
 
 import java.util.ArrayList;
 import java.util.List;
