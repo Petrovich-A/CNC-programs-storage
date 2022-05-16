@@ -51,8 +51,8 @@ public class SearchCommand extends AbstractCommand {
 			Optional<User> userOptional = Optional.empty();
 			if (isNumeric(searchData)) {
 				userOptional = userService.readUserByPersonnelNumber(Integer.valueOf(searchData));
-				User user = userOptional.get();
-				if (user != null) {
+				if (userOptional.isPresent()) {
+					User user = userOptional.get();
 					logger.log(Level.INFO, "Find user by login personel number: {}", searchData);
 					return createRouterWithAttribute(request, USER_INFO, "userFromDao", user);
 				}

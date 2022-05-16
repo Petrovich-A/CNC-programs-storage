@@ -33,11 +33,13 @@ public class GoToUserInfoPage implements Command {
 		Optional<User> userOptional = Optional.empty();
 		try {
 			userOptional = userService.readUserByPersonnelNumber(personnelNumber);
-			userFromDao = userOptional.get();
+			if (userOptional.isPresent()) {
+				userFromDao = userOptional.get();
+				session.setAttribute("userFromDao", userFromDao);
+			}
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);
 		}
-		session.setAttribute("userFromDao", userFromDao);
 		return new Router(PathToPage.USER_INFO, RouterType.FORWARD);
 	}
 

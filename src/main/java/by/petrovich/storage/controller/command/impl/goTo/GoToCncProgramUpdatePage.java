@@ -31,8 +31,10 @@ public class GoToCncProgramUpdatePage implements Command {
 		Optional<CncProgram> cncProgramOptional = Optional.empty();
 		try {
 			cncProgramOptional = cncProgramService.readCncProgramById(id);
-			cncProgram = cncProgramOptional.get();
-			session.setAttribute("cncProgram", cncProgram);
+			if (cncProgramOptional.isPresent()) {
+				cncProgram = cncProgramOptional.get();
+				session.setAttribute("cncProgram", cncProgram);
+			}
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "CNC program with id: {} can't be read", id, e);
 		}

@@ -31,8 +31,10 @@ public class GoToUpdateUserPage implements Command {
 		Optional<User> userOptional = Optional.empty();
 		try {
 			userOptional = userService.readUserByPersonnelNumber(personnelNumber);
-			userForUpdate = userOptional.get();
-			session.setAttribute("userForUpdate", userForUpdate);
+			if (userOptional.isPresent()) {
+				userForUpdate = userOptional.get();
+				session.setAttribute("userForUpdate", userForUpdate);
+			}
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "User with personnelNumber: {} can't be read", personnelNumber, e);
 		}

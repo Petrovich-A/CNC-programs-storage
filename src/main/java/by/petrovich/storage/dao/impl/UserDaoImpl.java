@@ -118,14 +118,14 @@ public class UserDaoImpl implements UserDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				User user = buildUser(resultSet);
-				userOptional = Optional.of(user);
+				userOptional = Optional.ofNullable(user);
 			}
 		} catch (SQLException e) {
 			throw new DaoException(
 					String.format("Ñan't read user with personnelNumber: %s from DB", personnelNumber, e));
 		}
 		logger.log(Level.INFO, "User reading from BD have done successfully. userFromDao: {}", userOptional.toString());
-		return userOptional;
+		return userOptional.isPresent() ? userOptional : Optional.empty();
 	}
 
 	@Override
