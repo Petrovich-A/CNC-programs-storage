@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package by.petrovich.storage.validator.impl;
 
 import org.junit.Assert;
@@ -7,23 +10,29 @@ import by.petrovich.storage.entity.EmployeePosition;
 import by.petrovich.storage.entity.RegistrationUserInfo;
 import by.petrovich.storage.entity.UserRole;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class RegistrationUserInfoValidatorTest {
 	RegistrationUserInfoValidator registrationUserInfoValidator = RegistrationUserInfoValidator.getInstance();
-	private int personnelNumber = 42000;
-	private int personnelNumberLessSymbols = 1234;
-	private int personnelNumberMoreSymbols = 123456;
-	private int personnelNumberZero = 0;
-	private String passwordWithoutPunct = "efweferg2324";
-	private String passwordWithoutDigit = "!!dgergergw";
-	private String passwordWithoutAlpha = "2325%42123!";
-	private String passwordLessSymbols = "rg15!%f";
-	private String passwordMoreSymbols = "145waasdf!wwf2efwef%#414sdfjkhsad987asfsafasf";
+	private int personnelNumberValid = 42000;
+	private int personnelNumberInvalidLessSymbols = 1234;
+	private int personnelNumberInvalidMoreSymbols = 123456;
+	private int personnelNumberInvalidZero = 0;
 	private String passwordValid = "efefe!2d";
-	private String employeeName = "Иван";
+	private String passwordInvalidWithoutPunct = "efweferg2324";
+	private String passwordInvalidWithoutDigit = "!!dgergergw";
+	private String passwordInvalidWithoutAlpha = "2325%42123!";
+	private String passwordInvalidLessSymbols = "rg15!%f";
+	private String passwordInvalidMoreSymbols = "145waasdf!wwf2efwef%#414sdfjkhsad987asfsafasf";
+	private String employeeNameValid = "Иван";
+	private String employeeNameInvalidLessSymbols = "Ли";
+	private String employeeNameInvalidMoreSymbols = "Янезнаюоченьдлинногоимениукплукрп";
 	private String employeeSurname = "Иванов";
 	private String employeePatronymic = "Иванович";
-	private EmployeePosition employeePosition = EmployeePosition.CNC_PROGRAMMER;
-	private String email = "ivanov@mail.by";
+	private String emailValid = "ivanov@mail.by";
+	private String emailInvalid = "ivanovmail.by";
 	private RegistrationUserInfo registrationUserInfoValid = new RegistrationUserInfo.RegistrationUserInfoBuilder()
 			.withPersonnelNumber(65000).withEmployeeName("Иван").withEmployeeSurname("Иванов")
 			.withEmployeePatronymic("Рудольфович").withEmployeePosition(EmployeePosition.CNC_PROGRAMMER)
@@ -42,81 +51,156 @@ public class RegistrationUserInfoValidatorTest {
 			.withEmail("withRole@sm.com").withPassword("swgvf234$%").withConfirmPassword("swgvf234$%")
 			.withUserRole(UserRole.GUEST).build();
 
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#getInstance()}.
+	 */
 	@Test
-	public void isUserValidWhenUserValidReturnTrue() {
-		boolean actual = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfoValid);
-		boolean actual1 = registrationUserInfoValidator
+	public void testGetInstance() {
+	}
+
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isRegistrationUserInfoValid(by.petrovich.storage.entity.RegistrationUserInfo)}.
+	 */
+	@Test
+	public void testIsRegistrationUserInfoValid() {
+		boolean positive = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfoValid);
+		boolean positiveWithRole = registrationUserInfoValidator
+				.isRegistrationUserInfoValid(registrationUserInfoWithRole);
+		boolean negativeInvalidPass = registrationUserInfoValidator
 				.isRegistrationUserInfoValid(registrationUserInfoInvalidPassword);
-		boolean actual2 = registrationUserInfoValidator
+		boolean negativeInvalidPersonnelNum = registrationUserInfoValidator
 				.isRegistrationUserInfoValid(registrationUserInfoInvalidPersonnelNumber);
-		boolean actual3 = registrationUserInfoValidator.isRegistrationUserInfoValid(registrationUserInfoWithRole);
-		Assert.assertTrue("test", actual);
-		Assert.assertFalse("test", actual1);
-		Assert.assertFalse("test", actual2);
-		Assert.assertTrue("test", actual3);
+		Assert.assertTrue(positive);
+		Assert.assertTrue(positiveWithRole);
+		Assert.assertFalse(negativeInvalidPass);
+		Assert.assertFalse(negativeInvalidPersonnelNum);
 	}
 
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isPersonnelNumberValid(java.lang.String)}.
+	 */
 	@Test
-	public void isPersonnelNumberValid() {
-		boolean actualPersonnelNumber = registrationUserInfoValidator
-				.isPersonnelNumberValid(String.valueOf(personnelNumber));
-		boolean actualPersonnelNumber1 = registrationUserInfoValidator
-				.isPersonnelNumberValid(String.valueOf(personnelNumberLessSymbols));
-		boolean actualPersonnelNumber2 = registrationUserInfoValidator
-				.isPersonnelNumberValid(String.valueOf(personnelNumberMoreSymbols));
-		boolean actualPersonnelNumber3 = registrationUserInfoValidator
-				.isPersonnelNumberValid(String.valueOf(personnelNumberZero));
-		Assert.assertTrue("isPersonnelNumberValid", actualPersonnelNumber);
-		Assert.assertFalse("isPersonnelNumberValid", actualPersonnelNumber1);
-		Assert.assertFalse("isPersonnelNumberValid", actualPersonnelNumber2);
-		Assert.assertFalse("isPersonnelNumberValid", actualPersonnelNumber3);
+	public void testIsPersonnelNumberValid() {
+		boolean positive = registrationUserInfoValidator.isPersonnelNumberValid(String.valueOf(personnelNumberValid));
+		boolean negativeLess = registrationUserInfoValidator
+				.isPersonnelNumberValid(String.valueOf(personnelNumberInvalidLessSymbols));
+		boolean negativeMore = registrationUserInfoValidator
+				.isPersonnelNumberValid(String.valueOf(personnelNumberInvalidMoreSymbols));
+		boolean negativeZero = registrationUserInfoValidator
+				.isPersonnelNumberValid(String.valueOf(personnelNumberInvalidZero));
+		Assert.assertTrue(positive);
+		Assert.assertFalse(negativeLess);
+		Assert.assertFalse(negativeMore);
+		Assert.assertFalse(negativeZero);
 	}
 
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isPasswordValid(java.lang.String)}.
+	 */
 	@Test
-	public void isPasswordValid() {
-		boolean actualPassword = registrationUserInfoValidator.isPasswordValid(passwordValid);
-		boolean actualPassword1 = registrationUserInfoValidator.isPasswordValid(passwordWithoutPunct);
-		boolean actualPassword2 = registrationUserInfoValidator.isPasswordValid(passwordWithoutDigit);
-		boolean actualPassword3 = registrationUserInfoValidator.isPasswordValid(passwordWithoutAlpha);
-		boolean actualPassword4 = registrationUserInfoValidator.isPasswordValid(passwordLessSymbols);
-		boolean actualPassword5 = registrationUserInfoValidator.isPasswordValid(passwordMoreSymbols);
-		Assert.assertTrue("", actualPassword);
-		Assert.assertFalse("", actualPassword1);
-		Assert.assertFalse("", actualPassword2);
-		Assert.assertFalse("", actualPassword3);
-		Assert.assertFalse("", actualPassword4);
-		Assert.assertFalse("", actualPassword5);
+	public void testIsPasswordValid() {
+		boolean positive = registrationUserInfoValidator.isPasswordValid(passwordValid);
+		boolean negativePasswordWithoutPunct = registrationUserInfoValidator
+				.isPasswordValid(passwordInvalidWithoutPunct);
+		boolean negativePasswordWithoutDigit = registrationUserInfoValidator
+				.isPasswordValid(passwordInvalidWithoutDigit);
+		boolean negativePasswordWithoutAlpha = registrationUserInfoValidator
+				.isPasswordValid(passwordInvalidWithoutAlpha);
+		boolean negativePasswordLessSymbols = registrationUserInfoValidator.isPasswordValid(passwordInvalidLessSymbols);
+		boolean negativePasswordMoreSymbols = registrationUserInfoValidator.isPasswordValid(passwordInvalidMoreSymbols);
+		Assert.assertTrue(positive);
+		Assert.assertFalse(negativePasswordWithoutPunct);
+		Assert.assertFalse(negativePasswordWithoutDigit);
+		Assert.assertFalse(negativePasswordWithoutAlpha);
+		Assert.assertFalse(negativePasswordLessSymbols);
+		Assert.assertFalse(negativePasswordMoreSymbols);
 	}
 
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isEmployeeNameValid(java.lang.String)}.
+	 */
 	@Test
-	public void isEmployeeNameValid() {
-		boolean actualEmployeeName = registrationUserInfoValidator.isEmployeeNameValid(employeeName);
-		Assert.assertTrue("isEmployeeNameValid", actualEmployeeName);
+	public void testIsEmployeeNameValid() {
+		boolean positive = registrationUserInfoValidator.isEmployeeNameValid(employeeNameValid);
+		boolean negativeLess = registrationUserInfoValidator.isEmployeeNameValid(employeeNameInvalidLessSymbols);
+		boolean negativeMore = registrationUserInfoValidator.isEmployeeNameValid(employeeNameInvalidMoreSymbols);
+		Assert.assertTrue(positive);
+		Assert.assertFalse(negativeLess);
+		Assert.assertFalse(negativeMore);
 	}
 
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isEmployeeSurnameValid(java.lang.String)}.
+	 */
 	@Test
-	public void isEmployeeSurnameValid() {
-		boolean actualEmployeeSurname = registrationUserInfoValidator.isEmployeeSurnameValid(employeeSurname);
-		Assert.assertTrue("isEmployeeSurnameValid", actualEmployeeSurname);
+	public void testIsEmployeeSurnameValid() {
+		boolean positive = registrationUserInfoValidator.isEmployeeSurnameValid(employeeSurname);
+		Assert.assertTrue(positive);
 	}
 
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isEmployeePatronymicValid(java.lang.String)}.
+	 */
 	@Test
-	public void isEmployeePatronymicValid() {
-		boolean actualEmployeePatronymic = registrationUserInfoValidator.isEmployeePatronymicValid(employeePatronymic);
-		Assert.assertTrue("isEmployeePatronymicValid", actualEmployeePatronymic);
+	public void testIsEmployeePatronymicValid() {
+		boolean positive = registrationUserInfoValidator.isEmployeePatronymicValid(employeePatronymic);
+		Assert.assertTrue(positive);
 	}
 
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isEmployeePositionValid(java.lang.String)}.
+	 */
 	@Test
-	public void isEmployeePositionValid() {
-		boolean actualEmployeePosition = registrationUserInfoValidator
-				.isEmployeePositionValid(employeePosition.toString());
-		Assert.assertTrue("isEmployeePositionValid", actualEmployeePosition);
+	public void testIsEmployeePositionValid() {
+		boolean positive = registrationUserInfoValidator
+				.isEmployeePositionValid(EmployeePosition.ENGINEERING_TECHNICIAN.toString());
+		boolean positive1 = registrationUserInfoValidator
+				.isEmployeePositionValid(EmployeePosition.CNC_PROGRAMMER.toString());
+		Assert.assertTrue(positive);
+		Assert.assertTrue(positive1);
 	}
 
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isEmailValid(java.lang.String)}.
+	 */
 	@Test
-	public void isEmailValid() {
-		boolean actualEmail = registrationUserInfoValidator.isEmailValid(email);
-		Assert.assertTrue("isEmailValid", actualEmail);
+	public void testIsEmailValid() {
+		boolean positive = registrationUserInfoValidator.isEmailValid(emailValid);
+		boolean negative = registrationUserInfoValidator.isEmailValid(emailInvalid);
+		Assert.assertTrue(positive);
+		Assert.assertFalse(negative);
+	}
+
+	/**
+	 * Test method for
+	 * {@link by.petrovich.storage.validator.impl.RegistrationUserInfoValidator#isPasswordConfirmValid(java.lang.String)}.
+	 */
+	@Test
+	public void testIsPasswordConfirmValid() {
+		boolean positive = registrationUserInfoValidator.isPasswordValid(passwordValid);
+		boolean negativePasswordWithoutPunct = registrationUserInfoValidator
+				.isPasswordValid(passwordInvalidWithoutPunct);
+		boolean negativePasswordWithoutDigit = registrationUserInfoValidator
+				.isPasswordValid(passwordInvalidWithoutDigit);
+		boolean negativePasswordWithoutAlpha = registrationUserInfoValidator
+				.isPasswordValid(passwordInvalidWithoutAlpha);
+		boolean negativePasswordLessSymbols = registrationUserInfoValidator.isPasswordValid(passwordInvalidLessSymbols);
+		boolean negativePasswordMoreSymbols = registrationUserInfoValidator.isPasswordValid(passwordInvalidMoreSymbols);
+		Assert.assertTrue(positive);
+		Assert.assertFalse(negativePasswordWithoutPunct);
+		Assert.assertFalse(negativePasswordWithoutDigit);
+		Assert.assertFalse(negativePasswordWithoutAlpha);
+		Assert.assertFalse(negativePasswordLessSymbols);
+		Assert.assertFalse(negativePasswordMoreSymbols);
 	}
 
 }
