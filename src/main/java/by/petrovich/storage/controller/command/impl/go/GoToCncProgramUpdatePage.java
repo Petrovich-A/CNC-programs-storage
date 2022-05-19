@@ -38,7 +38,7 @@ public class GoToCncProgramUpdatePage implements Command {
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "CNC program with id: {} can't be read", id, e);
 		}
-		return new Router(PathToPage.CNC_PROGRAM_UPDATE, RouterType.FORWARD);
+		return new Router(PathToPage.CNC_PROGRAM_UPDATE_PAGE, RouterType.FORWARD);
 	}
 
 }

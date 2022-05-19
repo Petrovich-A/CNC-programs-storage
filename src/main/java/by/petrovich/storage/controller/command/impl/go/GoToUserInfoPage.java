@@ -40,7 +40,7 @@ public class GoToUserInfoPage implements Command {
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);
 		}
-		return new Router(PathToPage.USER_INFO, RouterType.FORWARD);
+		return new Router(PathToPage.USER_INFO_PAGE, RouterType.FORWARD);
 	}
 
 }

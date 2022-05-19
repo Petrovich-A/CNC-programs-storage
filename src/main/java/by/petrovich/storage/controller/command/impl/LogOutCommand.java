@@ -1,7 +1,7 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
-import static by.petrovich.storage.controller.command.PathToPage.MAIN;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.MAIN_PAGE;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -34,18 +34,18 @@ public class LogOutCommand extends AbstractCommand {
 		User user = (User) session.getAttribute("user");
 		if (user == null) {
 			logger.log(Level.ERROR, "HttpSession don't contain user");
-			return createRouterWithAttribute(request, ERROR, "error_message", NO_USER_IN_SESSION);
+			return createRouterWithAttribute(request, ERROR_PAGE, "error_message", NO_USER_IN_SESSION);
 		} else {
 			try {
 				userService.logOut(user);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "Can't log out", e);
-				return createRouterWithAttribute(request, ERROR, "error_message", LOG_OUT_FAILED);
+				return createRouterWithAttribute(request, ERROR_PAGE, "error_message", LOG_OUT_FAILED);
 			}
 		}
 		session.removeAttribute("user");
 		logger.log(Level.INFO, "User has been deleted from httpSession.");
-		return new Router(MAIN, RouterType.FORWARD);
+		return new Router(MAIN_PAGE, RouterType.FORWARD);
 	}
 
 }

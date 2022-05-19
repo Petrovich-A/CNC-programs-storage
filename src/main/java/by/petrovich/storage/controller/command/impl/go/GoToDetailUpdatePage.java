@@ -1,11 +1,15 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAIL_UPDATE_PAGE;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.DETAIL;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.controller.command.Command;
-import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
 import by.petrovich.storage.controller.command.Router.RouterType;
 import by.petrovich.storage.entity.Detail;
@@ -28,19 +32,19 @@ public class GoToDetailUpdatePage implements Command {
 		Detail detail = new Detail();
 		int id = Integer.parseInt(request.getParameter("detail_id"));
 		if (id == 0) {
-			request.setAttribute("error_message", NO_DETAIL_ID);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			request.setAttribute(ERROR_PAGE, NO_DETAIL_ID);
+			return new Router(ERROR_PAGE, RouterType.FORWARD);
 		} else {
 			session.setAttribute("detail_id", id);
 			try {
 				detail = cncProgramService.readDetailById(id);
-				request.setAttribute("detail", detail);
+				request.setAttribute(DETAIL, detail);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "Detail with id: {} can't be read", id, e);
-				request.setAttribute("error_message", DETAIL_NOT_READ);
-				return new Router(PathToPage.ERROR, RouterType.FORWARD);
+				request.setAttribute(ERROR_MESSAGE, DETAIL_NOT_READ);
+				return new Router(ERROR_PAGE, RouterType.FORWARD);
 			}
-			return new Router(PathToPage.GO_TO_DETAIL_UPDATE_PAGE, RouterType.FORWARD);
+			return new Router(GO_TO_DETAIL_UPDATE_PAGE, RouterType.FORWARD);
 		}
 	}
 

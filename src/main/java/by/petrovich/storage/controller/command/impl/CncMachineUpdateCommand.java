@@ -1,8 +1,9 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
-import static by.petrovich.storage.controller.command.PathToPage.GO_TO_CNC_MACHINES;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.GO_TO_CNC_MACHINES_PAGE;
 import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAIL_UPDATE_PAGE;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -36,13 +37,13 @@ public class CncMachineUpdateCommand extends AbstractCommand {
 		CncMachine cncMachineFromUpdateForm = buildCncMachine(request);
 		int id = (Integer) session.getAttribute("cnc_machine_id");
 		if (id == 0) {
-			request.setAttribute("error_message", NO_CNC_MACHINE_ID);
-			return new Router(ERROR, RouterType.FORWARD);
+			request.setAttribute(ERROR_MESSAGE, NO_CNC_MACHINE_ID);
+			return new Router(ERROR_PAGE, RouterType.FORWARD);
 		} else {
 			try {
 				cncProgramService.updateCncMachine(cncMachineFromUpdateForm, id);
 				logger.log(Level.INFO, "CNC machine with id: {} is updated.", id);
-				return createRouterWithAttribute(request, GO_TO_CNC_MACHINES, "admin_cnc_machines_message",
+				return createRouterWithAttribute(request, GO_TO_CNC_MACHINES_PAGE, "admin_cnc_machines_message",
 						CNC_MACHINE_UPDATE_SUCCESSFUL);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "Can't update CNC machine with id: {}, CNC machine: {}", id,

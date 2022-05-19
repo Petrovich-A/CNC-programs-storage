@@ -10,7 +10,7 @@ public class GoToAuthorizationPage implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		return new Router(PathToPage.AUTHORIZATION, RouterType.FORWARD);
+		return new Router(PathToPage.AUTHORIZATION_PAGE, RouterType.FORWARD);
 	}
 
 }

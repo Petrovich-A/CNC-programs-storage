@@ -1,5 +1,9 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_MACHINE;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_MACHINE_ID;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,17 +32,17 @@ public class GoToCncMachineUpdatePage implements Command {
 		CncMachine cncMachine = new CncMachine();
 		int id = Integer.parseInt(request.getParameter("cnc_machine_id"));
 		if (id == 0) {
-			request.setAttribute("error_message", NO_CNC_MACHINE_ID);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			request.setAttribute(ERROR_MESSAGE, NO_CNC_MACHINE_ID);
+			return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 		} else {
-			session.setAttribute("cnc_machine_id", id);
+			session.setAttribute(CNC_MACHINE_ID, id);
 			try {
 				cncMachine = cncProgramService.readCncMachine(id);
-				request.setAttribute("cncMachine", cncMachine);
+				request.setAttribute(CNC_MACHINE, cncMachine);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "CNC machine with id: {} can't be read", id, e);
-				request.setAttribute("error_message", CNC_MACHINE_NOT_READ);
-				return new Router(PathToPage.ERROR, RouterType.FORWARD);
+				request.setAttribute(ERROR_MESSAGE, CNC_MACHINE_NOT_READ);
+				return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 			}
 			return new Router(PathToPage.GO_TO_CNC_MACHINE_UPDATE_PAGE, RouterType.FORWARD);
 		}

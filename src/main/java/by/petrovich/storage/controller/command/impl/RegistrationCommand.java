@@ -1,8 +1,8 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.AUTHORIZATION;
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
-import static by.petrovich.storage.controller.command.PathToPage.REGISTRATION;
+import static by.petrovich.storage.controller.command.PathToPage.AUTHORIZATION_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.REGISTRATION_PAGE;
 
 import java.sql.Timestamp;
 
@@ -47,7 +47,7 @@ public class RegistrationCommand extends AbstractCommand {
 					return registrate(request, registrationUserInfo);
 				} else {
 					logger.log(Level.INFO, "Registration user data is wrong.");
-					return createRouterWithAttribute(request, REGISTRATION, "registration_message", WRONG_INPUT_DATA);
+					return createRouterWithAttribute(request, REGISTRATION_PAGE, "registration_message", WRONG_INPUT_DATA);
 				}
 			} else {
 				logger.log(Level.INFO, "User with personnel number: {} is yet exist in DB.",
@@ -55,12 +55,12 @@ public class RegistrationCommand extends AbstractCommand {
 				String messagePlusPersonnelNumber = "User with personnel number: "
 						+ registrationUserInfo.getPersonnelNumber()
 						+ " has existed in BD yet. Please fill the registration form below with another login.";
-				return createRouterWithAttribute(request, REGISTRATION, "registration_message",
+				return createRouterWithAttribute(request, REGISTRATION_PAGE, "registration_message",
 						messagePlusPersonnelNumber);
 			}
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "User registration failed.", e);
-			return createRouterWithAttribute(request, ERROR, "error_message", REGISTRATION_FAILED);
+			return createRouterWithAttribute(request, ERROR_PAGE, "error_message", REGISTRATION_FAILED);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class RegistrationCommand extends AbstractCommand {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("user");
 		}
-		return createRouterWithAttribute(request, AUTHORIZATION, "authorization_message", REGISTRATION_SUCCESSFUL);
+		return createRouterWithAttribute(request, AUTHORIZATION_PAGE, "authorization_message", REGISTRATION_SUCCESSFUL);
 	}
 
 	/**

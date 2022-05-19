@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller;
 
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
+
 import java.io.IOException;
 
 import org.apache.logging.log4j.Level;
@@ -20,7 +22,7 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LogManager.getLogger();
 	private static final String COMMAND_REQUEST_PARAM = "commandName";
-	private static final String ERROR_MESSAGE = "Can't find required page.";
+	private static final String ERROR = "Can't find required page.";
 	private final CommandProvider commandProvider = CommandProvider.getInstamce();
 
 	@Override
@@ -47,8 +49,8 @@ public class Controller extends HttpServlet {
 
 		default:
 			logger.log(Level.ERROR, COMMAND_REQUEST_PARAM);
-			request.setAttribute("error_message", ERROR_MESSAGE);
-			request.getRequestDispatcher(PathToPage.ERROR).forward(request, response);
+			request.setAttribute(ERROR_MESSAGE, ERROR);
+			request.getRequestDispatcher(PathToPage.ERROR_PAGE).forward(request, response);
 		}
 	}
 

@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.RequestAttributeNames.REGISTRATION_MESSAGE;
+
 import by.petrovich.storage.controller.command.Command;
 import by.petrovich.storage.controller.command.PathToPage;
 import by.petrovich.storage.controller.command.Router;
@@ -11,8 +13,8 @@ public class GoToRegistrationPage implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		request.setAttribute("registration_message", FILL_THE_FORM);
-		return new Router(PathToPage.REGISTRATION, RouterType.FORWARD);
+		request.setAttribute(REGISTRATION_MESSAGE, FILL_THE_FORM);
+		return new Router(PathToPage.REGISTRATION_PAGE, RouterType.FORWARD);
 	}
 
 }

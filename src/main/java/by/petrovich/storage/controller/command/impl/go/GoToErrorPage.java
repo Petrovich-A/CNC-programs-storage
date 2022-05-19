@@ -10,6 +10,6 @@ public class GoToErrorPage implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		return new Router(PathToPage.ERROR, RouterType.FORWARD);
+		return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 	}
 }

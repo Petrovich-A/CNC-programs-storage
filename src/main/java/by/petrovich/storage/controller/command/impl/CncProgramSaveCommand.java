@@ -1,8 +1,8 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.AUTHORIZATION;
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
-import static by.petrovich.storage.controller.command.PathToPage.MAIN;
+import static by.petrovich.storage.controller.command.PathToPage.AUTHORIZATION_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.MAIN_PAGE;
 
 import java.sql.Timestamp;
 
@@ -44,18 +44,18 @@ public class CncProgramSaveCommand extends AbstractCommand {
 		user = (User) session.getAttribute("user");
 		if (user == null) {
 			logger.log(Level.ERROR, "have no user data in session");
-			return new Router(AUTHORIZATION, RouterType.FORWARD);
+			return new Router(AUTHORIZATION_PAGE, RouterType.FORWARD);
 		} else {
 			try {
 				logger.log(Level.INFO, "Cnc program from main form is received", cncProgramFromMainForm.toString());
 				cncProgramFromMainForm.setPersonnelNumber(user.getPersonnelNumber());
 				cncProgramService.createCncProgram(cncProgramFromMainForm);
 				session.setAttribute("main_message", CNC_PROGRAM_SAVE_SUCCESSFUL);
-				return new Router(MAIN, RouterType.FORWARD);
+				return new Router(MAIN_PAGE, RouterType.FORWARD);
 			} catch (ServiceException e) {
 				session.setAttribute("error_message", CNC_PROGRAM_SAVE_ERROR);
 				logger.log(Level.ERROR, e.getLocalizedMessage());
-				return new Router(ERROR, RouterType.FORWARD);
+				return new Router(ERROR_PAGE, RouterType.FORWARD);
 			}
 		}
 	}

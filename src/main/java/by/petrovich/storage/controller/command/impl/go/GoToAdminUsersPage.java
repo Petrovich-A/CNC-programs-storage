@@ -31,10 +31,10 @@ public class GoToAdminUsersPage implements Command {
 			allUsers = userService.readAllUsers();
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "can't read allUsers", allUsers, e);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 		}
 		session.setAttribute("allUsers", allUsers);
-		return new Router(PathToPage.ADMIN_USERS, RouterType.FORWARD);
+		return new Router(PathToPage.ADMIN_USERS_PAGE, RouterType.FORWARD);
 	}
 
 }

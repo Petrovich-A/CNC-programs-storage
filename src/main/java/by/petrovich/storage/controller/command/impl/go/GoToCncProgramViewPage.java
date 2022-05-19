@@ -1,5 +1,8 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_PROGRAM;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
+
 import java.util.Optional;
 
 import org.apache.logging.log4j.Level;
@@ -34,14 +37,14 @@ public class GoToCncProgramViewPage implements Command {
 			cncProgramOptional = cncProgramService.readCncProgramById(id);
 			if (cncProgramOptional.isPresent()) {
 				cncProgram = cncProgramOptional.get();
-				request.setAttribute("cncProgram", cncProgram);
+				request.setAttribute(CNC_PROGRAM, cncProgram);
 			}
 		} catch (ServiceException e) {
-			request.setAttribute("error_message", CANT_READ_CNC_PROGRAM + id);
+			request.setAttribute(ERROR_MESSAGE, CANT_READ_CNC_PROGRAM + id);
 			logger.log(Level.ERROR, "Can't read CNC program by id {}", id, e);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 		}
-		return new Router(PathToPage.CNC_PROGRAM_VIEW, RouterType.FORWARD);
+		return new Router(PathToPage.CNC_PROGRAM_VIEW_PAGE, RouterType.FORWARD);
 	}
 
 }

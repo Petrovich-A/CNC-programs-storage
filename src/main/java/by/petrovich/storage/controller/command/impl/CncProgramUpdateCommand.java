@@ -1,7 +1,7 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.CNC_PROGRAM_UPDATE;
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
+import static by.petrovich.storage.controller.command.PathToPage.CNC_PROGRAM_UPDATE_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -37,15 +37,15 @@ public class CncProgramUpdateCommand extends AbstractCommand {
 			id = (Integer) session.getAttribute("id");
 		} else {
 			logger.log(Level.ERROR, "Session doesn't contain CNC program id.");
-			return createRouterWithAttribute(request, ERROR, "error_message", CNC_PROGRAM_UPDATE_ERROR_SESSION);
+			return createRouterWithAttribute(request, ERROR_PAGE, "error_message", CNC_PROGRAM_UPDATE_ERROR_SESSION);
 		}
 		try {
 			cncProgramService.updateCncProgram(cncProgram, id);
-			return createRouterWithAttribute(request, CNC_PROGRAM_UPDATE, "cnc_program_update_message",
+			return createRouterWithAttribute(request, CNC_PROGRAM_UPDATE_PAGE, "cnc_program_update_message",
 					CNC_PROGRAM_UPDATE_SUCCESSFUL);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't update CNC program with id {}", id, e);
-			return createRouterWithAttribute(request, CNC_PROGRAM_UPDATE, "cnc_program_update_message",
+			return createRouterWithAttribute(request, CNC_PROGRAM_UPDATE_PAGE, "cnc_program_update_message",
 					CNC_PROGRAM_UPDATE_ERROR);
 		}
 	}

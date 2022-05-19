@@ -38,7 +38,7 @@ public class GoToUpdateUserPage implements Command {
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "User with personnelNumber: {} can't be read", personnelNumber, e);
 		}
-		return new Router(PathToPage.USER_UPDATE, RouterType.FORWARD);
+		return new Router(PathToPage.USER_UPDATE_PAGE, RouterType.FORWARD);
 	}
 
 }

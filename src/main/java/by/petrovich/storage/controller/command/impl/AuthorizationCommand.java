@@ -1,8 +1,8 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.AUTHORIZATION;
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
-import static by.petrovich.storage.controller.command.PathToPage.MAIN;
+import static by.petrovich.storage.controller.command.PathToPage.AUTHORIZATION_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.MAIN_PAGE;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -48,11 +48,11 @@ public class AuthorizationCommand extends AbstractCommand {
 				return authorizate(request, login, password);
 			} else {
 				logger.log(Level.INFO, "Wrong input data");
-				return createRouterWithAttribute(request, AUTHORIZATION, "authorization_message", WRONG_INPUT_DATA);
+				return createRouterWithAttribute(request, AUTHORIZATION_PAGE, "authorization_message", WRONG_INPUT_DATA);
 			}
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "User authorization with personnel number: {} is faild", login, e);
-			return createRouterWithAttribute(request, ERROR, "error_message", AUTHORIZATION_FAILED);
+			return createRouterWithAttribute(request, ERROR_PAGE, "error_message", AUTHORIZATION_FAILED);
 		}
 	}
 
@@ -67,7 +67,7 @@ public class AuthorizationCommand extends AbstractCommand {
 		HttpSession session = request.getSession(true);
 		User user = userService.authorizateUser(login, password).get();
 		session.setAttribute("user", user);
-		return createRouterWithAttribute(request, MAIN, "main_message", AUTHORIZATION_SUCCESSFUL);
+		return createRouterWithAttribute(request, MAIN_PAGE, "main_message", AUTHORIZATION_SUCCESSFUL);
 	}
 
 }

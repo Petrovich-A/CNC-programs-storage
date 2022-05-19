@@ -33,7 +33,7 @@ public class GoToDetailsPage implements Command {
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't read details", e);
 		}
-		return new Router(PathToPage.GO_TO_DETAILS, RouterType.FORWARD);
+		return new Router(PathToPage.GO_TO_DETAILS_PAGE, RouterType.FORWARD);
 	}
 
 }

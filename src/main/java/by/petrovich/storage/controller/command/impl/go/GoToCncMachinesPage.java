@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_MACHINES;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +29,11 @@ public class GoToCncMachinesPage implements Command {
 		List<CncMachine> cncMachines = new ArrayList<>();
 		try {
 			cncMachines = cncProgramService.readAllCncMachines();
-			request.setAttribute("cncMachines", cncMachines);
+			request.setAttribute(CNC_MACHINES, cncMachines);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't read CNC machines", e);
 		}
-		return new Router(PathToPage.GO_TO_CNC_MACHINES, RouterType.FORWARD);
+		return new Router(PathToPage.GO_TO_CNC_MACHINES_PAGE, RouterType.FORWARD);
 	}
 
 }

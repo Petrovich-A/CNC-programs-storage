@@ -1,10 +1,11 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.CNC_PROGRAM_VIEW;
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
-import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAILS_CNC_PROGRAMS;
-import static by.petrovich.storage.controller.command.PathToPage.MAIN;
-import static by.petrovich.storage.controller.command.PathToPage.USER_INFO;
+import static by.petrovich.storage.controller.command.PathToPage.CNC_PROGRAM_VIEW_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAILS_CNC_PROGRAMS_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.MAIN_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.USER_INFO_PAGE;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,12 +45,12 @@ public class SearchCommand extends AbstractCommand {
 			CncProgram cncProgram = cncProgramService.readCncProgramByName(searchData);
 			if (cncProgram != null) {
 				logger.log(Level.INFO, "Find CNC program by CNC program's name: {}", searchData);
-				return createRouterWithAttribute(request, CNC_PROGRAM_VIEW, "cncProgram", cncProgram);
+				return createRouterWithAttribute(request, CNC_PROGRAM_VIEW_PAGE, "cncProgram", cncProgram);
 			}
 			List<CncProgram> cncProgramsByDetail = cncProgramService.receiveBatchByDetailName(searchData);
 			if (!cncProgramsByDetail.isEmpty()) {
 				logger.log(Level.INFO, "Find some CNC programs by detail's name: {}", searchData);
-				return createRouterWithAttribute(request, GO_TO_DETAILS_CNC_PROGRAMS, "cncPrograms",
+				return createRouterWithAttribute(request, GO_TO_DETAILS_CNC_PROGRAMS_PAGE, "cncPrograms",
 						cncProgramsByDetail);
 			}
 			Optional<User> userOptional = Optional.empty();
@@ -58,14 +59,14 @@ public class SearchCommand extends AbstractCommand {
 				if (userOptional.isPresent()) {
 					User user = userOptional.get();
 					logger.log(Level.INFO, "Find user by login personel number: {}", searchData);
-					return createRouterWithAttribute(request, USER_INFO, "userFromDao", user);
+					return createRouterWithAttribute(request, USER_INFO_PAGE, "userFromDao", user);
 				}
 			}
-			return createRouterWithAttribute(request, MAIN, "main_message", SEARCH_RESULTS_NOT_FOUND + searchData);
+			return createRouterWithAttribute(request, MAIN_PAGE, "main_message", SEARCH_RESULTS_NOT_FOUND + searchData);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't execute search query.", e);
-			request.setAttribute("error_message", SEARCHING_IS_FAILED);
-			return new Router(ERROR, RouterType.FORWARD);
+			request.setAttribute(ERROR_MESSAGE, SEARCHING_IS_FAILED);
+			return new Router(ERROR_PAGE, RouterType.FORWARD);
 		}
 	}
 

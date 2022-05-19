@@ -26,16 +26,16 @@ public class GoToMainPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		session.setAttribute("path_to_page", PathToPage.MAIN);
+		session.setAttribute("path_to_page", PathToPage.MAIN_PAGE);
 		List<CncProgram> allCncPrograms = new ArrayList<>();
 		try {
 			allCncPrograms = cncProgramService.receiveBatchByDate();
 			session.setAttribute("allCncPrograms", allCncPrograms);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "can't read allCncPrograms", e);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 		}
-		return new Router(PathToPage.MAIN, RouterType.FORWARD);
+		return new Router(PathToPage.MAIN_PAGE, RouterType.FORWARD);
 	}
 
 }

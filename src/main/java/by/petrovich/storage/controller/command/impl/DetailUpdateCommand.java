@@ -1,8 +1,9 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.ERROR;
-import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAILS;
+import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAILS_PAGE;
 import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAIL_UPDATE_PAGE;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -36,13 +37,13 @@ public class DetailUpdateCommand extends AbstractCommand {
 		Detail detailFromUpdateForm = buildDetail(request);
 		int id = (Integer) session.getAttribute("detail_id");
 		if (id == 0) {
-			request.setAttribute("error_message", NO_DETAIL_ID);
-			return new Router(ERROR, RouterType.FORWARD);
+			request.setAttribute(ERROR_MESSAGE, NO_DETAIL_ID);
+			return new Router(ERROR_PAGE, RouterType.FORWARD);
 		} else {
 			try {
 				cncProgramService.updateDetail(detailFromUpdateForm, id);
 				logger.log(Level.INFO, "Detail with id: {} is updated.", id);
-				return createRouterWithAttribute(request, GO_TO_DETAILS, "admin_details_message",
+				return createRouterWithAttribute(request, GO_TO_DETAILS_PAGE, "admin_details_message",
 						DETAIL_UPDATE_SUCCESSFUL);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "Can't update detail with id: {}, detail: {}", id,

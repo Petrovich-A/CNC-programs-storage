@@ -1,7 +1,7 @@
 package by.petrovich.storage.controller.command.impl;
 
-import static by.petrovich.storage.controller.command.PathToPage.ADMIN_USERS;
-import static by.petrovich.storage.controller.command.PathToPage.USER_UPDATE;
+import static by.petrovich.storage.controller.command.PathToPage.ADMIN_USERS_PAGE;
+import static by.petrovich.storage.controller.command.PathToPage.USER_UPDATE_PAGE;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -38,11 +38,11 @@ public class UserUpdateCommand extends AbstractCommand {
 		try {
 			userService.update(userFromUpdateForm, personnelNumber);
 			logger.log(Level.INFO, "User with personnel number: {} is updated.", personnelNumber);
-			return createRouterWithAttribute(request, ADMIN_USERS, "admin_users_message", UPDATE_USER_SUCCESSFUL);
+			return createRouterWithAttribute(request, ADMIN_USERS_PAGE, "admin_users_message", UPDATE_USER_SUCCESSFUL);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't update user with personnelNumber: {}, user: {}.", personnelNumber,
 					userFromUpdateForm.toString(), e);
-			return createRouterWithAttribute(request, USER_UPDATE, "error_message", UPDATE_USER_FAILD);
+			return createRouterWithAttribute(request, USER_UPDATE_PAGE, "error_message", UPDATE_USER_FAILD);
 		}
 	}
 

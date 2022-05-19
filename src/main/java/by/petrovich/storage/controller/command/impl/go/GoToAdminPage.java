@@ -1,5 +1,9 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ALL_CNC_PROGRAMS;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.CURRENT_PAGE;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.NUMBER_OF_PAGES;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +40,13 @@ public class GoToAdminPage implements Command {
 			numberOfRecords = cncProgramService.receiveNumberOfRecords();
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "can't read allCncPrograms", e);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 		}
 		numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
-		request.setAttribute("allCncPrograms", allCncPrograms);
-		request.setAttribute("numberOfPages", numberOfPages);
-		request.setAttribute("currentPage", page);
-		return new Router(PathToPage.ADMIN, RouterType.FORWARD);
+		request.setAttribute(ALL_CNC_PROGRAMS, allCncPrograms);
+		request.setAttribute(NUMBER_OF_PAGES, numberOfPages);
+		request.setAttribute(CURRENT_PAGE, page);
+		return new Router(PathToPage.ADMIN_PAGE, RouterType.FORWARD);
 	}
 
 }

@@ -1,5 +1,8 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_PROGRAMS;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,19 +36,19 @@ public class GoToUsersProgramPage implements Command {
 		User user = new User();
 		user = (User) session.getAttribute("user");
 		if (user == null) {
-			request.setAttribute("error_message", ERROR_NO_USER);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			request.setAttribute(ERROR_MESSAGE, ERROR_NO_USER);
+			return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 		} else {
 			try {
 				cncPrograms = cncProgramService.receiveBatchByPersonnelNumber(user.getPersonnelNumber());
-				request.setAttribute("cncPrograms", cncPrograms);
+				request.setAttribute(CNC_PROGRAMS, cncPrograms);
 			} catch (ServiceException e) {
 				logger.log(Level.ERROR, "Can't find user's CNC programs", e);
-				request.setAttribute("error_message", ERROR);
-				return new Router(PathToPage.ERROR, RouterType.FORWARD);
+				request.setAttribute(ERROR_MESSAGE, ERROR);
+				return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 			}
 		}
-		return new Router(PathToPage.USERS_PROGRAM, RouterType.FORWARD);
+		return new Router(PathToPage.USERS_PROGRAM_PAGE, RouterType.FORWARD);
 	}
 
 }

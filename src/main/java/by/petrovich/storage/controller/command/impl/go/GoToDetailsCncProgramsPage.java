@@ -1,5 +1,8 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_PROGRAMS_BY_DETAIL;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,18 +32,19 @@ public class GoToDetailsCncProgramsPage implements Command {
 		HttpSession session = request.getSession(true);
 		List<CncProgram> cncProgramsByDetail = new ArrayList<>();
 		String detailName = null;
-		if (request.getParameter("detail_name") != null)
-			request.setAttribute("error_message", NO_CNC_PROGRAMS);
+		if (request.getParameter("detail_name") != null) {
+			request.setAttribute(ERROR_MESSAGE, NO_CNC_PROGRAMS);
 			detailName = request.getParameter("detail_name");
+		}
 		try {
 			cncProgramsByDetail = cncProgramService.receiveBatchByDetailName(detailName);
-			session.setAttribute("cncProgramsByDetail", cncProgramsByDetail);
+			session.setAttribute(CNC_PROGRAMS_BY_DETAIL, cncProgramsByDetail);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't find CNC programs by detail name. Detail name: {}.", detailName, e);
-			request.setAttribute("error_message", NO_CNC_PROGRAMS);
-			return new Router(PathToPage.ERROR, RouterType.FORWARD);
+			request.setAttribute(ERROR_MESSAGE, NO_CNC_PROGRAMS);
+			return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 		}
-		return new Router(PathToPage.GO_TO_DETAILS_CNC_PROGRAMS, RouterType.FORWARD);
+		return new Router(PathToPage.GO_TO_DETAILS_CNC_PROGRAMS_PAGE, RouterType.FORWARD);
 	}
 
 }
