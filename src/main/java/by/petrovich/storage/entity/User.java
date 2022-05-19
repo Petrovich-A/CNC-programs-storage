@@ -17,12 +17,25 @@ public class User {
 	public User() {
 	}
 
+	/**
+	 * @param personnelNumber
+	 * @param password
+	 */
 	public User(int personnelNumber, String password) {
 		super();
 		this.personnelNumber = personnelNumber;
 		this.password = password;
 	}
 
+	/**
+	 * @param personnelNumber
+	 * @param password
+	 * @param employeeName
+	 * @param employeeSurname
+	 * @param employeePatronymic
+	 * @param employeePosition
+	 * @param email
+	 */
 	public User(int personnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email) {
 		super();
@@ -35,6 +48,16 @@ public class User {
 		this.email = email;
 	}
 
+	/**
+	 * @param personnelNumber
+	 * @param password
+	 * @param employeeName
+	 * @param employeeSurname
+	 * @param employeePatronymic
+	 * @param employeePosition
+	 * @param email
+	 * @param creationDate
+	 */
 	public User(int personnelNumber, String password, String employeeName, String employeeSurname,
 			String employeePatronymic, EmployeePosition employeePosition, String email, Timestamp creationDate) {
 		this.personnelNumber = personnelNumber;
@@ -145,6 +168,9 @@ public class User {
 		this.userRole = userRole;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -160,12 +186,18 @@ public class User {
 				&& Objects.equals(creationDate, user.creationDate) && userRole == user.userRole;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(personnelNumber, password, employeeName, employeeSurname, employeePatronymic,
 				employeePosition, email, creationDate, userRole);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

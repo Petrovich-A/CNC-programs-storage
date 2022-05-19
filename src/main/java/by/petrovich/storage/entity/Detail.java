@@ -1,62 +1,86 @@
 package by.petrovich.storage.entity;
 
-import java.util.StringJoiner;
+import java.util.Objects;
 
 public class Detail {
-    private int id;
-    private String name;
+	private int id;
+	private String name;
 
-    public Detail(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+	/**
+	 * 
+	 */
+	public Detail() {
+		super();
+	}
 
-    public Detail(String name) {
-        this.name = name;
-    }
+	/**
+	 * @param name
+	 */
+	public Detail(String name) {
+		super();
+		this.name = name;
+	}
 
-    public Detail() {
-    }
+	/**
+	 * @param id
+	 * @param name
+	 */
+	public Detail(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 
-    public int getId() {
-        return id;
-    }
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name);
+	}
 
-        Detail detail = (Detail) o;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Detail other = (Detail) obj;
+		return id == other.id && Objects.equals(name, other.name);
+	}
 
-        if (id != detail.id) return false;
-        return name != null ? name.equals(detail.name) : detail.name == null;
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Detail [id=").append(id).append(", name=").append(name).append("]");
+		return builder.toString();
+	}
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Detail.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("name='" + name + "'")
-                .toString();
-    }
 }
