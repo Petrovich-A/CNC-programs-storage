@@ -238,14 +238,6 @@ public class RegistrationUserInfo {
 			return newRegistrationUserInfo;
 		}
 
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			builder.append("RegistrationUserInfoBuilder [newRegistrationUserInfo=").append(newRegistrationUserInfo)
-					.append("]");
-			return builder.toString();
-		}
-
 	}
 
 }
