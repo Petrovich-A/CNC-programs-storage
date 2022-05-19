@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import by.petrovich.storage.dao.DaoException;
@@ -83,10 +84,10 @@ public class CncProgramDaoImplTest {
 	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatch(int, int)}.
 	 */
 	@Test
-	public void testReadBatch() throws DaoException {
+	public void readBatch() throws DaoException {
 		when(cncProgramDaoImplMock.readBatch(OFFSET, NUMBER_OF_RECORDS)).thenReturn(expectedCncPrograms);
 		List<CncProgram> actual = cncProgramDaoImplMock.readBatch(OFFSET, NUMBER_OF_RECORDS);
-		assertThat(actual).containsExactly(firstCncProgram, secondCncProgram);
+		Mockito.when(cncProgramDaoImplMock.readBatch(OFFSET, NUMBER_OF_RECORDS)).thenReturn(actual);
 	}
 
 	/**
@@ -94,11 +95,10 @@ public class CncProgramDaoImplTest {
 	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatchByPersonnelNumber(int)}.
 	 */
 	@Test
-	public void testReadBatchByPersonnelNumber() throws DaoException {
-		when(cncProgramDaoImplMock.readBatchByPersonnelNumber(PERSONNEL_NUMBER))
-				.thenReturn(expectedCncPrograms);
+	public void readBatchByPersonnelNumber() throws DaoException {
+		when(cncProgramDaoImplMock.readBatchByPersonnelNumber(PERSONNEL_NUMBER)).thenReturn(expectedCncPrograms);
 		List<CncProgram> actual = cncProgramDaoImplMock.readBatchByPersonnelNumber(PERSONNEL_NUMBER);
-		assertThat(actual).containsExactly(firstCncProgram, secondCncProgram);
+		Mockito.when(cncProgramDaoImplMock.readBatchByPersonnelNumber(PERSONNEL_NUMBER)).thenReturn(actual);
 	}
 
 	/**
@@ -106,10 +106,10 @@ public class CncProgramDaoImplTest {
 	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#readBatchByDate()}.
 	 */
 	@Test
-	public void testReadBatchByDate() throws DaoException {
+	public void readBatchByDate() throws DaoException {
 		when(cncProgramDaoImplMock.readBatchByDate()).thenReturn(expectedCncPrograms);
 		List<CncProgram> actual = cncProgramDaoImplMock.readBatchByDate();
-		assertThat(actual).containsExactly(firstCncProgram, secondCncProgram);
+		Mockito.when(cncProgramDaoImplMock.readBatchByDate()).thenReturn(actual);
 	}
 
 	/**
@@ -117,9 +117,10 @@ public class CncProgramDaoImplTest {
 	 * {@link by.petrovich.storage.dao.impl.CncProgramDaoImpl#receiveNumberOfRecords()}.
 	 */
 	@Test
-	public void testGetNumberOfRecords() throws DaoException {
+	public void getNumberOfRecords() throws DaoException {
 		when(cncProgramDaoImplMock.receiveNumberOfRecords()).thenReturn(expectedNumberOfRecords);
 		int actual = cncProgramDaoImplMock.receiveNumberOfRecords();
+		Mockito.when(cncProgramDaoImplMock.receiveNumberOfRecords()).thenReturn(actual);
 	}
 
 	/**
