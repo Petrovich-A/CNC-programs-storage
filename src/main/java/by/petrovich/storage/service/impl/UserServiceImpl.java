@@ -151,10 +151,12 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		try {
 			userOptional = userDao.readUserByPersonnelNumber(login);
-			user = userOptional.get();
-			hashedPassword = passwordHasher.generateHash(password);
-			isPasswordsMatch = isPasswordsMatch(hashedPassword, user.getPassword());
-			isLoginsMatch = isLoginsMatch(login, user.getPersonnelNumber());
+			if (userOptional.isPresent()) {
+				user = userOptional.get();
+				hashedPassword = passwordHasher.generateHash(password);
+				isPasswordsMatch = isPasswordsMatch(hashedPassword, user.getPassword());
+				isLoginsMatch = isLoginsMatch(login, user.getPersonnelNumber());
+			}
 			if (isPasswordsMatch && isLoginsMatch) {
 				isMatch = true;
 			}
