@@ -1,6 +1,18 @@
 package by.petrovich.storage.controller.command;
 
-import by.petrovich.storage.controller.command.impl.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import by.petrovich.storage.controller.command.impl.AuthorizationCommand;
+import by.petrovich.storage.controller.command.impl.ChangeLocalCommand;
+import by.petrovich.storage.controller.command.impl.CncMachineUpdateCommand;
+import by.petrovich.storage.controller.command.impl.CncProgramSaveCommand;
+import by.petrovich.storage.controller.command.impl.CncProgramUpdateCommand;
+import by.petrovich.storage.controller.command.impl.DetailUpdateCommand;
+import by.petrovich.storage.controller.command.impl.LogOutCommand;
+import by.petrovich.storage.controller.command.impl.RegistrationCommand;
+import by.petrovich.storage.controller.command.impl.SearchCommand;
+import by.petrovich.storage.controller.command.impl.UserUpdateCommand;
 import by.petrovich.storage.controller.command.impl.go.GoToAdminPage;
 import by.petrovich.storage.controller.command.impl.go.GoToAdminUsersPage;
 import by.petrovich.storage.controller.command.impl.go.GoToAuthorizationPage;
@@ -18,13 +30,17 @@ import by.petrovich.storage.controller.command.impl.go.GoToUpdateUserPage;
 import by.petrovich.storage.controller.command.impl.go.GoToUserInfoPage;
 import by.petrovich.storage.controller.command.impl.go.GoToUsersProgramPage;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class CommandProvider {
 	private Map<CommandName, Command> commands = new HashMap<>();
 	private static CommandProvider instance;
 
+	/**
+	 * 
+	 */
 	private CommandProvider() {
 		commands.put(CommandName.GO_TO_MAIN_PAGE, new GoToMainPage());
 		commands.put(CommandName.GO_TO_REGISTRATION_PAGE, new GoToRegistrationPage());
@@ -55,6 +71,9 @@ public class CommandProvider {
 		commands.put(CommandName.SEARCH, new SearchCommand());
 	}
 
+	/**
+	 * @return
+	 */
 	public synchronized static CommandProvider getInstamce() {
 		if (instance == null) {
 			instance = new CommandProvider();
@@ -62,6 +81,10 @@ public class CommandProvider {
 		return instance;
 	}
 
+	/**
+	 * @param name
+	 * @return
+	 */
 	public Command findCommand(String name) {
 		if (name == null || name.isBlank()) {
 			name = CommandName.GO_TO_ERROR_PAGE.toString();

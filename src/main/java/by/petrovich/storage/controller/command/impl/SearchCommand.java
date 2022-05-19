@@ -24,6 +24,10 @@ import by.petrovich.storage.service.ServiceProvider;
 import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class SearchCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -65,6 +69,10 @@ public class SearchCommand extends AbstractCommand {
 		}
 	}
 
+	/**
+	 * @param stringData
+	 * @return
+	 */
 	private boolean isNumeric(String stringData) {
 		return stringData != null && stringData.matches(REG_EX_DIGIT);
 	}

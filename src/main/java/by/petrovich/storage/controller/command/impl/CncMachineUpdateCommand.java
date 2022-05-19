@@ -18,6 +18,10 @@ import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class CncMachineUpdateCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String NO_CNC_MACHINE_ID = "No CNC machine id.";
@@ -49,6 +53,10 @@ public class CncMachineUpdateCommand extends AbstractCommand {
 		}
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 */
 	private CncMachine buildCncMachine(HttpServletRequest request) {
 		CncMachine cncMachine = new CncMachine();
 		cncMachine.setModel(getParameterToCheck("model", request));

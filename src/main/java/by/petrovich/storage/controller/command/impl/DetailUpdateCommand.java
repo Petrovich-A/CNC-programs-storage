@@ -18,6 +18,10 @@ import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class DetailUpdateCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String NO_DETAIL_ID = "No detail id.";
@@ -49,6 +53,10 @@ public class DetailUpdateCommand extends AbstractCommand {
 		}
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 */
 	private Detail buildDetail(HttpServletRequest request) {
 		Detail detail = new Detail();
 		detail.setName(getParameterToCheck("name", request));

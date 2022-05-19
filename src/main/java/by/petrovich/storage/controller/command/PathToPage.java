@@ -1,5 +1,9 @@
 package by.petrovich.storage.controller.command;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public final class PathToPage {
 	public static final String MAIN = "/WEB-INF/pages/main.jsp";
 	public static final String REGISTRATION = "/WEB-INF/pages/registration.jsp";

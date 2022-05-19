@@ -1,5 +1,9 @@
 package by.petrovich.storage.controller.command;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public enum CommandName {
 	GO_TO_MAIN_PAGE,
 	GO_TO_REGISTRATION_PAGE,

@@ -16,6 +16,10 @@ import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class CncProgramUpdateCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String CNC_PROGRAM_UPDATE_SUCCESSFUL = "CNC program update successful";
@@ -46,6 +50,10 @@ public class CncProgramUpdateCommand extends AbstractCommand {
 		}
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 */
 	private CncProgram buildCncProgram(HttpServletRequest request) {
 		CncProgram cncProgram = new CncProgram();
 		cncProgram.setNumber(getParameterToCheck("number", request));

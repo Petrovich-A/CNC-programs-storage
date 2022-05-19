@@ -20,6 +20,10 @@ import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class RegistrationCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -78,6 +82,10 @@ public class RegistrationCommand extends AbstractCommand {
 		return createRouterWithAttribute(request, AUTHORIZATION, "authorization_message", REGISTRATION_SUCCESSFUL);
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 */
 	private RegistrationUserInfo buildRegistrationUserInfo(HttpServletRequest request) {
 		RegistrationUserInfo registrationUserInfo = new RegistrationUserInfo.RegistrationUserInfoBuilder()
 				.withPersonnelNumber(Integer.parseInt(getParameterToCheck("personnelNumber", request)))

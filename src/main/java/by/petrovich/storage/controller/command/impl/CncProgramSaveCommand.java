@@ -23,6 +23,10 @@ import by.petrovich.storage.service.ServiceProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class CncProgramSaveCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -56,6 +60,10 @@ public class CncProgramSaveCommand extends AbstractCommand {
 		}
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 */
 	private CncProgram buildCncProgram(HttpServletRequest request) {
 		CncProgram cncProgram = new CncProgram();
 		cncProgram.setNumber(getParameterToCheck("number", request));
@@ -68,12 +76,20 @@ public class CncProgramSaveCommand extends AbstractCommand {
 		return cncProgram;
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 */
 	private Detail buildDetail(HttpServletRequest request) {
 		Detail detail = new Detail();
 		detail.setName(getParameterToCheck("detail", request));
 		return detail;
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 */
 	private CncMachine buildCncMachine(HttpServletRequest request) {
 		CncMachine cncMachine = new CncMachine();
 		cncMachine.setModel(getParameterToCheck("cncMachine", request));

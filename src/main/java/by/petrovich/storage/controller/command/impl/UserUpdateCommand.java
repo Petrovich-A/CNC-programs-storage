@@ -18,6 +18,10 @@ import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class UserUpdateCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String UPDATE_USER_SUCCESSFUL = "User updating is successful.";
@@ -42,6 +46,10 @@ public class UserUpdateCommand extends AbstractCommand {
 		}
 	}
 
+	/**
+	 * @param request
+	 * @return
+	 */
 	private User buildUser(HttpServletRequest request) {
 		User user = new User();
 		user.setEmployeeName(getParameterToCheck("employeeName", request));
@@ -54,6 +62,11 @@ public class UserUpdateCommand extends AbstractCommand {
 		return user;
 	}
 
+	/**
+	 * @param parameter
+	 * @param session
+	 * @return
+	 */
 	private Object getParametrToCheck(String parameter, HttpSession session) {
 		Object object = session.getAttribute(parameter);
 		if (object.equals(null)) {

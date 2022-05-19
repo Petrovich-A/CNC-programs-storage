@@ -17,6 +17,10 @@ import by.petrovich.storage.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class AuthorizationCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -52,6 +56,13 @@ public class AuthorizationCommand extends AbstractCommand {
 		}
 	}
 
+	/**
+	 * @param request
+	 * @param login
+	 * @param password
+	 * @return
+	 * @throws ServiceException
+	 */
 	private Router authorizate(HttpServletRequest request, int login, String password) throws ServiceException {
 		HttpSession session = request.getSession(true);
 		User user = userService.authorizateUser(login, password).get();

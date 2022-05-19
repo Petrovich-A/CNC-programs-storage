@@ -6,6 +6,10 @@ import by.petrovich.storage.controller.command.Router.RouterType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * @author Petrovich A.V.
+ *
+ */
 public class ChangeLocalCommand implements Command {
 
 	@Override
