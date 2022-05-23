@@ -1,14 +1,15 @@
 package by.petrovich.storage.tag;
 
-import jakarta.servlet.jsp.JspException;
-import jakarta.servlet.jsp.JspTagException;
-import jakarta.servlet.jsp.JspWriter;
-import jakarta.servlet.jsp.tagext.TagSupport;
+import java.io.IOException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspTagException;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 public class FooterTag extends TagSupport {
 	private static final Logger logger = LogManager.getLogger();
@@ -36,7 +37,7 @@ public class FooterTag extends TagSupport {
 			jspWriter.write(FOOTER_TEXT_YEARS);
 			jspWriter.write(P_TAG_CLOSE);
 		} catch (IOException e) {
-			logger.log(Level.ERROR, "footer tag write error", e);
+			logger.log(Level.ERROR, "Footer tag write error.", e);
 			throw new JspTagException(e.getMessage());
 		}
 		return SKIP_BODY;
@@ -44,7 +45,7 @@ public class FooterTag extends TagSupport {
 
 	@Override
 	public int doStartTag() throws JspException {
-		// TODO Auto-generated method stub
+		logger.log(Level.INFO, "DoStartTag is working.");
 		return super.doStartTag();
 	}
 
