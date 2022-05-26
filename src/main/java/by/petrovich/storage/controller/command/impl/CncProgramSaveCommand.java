@@ -40,8 +40,7 @@ public class CncProgramSaveCommand extends AbstractCommand {
 	public Router execute(HttpServletRequest request) {
 		CncProgram cncProgramFromMainForm = buildCncProgram(request);
 		HttpSession session = request.getSession(true);
-		User user = new User();
-		user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		if (user == null) {
 			logger.log(Level.ERROR, "have no user data in session");
 			return new Router(AUTHORIZATION_PAGE, RouterType.FORWARD);
@@ -70,7 +69,9 @@ public class CncProgramSaveCommand extends AbstractCommand {
 		cncProgram.setOperationNumber(Integer.parseInt(getParameterToCheck("operationNumber", request)));
 		cncProgram.setProgramText(getParameterToCheck("programText", request));
 		cncProgram.setCreationDate(new Timestamp(System.currentTimeMillis()));
-		cncProgram.setComment(getParameterToCheck("comment", request));
+		if (request.getAttribute("comment") != null) {
+			cncProgram.setComment((String) request.getAttribute("comment"));
+		}
 		cncProgram.setDetail(buildDetail(request));
 		cncProgram.setCncMachine(buildCncMachine(request));
 		return cncProgram;

@@ -33,7 +33,7 @@ public class GoToUsersProgramPage implements Command {
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		List<CncProgram> cncPrograms = new ArrayList<>();
-		User user = new User();
+		User user = new User.Builder().build();
 		user = (User) session.getAttribute("user");
 		if (user == null) {
 			request.setAttribute(ERROR_MESSAGE, ERROR_NO_USER);

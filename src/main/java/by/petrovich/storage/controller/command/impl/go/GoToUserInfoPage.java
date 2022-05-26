@@ -25,7 +25,7 @@ public class GoToUserInfoPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		int personnelNumber = 0;
-		User userFromDao = new User();
+		User userFromDao = new User.Builder().build();
 		HttpSession session = request.getSession(true);
 		if (request.getParameter("personnelNumber") != null) {
 			personnelNumber = Integer.parseInt(request.getParameter("personnelNumber"));

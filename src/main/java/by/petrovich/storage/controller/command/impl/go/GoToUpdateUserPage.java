@@ -25,14 +25,13 @@ public class GoToUpdateUserPage implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		User userForUpdate = new User();
 		int personnelNumber = Integer.parseInt(request.getParameter("personnelNumber"));
 		session.setAttribute("personnelNumber", personnelNumber);
 		Optional<User> userOptional = Optional.empty();
 		try {
 			userOptional = userService.readUserByPersonnelNumber(personnelNumber);
 			if (userOptional.isPresent()) {
-				userForUpdate = userOptional.get();
+				User userForUpdate = userOptional.get();
 				session.setAttribute("userForUpdate", userForUpdate);
 			}
 		} catch (ServiceException e) {

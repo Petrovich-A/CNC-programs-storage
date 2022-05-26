@@ -5,8 +5,8 @@ import static by.petrovich.storage.dao.ColumnName.EMAIL;
 import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_NAME;
 import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_PATRONYMIC;
 import static by.petrovich.storage.dao.ColumnName.EMPLOYEE_SURNAME;
-import static by.petrovich.storage.dao.ColumnName.PERSONNEL_NUMBER;
 import static by.petrovich.storage.dao.ColumnName.PASSWORD;
+import static by.petrovich.storage.dao.ColumnName.PERSONNEL_NUMBER;
 import static by.petrovich.storage.dao.ColumnName.POSITION_NAME;
 import static by.petrovich.storage.dao.ColumnName.ROLE_NAME;
 
@@ -180,17 +180,14 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	private User buildUser(ResultSet resultSet) throws SQLException {
-		User user = new User();
-		user.setPersonnelNumber(resultSet.getInt(PERSONNEL_NUMBER));
-		user.setPassword(resultSet.getString(PASSWORD));
-		user.setEmployeeName(resultSet.getString(EMPLOYEE_NAME));
-		user.setEmployeeSurname(resultSet.getString(EMPLOYEE_SURNAME));
-		user.setEmployeePatronymic(resultSet.getString(EMPLOYEE_PATRONYMIC));
-		user.setEmail(resultSet.getString(EMAIL));
-		user.setCreationDate(resultSet.getTimestamp(CREATE_TIME));
-		user.setUserRole(UserRole.fromString(resultSet.getString(ROLE_NAME)));
-		user.setEmployeePosition(EmployeePosition.fromString(resultSet.getString(POSITION_NAME)));
-		logger.log(Level.INFO, "user from DB is built successfully: {}", user.toString());
+		User user = new User.Builder().withPersonnelNumber(resultSet.getInt(PERSONNEL_NUMBER))
+				.withPassword(resultSet.getString(PASSWORD)).withEmployeeName(resultSet.getString(EMPLOYEE_NAME))
+				.withEmployeeSurname(resultSet.getString(EMPLOYEE_SURNAME))
+				.withEmployeePatronymic(resultSet.getString(EMPLOYEE_PATRONYMIC))
+				.withEmployeePosition(EmployeePosition.fromString(resultSet.getString(POSITION_NAME)))
+				.withEmail(resultSet.getString(EMAIL)).withCreationDate(resultSet.getTimestamp(CREATE_TIME))
+				.withUserRole(UserRole.fromString(resultSet.getString(ROLE_NAME))).build();
+		logger.log(Level.INFO, "User from date base is built successfully: {}.", user.toString());
 		return user;
 	}
 

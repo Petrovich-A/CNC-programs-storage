@@ -57,13 +57,16 @@ public class UserServiceImpl implements UserService {
 		Optional<User> userOptional = Optional.empty();
 		try {
 			userOptional = userDao.readUserByPersonnelNumber(login);
-			User user = userOptional.get();
-			if (user.getUserRole() != UserRole.ADMINISTRATOR) {
-				user.setUserRole(UserRole.USER);
-				userOptional = Optional.of(user);
-				userDao.updateUserRole(user);
+			if (userOptional.isPresent()) {
+				User user = userOptional.get();
+				if (user.getUserRole() != UserRole.ADMINISTRATOR) {
+					user.setUserRole(UserRole.USER);
+					userOptional = Optional.of(user);
+					userDao.updateUserRole(user);
+				}
+				logger.log(Level.INFO, "User is authorized. user: {}", user.toString());
 			}
-			logger.log(Level.INFO, "User is authorized. user: {}", user.toString());
+
 		} catch (DaoException e) {
 			logger.log(Level.ERROR, "User with login: {} can't be authorizate", login, e);
 			throw new ServiceException(e);
@@ -148,11 +151,10 @@ public class UserServiceImpl implements UserService {
 		boolean isLoginsMatch = false;
 		boolean isPasswordsMatch = false;
 		String hashedPassword = null;
-		User user = new User();
 		try {
 			userOptional = userDao.readUserByPersonnelNumber(login);
 			if (userOptional.isPresent()) {
-				user = userOptional.get();
+				User user = userOptional.get();
 				hashedPassword = passwordHasher.generateHash(password);
 				isPasswordsMatch = isPasswordsMatch(hashedPassword, user.getPassword());
 				isLoginsMatch = isLoginsMatch(login, user.getPersonnelNumber());

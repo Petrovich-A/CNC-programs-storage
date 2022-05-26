@@ -47,22 +47,16 @@ public class AuthorizationCommand extends AbstractCommand {
 			if (isUserExist && isLoginAndPasswordMatchWithDateBaseData && isLoginAndPasswordValid) {
 				return authorizate(request, login, password);
 			} else {
-				logger.log(Level.INFO, "Wrong input data");
-				return createRouterWithAttribute(request, AUTHORIZATION_PAGE, "authorization_message", WRONG_INPUT_DATA);
+				logger.log(Level.WARN, "Wrong input data");
+				return createRouterWithAttribute(request, AUTHORIZATION_PAGE, "authorization_message",
+						WRONG_INPUT_DATA);
 			}
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "User authorization with personnel number: {} is faild", login, e);
+			logger.log(Level.ERROR, "User authorization with personnel number: {} is failed", login, e);
 			return createRouterWithAttribute(request, ERROR_PAGE, "error_message", AUTHORIZATION_FAILED);
 		}
 	}
 
-	/**
-	 * @param request
-	 * @param login
-	 * @param password
-	 * @return
-	 * @throws ServiceException
-	 */
 	private Router authorizate(HttpServletRequest request, int login, String password) throws ServiceException {
 		HttpSession session = request.getSession(true);
 		User user = userService.authorizateUser(login, password).get();

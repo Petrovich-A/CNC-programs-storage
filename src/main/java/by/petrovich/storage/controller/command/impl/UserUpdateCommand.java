@@ -51,13 +51,12 @@ public class UserUpdateCommand extends AbstractCommand {
 	 * @return
 	 */
 	private User buildUser(HttpServletRequest request) {
-		User user = new User();
-		user.setEmployeeName(getParameterToCheck("employeeName", request));
-		user.setEmployeeSurname(getParameterToCheck("employeeSurname", request));
-		user.setEmployeePatronymic(getParameterToCheck("employeePatronymic", request));
-		user.setEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)));
-		user.setUserRole(UserRole.fromString(getParameterToCheck("userRole", request)));
-		user.setEmail(getParameterToCheck("email", request));
+		User user = new User.Builder().withEmployeeName(getParameterToCheck("employeeName", request))
+				.withEmployeeSurname(getParameterToCheck("employeeSurname", request))
+				.withEmployeePatronymic(getParameterToCheck("employeePatronymic", request))
+				.withEmployeePosition(EmployeePosition.fromString(getParameterToCheck("employeePosition", request)))
+				.withUserRole(UserRole.fromString(getParameterToCheck("userRole", request)))
+				.withEmail(getParameterToCheck("email", request)).build();
 		logger.log(Level.INFO, "User is built. User: {}", user.toString());
 		return user;
 	}
