@@ -62,11 +62,12 @@
 <fmt:message bundle="${loc}" key="local.main.button.reset" var="reset" />
 <fmt:message bundle="${loc}" key="local.main.message.program_list"
 	var="program_list" />
-<fmt:message bundle="${loc}" key="local.table.list.programs.personnel_number"
-	var="personnel_number" />
-<fmt:message bundle="${loc}" key="local.table.list.programs.creation_date"
-	var="creation_date" />
-<fmt:message bundle="${loc}" key="local.table.list.programs.cnc_machine_model"
+<fmt:message bundle="${loc}"
+	key="local.table.list.programs.personnel_number" var="personnel_number" />
+<fmt:message bundle="${loc}"
+	key="local.table.list.programs.creation_date" var="creation_date" />
+<fmt:message bundle="${loc}"
+	key="local.table.list.programs.cnc_machine_model"
 	var="cnc_machine_model" />
 </head>
 <body>
@@ -91,13 +92,13 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
-			<li class="search-icon">
+			<li class="search-icon" style="border: 2px solid #000;">
 				<form role="search" action="Controller" method="post">
-					<input type="hidden" name="commandName"
-						value="search" /> <input type="search"
-						name="searchInput" placeholder="${search_placeholder}" required>
-					<label class="icon"> <span class="fas fa-search"> </span></label>
+					<input type="hidden" name="commandName" value="search" />
+					<input type="search" name="searchInput" placeholder="${search_placeholder}" required style="width: 80%;" /> 
+					<input type="submit" value="GO" class="" style="width: 20%; text-align: center;"/>
 				</form>
+				<button></button>
 			</li>
 		</ul>
 	</nav>

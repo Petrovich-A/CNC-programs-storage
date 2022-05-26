@@ -60,6 +60,7 @@ nav ul .search-icon {
 	display: flex;
 	background: #d44400;
 	border-radius: 5px;
+	border: 2px solid black;
 }
 
 nav ul .search-icon input {
