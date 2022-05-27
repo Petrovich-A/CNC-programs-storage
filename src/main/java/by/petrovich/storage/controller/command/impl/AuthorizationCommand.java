@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.petrovich.storage.controller.command.AbstractCommand;
 import by.petrovich.storage.controller.command.Router;
+import by.petrovich.storage.entity.AuthorizationUserInfo;
 import by.petrovich.storage.entity.User;
 import by.petrovich.storage.service.ServiceException;
 import by.petrovich.storage.service.ServiceProvider;
@@ -31,28 +32,31 @@ public class AuthorizationCommand extends AbstractCommand {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		int login = Integer.parseInt(getParameterToCheck("personnelNumber", request));
-		String password = getParameterToCheck("password", request);
+		AuthorizationUserInfo authorizationUserInfo = new AuthorizationUserInfo();
+		authorizationUserInfo.setLogin(Integer.parseInt(getParameterToCheck("personnelNumber", request)));
+		authorizationUserInfo.setPassword(getParameterToCheck("password", request));
 		try {
-			boolean isUserExist = userService.isUserExist(login);
+			boolean isUserExist = userService.isUserExist(authorizationUserInfo.getLogin());
 			boolean isLoginAndPasswordMatchWithDateBaseData = false;
 			boolean isLoginAndPasswordValid = false;
 			if (isUserExist) {
-				isLoginAndPasswordMatchWithDateBaseData = userService.isLoginAndPasswordMatchWithDateBaseData(login,
-						password);
+				isLoginAndPasswordMatchWithDateBaseData = userService.isLoginAndPasswordMatchWithDateBaseData(
+						authorizationUserInfo.getLogin(), authorizationUserInfo.getPassword());
 				if (isLoginAndPasswordMatchWithDateBaseData) {
-					isLoginAndPasswordValid = userService.isLoginAndPasswordValid(login, password);
+					isLoginAndPasswordValid = userService.isLoginAndPasswordValid(authorizationUserInfo.getLogin(),
+							authorizationUserInfo.getPassword());
 				}
 			}
 			if (isUserExist && isLoginAndPasswordMatchWithDateBaseData && isLoginAndPasswordValid) {
-				return authorizate(request, login, password);
+				return authorizate(request, authorizationUserInfo.getLogin(), authorizationUserInfo.getPassword());
 			} else {
 				logger.log(Level.WARN, "Wrong input data");
 				return createRouterWithAttribute(request, AUTHORIZATION_PAGE, "authorization_message",
 						WRONG_INPUT_DATA);
 			}
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "User authorization with personnel number: {} is failed", login, e);
+			logger.log(Level.ERROR, "User authorization with personnel number: {} is failed",
+					authorizationUserInfo.getLogin(), e);
 			return createRouterWithAttribute(request, ERROR_PAGE, "error_message", AUTHORIZATION_FAILED);
 		}
 	}
