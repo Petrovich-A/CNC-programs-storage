@@ -1,7 +1,7 @@
 package by.petrovich.storage.controller.command.impl.go;
 
-import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_PROGRAMS_BY_DETAIL;
 import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
+import static by.petrovich.storage.controller.command.SessionAttributeNames.CNC_PROGRAMS_BY_DETAIL;
 
 import java.util.ArrayList;
 import java.util.List;

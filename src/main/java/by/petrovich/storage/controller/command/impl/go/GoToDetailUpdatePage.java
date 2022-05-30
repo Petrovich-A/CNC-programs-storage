@@ -3,6 +3,7 @@ package by.petrovich.storage.controller.command.impl.go;
 import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
 import static by.petrovich.storage.controller.command.PathToPage.GO_TO_DETAIL_UPDATE_PAGE;
 import static by.petrovich.storage.controller.command.RequestAttributeNames.DETAIL;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.DETAIL_ID;
 import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
 
 import org.apache.logging.log4j.Level;
@@ -30,12 +31,12 @@ public class GoToDetailUpdatePage implements Command {
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		Detail detail = new Detail();
-		int id = Integer.parseInt(request.getParameter("detail_id"));
+		int id = Integer.parseInt(request.getParameter(DETAIL_ID));
 		if (id == 0) {
 			request.setAttribute(ERROR_PAGE, NO_DETAIL_ID);
 			return new Router(ERROR_PAGE, RouterType.FORWARD);
 		} else {
-			session.setAttribute("detail_id", id);
+			session.setAttribute(DETAIL_ID, id);
 			try {
 				detail = cncProgramService.readDetailById(id);
 				request.setAttribute(DETAIL, detail);

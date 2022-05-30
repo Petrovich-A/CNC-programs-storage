@@ -1,5 +1,8 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.SessionAttributeNames.CNC_PROGRAM;
+import static by.petrovich.storage.controller.command.SessionAttributeNames.ID;
+
 import java.util.Optional;
 
 import org.apache.logging.log4j.Level;
@@ -27,13 +30,13 @@ public class GoToCncProgramUpdatePage implements Command {
 		HttpSession session = request.getSession(true);
 		CncProgram cncProgram = new CncProgram();
 		int id = Integer.parseInt(request.getParameter("id"));
-		session.setAttribute("id", id);
+		session.setAttribute(ID, id);
 		Optional<CncProgram> cncProgramOptional = Optional.empty();
 		try {
 			cncProgramOptional = cncProgramService.readCncProgramById(id);
 			if (cncProgramOptional.isPresent()) {
 				cncProgram = cncProgramOptional.get();
-				session.setAttribute("cncProgram", cncProgram);
+				session.setAttribute(CNC_PROGRAM, cncProgram);
 			}
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "CNC program with id: {} can't be read", id, e);

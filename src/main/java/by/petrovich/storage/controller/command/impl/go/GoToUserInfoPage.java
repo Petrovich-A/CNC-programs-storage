@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.SessionAttributeNames.USER_FROM_DAO;
+
 import java.util.Optional;
 
 import org.apache.logging.log4j.Level;
@@ -35,10 +37,10 @@ public class GoToUserInfoPage implements Command {
 			userOptional = userService.readUserByPersonnelNumber(personnelNumber);
 			if (userOptional.isPresent()) {
 				userFromDao = userOptional.get();
-				session.setAttribute("userFromDao", userFromDao);
+				session.setAttribute(USER_FROM_DAO, userFromDao);
 			}
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "has no userFromDao: {}", userFromDao.toString(), e);
+			logger.log(Level.ERROR, "Session does not contain user from dao data: {}", userFromDao.toString(), e);
 		}
 		return new Router(PathToPage.USER_INFO_PAGE, RouterType.FORWARD);
 	}

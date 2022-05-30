@@ -3,6 +3,12 @@ package by.petrovich.storage.controller.command.impl;
 import static by.petrovich.storage.controller.command.PathToPage.AUTHORIZATION_PAGE;
 import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
 import static by.petrovich.storage.controller.command.PathToPage.MAIN_PAGE;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.COMMENT;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.NUMBER;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.OPERATION_NUMBER;
+import static by.petrovich.storage.controller.command.RequestAttributeNames.PROGRAM_TEXT;
+import static by.petrovich.storage.controller.command.SessionAttributeNames.ERROR_MESSAGE;
+import static by.petrovich.storage.controller.command.SessionAttributeNames.MAIN_MESSAGE;
 
 import java.sql.Timestamp;
 
@@ -31,7 +37,7 @@ public class CncProgramSaveCommand extends AbstractCommand {
 	private static final Logger logger = LogManager.getLogger();
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
-	private final String CNC_PROGRAM_SAVE_SUCCESSFUL = "CNC program is saved successful";
+	private final String CNC_PROGRAM_SAVE_SUCCESSFUL = "CNC program is saved successful.";
 	private final String CNC_PROGRAM_SAVE_ERROR = "We apologize for the inconvenience. "
 			+ "However we have some problems with CNC program saving. "
 			+ "Plese try again or contact to the administrator.";
@@ -49,10 +55,10 @@ public class CncProgramSaveCommand extends AbstractCommand {
 				logger.log(Level.INFO, "Cnc program from main form is received", cncProgramFromMainForm.toString());
 				cncProgramFromMainForm.setPersonnelNumber(user.getPersonnelNumber());
 				cncProgramService.createCncProgram(cncProgramFromMainForm);
-				session.setAttribute("main_message", CNC_PROGRAM_SAVE_SUCCESSFUL);
+				session.setAttribute(MAIN_MESSAGE, CNC_PROGRAM_SAVE_SUCCESSFUL);
 				return new Router(MAIN_PAGE, RouterType.FORWARD);
 			} catch (ServiceException e) {
-				session.setAttribute("error_message", CNC_PROGRAM_SAVE_ERROR);
+				session.setAttribute(ERROR_MESSAGE, CNC_PROGRAM_SAVE_ERROR);
 				logger.log(Level.ERROR, e.getLocalizedMessage());
 				return new Router(ERROR_PAGE, RouterType.FORWARD);
 			}
@@ -65,12 +71,12 @@ public class CncProgramSaveCommand extends AbstractCommand {
 	 */
 	private CncProgram buildCncProgram(HttpServletRequest request) {
 		CncProgram cncProgram = new CncProgram();
-		cncProgram.setNumber(getParameterToCheck("number", request));
-		cncProgram.setOperationNumber(Integer.parseInt(getParameterToCheck("operationNumber", request)));
-		cncProgram.setProgramText(getParameterToCheck("programText", request));
+		cncProgram.setNumber(getParameterToCheck(NUMBER, request));
+		cncProgram.setOperationNumber(Integer.parseInt(getParameterToCheck(OPERATION_NUMBER, request)));
+		cncProgram.setProgramText(getParameterToCheck(PROGRAM_TEXT, request));
 		cncProgram.setCreationDate(new Timestamp(System.currentTimeMillis()));
-		if (request.getAttribute("comment") != null) {
-			cncProgram.setComment((String) request.getAttribute("comment"));
+		if (request.getAttribute(COMMENT) != null) {
+			cncProgram.setComment((String) request.getAttribute(COMMENT));
 		}
 		cncProgram.setDetail(buildDetail(request));
 		cncProgram.setCncMachine(buildCncMachine(request));

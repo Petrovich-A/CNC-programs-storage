@@ -1,5 +1,8 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.SessionAttributeNames.PERSONNEL_NUMBER;
+import static by.petrovich.storage.controller.command.SessionAttributeNames.USER_FOR_UPDATE;
+
 import java.util.Optional;
 
 import org.apache.logging.log4j.Level;
@@ -26,13 +29,13 @@ public class GoToUpdateUserPage implements Command {
 	public Router execute(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		int personnelNumber = Integer.parseInt(request.getParameter("personnelNumber"));
-		session.setAttribute("personnelNumber", personnelNumber);
+		session.setAttribute(PERSONNEL_NUMBER, personnelNumber);
 		Optional<User> userOptional = Optional.empty();
 		try {
 			userOptional = userService.readUserByPersonnelNumber(personnelNumber);
 			if (userOptional.isPresent()) {
 				User userForUpdate = userOptional.get();
-				session.setAttribute("userForUpdate", userForUpdate);
+				session.setAttribute(USER_FOR_UPDATE, userForUpdate);
 			}
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "User with personnelNumber: {} can't be read", personnelNumber, e);

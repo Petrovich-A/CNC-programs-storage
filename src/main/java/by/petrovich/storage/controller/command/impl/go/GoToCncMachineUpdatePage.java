@@ -1,8 +1,8 @@
 package by.petrovich.storage.controller.command.impl.go;
 
 import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_MACHINE;
-import static by.petrovich.storage.controller.command.RequestAttributeNames.CNC_MACHINE_ID;
 import static by.petrovich.storage.controller.command.RequestAttributeNames.ERROR_MESSAGE;
+import static by.petrovich.storage.controller.command.SessionAttributeNames.CNC_MACHINE_ID;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

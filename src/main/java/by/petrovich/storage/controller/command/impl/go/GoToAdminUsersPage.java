@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.SessionAttributeNames.ALL_USERS;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class GoToAdminUsersPage implements Command {
 			logger.log(Level.ERROR, "can't read allUsers", allUsers, e);
 			return new Router(PathToPage.ERROR_PAGE, RouterType.FORWARD);
 		}
-		session.setAttribute("allUsers", allUsers);
+		session.setAttribute(ALL_USERS, allUsers);
 		return new Router(PathToPage.ADMIN_USERS_PAGE, RouterType.FORWARD);
 	}
 

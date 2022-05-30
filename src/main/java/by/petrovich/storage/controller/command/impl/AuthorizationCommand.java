@@ -3,6 +3,7 @@ package by.petrovich.storage.controller.command.impl;
 import static by.petrovich.storage.controller.command.PathToPage.AUTHORIZATION_PAGE;
 import static by.petrovich.storage.controller.command.PathToPage.ERROR_PAGE;
 import static by.petrovich.storage.controller.command.PathToPage.MAIN_PAGE;
+import static by.petrovich.storage.controller.command.SessionAttributeNames.USER;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -64,7 +65,7 @@ public class AuthorizationCommand extends AbstractCommand {
 	private Router authorizate(HttpServletRequest request, int login, String password) throws ServiceException {
 		HttpSession session = request.getSession(true);
 		User user = userService.authorizateUser(login, password).get();
-		session.setAttribute("user", user);
+		session.setAttribute(USER, user);
 		return createRouterWithAttribute(request, MAIN_PAGE, "main_message", AUTHORIZATION_SUCCESSFUL);
 	}
 

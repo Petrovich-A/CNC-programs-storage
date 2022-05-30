@@ -1,5 +1,7 @@
 package by.petrovich.storage.controller.command.impl.go;
 
+import static by.petrovich.storage.controller.command.SessionAttributeNames.DETAILS;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class GoToDetailsPage implements Command {
 		List<Detail> details = new ArrayList<>();
 		try {
 			details = cncProgramService.readDetail();
-			session.setAttribute("details", details);
+			session.setAttribute(DETAILS, details);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, "Can't read details", e);
 		}

@@ -27,7 +27,7 @@ public class GoToUsersProgramPage implements Command {
 	private final ServiceProvider serviceProvider = ServiceProvider.getInstance();
 	private final CncProgramService cncProgramService = serviceProvider.getCncProgramService();
 	private final String ERROR = "";
-	private final String ERROR_NO_USER = "No user in session";
+	private final String ERROR_NO_USER = "No user in session.";
 
 	@Override
 	public Router execute(HttpServletRequest request) {
